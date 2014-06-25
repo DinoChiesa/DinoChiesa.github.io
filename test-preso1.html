@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>test-preso1</title>
+<meta name="author" content="(Dino Chiesa)"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/2.5.0/css/reveal.min.css"/>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/2.5.0/css/theme/default.css" id="theme"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/reveal.js/2.5.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section>
+<h1>test-preso1</h1>
+<h2>Dino Chiesa</h2>
+<h2><a href="mailto:dpchiesa@hotmail.com">dpchiesa@hotmail.com</a></h2>
+<h2></h2></section>
+<section>
+<h2>Table of Contents</h2><ul>
+<li>
+<a href="#sec-1">Quick HTML5 presentations</a>
+</li>
+<li>
+<a href="#sec-2">Org-mode</a>
+</li>
+<li>
+<a href="#sec-3">More on Org-mode</a>
+</li>
+<li>
+<a href="#sec-4">You can Export from an Org file</a>
+</li>
+</ul>
+</section>
+
+<section>
+<section id="sec-1" >
+
+<h2>Quick HTML5 presentations</h2>
+<p>
+The ability to quickly and easily produce HTML5 presentations from
+simple text markup is something that already exists in emacs. But you
+knew that. 
+</p>
+<ul class="org-ul">
+<li>Use org-mode and the ox-reveal add-in
+</li>
+<li>Someone else built this. 
+</li>
+<li>Emacs uses only need to find it, and learn how to use it. 
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-2" >
+
+<h2>Org-mode</h2>
+<p>
+Org-mode is a do-it-all mode for taking notes and lots of other things. People
+use it to maintain their calendars, to write todo lists, to organize
+thoughts. 
+</p>
+
+<ul class="org-ul">
+<li>it has existed in emacs since ???
+</li>
+<li>it gets updated independently and more frequently than emacs. 
+</li>
+<li>it supports unordered lists, ordered lists, hyperlinks, lots of other stuff
+</li>
+<li>Get it <a href="http://orgmode.org">here</a>
+</li>
+<li><a href="http://www.youtube.com/watch?v=ht4JtEbFtFI">an overview</a>
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-3" >
+
+<h2>More on Org-mode</h2>
+<ul class="org-ul">
+<li>In org, you format your notes in a simple markup
+</li>
+<li>Use asterisks to mark slide headers
+</li>
+<li>dashes to mark bullets
+<ul class="org-ul">
+<li>this is a sub-bullet
+</li>
+<li>just indent to get the hierarchy
+</li>
+</ul>
+</li>
+<li>Here is the actual source code for THIS SLIDE
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-org"><span style="color: #4876ff;">* More on Org-mode</span>
+- In org, you format your notes in a simple markup
+- Use asterisks to mark slide headers
+- dashes to mark bullets
+  - this is a sub-bullet
+  - just indent to get the hierarchy
+- Here is the source code for THIS SLIDE
+</pre>
+</div>
+</section>
+
+
+</section>
+<section>
+<section id="sec-4" >
+
+<h2>You can Export from an Org file</h2>
+<ul class="org-ul">
+<li>Exporting from org means transforming org's simple text markup into &#x2026; something else
+</li>
+<li>There are lots of export formats
+</li>
+<li>a nifty one is provided by the ox-reveal module, which exports to an HTML5 file that uses
+reveal.js
+</li>
+<li>This presentation was created from a 40-line org file
+</li>
+</ul>
+</section>
+</section>
+</div>
+</div>
+
+<script src="http://cdn.jsdelivr.net/reveal.js/2.5.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/reveal.js/2.5.0/js/reveal.min.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: false,
+slideNumber: true,
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+]
+});
+</script>
+</body>
+</html>
