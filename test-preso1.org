@@ -1,0 +1,47 @@
+#+REVEAL-SLIDE-NUMBER: nil
+#+OPTIONS: num:nil reveal_center:nil
+
+* Quick HTML5 presentations
+The ability to quickly and easily produce HTML5 presentations from
+simple text markup is something that already exists in emacs. But you
+knew that. 
+- Use org-mode and the ox-reveal add-in
+- Someone else built this. 
+- Emacs uses only need to find it, and learn how to use it. 
+
+* Org-mode
+Org-mode is a do-it-all mode for taking notes and lots of other things. People
+use it to maintain their calendars, to write todo lists, to organize
+thoughts. 
+
+- it has existed in emacs since ???
+- it gets updated independently and more frequently than emacs. 
+- it supports unordered lists, ordered lists, hyperlinks, lots of other stuff
+- Get it [[http://orgmode.org][here]]
+- [[http://www.youtube.com/watch?v=ht4JtEbFtFI][an overview]]
+
+* More on Org-mode
+- In org, you format your notes in a simple markup
+- Use asterisks to mark slide headers
+- dashes to mark bullets
+  - this is a sub-bullet
+  - just indent to get the hierarchy
+- Here is the actual source code for THIS SLIDE
+#+BEGIN_SRC org
+    * More on Org-mode
+    - In org, you format your notes in a simple markup
+    - Use asterisks to mark slide headers
+    - dashes to mark bullets
+      - this is a sub-bullet
+      - just indent to get the hierarchy
+    - Here is the source code for THIS SLIDE
+#+END_SRC
+ 
+
+* You can Export from an Org file
+- Exporting from org means transforming org's simple text markup into ... something else
+- There are lots of export formats
+- a nifty one is provided by the ox-reveal module, which exports to an HTML5 file that uses
+  reveal.js
+- This presentation was created from a 40-line org file
+
