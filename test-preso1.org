@@ -7,7 +7,7 @@ simple text markup is something that already exists in emacs. But you
 knew that. 
 - Use org-mode and the ox-reveal add-in
 - Someone else built this. 
-- Emacs uses only need to find it, and learn how to use it. 
+- Emacs users need only to find it, and to learn how to use it. 
 
 * Org-mode
 Org-mode is a do-it-all mode for taking notes and lots of other things. People
@@ -15,7 +15,7 @@ use it to maintain their calendars, to write todo lists, to organize
 thoughts. 
 
 - it has existed in emacs since ???
-- it gets updated independently and more frequently than emacs. 
+- it gets updated independently of, and more frequently than, emacs itself. 
 - it supports unordered lists, ordered lists, hyperlinks, lots of other stuff
 - Get it [[http://orgmode.org][here]]
 - [[http://www.youtube.com/watch?v=ht4JtEbFtFI][an overview]]
