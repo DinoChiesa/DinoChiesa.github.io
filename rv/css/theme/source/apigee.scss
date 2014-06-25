@@ -1,0 +1,36 @@
+/**
+ * An Apigee theme for reveal.js presentations, derived from the
+ * from the "simple" theme. The accent color is #FF4300.
+ *
+ * This theme is Copyright (C) 2012 Owen Versteeg, https://github.com/StereotypicalApps. It is MIT licensed.
+ * reveal.js is Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
+ */
+
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+
+
+// Include theme-specific fonts
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic);
+
+
+// Override theme settings (see ../template/settings.scss)
+$mainFont: ars-maquette-web, 'Open Sans', 'Myriad Pro', 'Gill Sans', 'Lucida Sans', Verdana, Geneva, sans-serif;
+$mainColor: #686868;
+$headingFont: ars-maquette-web, 'Open Sans', 'Myriad Pro', 'Gill Sans', 'Lucida Sans', Verdana, Geneva, sans-serif;
+$headingColor: #686868;
+$headingTextShadow: none;
+$headingTextTransform: none;
+$backgroundColor: #fff;
+$linkColor: #1896d0;
+$linkColorHover: lighten( $linkColor, 20% );
+$selectionBackgroundColor: rgba(0, 0, 0, 0.99);
+
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------

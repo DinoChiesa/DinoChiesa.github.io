@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.1"
+   width="225.75873"
+   height="83.278252"
+   viewBox="0 0 225.75873 83.278252"
+   id="Layer_1"
+   xml:space="preserve"><metadata
+   id="metadata41"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs39" />
+
+<g
+   transform="translate(-798.21001,0.28125)"
+   id="g9">
+	<g
+   id="g11">
+		<rect
+   width="1023.83"
+   height="34"
+   x="-0.033"
+   y="734"
+   id="rect13"
+   style="fill:#f1f2f2" />
+	</g>
+</g>
+<polyline
+   stroke-miterlimit="10"
+   points="821.877,0 891.875,56 915.211,0 "
+   id="polyline15"
+   style="fill:none;stroke:#a7a8ac;stroke-width:0.69029999;stroke-miterlimit:10"
+   transform="translate(-798.21001,0.28125)" />
+<polyline
+   stroke-miterlimit="10"
+   points="1023.716,36.665 985.915,75.763   954.876,43.498 1023.716,13.999 "
+   id="polyline17"
+   style="fill:none;stroke:#a7a8ac;stroke-width:0.69029999;stroke-miterlimit:10"
+   transform="translate(-798.21001,0.28125)" />
+<circle
+   cx="891.87598"
+   cy="56"
+   r="15.684"
+   transform="translate(-798.21001,0.28125)"
+   id="circle19"
+   style="fill:#d1d2d3" />
+<circle
+   cx="984.875"
+   cy="74.999001"
+   r="7.9980001"
+   transform="translate(-798.21001,0.28125)"
+   id="circle21"
+   style="fill:#d1d2d3" />
+<path
+   d="m 171.89199,41.94525 c 0,8.593 -6.969,15.56 -15.562,15.56 -8.591,0 -15.552,-6.967 -15.552,-15.56 0,-8.591 6.961,-15.554 15.552,-15.554 8.593,0 15.562,6.963 15.562,15.554 z"
+   id="path23"
+   style="fill:#a7a9ac" />
+<g
+   transform="translate(-798.21001,0.28125)"
+   id="g25">
+	<defs
+   id="defs27">
+		<rect
+   width="1023.83"
+   height="99.917"
+   x="-0.033"
+   y="0"
+   id="SVGID_1_" />
+	</defs>
+	<clipPath
+   id="SVGID_2_">
+		<use
+   id="use31"
+   style="overflow:visible"
+   x="0"
+   y="0"
+   width="1024"
+   height="768"
+   xlink:href="#SVGID_1_" />
+	</clipPath>
+	<circle
+   cx="821.87701"
+   cy="-7"
+   r="23.667"
+   clip-path="url(#SVGID_2_)"
+   id="circle33"
+   style="fill:#a7a8ac" />
+</g>
+
+</svg>
