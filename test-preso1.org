@@ -1,4 +1,5 @@
 #+REVEAL-SLIDE-NUMBER: nil
+#+REVEAL_THEME: simple
 #+OPTIONS: num:nil reveal_center:nil
 
 * Quick HTML5 presentations
