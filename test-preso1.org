@@ -1,6 +1,7 @@
 #+REVEAL-SLIDE-NUMBER: nil
 #+REVEAL_THEME: simple
 #+OPTIONS: num:nil reveal_center:nil
+#+REVEAL_TITLE_SLIDE_TEMPLATE: nil
 
 * Quick HTML5 presentations
 The ability to quickly and easily produce HTML5 presentations from
@@ -9,7 +10,7 @@ knew that.
 - Use org-mode and the ox-reveal add-in
 - Someone else built this. 
 - Emacs users need only to find it, and to learn how to use it. 
-
+  
 * Org-mode
 Org-mode is a do-it-all mode for taking notes and lots of other things. People
 use it to maintain their calendars, to write todo lists, to organize
