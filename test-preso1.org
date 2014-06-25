@@ -43,5 +43,5 @@ thoughts.
 - There are lots of export formats
 - a nifty one is provided by the ox-reveal module, which exports to an HTML5 file that uses
   reveal.js
-- This presentation was created from a 40-line org file
+- This presentation was created from [[https://raw.githubusercontent.com/DinoChiesa/DinoChiesa.github.io/master/test-preso1.org][a 40-line org file]]
 
