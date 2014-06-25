@@ -15,11 +15,11 @@ Org-mode is a do-it-all mode for taking notes and lots of other things. People
 use it to maintain their calendars, to write todo lists, to organize
 thoughts. 
 
-- it has existed in emacs since ???
-- it gets updated independently of, and more frequently than, emacs itself. 
-- it supports unordered lists, ordered lists, hyperlinks, lots of other stuff
-- Get it [[http://orgmode.org][here]]
-- [[http://www.youtube.com/watch?v=ht4JtEbFtFI][an overview]]
+1. it has existed in emacs since ???
+2. it gets updated independently of, and more frequently than, emacs itself. 
+3. it supports unordered lists, ordered lists, hyperlinks, lots of other stuff
+4. Get it [[http://orgmode.org][here]]
+5. [[http://www.youtube.com/watch?v=ht4JtEbFtFI][an overview]]
 
 * More on Org-mode
 - In org, you format your notes in a simple markup
