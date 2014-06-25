@@ -1,5 +1,5 @@
 #+REVEAL-SLIDE-NUMBER: nil
-#+REVEAL_THEME: simple
+#+REVEAL_THEME: apigee
 #+OPTIONS: num:nil reveal_center:nil
 #+REVEAL_TITLE_SLIDE_TEMPLATE: nil
 
