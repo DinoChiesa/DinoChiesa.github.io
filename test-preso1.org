@@ -10,6 +10,12 @@ knew that.
 - Use org-mode and the ox-reveal add-in
 - Someone else built this. 
 - Emacs users need only to find it, and to learn how to use it. 
+
+:PROPERTIES:
+:reveal_background: http://dinochiesa.github.io/images/Apigee-graphic-thing.png
+:reveal_background_trans: slide
+:END:
+
   
 * Org-mode
 Org-mode is a do-it-all mode for taking notes and lots of other things. People
@@ -22,7 +28,19 @@ thoughts.
 4. Get it [[http://orgmode.org][here]]
 5. [[http://www.youtube.com/watch?v=ht4JtEbFtFI][an overview]]
 
+:PROPERTIES:
+:reveal_background: http://dinochiesa.github.io/images/Apigee-graphic-thing.png
+:reveal_background_trans: slide
+:END:
+
+
+
 * More on Org-mode
+:PROPERTIES:
+:reveal_background: http://dinochiesa.github.io/images/Apigee-graphic-thing.png
+:reveal_background_trans: slide
+:END:
+
 - In org, you format your notes in a simple markup
 - Use asterisks to mark slide headers
 - dashes to mark bullets
@@ -38,9 +56,19 @@ thoughts.
       - just indent to get the hierarchy
     - Here is the source code for THIS SLIDE
 #+END_SRC
- 
+
+:PROPERTIES:
+:reveal_background: http://dinochiesa.github.io/images/Apigee-graphic-thing.png
+:reveal_background_trans: slide
+:END:
+
 
 * You can Export from an Org file
+:PROPERTIES:
+:reveal_background: http://dinochiesa.github.io/images/Apigee-graphic-thing.png
+:reveal_background_trans: slide
+:END:
+
 - Exporting from org means transforming org's simple text markup into ... something else
 - There are lots of export formats
 - a nifty one is provided by the ox-reveal module, which exports to an HTML5 file that uses
