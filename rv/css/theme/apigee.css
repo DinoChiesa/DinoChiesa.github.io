@@ -103,7 +103,9 @@ body {
   font-size: 36px;
   font-weight: normal;
   letter-spacing: -0.02em;
-  color: #686868; }
+  /* color: #686868; */
+  color: #83e7ff;  /* dino Thursday, 11 December 2014, 17:03 */
+}
 
 ::selection {
   color: white;
