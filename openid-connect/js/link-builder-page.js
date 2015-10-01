@@ -4,7 +4,7 @@
 // page logic for link-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-October-01 14:52:34>
+// last saved: <2015-October-01 15:38:52>
 
 
 var model = {
@@ -12,12 +12,13 @@ var model = {
       edgeenv : '',
       clientid : '',
       cburi : '',
+      state : '',
       rtype : [],
       scope : []
     };
 
 function updateLink() {
-  var linkTemplate = "https://${edgeorg}-${edgeenv}.apigee.net/oauth2/v1/authorize?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=12345&scope=${scope}";
+  var linkTemplate = "https://${edgeorg}-${edgeenv}.apigee.net/oauth2/v1/authorize?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}";
   Object.keys(model).forEach(function(key) {
     var pattern = "${" + key + "}", value = '';
     if (model[key]) {
@@ -30,7 +31,6 @@ function updateLink() {
 }
 
 function onInputChanged() {
-  // Check input( $( this ).val() ) for validity here
   var $$ = $(this), name = $$.attr('id'), value = $$.val();
   model[name] = value;
   updateLink();
