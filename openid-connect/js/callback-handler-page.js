@@ -4,16 +4,18 @@
 // for callback-handler.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-October-01 14:33:10>
+// last saved: <2015-October-01 14:40:08>
 
 
 $(document).ready(function() {
-  var search = window.location.search,
+  var search = window.location.hash,
       params = search.split('&'),
       hash = {};
   params.forEach(function(item){
     var e = item.split('=');
-    hash[e[0]] = e[1];
+    if (e[0] && e[0] !== '') {
+      hash[e[0]] = e[1];
+    }
   });
 
   // emit that information into fields in the output:
