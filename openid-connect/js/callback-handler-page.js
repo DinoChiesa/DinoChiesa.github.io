@@ -4,7 +4,7 @@
 // for callback-handler.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-October-01 14:59:41>
+// last saved: <2015-October-01 15:02:48>
 
 
 $(document).ready(function() {
@@ -13,12 +13,12 @@ $(document).ready(function() {
       hash = {};
 
   if ( ! search || search === '') {
-    search = window.location.search;
+    search = window.location.search.replace('?', '');
   }
   params.forEach(function(item){
     var e = item.split('=');
     if (e[0] && e[0] !== '') {
-      hash[e[0]] = e[1];
+      hash[e[0]] = decodeURIComponent(e[1]);
     }
   });
 
