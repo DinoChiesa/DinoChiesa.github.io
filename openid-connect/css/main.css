@@ -35,3 +35,7 @@ form > div.form-group {
 body {
   font-size: 140%;
 }
+
+.cb-element {
+  max-width: 600px;
+}
