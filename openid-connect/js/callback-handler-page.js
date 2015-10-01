@@ -4,11 +4,11 @@
 // for callback-handler.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-October-01 14:56:30>
+// last saved: <2015-October-01 14:58:28>
 
 
 $(document).ready(function() {
-  var search = window.location.hash,
+  var search = window.location.hash || window.location.search,
       params = search.split('&'),
       hash = {};
   params.forEach(function(item){
