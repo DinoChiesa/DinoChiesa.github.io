@@ -4,7 +4,7 @@
 // for callback-handler.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-October-01 14:31:44>
+// last saved: <2015-October-01 14:33:10>
 
 
 $(document).ready(function() {
@@ -21,9 +21,11 @@ $(document).ready(function() {
   $$.empty();
 
   Object.keys(hash).forEach(function(key){
+    if (key) {
     var $newdiv = $( "<div id='"+ key +"-value'/>" );
     $newdiv.html(key + ':&nbsp;' + hash[key]);
     $$.append($newdiv);
+    }
   });
 
 });
