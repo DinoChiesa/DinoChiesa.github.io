@@ -40,6 +40,14 @@ body {
   max-width: 720px;
   display:block;
 }
+.cb-element:after { 
+  /* clearfix */
+   content: " ";
+   display: block; 
+   height: 0; 
+   clear: both;
+}
+
 .cb-element .cb-label {
   float: left;
   width: 160px;
@@ -48,3 +56,4 @@ body {
   float: left;
   max-width: 600px;
 }
+
