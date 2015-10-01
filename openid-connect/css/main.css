@@ -55,5 +55,6 @@ body {
 .cb-element .cb-value {
   float: left;
   max-width: 600px;
+  word-break:break-all; /* handle really long JWTs */
 }
 
