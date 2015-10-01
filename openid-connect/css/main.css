@@ -1,0 +1,37 @@
+form div label {
+  float: left;
+  width: 148px;
+  margin: 4px 0;
+}
+form > div > select,
+form > div > div ul, /* chosen */
+form > div > input {
+  float: left;
+  max-width: 440px;
+  margin: 2px 0;
+}
+form > div > div.chosen-container-multi > ul.chosen-choices li.search-field {
+  margin: 3px 5px 3px 12px;
+}
+form > div > div.chosen-container-multi > ul.chosen-choices li.search-choice {
+  margin: 6px 5px 5px 1px;
+}
+.form-group {
+  margin-bottom: 2px;
+}
+form > div > div.chosen-container {
+  margin: 2px 0;
+  max-width: 440px;
+}
+form > div,
+form > div.form-group {
+  display:block;
+  clear:both;
+}
+#output { 
+  margin-top: 28px;
+  font-size: 160%;
+}
+body {
+  font-size: 140%;
+}
