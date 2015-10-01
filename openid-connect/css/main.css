@@ -37,5 +37,14 @@ body {
 }
 
 .cb-element {
+  max-width: 720px;
+  display:block;
+}
+.cb-element .label {
+  float: left;
+  width: 160px;
+}
+.cb-element .value {
+  float: left;
   max-width: 600px;
 }
