@@ -4,18 +4,18 @@
 // for callback-handler.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-October-01 15:02:48>
+// last saved: <2015-October-01 15:05:18>
 
 
 $(document).ready(function() {
   var search = window.location.hash,
-      params = search.split('&'),
       hash = {};
 
   if ( ! search || search === '') {
     search = window.location.search.replace('?', '');
   }
-  params.forEach(function(item){
+
+  search.split('&').forEach(function(item){
     var e = item.split('=');
     if (e[0] && e[0] !== '') {
       hash[e[0]] = decodeURIComponent(e[1]);
