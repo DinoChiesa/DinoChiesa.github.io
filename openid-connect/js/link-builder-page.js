@@ -4,7 +4,7 @@
 // page logic for link-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-October-01 14:34:28>
+// last saved: <2015-October-01 14:52:34>
 
 
 var model = {
@@ -20,10 +20,9 @@ function updateLink() {
   var linkTemplate = "https://${edgeorg}-${edgeenv}.apigee.net/oauth2/v1/authorize?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=12345&scope=${scope}";
   Object.keys(model).forEach(function(key) {
     var pattern = "${" + key + "}", value = '';
-    if (typeof model[key] != 'string') {
-      value = model[key].join('+');
+    if (model[key]) {
+     value = (typeof model[key] != 'string') ? model[key].join('+') : model[key];
     }
-    else {value = model[key];}
     linkTemplate = linkTemplate.replace(pattern,value);
   });
   $('#authzlink').text(linkTemplate);
