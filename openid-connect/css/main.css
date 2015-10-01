@@ -37,7 +37,7 @@ body {
 }
 
 .cb-element {
-  max-width: 720px;
+  max-width: 880px;
   display:block;
 }
 .cb-element:after { 
@@ -50,7 +50,7 @@ body {
 
 .cb-element .cb-label {
   float: left;
-  width: 160px;
+  width: 200px;
 }
 .cb-element .cb-value {
   float: left;
