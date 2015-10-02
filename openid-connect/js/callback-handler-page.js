@@ -4,7 +4,18 @@
 // for callback-handler.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-October-01 15:18:26>
+// last saved: <2015-October-01 19:26:39>
+
+
+function formatIdToken() {
+  var $$ = $( '#id_token-value div.cb-value' ),
+      text = $$.text(),
+      re1 = new RegExp('^([^\\.]+)\\.([^\\.]+)\\.([^\\.]+)$');
+  if (text) {
+    text = text.replace(re1, '<span class="jwt-header">$1</span>.<span class="jwt-payload">$2</span>.<span class="jwt-signature">$3</span');
+    $$.text(text);
+  }
+}
 
 
 $(document).ready(function() {
@@ -28,10 +39,12 @@ $(document).ready(function() {
 
   Object.keys(hash).forEach(function(key){
     if (key) {
-    var $newdiv = $( "<div id='"+ key +"-value' class='cb-element cb-clearfix'/>" );
-    $newdiv.html('<div class="cb-label">' + key + ':</div><div class="cb-value">' + hash[key] + '</div>');
-    $$.append($newdiv);
+      var $newdiv = $( "<div id='"+ key +"-value' class='cb-element cb-clearfix'/>" );
+      $newdiv.html('<div class="cb-label">' + key + ':</div><div class="cb-value">' + hash[key] + '</div>');
+      $$.append($newdiv);
     }
   });
+
+  formatIdToken();
 
 });

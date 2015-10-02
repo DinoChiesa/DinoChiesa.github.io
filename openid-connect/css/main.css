@@ -1,7 +1,7 @@
 form div label {
   float: left;
   width: 148px;
-  margin: 4px 0;
+  margin: 8px 0;
 }
 form > div > select,
 form > div > div ul, /* chosen */
@@ -67,4 +67,12 @@ body {
   white-space: normal;
 }
 
-
+.jwt-header {
+  color: #fa003a; 
+}
+.jwt-payload {
+  color: #b100ff; 
+}
+.jwt-signature {
+  color: #3184fb;
+}
