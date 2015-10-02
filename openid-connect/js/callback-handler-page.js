@@ -4,7 +4,7 @@
 // for callback-handler.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-October-01 19:33:38>
+// last saved: <2015-October-01 19:36:36>
 
 
 function formatIdToken() {
@@ -45,6 +45,6 @@ $(document).ready(function() {
     }
   });
 
-  setTimeout(2600, formatIdToken);
+  setTimeout(formatIdToken, 2600);
 
 });
