@@ -7,7 +7,7 @@ form > div > select,
 form > div > div ul, /* chosen */
 form > div > input {
   float: left;
-  max-width: 440px;
+  max-width: 660px;
   margin: 2px 0;
 }
 form > div > div.chosen-container-multi > ul.chosen-choices li.search-field {
