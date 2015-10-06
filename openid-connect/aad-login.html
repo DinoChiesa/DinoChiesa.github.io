@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>aad-login.html</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" 
+          href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script type='text/javascript'
+            src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ 
+    <script type='text/javascript'
+            src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" 
+          href="http://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
+
+    <script type='text/javascript' 
+             src='http://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js'>
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/chosen-bootstrap.css">
+
+    <script type='text/javascript' src='js/aad-login-page.js'></script>
+
+  </head>
+  <body>
+    <!-- ======================================================= -->
+    <div style='margin: 10px;'>
+      <h3>Build links for the OpenID-Connect Sample in Edge</h3>
+    <form role="form">
+      <div class="form-group">
+        <label for="baseloginurl">Base URL:</label>
+        <input type="text" class="form-control" id="baseloginurl" value='https://login.microsoftonline.com/fa2613dd-1c7b-469b-8f92-88cd26856240/oauth2/authorize' title='eg, https://login.microsoftonline.com/fa2613dd-1c7b-469b-8f92-88cd26856240/oauth2/authorize'>
+      </div>
+      <div class="form-group">
+        <label for="clientid">clientid:</label>
+        <input type="text" class="form-control" id="clientid" value='63b4c9c1-9a62-4497-b2fe-9af71305a237'>
+      </div>
+      <div class="form-group">
+        <label for="state">state:</label>
+        <input type="text" class="form-control" id="state">
+      </div>
+      <div class="form-group">
+        <label for="nonce">nonce:</label>
+        <input type="text" class="form-control" id="nonce">
+      </div>
+      <div class="form-group">
+        <label for="cburi">callback URI:</label>
+        <input type="text" class="form-control" id="cburi" value='http://dinochiesa.github.io/openid-connect/aad-reply.html'>
+      </div>
+      <div class="form-group">
+        <label for="rtype">response type:</label>
+        <select name="rtype" id="rtype" multiple class="form-control chosen rtype-chosen" 
+                data-placeholder="response type" required>
+          <option value=""></option>
+          <option value="code" >code</option>
+          <option value="token" >token</option>
+          <option value="id_token" >id_token</option>
+          <option value="invalid_option" >invalid_option</option>
+        </select>
+
+      </div>
+
+      <div class="form-group">
+        <label for="scope">scope:</label>
+        <select name="scope" id="scope" multiple class="form-control chosen scope-chosen" 
+                data-placeholder="scope" required>
+          <option value=""></option>
+          <option value="openid" >openid</option>
+          <option value="profile" >profile</option>
+          <option value="email" >email</option>
+          <option value="invalid_option" >invalid_option</option>
+        </select>
+
+      </div>
+      <div>
+        <button type="submit" class="btn btn-default" style='display:none'>Submit</button>
+      </div>
+    </form>
+
+    <div id='output'>
+      <a href='' id='authzlink'></a>
+    </div>
+    </div>
+
+  </body>
+
+</html>
