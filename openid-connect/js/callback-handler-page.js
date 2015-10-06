@@ -4,7 +4,7 @@
 // for callback-handler.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-October-01 19:36:36>
+// last saved: <2015-October-06 15:47:54>
 
 
 function formatIdToken() {
@@ -20,7 +20,11 @@ function formatIdToken() {
 
 $(document).ready(function() {
   var search = window.location.hash,
-      hash = {};
+      hash = {},
+      fnStartsWith = function(s, searchString, position) {
+        position = position || 0;
+        return s.lastIndexOf(searchString, position) === position;
+      };
 
   if ( ! search || search === '') {
     search = window.location.search.replace('?', '');
@@ -29,6 +33,7 @@ $(document).ready(function() {
   search.split('&').forEach(function(item){
     var e = item.split('=');
     if (e[0] && e[0] !== '') {
+      if (fnStartsWith(e[0], '#')) { e[0] = e[0].substring(1); }
       hash[e[0]] = decodeURIComponent(e[1]);
     }
   });
