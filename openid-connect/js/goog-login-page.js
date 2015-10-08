@@ -4,7 +4,7 @@
 // page logic for aad-login.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-October-07 21:38:46>
+// last saved: <2015-October-07 21:42:44>
 
 
 var model = {
@@ -12,12 +12,13 @@ var model = {
       clientid : '',
       cburi : '',
       state : '',
+      nonce : '',
       rtype : [],
       scope : []
     };
 
 function updateLink() {
-  var linkTemplate = "${baseloginurl}?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}";
+  var linkTemplate = "${baseloginurl}?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}&nonce=${nonce}";
   Object.keys(model).forEach(function(key) {
     var pattern = "${" + key + "}", value = '';
     if (model[key]) {

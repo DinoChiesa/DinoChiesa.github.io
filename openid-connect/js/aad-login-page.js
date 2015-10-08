@@ -4,7 +4,7 @@
 // page logic for aad-login.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-October-06 15:52:50>
+// last saved: <2015-October-07 21:42:14>
 
 
 var model = {
