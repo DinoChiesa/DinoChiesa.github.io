@@ -70,7 +70,7 @@
        }
        var message = $('#text').val();
        var key = $('#key').val();
-       if (message != "" || key != "") {
+       if (message && key) {
          var hmac = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, key);
          hmac.update(message);
          var hash = hmac.finalize();
