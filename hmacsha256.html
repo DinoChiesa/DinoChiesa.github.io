@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>hmacsha256.html</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" 
+          href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script type='text/javascript'
+            src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ 
+    <script type='text/javascript'
+            src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script type='text/javascript'
+      src="//crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/hmac-sha256.js"></script>
+    <script type='text/javascript'
+            src="//crypto-js.googlecode.com/svn/tags/3.0.2/build/components/enc-base64-min.js"></script>
+
+    <script>
+     function calcHmac(event) {
+       var message = $('#text').text();
+       var key = $('#key').text();
+       var hash = CryptoJS.HmacSHA256(message, key);
+       var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
+       $('#hmac').text(hashInBase64);
+
+       if (event) {
+         event.preventDefault();
+       }
+     }
+
+     $(document).ready(function() {
+       $( "form button" ).submit(calcHmac);
+     });
+    </script>
+
+  </head>
+
+  <!-- ======================================================= -->
+
+  <body>
+
+    <div style='margin: 10px;'>
+      <h3>Calculate an HMAC using SHA-256</h3>
+
+      <form role="form">
+        <div class="form-group">
+          <label for="key">key:</label>
+          <input type="text" class="form-control" id="key"/>
+        </div>
+        <div class="form-group">
+          <label for="text">text:</label>
+          <input type="textarea" class="form-control" id="text"/>
+        </div>
+        <div>
+          <button type="submit" class="btn btn-default" >Submit</button>
+        </div>
+      </form>
+
+      <div id='output'>
+        <span id='hmac'></span>
+      </div>
+    </div>
+
+  </body>
+
+</html>
