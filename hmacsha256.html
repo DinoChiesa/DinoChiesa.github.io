@@ -50,12 +50,15 @@
      }
      #output {
        margin-top: 32px;
-       border: 1px dashed Blue;
+     }
+     #output > div  {
+       margin-top: 16px;
      }
      #output > div > div {
        border: 1px dotted Grey;
        max-width: 660px;
        margin: 2px 0;
+       padding:4px 10px;
      }
     </style>
 
@@ -97,12 +100,12 @@
 
       <form role="form">
         <div class="form-group">
-          <label for="key">key:</label>
-          <input type="text" class="form-control" id="key"/>
+          <label for="text">text or message:</label>
+          <input type="textarea" class="form-control" title='the message to compute the HMAC for' id="text"/>
         </div>
         <div class="form-group">
-          <label for="text">text:</label>
-          <input type="textarea" class="form-control" id="text"/>
+          <label for="key">key:</label>
+          <input type="text" class="form-control" title='the key or password for the HMAC' id="key"/>
         </div>
         <div class="form-group">
           <input type="submit" value="compute hmac" class="button" id="submit"/>
@@ -113,12 +116,12 @@
 
         <div>
           <span id='hmaclabel'>Base64-encoded HMAC:</span>
-          <div id='hmacb64' class='notshown'></div>
+          <div id='hmacb64' title='base64 encoding is case-sensitive' class='notshown'></div>
         </div>
 
         <div>
           <span id='hmaclabel2'>HEX-encoded HMAC:</span>
-          <div id='hmachex' class='notshown'></div>
+          <div id='hmachex' title='hex encoding is case-insensitive' class='notshown'></div>
         </div>
 
       </div>
