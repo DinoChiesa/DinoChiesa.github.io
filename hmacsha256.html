@@ -13,9 +13,17 @@
             src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <script type='text/javascript'
-      src="//crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/hmac-sha256.js"></script>
+            src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/components/core-min.js"></script>
     <script type='text/javascript'
-            src="//crypto-js.googlecode.com/svn/tags/3.0.2/build/components/enc-base64-min.js"></script>
+            src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/components/enc-utf16-min.js"></script>
+    <script type='text/javascript'
+            src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/components/enc-base64-min.js"></script>
+
+    <style type='text/css'>
+     #output > div {
+       border: 1px dotted Grey;
+     }
+    </style>
 
     <script>
      function calcHmac(event) {
@@ -26,8 +34,9 @@
        var key = $('#key').val();
        var hash = CryptoJS.HmacSHA256(message, key);
        var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
-       $('#hmac').text(hashInBase64);
-
+       $('#hmacb64').text(hashInBase64);
+       var hashInHex = CryptoJS.enc.Hex.stringify(hash);
+       $('#hmachex').text(hashInHex);
      }
 
      $(document).ready(function() {
@@ -61,8 +70,17 @@
       </form>
 
       <div id='output'>
-        <span id='hmaclabel'>HMAC:</span>
-        <span id='hmac'></span>
+
+        <div>
+        <span id='hmaclabel'>Base64-encoded HMAC:</span>
+        <span id='hmacb64'></span>
+        </div>
+
+        <div>
+        <span id='hmaclabel2'>HEX-encoded HMAC:</span>
+        <span id='hmachex'></span>
+        </div>
+
       </div>
     </div>
 
