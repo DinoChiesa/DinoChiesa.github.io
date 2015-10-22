@@ -32,7 +32,10 @@
        }
        var message = $('#text').val();
        var key = $('#key').val();
-       var hash = CryptoJS.HmacSHA256(message, key);
+       var hmac = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, key);
+
+       hmac.update(message);
+       var hash = hmac.finalize();
        var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
        $('#hmacb64').text(hashInBase64);
        var hashInHex = CryptoJS.enc.Hex.stringify(hash);
