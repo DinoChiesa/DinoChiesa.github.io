@@ -22,8 +22,8 @@
        if (event) {
          event.preventDefault();
        }
-       var message = $('#text').text();
-       var key = $('#key').text();
+       var message = $('#text').val();
+       var key = $('#key').val();
        var hash = CryptoJS.HmacSHA256(message, key);
        var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
        $('#hmac').text(hashInBase64);
@@ -61,6 +61,7 @@
       </form>
 
       <div id='output'>
+        <span id='hmaclabel'>HMAC:</span>
         <span id='hmac'></span>
       </div>
     </div>
