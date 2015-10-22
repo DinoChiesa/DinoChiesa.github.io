@@ -23,6 +23,9 @@
             src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/components/enc-base64-min.js"></script>
 
     <style type='text/css'>
+     #output {
+       margin-top: 24px;
+     }
      #output > div > div {
        border: 1px dotted Grey;
      }
@@ -68,6 +71,9 @@
        $('#hmacb64').text(hashInBase64);
        var hashInHex = CryptoJS.enc.Hex.stringify(hash);
        $('#hmachex').text(hashInHex);
+
+       $('#hmacb64').addClass('shown');
+       $('#hmacb64').removeClass('notshown');
        $('#hmachex').addClass('shown');
        $('#hmachex').removeClass('notshown');
      }
@@ -97,7 +103,7 @@
           <input type="textarea" class="form-control" id="text"/>
         </div>
         <div>
-          <input type="submit" value="Submit" class="button" id="submit"/>        
+          <input type="submit" value="compute hmac" class="button" id="submit"/>
         </div>
       </form>
 
