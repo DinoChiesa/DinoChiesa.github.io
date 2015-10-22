@@ -19,19 +19,19 @@
 
     <script>
      function calcHmac(event) {
+       if (event) {
+         event.preventDefault();
+       }
        var message = $('#text').text();
        var key = $('#key').text();
        var hash = CryptoJS.HmacSHA256(message, key);
        var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
        $('#hmac').text(hashInBase64);
 
-       if (event) {
-         event.preventDefault();
-       }
      }
 
      $(document).ready(function() {
-       $( "form button" ).submit(calcHmac);
+       $( "form button" ).on('submit',calcHmac);
      });
     </script>
 
