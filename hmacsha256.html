@@ -26,6 +26,12 @@
      #output > div > div {
        border: 1px dotted Grey;
      }
+     .notshown {
+       display: none;
+     }
+     .shown {
+       display: block;
+     }
     </style>
 
     <script type='text/javascript'>
@@ -43,6 +49,8 @@
        $('#hmacb64').text(hashInBase64);
        var hashInHex = CryptoJS.enc.Hex.stringify(hash);
        $('#hmachex').text(hashInHex);
+       $('#hmachex').addClass('shown');
+       $('#hmachex').removeClass('notshown');
      }
 
      $(document).ready(function() {
@@ -78,12 +86,12 @@
 
         <div>
           <span id='hmaclabel'>Base64-encoded HMAC:</span>
-          <div id='hmacb64'></div>
+          <div id='hmacb64' class='notshown'></div>
         </div>
 
         <div>
           <span id='hmaclabel2'>HEX-encoded HMAC:</span>
-          <div id='hmachex'></div>
+          <div id='hmachex' class='notshown'></div>
         </div>
 
       </div>
