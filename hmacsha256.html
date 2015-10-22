@@ -31,7 +31,8 @@
      }
 
      $(document).ready(function() {
-       $( "form button" ).on('submit',calcHmac);
+       $( "form" ).on('submit',calcHmac);
+       $( "#submit" ).on('click',calcHmac);
      });
     </script>
 
@@ -55,6 +56,7 @@
         </div>
         <div>
           <button type="submit" class="btn btn-default" >Submit</button>
+          <input type="submit" value="Go" class="button" id="submit"/>        
         </div>
       </form>
 
