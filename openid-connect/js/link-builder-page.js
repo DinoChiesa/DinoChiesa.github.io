@@ -4,7 +4,7 @@
 // page logic for link-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-October-01 15:38:52>
+// last saved: <2015-October-28 05:45:00>
 
 
 var model = {
@@ -17,8 +17,11 @@ var model = {
       scope : []
     };
 
+// for localstorage
+var html5AppId = "43C9BB71-3E94-441C-B7F5-7FAE6FCD8458";
+
 function updateLink() {
-  var linkTemplate = "https://${edgeorg}-${edgeenv}.apigee.net/oauth2/v1/authorize?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}";
+  var linkTemplate = "http://${edgeorg}-${edgeenv}.apigee.net/oauth2/v1/authorize?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}";
   Object.keys(model).forEach(function(key) {
     var pattern = "${" + key + "}", value = '';
     if (model[key]) {
@@ -50,12 +53,28 @@ function updateModel(event) {
   Object.keys(model).forEach(function(key) {
     var $item = $('#' + key), value = $item.val();
     model[key] = value;
+
+    // put into local storage
+console.log('setting into LS: ' + key + '= ' + value);
+    window.localStorage.setItem(html5AppId + '.model.' + key, value);
   });
   updateLink();
 
   if (event)
     event.preventDefault();
 }
+
+function refreshModel() {
+  Object.keys(model).forEach(function(key) {
+    // get from local storage
+    var value = window.localStorage.getItem(html5AppId + '.model.' + key);
+    if (value) {
+      var $item = $('#' + key);
+      $item.val(value);
+    }
+  });
+}
+
 
 $(document).ready(function() {
   $('.rtype-chosen').chosen({
@@ -71,6 +90,8 @@ $(document).ready(function() {
   $( "form input[type='text']" ).change(onInputChanged);
   $( "form select" ).change(onSelectChanged);
   $( "form button" ).submit(updateModel);
+
+  refreshModel();
 
   updateModel();
 
