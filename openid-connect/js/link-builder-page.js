@@ -4,7 +4,7 @@
 // page logic for link-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-October-28 05:45:00>
+// last saved: <2015-October-28 05:58:53>
 
 
 var model = {
@@ -68,7 +68,7 @@ function refreshModel() {
   Object.keys(model).forEach(function(key) {
     // get from local storage
     var value = window.localStorage.getItem(html5AppId + '.model.' + key);
-    if (value) {
+    if (value && value !== '') {
       var $item = $('#' + key);
       $item.val(value);
     }
