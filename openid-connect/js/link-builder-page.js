@@ -4,7 +4,7 @@
 // page logic for link-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-October-28 06:03:32>
+// last saved: <2015-October-28 06:17:50>
 
 
 var model = {
@@ -65,13 +65,23 @@ function updateModel(event) {
     event.preventDefault();
 }
 
-function refreshModel() {
+function populateFormFields() {
   Object.keys(model).forEach(function(key) {
     // get from local storage
     var value = window.localStorage.getItem(html5AppId + '.model.' + key);
     if (value && value !== '') {
       var $item = $('#' + key);
-      $item.val(value);
+      if (typeof model[key] != 'string') {
+        // the value is a set of values concatenated by +
+        // and the type of form field is select.
+        value.split('+').forEach(function(part){
+          $item.find("option[value='"+part+"']").prop("selected", "selected");
+        });
+      }
+      else {
+        // value is a simple string, form field type is input
+        $item.val(value);
+      }
     }
   });
 }
@@ -92,7 +102,7 @@ $(document).ready(function() {
   $( "form select" ).change(onSelectChanged);
   $( "form button" ).submit(updateModel);
 
-  refreshModel();
+  populateFormFields();
 
   updateModel();
 
