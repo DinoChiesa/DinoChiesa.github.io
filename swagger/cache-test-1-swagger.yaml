@@ -1,0 +1,140 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: API for cache test
+host: demo28-test.apigee.net
+basePath: /v1/cache-test-1
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /t1:
+    post:
+      description: inserts a computed cache entry value at the given key
+      operationId: t1_post
+      parameters:
+        - 
+          name : cachekey
+          in: query
+          description: The key to use for the cache entry to store
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/CacheBasicOperationResponse"
+    get:
+      description: retrieves value cached at the given key
+      operationId: t1_get
+      parameters:
+        - 
+          name : cachekey
+          in: query
+          description: The key to use for the cache entry to retrieve
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Cache Hit
+          schema:
+            $ref: "#/definitions/CacheHitResponse"
+        "404":
+          description: Cache Miss
+          schema:
+            $ref: "#/definitions/CacheBasicOperationResponse"
+    delete:
+      description: removes the value cached at the given key
+      operationId: t1_delete
+      parameters:
+        - 
+          name : cachekey
+          in: query
+          description: The key to use for the cache entry to retrieve
+          required: true
+          type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#/definitions/CacheBasicOperationResponse"
+  /t2:
+    post:
+      description: inserts a computed cache entry value at the given key
+      operationId: t2_post
+      parameters:
+        - 
+          name : cachekey
+          in: query
+          description: The key to use for the cache entry to store
+          required: true
+          type: string
+        - 
+          name : minsize
+          in: query
+          description: The minimum size of the entry to contrive and store
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/CacheBasicOperationResponse"
+    get:
+      description: retrieves value cached at the given key
+      operationId: t2_get
+      parameters:
+        - 
+          name : cachekey
+          in: query
+          description: The key to use for the cache entry to retrieve
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Cache Hit
+          schema:
+            $ref: "#/definitions/CacheHitResponse"
+        "404":
+          description: Cache Miss
+          schema:
+            $ref: "#/definitions/CacheBasicOperationResponse"
+    delete:
+      description: removes the value cached at the given key
+      operationId: t2_delete
+      parameters:
+        - 
+          name : cachekey
+          in: query
+          description: The key to use for the cache entry to retrieve
+          required: true
+          type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#/definitions/CacheBasicOperationResponse"
+definitions:
+  CacheBasicOperationResponse:
+    required:
+      - message
+      - system.uuid
+      - now
+    properties:
+      message:
+        type: string
+      system.uuid:
+        type: string
+      now:
+        type: string
+  CacheHitResponse:
+    allOf:
+      - $ref: '#/definitions/CacheBasicOperationResponse'
+      - required:
+        - cachedData
+        properties:
+          cachedData:
+            type: string
