@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ProxyEndpoint name="default">
+    <Description>Default Proxy</Description>
+    <HTTPProxyConnection>
+        <BasePath>/producttest1</BasePath>
+        <Properties/>
+        <VirtualHost>default</VirtualHost>
+        <!-- <VirtualHost>secure</VirtualHost> -->
+    </HTTPProxyConnection>
+    <FaultRules/>
+    <PreFlow name="PreFlow">
+        <Request>
+            <Step>
+                <Name>VerifyAPIKey-1</Name>
+            </Step>
+            <Step>
+                <Name>JS-ComputeElapsed</Name>
+            </Step>
+            <Step>
+                <Name>RF-TimeExpired</Name>
+                <Condition>(days_active &gt; 30) OR (verifyapikey.VerifyAPIKey-1.permanently_enabled != "true")</Condition>
+            </Step>
+        </Request>
+        <Response/>
+    </PreFlow>
+    <PostFlow name="PostFlow">
+        <Request/>
+        <Response>
+            <Step>
+                <Name>AssignMessage-1</Name>
+            </Step>
+        </Response>
+    </PostFlow>
+    <Flows>
+        <Flow name="resource 1">
+            <Description>Resource 1</Description>
+            <Request/>
+            <Response>
+                <!-- maybe insert real policies here -->
+            </Response>
+            <Condition>(proxy.pathsuffix ~/ "/r1") and (request.verb = "GET")</Condition>
+        </Flow>
+        <Flow name="resource 2">
+            <Description>Resource 2</Description>
+            <Request/>
+            <Response>
+                <!-- maybe insert real policies here -->
+            </Response>
+            <Condition>(proxy.pathsuffix ~/ "/r2") and (request.verb = "GET")</Condition>
+        </Flow>
+        <Flow name="unknown request">
+            <Request>
+                <Step>
+                    <Name>RaiseFault-UnknownRequest</Name>
+                </Step>
+            </Request>
+            <Response/>
+        </Flow>
+    </Flows>
+    <!-- keep this if no target (eg, for oauth token generation and refresh) -->
+    <RouteRule name="NoRouteRule"/>
+</ProxyEndpoint>
