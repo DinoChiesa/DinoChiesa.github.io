@@ -18,7 +18,7 @@
             </Step>
             <Step>
                 <Name>RF-TimeExpired</Name>
-                <Condition>(days_active &gt; 30) OR (verifyapikey.VerifyAPIKey-1.permanently_enabled != "true")</Condition>
+                <Condition>(days_active > 30) OR (verifyapikey.VerifyAPIKey-1.permanently_enabled != "true")</Condition>
             </Step>
         </Request>
         <Response/>
