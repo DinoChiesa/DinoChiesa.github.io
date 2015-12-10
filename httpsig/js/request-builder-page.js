@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 15:35:23>
+// last saved: <2015-December-10 15:38:38>
 
 var model = {
       edgeorg : '',
@@ -155,14 +155,13 @@ function sendSignedRequest() {
     //data: "json=" + escape(JSON.stringify(createRequestObject)),
     processData: false,
     success: function(msg) {
-      var $$ = $('#output'), 
-          $tabholder = $( "<div id='tabs-holder'/>" ), 
+      var //$$ = $('#output'), 
+      $$ = $('<div title="Request complete"/>'), 
           $request = $( "<div id='tab-request'/>" ), 
           $response = $( "<div id='tab-response'/>" );
       $$.empty();
-      $tabholder.append($request);
-      $tabholder.append($response);
-      $$.append($tabholder);
+      $$.append($request);
+      $$.append($response);
       Object.keys(msg).forEach(function(key){
         if (key) {
           var $newdiv = $( "<div id='"+ key +"-value' class='msg-element'/>" );
@@ -170,6 +169,16 @@ function sendSignedRequest() {
           $request.append($newdiv);
         }
       });
+
+      $newdiv.find('>div').tabs();
+      $newdiv.dialog({
+            modal: true,
+            width: 'auto',
+            buttons: {
+                Ok: function() { $( this ).dialog( "close" ); }
+            }
+      });
+
     }
   });  
 }
