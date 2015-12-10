@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 15:02:28>
+// last saved: <2015-December-10 15:04:55>
 
 var model = {
       edgeorg : '',
@@ -95,7 +95,7 @@ function populateFormFields() {
   });
 }
 
-var DateFmt = {
+var DateFormat = {
  mthNames : ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], 
  dayNames : ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"], 
  zeroPad : function(number) {
@@ -116,8 +116,8 @@ var DateFmt = {
 
   format : function(date, formatString) {
     var dateTxt = formatString.replace(/%(.)/g, function(m, p) {
-      var rv = date[(dateMarkers[p])[0]]();
-      if ( dateMarkers[p][1] !== null ) {rv = dateMarkers[p][1](rv);}
+      var rv = date[(DateFormat.dateMarkers[p])[0]]();
+      if ( DateFormat.dateMarkers[p][1] !== null ) {rv = DateFormat.dateMarkers[p][1](rv);}
       return rv;
     });
 
