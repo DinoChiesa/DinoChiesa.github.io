@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 15:38:38>
+// last saved: <2015-December-10 15:44:49>
 
 var model = {
       edgeorg : '',
@@ -144,6 +144,8 @@ function sendSignedRequest() {
         // ex:  Fri, 17 Jul 2015 17:55:56 GMT 
         date : DateFormat.format(new Date.UTC(), '%w, %d %n %y %H:%M:%S GMT'), 
       };
+  var $request = $( "<div id='tab-request'/>" );
+
   $.ajax({
     type:"GET",
     url: $('#requestlink').text(), 
@@ -151,24 +153,27 @@ function sendSignedRequest() {
     beforeSend: function (request) {
       var sig = computeHttpSignature(request);
       request.setRequestHeader('Authorization', 'Signature ' + sig);
+      var key = 'buffalo';
+      var $newdiv = $( "<div id='req-"+ key +"-value' class='msg-element'/>" );
+      $newdiv.html('<div class="msg-label">' + key + ':</div><div class="msg-value">' + request[key] + '</div>');
+      $request.append($newdiv);
     },
     //data: "json=" + escape(JSON.stringify(createRequestObject)),
     processData: false,
     success: function(msg) {
       var //$$ = $('#output'), 
       $$ = $('<div title="Request complete"/>'), 
-          $request = $( "<div id='tab-request'/>" ), 
           $response = $( "<div id='tab-response'/>" );
       $$.empty();
       $$.append($request);
-      $$.append($response);
       Object.keys(msg).forEach(function(key){
         if (key) {
-          var $newdiv = $( "<div id='"+ key +"-value' class='msg-element'/>" );
+          var $newdiv = $( "<div id='resp-"+ key +"-value' class='msg-element'/>" );
           $newdiv.html('<div class="msg-label">' + key + ':</div><div class="msg-value">' + msg[key] + '</div>');
-          $request.append($newdiv);
+          $response.append($newdiv);
         }
       });
+      $$.append($response);
 
       $newdiv.find('>div').tabs();
       $newdiv.dialog({
