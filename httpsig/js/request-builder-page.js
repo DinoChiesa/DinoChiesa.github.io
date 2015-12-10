@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 14:58:23>
+// last saved: <2015-December-10 15:02:28>
 
 var model = {
       edgeorg : '',
@@ -169,7 +169,7 @@ $(document).ready(function() {
 
   populateFormFields();
 
-  $( "button#send" ).click(sendSignedRequest);
+  $( "#sendRequest" ).click(sendSignedRequest);
 
   updateModel();
 
