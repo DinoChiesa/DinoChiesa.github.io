@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 15:15:43>
+// last saved: <2015-December-10 15:20:00>
 
 var model = {
       edgeorg : '',
@@ -117,7 +117,7 @@ var DateFormat = {
       format : function(date, formatString) {
         var dateTxt = formatString.replace(/%(.)/g, function(m, p) {
               var rv = date[(DateFormat.dateMarkers[p])[0]]();
-              if ( DateFormat.dateMarkers[p][1] !== null ) {rv = DateFormat.dateMarkers[p][1](rv);}
+              if ( DateFormat.dateMarkers[p][1] ) {rv = DateFormat.dateMarkers[p][1](rv);}
               return rv;
             });
 
