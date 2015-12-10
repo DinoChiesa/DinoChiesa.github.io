@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 15:44:49>
+// last saved: <2015-December-10 15:47:14>
 
 var model = {
       edgeorg : '',
@@ -95,7 +95,7 @@ function populateFormFields() {
   });
 }
 
-var DateFormat = {
+var UtcDateFormat = {
       mthNames : ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], 
       dayNames : ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"], 
       zeroPad : function(number) {
@@ -103,21 +103,21 @@ var DateFormat = {
       }, 
 
       dateMarkers : {
-        d:['getDate',function(v) { return DateFormat.zeroPad(v);}],
-        m:['getMonth',function(v) { return DateFormat.zeroPad(v+1);}],
-        n:['getMonth',function(v) { return DateFormat.mthNames[v]; }],
-        w:['getDay',function(v) { return DateFormat.dayNames[v]; }],
-        y:['getFullYear'],
-        H:['getHours',function(v) { return DateFormat.zeroPad(v);}],
-        M:['getMinutes',function(v) { return DateFormat.zeroPad(v);}],
-        S:['getSeconds',function(v) { return DateFormat.zeroPad(v);}],
+        d:['getUTCDate',function(v) { return UtcDateFormat.zeroPad(v);}],
+        m:['getUTCMonth',function(v) { return UtcDateFormat.zeroPad(v+1);}],
+        n:['getUTCMonth',function(v) { return UtcDateFormat.mthNames[v]; }],
+        w:['getUTCDay',function(v) { return UtcDateFormat.dayNames[v]; }],
+        y:['getUTCFullYear'],
+        H:['getUTCHours',function(v) { return UtcDateFormat.zeroPad(v);}],
+        M:['getUTCMinutes',function(v) { return UtcDateFormat.zeroPad(v);}],
+        S:['getUTCSeconds',function(v) { return UtcDateFormat.zeroPad(v);}],
         i:['toISOString']
       }, 
 
       format : function(date, formatString) {
         var dateTxt = formatString.replace(/%(.)/g, function(m, p) {
-              var rv = date[(DateFormat.dateMarkers[p])[0]]();
-              if ( DateFormat.dateMarkers[p][1] ) {rv = DateFormat.dateMarkers[p][1](rv);}
+              var rv = date[(UtcDateFormat.dateMarkers[p])[0]]();
+              if ( UtcDateFormat.dateMarkers[p][1] ) {rv = UtcDateFormat.dateMarkers[p][1](rv);}
               return rv;
             });
 
@@ -142,7 +142,7 @@ function computeHttpSignature(request) {
 function sendSignedRequest() {
   var headers = {
         // ex:  Fri, 17 Jul 2015 17:55:56 GMT 
-        date : DateFormat.format(new Date.UTC(), '%w, %d %n %y %H:%M:%S GMT'), 
+        date : UtcDateFormat.format(new Date.UTC(), '%w, %d %n %y %H:%M:%S GMT'), 
       };
   var $request = $( "<div id='tab-request'/>" );
 
