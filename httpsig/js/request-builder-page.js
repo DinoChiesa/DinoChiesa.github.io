@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 15:47:14>
+// last saved: <2015-December-10 15:47:49>
 
 var model = {
       edgeorg : '',
@@ -142,7 +142,7 @@ function computeHttpSignature(request) {
 function sendSignedRequest() {
   var headers = {
         // ex:  Fri, 17 Jul 2015 17:55:56 GMT 
-        date : UtcDateFormat.format(new Date.UTC(), '%w, %d %n %y %H:%M:%S GMT'), 
+        date : UtcDateFormat.format(new Date(), '%w, %d %n %y %H:%M:%S GMT'), 
       };
   var $request = $( "<div id='tab-request'/>" );
 
