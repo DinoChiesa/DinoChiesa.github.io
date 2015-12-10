@@ -4,12 +4,12 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 15:47:49>
+// last saved: <2015-December-10 15:50:00>
 
 var model = {
       edgeorg : '',
       edgeenv : '',
-      clientid : '',
+      keyId : '',
       secretkey : '',
       basepath : '',
       algorithm : '',
@@ -32,7 +32,7 @@ function updateLink() {
      value = (typeof model[key] != 'string') ? model[key].join('+') : model[key];
       // set into local storage
       if (value) {
-        console.log('setting into LS: ' + key + '= ' + value);
+        //console.log('setting into LS: ' + key + '= ' + value);
         window.localStorage.setItem(html5AppId + '.model.' + key, value);
       }
     }
