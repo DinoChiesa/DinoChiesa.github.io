@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 14:28:24>
+// last saved: <2015-December-10 14:58:23>
 
 var model = {
       edgeorg : '',
@@ -12,6 +12,8 @@ var model = {
       clientid : '',
       secretkey : '',
       basepath : '',
+      algorithm : '',
+      headers : [],
       rpath : [],
       path : '',
       qstring : ''
@@ -21,7 +23,7 @@ var model = {
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
 
 function updateLink() {
-  var linkTemplate = "https://${edgeorg}-${edgeenv}.apigee.net/${basepath}/${rpath}",
+  var linkTemplate = "https://${edgeorg}-${edgeenv}.apigee.net/${basepath}${rpath}",
       link = linkTemplate;
 
   Object.keys(model).forEach(function(key) {
@@ -40,9 +42,11 @@ function updateLink() {
     link += '?' + model.qstring;
   }
   link = link.replace('??', '?');
+  link = link.replace('apigee.net//', 'apigee.net/');
   $('#requestlink').text(link);
   $('#requestlink').attr('href', link);
 }
+
 
 function onInputChanged() {
   var $$ = $(this), name = $$.attr('id'), value = $$.val();
@@ -91,18 +95,81 @@ function populateFormFields() {
   });
 }
 
+var DateFmt = {
+ mthNames : ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], 
+ dayNames : ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"], 
+ zeroPad : function(number) {
+     return ("0"+number).substr(-2,2);
+  }, 
+
+  dateMarkers : {
+    d:['getDate',function(v) { return zeroPad(v);}],
+    m:['getMonth',function(v) { return zeroPad(v+1);}],
+    n:['getMonth',function(v) { return mthNames[v]; }],
+    w:['getDay',function(v) { return dayNames[v]; }],
+    y:['getFullYear'],
+    H:['getHours',function(v) { return zeroPad(v);}],
+    M:['getMinutes',function(v) { return zeroPad(v);}],
+    S:['getSeconds',function(v) { return zeroPad(v);}],
+    i:['toISOString']
+  }, 
+
+  format : function(date, formatString) {
+    var dateTxt = formatString.replace(/%(.)/g, function(m, p) {
+      var rv = date[(dateMarkers[p])[0]]();
+      if ( dateMarkers[p][1] !== null ) {rv = dateMarkers[p][1](rv);}
+      return rv;
+    });
+
+    return dateTxt;
+  }
+};
+
+
+function computeHttpSignature(request) {
+  var template = 'keyId="${keyId}",algorithm="${algorithm}",headers="${headers}",signature="${signature}"', 
+      sig = template;
+  ['keyId', 'algorithm'].forEach(function(key) {
+    var pattern = "${" + key + "}", value = model[key];
+    sig = sig.replace(pattern, value);
+  });
+
+  return sig;
+}
+
+function sendSignedRequest() {
+  var headers = {
+        // ex:  Fri, 17 Jul 2015 17:55:56 GMT 
+        date : DateFmt.format(new Date(), '%w, %d %n %y %H:%M:%S %i'), 
+      };
+  $.ajax({
+    type:"GET",
+    url: $('#requestlink').text(), 
+    headers: headers, 
+    beforeSend: function (request) {
+      var sig = computeHttpSignature(request);
+      request.setRequestHeader('Authorization', 'Signature ' + sig);
+    },
+    //data: "json=" + escape(JSON.stringify(createRequestObject)),
+    processData: false,
+    success: function(msg) {
+      $("#results").append("The result =" + msg);
+    }
+  });  
+}
 
 $(document).ready(function() {
-  // $('.rpath-chosen').chosen({
-  //   no_results_text: "invalid path...",
-  //   allow_single_deselect: true
-  // });
+   $('.headers-chosen').chosen({
+     no_results_text: "invalid header list...",
+        allow_single_deselect: true
+     });
 
   $( "form input[type='text']" ).change(onInputChanged);
   $( "form select" ).change(onSelectChanged);
-  $( "form button" ).submit(updateModel);
 
   populateFormFields();
+
+  $( "button#send" ).click(sendSignedRequest);
 
   updateModel();
 

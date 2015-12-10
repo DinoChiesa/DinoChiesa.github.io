@@ -51,8 +51,18 @@
         <input type="text" class="form-control" id="basepath">
       </div>
       <div class="form-group">
+        <label for="algorithm">algorithm:</label>
+        <select name="algorithm" id="algorithm" class="form-control" 
+                data-placeholder="algorithm" required>
+          <option value=""></option>
+          <option value="hmac-sha1" >hmac-sha1</option>
+          <option value="hmac-sha256" >hmac-sha256</option>
+          <option value="hmac-sha512" >hmac-sha512</option>
+        </select>
+      </div>
+      <div class="form-group">
         <label for="rpath">path:</label>
-        <select name="rpath" id="rpath" class="form-control chosen rpath-chosen" 
+        <select name="rpath" id="rpath" class="form-control" 
                 data-placeholder="trial path" required>
           <option value=""></option>
           <option value="/hmac-t1" >/hmac-t1</option>
@@ -64,6 +74,16 @@
       <div class="form-group">
         <label for="qstring">query string:</label>
         <input type="text" class="form-control" id="qstring">
+      </div>
+      <div class="form-group">
+        <label for="algorithm">headers to sign:</label>
+        <select name="algorithm" id="algorithm" multiple class="form-control chosen headers-chosen" 
+                data-placeholder="list of headers" required>
+          <option value=""></option>
+          <option value="date" >Date</option>
+          <option value="user-agent" >User-Agent</option>
+          <option value="(request-target)" >(request-target)</option>
+        </select>
       </div>
 
       <div>
