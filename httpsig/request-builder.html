@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>HttpSig Request Builder</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" 
+          href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script type='text/javascript'
+            src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ 
+    <script type='text/javascript'
+            src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" 
+          href="http://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
+
+    <script type='text/javascript' 
+             src='http://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js'>
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/chosen-bootstrap.css">
+
+    <script type='text/javascript' src='js/request-builder-page.js'></script>
+
+  </head>
+  <body>
+    <!-- ======================================================= -->
+    <div style='margin: 10px;'>
+      <h3>Build and send a request signed with HTTP Signature</h3>
+    <form role="form">
+      <div class="form-group">
+        <label for="edgeorg">Edge org:</label>
+        <input type="text" class="form-control" id="edgeorg">
+      </div>
+      <div class="form-group">
+        <label for="edgeenv">Edge env:</label>
+        <input type="text" class="form-control" id="edgeenv">
+      </div>
+      <div class="form-group">
+        <label for="clientid">key id:</label>
+        <input type="text" class="form-control" id="clientid">
+      </div>
+      <div class="form-group">
+        <label for="secretkey">shared secret:</label>
+        <input type="text" class="form-control" id="secretkey">
+      </div>
+      <div class="form-group">
+        <label for="basepath">base path:</label>
+        <input type="text" class="form-control" id="basepath">
+      </div>
+      <div class="form-group">
+        <label for="rpath">path:</label>
+        <select name="rpath" id="rpath" class="form-control chosen rpath-chosen" 
+                data-placeholder="trial path" required>
+          <option value=""></option>
+          <option value="/hmac-t1" >/hmac-t1</option>
+          <option value="/hmac-t2" >/hmac-t2</option>
+          <option value="/hmac-t3" >/hmac-t3</option>
+          <option value="/hmac-t4" >/hmac-t4</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="qstring">query string:</label>
+        <input type="text" class="form-control" id="qstring">
+      </div>
+
+      <div>
+        <button type="submit" class="btn btn-default" style='display:none'>Submit</button>
+      </div>
+    </form>
+
+    <div id='output'>
+      <a href='' id='requestlink'></a>
+    </div>
+    </div>
+
+  </body>
+
+</html>
