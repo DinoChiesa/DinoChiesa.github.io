@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 15:04:55>
+// last saved: <2015-December-10 15:12:29>
 
 var model = {
       edgeorg : '',
@@ -140,7 +140,7 @@ function computeHttpSignature(request) {
 function sendSignedRequest() {
   var headers = {
         // ex:  Fri, 17 Jul 2015 17:55:56 GMT 
-        date : DateFmt.format(new Date(), '%w, %d %n %y %H:%M:%S %i'), 
+        date : DateFormat.format(new Date(), '%w, %d %n %y %H:%M:%S %i'), 
       };
   $.ajax({
     type:"GET",
@@ -153,7 +153,14 @@ function sendSignedRequest() {
     //data: "json=" + escape(JSON.stringify(createRequestObject)),
     processData: false,
     success: function(msg) {
-      $("#results").append("The result =" + msg);
+
+      Object.keys(msg).forEach(function(key){
+        if (key) {
+          var $newdiv = $( "<div id='"+ key +"-value' class='msg-element'/>" );
+          $newdiv.html('<div class="msg-label">' + key + ':</div><div class="msg-value">' + msg[key] + '</div>');
+          $$.append($newdiv);
+        }
+      });
     }
   });  
 }
