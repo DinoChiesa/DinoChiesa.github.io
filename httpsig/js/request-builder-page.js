@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 15:12:29>
+// last saved: <2015-December-10 15:15:43>
 
 var model = {
       edgeorg : '',
@@ -96,34 +96,34 @@ function populateFormFields() {
 }
 
 var DateFormat = {
- mthNames : ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], 
- dayNames : ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"], 
- zeroPad : function(number) {
-     return ("0"+number).substr(-2,2);
-  }, 
+      mthNames : ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], 
+      dayNames : ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"], 
+      zeroPad : function(number) {
+        return ("0"+number).substr(-2,2);
+      }, 
 
-  dateMarkers : {
-    d:['getDate',function(v) { return zeroPad(v);}],
-    m:['getMonth',function(v) { return zeroPad(v+1);}],
-    n:['getMonth',function(v) { return mthNames[v]; }],
-    w:['getDay',function(v) { return dayNames[v]; }],
-    y:['getFullYear'],
-    H:['getHours',function(v) { return zeroPad(v);}],
-    M:['getMinutes',function(v) { return zeroPad(v);}],
-    S:['getSeconds',function(v) { return zeroPad(v);}],
-    i:['toISOString']
-  }, 
+      dateMarkers : {
+        d:['getDate',function(v) { return DateFormat.zeroPad(v);}],
+        m:['getMonth',function(v) { return DateFormat.zeroPad(v+1);}],
+        n:['getMonth',function(v) { return DateFormat.mthNames[v]; }],
+        w:['getDay',function(v) { return DateFormat.dayNames[v]; }],
+        y:['getFullYear'],
+        H:['getHours',function(v) { return DateFormat.zeroPad(v);}],
+        M:['getMinutes',function(v) { return DateFormat.zeroPad(v);}],
+        S:['getSeconds',function(v) { return DateFormat.zeroPad(v);}],
+        i:['toISOString']
+      }, 
 
-  format : function(date, formatString) {
-    var dateTxt = formatString.replace(/%(.)/g, function(m, p) {
-      var rv = date[(DateFormat.dateMarkers[p])[0]]();
-      if ( DateFormat.dateMarkers[p][1] !== null ) {rv = DateFormat.dateMarkers[p][1](rv);}
-      return rv;
-    });
+      format : function(date, formatString) {
+        var dateTxt = formatString.replace(/%(.)/g, function(m, p) {
+              var rv = date[(DateFormat.dateMarkers[p])[0]]();
+              if ( DateFormat.dateMarkers[p][1] !== null ) {rv = DateFormat.dateMarkers[p][1](rv);}
+              return rv;
+            });
 
-    return dateTxt;
-  }
-};
+        return dateTxt;
+      }
+    };
 
 
 function computeHttpSignature(request) {
