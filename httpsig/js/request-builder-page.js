@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 19:35:56>
+// last saved: <2015-December-11 08:05:49>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -185,6 +185,12 @@ function generateRandomString(L) {
   return pw;
 }
 
+function appendRow(tagname, value, $div){
+  var $newdiv = $( "<div class='msg-element'/>" );
+  $newdiv.html('<div class="msg-label">' + tagname + ':</div><div class="msg-value">' + value + '</div>');
+  $div.append($newdiv);
+}
+
 function sendSignedRequest() {
   var headers = {};
   var url = $('#requestlink').text();
@@ -209,14 +215,13 @@ function sendSignedRequest() {
     url: url, 
     beforeSend: function (request) {
       headers.authorization = 'Signature ' + computeHttpSignature(headers);
+      appendRow('request', 'GET ' + url, $request);
       Object.keys(headers).forEach(function(headername) {
         // skip headers we do not need to set.
         if (headername != 'user-agent' && headername != '(request-target)') { 
           request.setRequestHeader(headername, headers[headername]);
         }
-        var $newdiv = $( "<div id='req-"+ headername +"-value' class='msg-element'/>" );
-        $newdiv.html('<div class="msg-label">' + headername + ':</div><div class="msg-value">' + headers[headername] + '</div>');
-        $request.append($newdiv);
+        appendRow(headername, headers[headername], $request);
       });
     },
     processData: false,
@@ -227,27 +232,16 @@ function sendSignedRequest() {
           $newdiv;
       $$.empty();
       $$.append($request);
-
-      $newdiv = $( "<div id='resp-status-value' class='msg-element'/>" );
-      $newdiv.html('<div class="msg-label">status:</div><div class="msg-value">' + 
-                   stat.status + ' ' + stat.statusText + '</div>');
-      $response.append($newdiv);
-
+      appendRow('status', stat.status + ' ' + stat.statusText, $response);
       jqxhr.getAllResponseHeaders().split('\n').forEach(function(hdr){
         if (hdr){hdr = hdr.trim();}
         if (hdr) {
           var pair = hdr.split(':').map(function(item){return item.trim();});
-          $newdiv = $( "<div id='resp-"+ pair[0] +"-value' class='msg-element'/>" );
-          $newdiv.html('<div class="msg-label">' + pair[0] + ':</div><div class="msg-value">' + pair[1] + '</div>');
-          $response.append($newdiv);
+          appendRow(pair[0], pair[1], $response);
         }
       });
 
-      $newdiv = $( "<div id='resp-text-value' class='msg-element'/>" );
-      $newdiv.html('<div class="msg-label">body:</div><div class="msg-value"><pre>' + 
-                   jqxhr.responseText + '</pre></div>');
-      $response.append($newdiv);
-
+      appendRow('body', '<pre>' + jqxhr.responseText + '</pre>', $response);
       $$.append($response);
 
       $$.find('>div').tabs();
