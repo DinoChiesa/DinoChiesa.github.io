@@ -4,7 +4,10 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 15:50:00>
+// last saved: <2015-December-10 16:59:18>
+
+// for localstorage
+var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
 
 var model = {
       edgeorg : '',
@@ -18,9 +21,6 @@ var model = {
       path : '',
       qstring : ''
     };
-
-// for localstorage
-var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
 
 function updateLink() {
   var linkTemplate = "https://${edgeorg}-${edgeenv}.apigee.net/${basepath}${rpath}",
@@ -126,37 +126,95 @@ var UtcDateFormat = {
     };
 
 
-function computeHttpSignature(request) {
+function computeHttpSignature(headers) {
   var template = 'keyId="${keyId}",algorithm="${algorithm}",headers="${headers}",signature="${signature}"', 
-      sig = template;
-  ['keyId', 'algorithm', 'headers'].forEach(function(key) {
+      sig = template, 
+      url = $('#requestlink').text();
+
+  // compute sig here
+  var signatureOptions = {
+        key: model.secretkey,
+        keyId : model.keyId, 
+        algorithm: model.algorithm,
+        headers: Object.keys(headers), 
+        signature : ''
+      };
+
+  var signingBase = '';
+  Object.keys(headers).forEach(function(h){
+    if (signingBase !== '') { signingBase += '\n'; }
+    signingBase += h + ": " + headers[h];
+  });
+
+  
+  var hashf = (function() {
+      switch (model.algorithm) {
+        case 'hmac-sha1': return CryptoJS.HmacSHA1;
+        case 'hmac-sha256': return CryptoJS.HmacSHA256;
+        case 'hmac-sha512': return CryptoJS.HmacSHA512;
+        default : return null;
+      }
+    }());
+
+  var hash = hashf(signingBase, model.secretkey);
+  var hashInBase64 = CryptoJS.enc.Base64.stringify(hash); 
+  signatureOptions.signature = hashInBase64;
+
+  // format sig here
+  Object.keys(signatureOptions).forEach(function(key) {
     var pattern = "${" + key + "}", 
         value = (typeof model[key] != 'string') ? model[key].join(' ') : model[key];
     sig = sig.replace(pattern, value);
   });
 
-  // compute sig here
   return sig;
 }
 
+function getTargetRequest(){
+  var uri = new URI($('#requestlink').text()), 
+      path = uri.path(), 
+      query = uri.query();
+  if (query && query !== '') {
+    return path + '?' + query;
+  }
+  return path;
+}
+
 function sendSignedRequest() {
-  var headers = {
-        // ex:  Fri, 17 Jul 2015 17:55:56 GMT 
-        date : UtcDateFormat.format(new Date(), '%w, %d %n %y %H:%M:%S GMT'), 
-      };
+  var headers = {};
+  var url = $('#requestlink').text();
   var $request = $( "<div id='tab-request'/>" );
 
+  model.headers.forEach(function(n) {
+    switch(n) { 
+      case 'date':
+        // ex:  Fri, 17 Jul 2015 17:55:56 GMT 
+        headers.date = UtcDateFormat.format(new Date(), '%w, %d %n %y %H:%M:%S GMT');
+        break;
+      case 'user-agent': 
+        headers['user-agent'] = navigator.userAgent;
+        break;
+      case '(target-request)': 
+        headers['(target-request)'] = 'get ' + getTargetRequest();
+        break;
+    }
+  });
+
   $.ajax({
-    type:"GET",
-    url: $('#requestlink').text(), 
-    headers: headers, 
+    type: 'GET', 
+    url: url, 
     beforeSend: function (request) {
-      var sig = computeHttpSignature(request);
+      Object.keys(headers).forEach(function(headername) {
+        // skip headers we do not need to set.
+        if (headername != 'user-agent' && headername != '(target-request)') { 
+          request.setRequestHeader(headername, headers[headername]);
+        }
+        var $newdiv = $( "<div id='req-"+ headername +"-value' class='msg-element'/>" );
+        $newdiv.html('<div class="msg-label">' + headername + ':</div><div class="msg-value">' + headers[headername] + '</div>');
+        $request.append($newdiv);
+      });
+      var sig = computeHttpSignature(headers);
       request.setRequestHeader('Authorization', 'Signature ' + sig);
-      var key = 'buffalo';
-      var $newdiv = $( "<div id='req-"+ key +"-value' class='msg-element'/>" );
-      $newdiv.html('<div class="msg-label">' + key + ':</div><div class="msg-value">' + request[key] + '</div>');
-      $request.append($newdiv);
     },
     //data: "json=" + escape(JSON.stringify(createRequestObject)),
     processData: false,
