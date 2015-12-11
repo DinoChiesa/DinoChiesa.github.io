@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 17:23:48>
+// last saved: <2015-December-10 17:29:46>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -178,20 +178,15 @@ function sendSignedRequest() {
   var headers = {};
   var url = $('#requestlink').text();
   var $request = $( "<div id='tab-request'/>" );
+  var funcTable = {        // ex:  Fri, 17 Jul 2015 17:55:56 GMT 
+        'x-date': function(){ return UtcDateFormat.format(new Date(), '%w, %d %n %y %H:%M:%S GMT');}, 
+        'user-agent': function() {return navigator.userAgent;}, 
+        'app-specific-header': function() { return navigator.userAgent;}, 
+        '(request-target)': function() {return 'get ' + getTargetRequest();}
+      };
 
   model.headers.forEach(function(n) {
-    switch(n) { 
-      case 'x-date':
-        // ex:  Fri, 17 Jul 2015 17:55:56 GMT 
-        headers['x-date'] = UtcDateFormat.format(new Date(), '%w, %d %n %y %H:%M:%S GMT');
-        break;
-      case 'user-agent': 
-        headers['user-agent'] = navigator.userAgent;
-        break;
-      case '(request-target)': 
-        headers['(request-target)'] = 'get ' + getTargetRequest();
-        break;
-    }
+    headers[n] = funcTable[n]();
   });
 
   $.ajax({
