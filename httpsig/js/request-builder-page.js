@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 17:48:16>
+// last saved: <2015-December-10 17:55:11>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -232,8 +232,8 @@ function sendSignedRequest() {
 
       $$.append($response);
 
-      $newdiv.find('>div').tabs();
-      $newdiv.dialog({
+      $$.find('>div').tabs();
+      $$.dialog({
         modal: true,
         width: 'auto',
         buttons: {
