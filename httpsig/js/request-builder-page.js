@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 16:59:18>
+// last saved: <2015-December-10 17:02:38>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -194,8 +194,8 @@ function sendSignedRequest() {
       case 'user-agent': 
         headers['user-agent'] = navigator.userAgent;
         break;
-      case '(target-request)': 
-        headers['(target-request)'] = 'get ' + getTargetRequest();
+      case '(request-target)': 
+        headers['(request-target)'] = 'get ' + getTargetRequest();
         break;
     }
   });
@@ -206,7 +206,7 @@ function sendSignedRequest() {
     beforeSend: function (request) {
       Object.keys(headers).forEach(function(headername) {
         // skip headers we do not need to set.
-        if (headername != 'user-agent' && headername != '(target-request)') { 
+        if (headername != 'user-agent' && headername != '(request-target)') { 
           request.setRequestHeader(headername, headers[headername]);
         }
         var $newdiv = $( "<div id='req-"+ headername +"-value' class='msg-element'/>" );
