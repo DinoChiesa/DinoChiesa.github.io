@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 19:02:44>
+// last saved: <2015-December-10 19:04:55>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -82,7 +82,8 @@ function updateModel(event) {
     if (key == 'headers') {
       var values = [];
       $item.find("option:selected" ).each(function() {
-        values.push($( this ).text());
+        var val = $( this ).text();
+        if (val && val !== '') { values.push(val); }
       });
       model[name] = values;
     }
