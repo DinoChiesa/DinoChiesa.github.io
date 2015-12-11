@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 19:18:35>
+// last saved: <2015-December-10 19:24:38>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -115,7 +115,9 @@ function populateFormFields() {
       $item.find("option").prop('selected', false); // deselect all
       value.split('+').forEach(function(part){
         if (part && part !== '') {
-          $item.find("option[value='"+part.toLowerCase()+"']").prop("selected", true);
+          var option = $item.find("option[value='"+part.toLowerCase()+"']");
+            option.prop("selected", true);
+            option.change();
         }
       });
     }
