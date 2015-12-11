@@ -1,6 +1,7 @@
-form { 
+form, #output { 
   margin-left: 24px;
 }
+
 form div label {
   float: left;
   width: 148px;
