@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 18:07:56>
+// last saved: <2015-December-10 18:14:45>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -164,7 +164,7 @@ function computeHttpSignature(headers) {
   return sig;
 }
 
-function getTargetRequest(){
+function getRequestTarget(){
   var uri = new URI($('#requestlink').text()), 
       path = uri.path(), 
       query = uri.query();
@@ -172,6 +172,17 @@ function getTargetRequest(){
     return path + '?' + query;
   }
   return path;
+}
+
+function generateRandomString(L) {
+  var c = function() {
+        var m = Math.floor(Math.random() * 26),
+            a = (Math.floor(Math.random() * 2) * 32);
+        return String.fromCharCode(65 + m + a);
+      }, i, pw = '';
+  L = Math.floor(Math.random() * (L || 7)) + 8;
+  for (i=0; i<L; i++) { pw += c(); }
+  return pw;
 }
 
 function sendSignedRequest() {
@@ -185,8 +196,8 @@ function sendSignedRequest() {
         //   return UtcDateFormat.format(new Date(), '%w, %d %n %y %H:%M:%S GMT');
         // }, 
         'user-agent': function() {return navigator.userAgent;}, 
-        'app-specific-header': function() { return navigator.userAgent;}, 
-        '(request-target)': function() {return 'get ' + getTargetRequest();}
+        'app-specific-header': function() { return generateRandomString(12) +'-' + generateRandomString(28); }, 
+        '(request-target)': function() {return 'get ' + getRequestTarget();}
       };
 
   model.headers.forEach(function(n) {
