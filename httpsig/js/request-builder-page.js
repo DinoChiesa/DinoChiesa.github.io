@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 18:57:03>
+// last saved: <2015-December-10 19:02:44>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -39,7 +39,9 @@ function updateLink() {
   Object.keys(model).forEach(function(key) {
     var pattern = "${" + key + "}", value = '';
     if (model[key]) {
-     value = (typeof model[key] != 'string') ? model[key].join('+') : model[key];
+     value = (typeof model[key] != 'string') ? 
+        model[key].filter(function(item){return item && item !== '';}).join('+') : 
+        model[key];
       // set into local storage
       if (value) {
         //console.log('setting into LS: ' + key + '= ' + value);
@@ -107,7 +109,9 @@ function populateFormFields() {
       // the value is a set of values concatenated by +
       // and the type of form field is select.
       value.split('+').forEach(function(part){
-        $item.find("option[value='"+part+"']").prop("selected", "selected");
+        if (part && part !== '') {
+          $item.find("option[value='"+part+"']").prop("selected", "selected");
+        }
       });
     }
     else {
