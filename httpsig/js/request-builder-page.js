@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 18:14:45>
+// last saved: <2015-December-10 18:20:47>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -16,10 +16,20 @@ var model = {
       secretkey : '',
       basepath : '',
       algorithm : '',
-      headers : [],
-      rpath : [],
-      path : '',
-      qstring : ''
+      rpath : '',
+      qstring : '', 
+      headers : []
+    }, 
+    defaultValues = {
+      edgeorg : 'ap-parityapi',
+      edgeenv : 'stage',
+      keyId : 'fbGaI0AinHi4GOUeOWGP0a7yUDGr3nn8',
+      secretkey : '3puLIK8V8kmKK9fu',
+      basepath : 'httpsig-java-dev',
+      algorithm : 'hmac-sha256',
+      rpath : '/hmac-t1',
+      qstring : 'greeting=whatsup', 
+      headers : []
     };
 
 function updateLink() {
@@ -77,21 +87,24 @@ function updateModel(event) {
 function populateFormFields() {
   // get values from local storage, and place into the form
   Object.keys(model).forEach(function(key) {
-    var value = window.localStorage.getItem(html5AppId + '.model.' + key);
-    if (value && value !== '') {
-      var $item = $('#' + key);
-      if (typeof model[key] != 'string') {
-        // the value is a set of values concatenated by +
-        // and the type of form field is select.
-        value.split('+').forEach(function(part){
-          $item.find("option[value='"+part+"']").prop("selected", "selected");
-        });
-      }
-      else {
-        // value is a simple string, form field type is input.
-        $item.val(value);
-      }
+    var value = window.localStorage.getItem(html5AppId + '.model.' + key), 
+        $item = $('#' + key);
+    if ( !value || value === '') {
+      // apply a default
+      value = defaultValues[key];
     }
+    if (typeof model[key] != 'string') {
+      // the value is a set of values concatenated by +
+      // and the type of form field is select.
+      value.split('+').forEach(function(part){
+        $item.find("option[value='"+part+"']").prop("selected", "selected");
+      });
+    }
+    else {
+      // value is a simple string, form field type is input.
+      $item.val(value);
+    }
+
   });
 }
 
