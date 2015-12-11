@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 18:22:34>
+// last saved: <2015-December-10 18:28:50>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -203,12 +203,12 @@ function sendSignedRequest() {
       });
     },
     processData: false,
-    complete: function(msg) {
+    complete: function(jqxhr, status) {
       var $$ = $('<div title="Request complete"/>'), 
           $response = $( "<div id='tab-response'/>" );
       $$.empty();
       $$.append($request);
-      msg.getAllResponseHeaders().split('\n').forEach(function(hdr){
+      jqxhr.getAllResponseHeaders().split('\n').forEach(function(hdr){
         if (hdr){hdr = hdr.trim();}
         if (hdr) {
           var pair = hdr.split(':').map(function(item){return item.trim();});
@@ -219,7 +219,8 @@ function sendSignedRequest() {
       });
 
       var $newdiv = $( "<div id='resp-text-value' class='msg-element'/>" );
-      $newdiv.html('<div class="msg-label">body:</div><div class="msg-value"><pre>' + msg.responseText + '</pre></div>');
+      $newdiv.html('<div class="msg-label">body:</div><div class="msg-value"><pre>' + 
+                   jqxhr.responseText + '</pre></div>');
       $response.append($newdiv);
 
       $$.append($response);
