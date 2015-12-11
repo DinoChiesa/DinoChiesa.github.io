@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 17:39:28>
+// last saved: <2015-December-10 17:43:48>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -214,9 +214,8 @@ function sendSignedRequest() {
     },
     //data: "json=" + escape(JSON.stringify(createRequestObject)),
     processData: false,
-    success: function(msg) {
-      var //$$ = $('#output'), 
-      $$ = $('<div title="Request complete"/>'), 
+    complete: function(msg) {
+      var $$ = $('<div title="Request complete"/>'), 
           $response = $( "<div id='tab-response'/>" );
       $$.empty();
       $$.append($request);
@@ -231,11 +230,11 @@ function sendSignedRequest() {
 
       $newdiv.find('>div').tabs();
       $newdiv.dialog({
-            modal: true,
-            width: 'auto',
-            buttons: {
-                Ok: function() { $( this ).dialog( "close" ); }
-            }
+        modal: true,
+        width: 'auto',
+        buttons: {
+          Ok: function() { $( this ).dialog( "close" ); }
+        }
       });
 
     }
