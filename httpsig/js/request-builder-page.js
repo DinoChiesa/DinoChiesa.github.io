@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 17:43:48>
+// last saved: <2015-December-10 17:48:16>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -219,13 +219,17 @@ function sendSignedRequest() {
           $response = $( "<div id='tab-response'/>" );
       $$.empty();
       $$.append($request);
-      Object.keys(msg).forEach(function(key){
+      msg.getAllResponseHeaders().split('\n').forEach(function(key){
         if (key) {
           var $newdiv = $( "<div id='resp-"+ key +"-value' class='msg-element'/>" );
           $newdiv.html('<div class="msg-label">' + key + ':</div><div class="msg-value">' + msg[key] + '</div>');
           $response.append($newdiv);
         }
       });
+          var $newdiv = $( "<div id='resp-text-value' class='msg-element'/>" );
+          $newdiv.html('<div class="msg-label">body:</div><div class="msg-value">' + msg.responseText + '</div>');
+          $response.append($newdiv);
+
       $$.append($response);
 
       $newdiv.find('>div').tabs();
