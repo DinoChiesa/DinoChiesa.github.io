@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 19:04:55>
+// last saved: <2015-December-10 19:09:38>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -111,7 +111,7 @@ function populateFormFields() {
       // and the type of form field is select.
       value.split('+').forEach(function(part){
         if (part && part !== '') {
-          $item.find("option[value='"+part+"']").prop("selected", "selected");
+          $item.find("option[value='"+part.toLowerCase()+"']").prop("selected", "selected");
         }
       });
     }
