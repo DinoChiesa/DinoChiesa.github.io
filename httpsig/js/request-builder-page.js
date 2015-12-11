@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-11 09:28:35>
+// last saved: <2015-December-11 10:53:20>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -240,7 +240,12 @@ function sendSignedRequest() {
         }
       });
 
-      appendRow('body', '<pre>' + jqxhr.responseText + '</pre>', $response);
+      if (stat.status === 0) {
+        appendRow('notes', 'Likely this call has been prohibited by the browser due to the <a href="https://en.wikipedia.org/wiki/Same-origin_policy">Same Origin Policy</a>', $response);
+      }
+      else {
+        appendRow('body', '<pre>' + jqxhr.responseText + '</pre>', $response);
+      }
 
       // this UL is required by jquery-ui tabs:
       $$.html('<ul>' + 
