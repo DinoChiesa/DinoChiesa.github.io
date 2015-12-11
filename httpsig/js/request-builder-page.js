@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 19:24:38>
+// last saved: <2015-December-10 19:29:59>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -117,9 +117,9 @@ function populateFormFields() {
         if (part && part !== '') {
           var option = $item.find("option[value='"+part.toLowerCase()+"']");
             option.prop("selected", true);
-            option.change();
         }
       });
+      $item.trigger('chosen:updated'); // see http://harvesthq.github.io/chosen/#change-update-events
     }
     else {
       // value is a simple string, form field type is input.
