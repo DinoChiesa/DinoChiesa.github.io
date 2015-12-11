@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 19:09:38>
+// last saved: <2015-December-10 19:18:35>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -69,7 +69,10 @@ function onInputChanged() {
 function onSelectChanged() {
   var $$ = $(this), name = $$.attr('name'), values = [];
   $$.find("option:selected" ).each(function() {
-    values.push($( this ).text());
+    var val = $( this ).text();
+    if (val && val !== '') {
+      values.push(val);
+    }
   });
   model[name] = values;
   updateLink();
@@ -81,7 +84,7 @@ function updateModel(event) {
         value = $item.val();
     if (key == 'headers') {
       var values = [];
-      $item.find("option:selected" ).each(function() {
+      $item.find("option:selected").each(function() {
         var val = $( this ).text();
         if (val && val !== '') { values.push(val); }
       });
@@ -109,9 +112,10 @@ function populateFormFields() {
     if (typeof model[key] != 'string') {
       // the value is a set of values concatenated by +
       // and the type of form field is select.
+      $item.find("option").prop('selected', false); // deselect all
       value.split('+').forEach(function(part){
         if (part && part !== '') {
-          $item.find("option[value='"+part.toLowerCase()+"']").prop("selected", "selected");
+          $item.find("option[value='"+part.toLowerCase()+"']").prop("selected", true);
         }
       });
     }
