@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 17:11:44>
+// last saved: <2015-December-10 17:23:48>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -181,9 +181,9 @@ function sendSignedRequest() {
 
   model.headers.forEach(function(n) {
     switch(n) { 
-      case 'date':
+      case 'x-date':
         // ex:  Fri, 17 Jul 2015 17:55:56 GMT 
-        headers.date = UtcDateFormat.format(new Date(), '%w, %d %n %y %H:%M:%S GMT');
+        headers['x-date'] = UtcDateFormat.format(new Date(), '%w, %d %n %y %H:%M:%S GMT');
         break;
       case 'user-agent': 
         headers['user-agent'] = navigator.userAgent;
