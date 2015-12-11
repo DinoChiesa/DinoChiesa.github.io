@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 17:06:14>
+// last saved: <2015-December-10 17:11:44>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -128,25 +128,15 @@ var UtcDateFormat = {
 
 function computeHttpSignature(headers) {
   var template = 'keyId="${keyId}",algorithm="${algorithm}",headers="${headers}",signature="${signature}"', 
-      sig = template, 
-      url = $('#requestlink').text();
+      sig = template;
 
   // compute sig here
-  var signatureOptions = {
-        key: model.secretkey,
-        keyId : model.keyId, 
-        algorithm: model.algorithm,
-        headers: Object.keys(headers), 
-        signature : ''
-      };
-
   var signingBase = '';
   Object.keys(headers).forEach(function(h){
     if (signingBase !== '') { signingBase += '\n'; }
     signingBase += h + ": " + headers[h];
   });
 
-  
   var hashf = (function() {
       switch (model.algorithm) {
         case 'hmac-sha1': return CryptoJS.HmacSHA1;
@@ -157,13 +147,17 @@ function computeHttpSignature(headers) {
     }());
 
   var hash = hashf(signingBase, model.secretkey);
-  var hashInBase64 = CryptoJS.enc.Base64.stringify(hash); 
-  signatureOptions.signature = hashInBase64;
+  var signatureOptions = {
+        keyId : model.keyId, 
+        algorithm: model.algorithm,
+        headers: Object.keys(headers), 
+        signature : CryptoJS.enc.Base64.stringify(hash) 
+      };
 
-  // format sig here
+  // build sig string here
   Object.keys(signatureOptions).forEach(function(key) {
     var pattern = "${" + key + "}", 
-        value = (typeof signatureOptions[key] != 'string') ? signatureOptions[key].join(' ') : model[key];
+        value = (typeof signatureOptions[key] != 'string') ? signatureOptions[key].join(' ') : signatureOptions[key];
     sig = sig.replace(pattern, value);
   });
 
