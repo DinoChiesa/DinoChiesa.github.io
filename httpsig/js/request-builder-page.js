@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 18:05:05>
+// last saved: <2015-December-10 18:07:56>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -200,6 +200,7 @@ function sendSignedRequest() {
     type: 'GET', 
     url: url, 
     beforeSend: function (request) {
+      headers.authorization = 'Signature ' + computeHttpSignature(headers);
       Object.keys(headers).forEach(function(headername) {
         // skip headers we do not need to set.
         if (headername != 'user-agent' && headername != '(request-target)') { 
@@ -209,10 +210,7 @@ function sendSignedRequest() {
         $newdiv.html('<div class="msg-label">' + headername + ':</div><div class="msg-value">' + headers[headername] + '</div>');
         $request.append($newdiv);
       });
-      var sig = computeHttpSignature(headers);
-      request.setRequestHeader('Authorization', 'Signature ' + sig);
     },
-    //data: "json=" + escape(JSON.stringify(createRequestObject)),
     processData: false,
     complete: function(msg) {
       var $$ = $('<div title="Request complete"/>'), 
