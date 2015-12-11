@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-11 09:27:40>
+// last saved: <2015-December-11 09:28:35>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -216,7 +216,7 @@ function sendSignedRequest() {
     beforeSend: function (request) {
       headers.authorization = 'Signature ' + computeHttpSignature(headers);
       appendRow('request', 'GET ' + getRequestTarget(uri), $request);
-      appendRow('host', uri.domain(), $request);
+      appendRow('host', uri.host(), $request);
       appendRow('scheme', uri.scheme(), $request);
       Object.keys(headers).forEach(function(headername) {
         // skip headers we do not need to set.
