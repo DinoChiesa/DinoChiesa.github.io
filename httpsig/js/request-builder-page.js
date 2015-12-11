@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-11 08:05:49>
+// last saved: <2015-December-11 08:15:55>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -228,11 +228,8 @@ function sendSignedRequest() {
     complete: function(jqxhr, status) {
       var $$ = $('<div title="Request complete"/>'), 
           $response = $( "<div id='tab-response'/>" ), 
-          stat = jqxhr.statusCode(), 
-          $newdiv;
-      $$.empty();
-      $$.append($request);
-      appendRow('status', stat.status + ' ' + stat.statusText, $response);
+          stat = jqxhr.statusCode();
+      appendRow('response', stat.status + ' ' + stat.statusText, $response);
       jqxhr.getAllResponseHeaders().split('\n').forEach(function(hdr){
         if (hdr){hdr = hdr.trim();}
         if (hdr) {
@@ -242,9 +239,15 @@ function sendSignedRequest() {
       });
 
       appendRow('body', '<pre>' + jqxhr.responseText + '</pre>', $response);
-      $$.append($response);
 
-      $$.find('>div').tabs();
+      // this UL is required by jquery-ui tabs:
+      $$.html('<ul>' + 
+              '<li><a href="#tab-request">Request</a></li>' + 
+              '<li><a href="#tab-response">Response</a></li>' + 
+              '</ul>');
+      $$.append($request);
+      $$.append($response);
+      $$.tabs();
       $$.dialog({
         modal: true,
         width: 'auto',
