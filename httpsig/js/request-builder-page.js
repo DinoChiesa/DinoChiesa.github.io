@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 17:02:38>
+// last saved: <2015-December-10 17:06:14>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -163,7 +163,7 @@ function computeHttpSignature(headers) {
   // format sig here
   Object.keys(signatureOptions).forEach(function(key) {
     var pattern = "${" + key + "}", 
-        value = (typeof model[key] != 'string') ? model[key].join(' ') : model[key];
+        value = (typeof signatureOptions[key] != 'string') ? signatureOptions[key].join(' ') : model[key];
     sig = sig.replace(pattern, value);
   });
 
