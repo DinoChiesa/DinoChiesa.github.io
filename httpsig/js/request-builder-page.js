@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 18:36:54>
+// last saved: <2015-December-10 18:46:16>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -29,7 +29,7 @@ var model = {
       algorithm : 'hmac-sha256',
       rpath : '/hmac-t1',
       qstring : 'greeting=whatsup', 
-      headers : []
+      headers : 'X-Date+(request-target)'
     };
 
 function updateLink() {
@@ -104,7 +104,6 @@ function populateFormFields() {
       // value is a simple string, form field type is input.
       $item.val(value);
     }
-
   });
 }
 
