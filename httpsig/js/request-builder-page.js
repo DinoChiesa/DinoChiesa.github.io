@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 18:20:47>
+// last saved: <2015-December-10 18:22:34>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -108,36 +108,6 @@ function populateFormFields() {
   });
 }
 
-var UtcDateFormat = {
-      mthNames : ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], 
-      dayNames : ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"], 
-      zeroPad : function(number) {
-        return ("0"+number).substr(-2,2);
-      }, 
-
-      dateMarkers : {
-        d:['getUTCDate',function(v) { return UtcDateFormat.zeroPad(v);}],
-        m:['getUTCMonth',function(v) { return UtcDateFormat.zeroPad(v+1);}],
-        n:['getUTCMonth',function(v) { return UtcDateFormat.mthNames[v]; }],
-        w:['getUTCDay',function(v) { return UtcDateFormat.dayNames[v]; }],
-        y:['getUTCFullYear'],
-        H:['getUTCHours',function(v) { return UtcDateFormat.zeroPad(v);}],
-        M:['getUTCMinutes',function(v) { return UtcDateFormat.zeroPad(v);}],
-        S:['getUTCSeconds',function(v) { return UtcDateFormat.zeroPad(v);}],
-        i:['toISOString']
-      }, 
-
-      format : function(date, formatString) {
-        var dateTxt = formatString.replace(/%(.)/g, function(m, p) {
-              var rv = date[(UtcDateFormat.dateMarkers[p])[0]]();
-              if ( UtcDateFormat.dateMarkers[p][1] ) {rv = UtcDateFormat.dateMarkers[p][1](rv);}
-              return rv;
-            });
-
-        return dateTxt;
-      }
-    };
-
 
 function computeHttpSignature(headers) {
   var template = 'keyId="${keyId}",algorithm="${algorithm}",headers="${headers}",signature="${signature}"', 
@@ -202,12 +172,9 @@ function sendSignedRequest() {
   var headers = {};
   var url = $('#requestlink').text();
   var $request = $( "<div id='tab-request'/>" );
-  var funcTable = {        
+  var funcTable = { 
+        // we use x-date because XHR cannot send a date header outbound
         'x-date': function(){ return (new Date()).valueOf();}, 
-        // 'x-date': function(){ 
-        //   // ex:  Fri, 17 Jul 2015 17:55:56 GMT 
-        //   return UtcDateFormat.format(new Date(), '%w, %d %n %y %H:%M:%S GMT');
-        // }, 
         'user-agent': function() {return navigator.userAgent;}, 
         'app-specific-header': function() { return generateRandomString(12) +'-' + generateRandomString(28); }, 
         '(request-target)': function() {return 'get ' + getRequestTarget();}
