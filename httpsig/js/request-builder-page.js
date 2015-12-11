@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-11 08:15:55>
+// last saved: <2015-December-11 09:27:40>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -164,9 +164,8 @@ function computeHttpSignature(headers) {
   return sig;
 }
 
-function getRequestTarget(){
-  var uri = new URI($('#requestlink').text()), 
-      path = uri.path(), 
+function getRequestTarget(uri){
+  var path = uri.path(), 
       query = uri.query();
   if (query && query !== '') {
     return path + '?' + query;
@@ -194,13 +193,14 @@ function appendRow(tagname, value, $div){
 function sendSignedRequest() {
   var headers = {};
   var url = $('#requestlink').text();
+  var uri = new URI($('#requestlink').text());
   var $request = $( "<div id='tab-request'/>" );
   var funcTable = { 
         // we use x-date because XHR cannot send a date header outbound
         'x-date': function(){ return (new Date()).valueOf();}, 
         'user-agent': function() {return navigator.userAgent;}, 
         'app-specific-header': function() { return generateRandomString(12) +'-' + generateRandomString(28); }, 
-        '(request-target)': function() {return 'get ' + getRequestTarget();}
+        '(request-target)': function() {return 'get ' + getRequestTarget(uri);}
       };
 
   model.headers.forEach(function(n) {
@@ -215,7 +215,9 @@ function sendSignedRequest() {
     url: url, 
     beforeSend: function (request) {
       headers.authorization = 'Signature ' + computeHttpSignature(headers);
-      appendRow('request', 'GET ' + url, $request);
+      appendRow('request', 'GET ' + getRequestTarget(uri), $request);
+      appendRow('host', uri.domain(), $request);
+      appendRow('scheme', uri.scheme(), $request);
       Object.keys(headers).forEach(function(headername) {
         // skip headers we do not need to set.
         if (headername != 'user-agent' && headername != '(request-target)') { 
