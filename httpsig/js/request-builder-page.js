@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-10 18:28:50>
+// last saved: <2015-December-10 18:36:54>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
@@ -205,20 +205,28 @@ function sendSignedRequest() {
     processData: false,
     complete: function(jqxhr, status) {
       var $$ = $('<div title="Request complete"/>'), 
-          $response = $( "<div id='tab-response'/>" );
+          $response = $( "<div id='tab-response'/>" ), 
+          stat = jqxhr.statusCode(), 
+          $newdiv;
       $$.empty();
       $$.append($request);
+
+      $newdiv = $( "<div id='resp-status-value' class='msg-element'/>" );
+      $newdiv.html('<div class="msg-label">status:</div><div class="msg-value">' + 
+                   stat.status + ' ' + stat.statusText + '</div>');
+      $response.append($newdiv);
+
       jqxhr.getAllResponseHeaders().split('\n').forEach(function(hdr){
         if (hdr){hdr = hdr.trim();}
         if (hdr) {
           var pair = hdr.split(':').map(function(item){return item.trim();});
-          var $newdiv = $( "<div id='resp-"+ pair[0] +"-value' class='msg-element'/>" );
+          $newdiv = $( "<div id='resp-"+ pair[0] +"-value' class='msg-element'/>" );
           $newdiv.html('<div class="msg-label">' + pair[0] + ':</div><div class="msg-value">' + pair[1] + '</div>');
           $response.append($newdiv);
         }
       });
 
-      var $newdiv = $( "<div id='resp-text-value' class='msg-element'/>" );
+      $newdiv = $( "<div id='resp-text-value' class='msg-element'/>" );
       $newdiv.html('<div class="msg-label">body:</div><div class="msg-value"><pre>' + 
                    jqxhr.responseText + '</pre></div>');
       $response.append($newdiv);
