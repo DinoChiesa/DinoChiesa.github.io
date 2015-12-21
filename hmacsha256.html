@@ -50,7 +50,15 @@
        clear:both;
      }
      #output, #notes {
+       display:block;
+       border-color: White;
+       border-style: solid;
+       border-width: 1px;
        margin-top: 32px;
+     }
+     #notes {
+       font-size:80%;
+       color: #565656;
      }
      #output > div  {
        margin-top: 16px;
@@ -61,13 +69,25 @@
        margin: 2px 0;
        padding:4px 10px;
      }
+     .disabled {
+       color:  #F1F1f1;
+       background: none repeat scroll 0 0 #DCDCDC;
+       cursor: default !important;
+     }
+     input[type="radio"] {
+       vertical-align: middle; 
+       margin-top: 8px; 
+     }
+     input[type="radio"] + div {
+       display:block;
+       margin-left:166px;
+     }
+
     </style>
 
     <script type='text/javascript'>
-     function calcHmac(event) {
-       if (event) {
-         event.preventDefault();
-       }
+
+     function calcHmac() {
        var message = $('#text').val();
        var key = $('#key').val();
        if (message && key) {
@@ -75,19 +95,86 @@
          hmac.update(message);
          var hash = hmac.finalize();
          var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
-         $('#hmacb64').text(hashInBase64);
+         $('#resultb64').text(hashInBase64);
          var hashInHex = CryptoJS.enc.Hex.stringify(hash);
-         $('#hmachex').text(hashInHex);
+         $('#resulthex').text(hashInHex);
+       }
+       else {
+         $('#resulthex').text('You must specify a message and a key');
+         $('#resultb64').text('error');
+       }
+       $('#resultb64').addClass('shown');
+       $('#resultb64').removeClass('notshown');
+       $('#resulthex').addClass('shown');
+       $('#resulthex').removeClass('notshown');
+     }
 
-         $('#hmacb64').addClass('shown');
-         $('#hmacb64').removeClass('notshown');
-         $('#hmachex').addClass('shown');
-         $('#hmachex').removeClass('notshown');
+     function calcSha() {
+       var message = $('#text').val();
+       if (message) {
+         var hash = CryptoJS.SHA256(message);
+         var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
+         $('#resultb64').text(hashInBase64);
+         var hashInHex = CryptoJS.enc.Hex.stringify(hash);
+         $('#resulthex').text(hashInHex);
+
+         $('#resultb64').addClass('shown')
+                        .removeClass('notshown');
+         $('#resulthex').addClass('shown')
+                        .removeClass('notshown');
+       }
+     }
+
+     function calcResult(event) {
+       if (event) { event.preventDefault(); }
+       var calc = $('input[name="computation"]:checked', '#form1').val();
+       if (calc == 'hmac-sha256') { 
+         calcHmac();
+       }
+       else { 
+         calcSha();
+       }
+     }
+
+     function changeFunction(event) {
+       if (event) { event.preventDefault(); }
+       // enable the compute button
+       $( "#submit" ).removeClass('disabled')
+                     .prop("disabled", false); 
+
+       // erase the results
+       $('#resulthex').text('')
+                     .addClass('notshown')
+                     .removeClass('shown');
+       $('#resultb64').text('')
+                     .addClass('notshown')
+                     .removeClass('shown');
+                  
+
+       // display or hide the key as appropriate
+       var calc = $('input[name="computation"]:checked', '#form1').val();
+       if (calc == 'hmac-sha256') { 
+         $('#key').addClass('shown')
+                  .removeClass('notshown');
+         $('#keylabel').addClass('shown')
+                  .removeClass('notshown');
+         $( "#key" ).removeClass('disabled')
+                         .prop("disabled", false); 
+       }
+       else { 
+         $('#key').addClass('notshown')
+                  .removeClass('shown');
+         $('#keylabel').addClass('notshown')
+                  .removeClass('shown');
+         $( "#key" ).addClass('disabled')
+                         .prop("disabled", true); 
        }
      }
 
      $(document).ready(function() {
-       $( "#submit" ).on('click',calcHmac);
+       $('input[name="computation"]', '#form1').prop('checked', false);
+       $('#form1 input[type=radio]').change(changeFunction);
+       $( "#submit" ).on('click',calcResult);
      });
     </script>
 
@@ -98,46 +185,60 @@
   <body>
 
     <div style='margin: 10px;'>
-      <h3>Calculate an HMAC using SHA-256</h3>
+      <h3>Calculate a SHA-256, or an HMAC with SHA-256</h3>
 
-      <form role='form'>
+      <form role='form' id='form1'>
+        <div class='form-group'>
+          <label for='computation'>function:</label>
+          <input type="radio"  name="computation" value="sha256" /> <div>sha256</div>
+
+          <input type="radio" name="computation" value="hmac-sha256" /> <div>hmac-sha256</div>
+        </div>
+
         <div class='form-group'>
           <label for='text'>text or message:</label>
         <!-- input type='textarea' id='text' class='form-control'  -->
           <textarea class="form-control" rows="5" id='text' 
                  placeholder="insert your message here"
-                    title='The message to compute the HMAC for. This data never leaves your browser.'></textarea>
+                    title='The message to use in the function. This data never leaves your browser.'></textarea>
         </div>
         <div class='form-group'>
-          <label for='key'>secret key:</label>
-          <input type='text' id='key' class='form-control'
+          <label for='key' id='keylabel'>secret key:</label>
+          <input type='text' id='key' class='form-control disabled' disabled
                  placeholder="secret key"
                  title='The key or password for the HMAC. This data never leaves your browser.'/>
         </div>
+
         <div class='form-group'>
-          <input type='submit' value='compute hmac' class='button' id='submit'/>
+          <input type='submit' value='compute' class='button disabled' id='submit' disabled/>
         </div>
       </form>
 
       <div id='output'>
 
         <div>
-          <span id='hmaclabel'>Base64-encoded HMAC-SHA256:</span>
-          <div id='hmacb64' title='base64 encoding is case-sensitive' 
+          <span id='resultlabel'>Base64-encoded result:</span>
+          <div id='resultb64' title='base64 encoding is case-sensitive' 
                class='notshown'></div>
         </div>
 
         <div>
-          <span id='hmaclabel2'>HEX-encoded HMAC-SHA256:</span>
-          <div id='hmachex' title='hex encoding is case-insensitive' 
+          <span id='resultlabel2'>HEX-encoded result:</span>
+          <div id='resulthex' title='hex encoding is case-insensitive' 
                class='notshown'></div>
         </div>
 
       </div>
 
       <div id='notes'>
-Given the values of Message for the messsage, and secret for the key, this will produce
-a base64-encoded hmac-sha256 of qnR8UCqJggD55PohusaBNviGoOJ67HC6Btry4qXLVZc= . The base64 value is case sensitive. 
+        Notes:
+        <ol>
+          <li>The hex and base64 results are different encodings that represent the same value.</li>
+          <li>The key is used only for HMAC calculation. </li>
+          <li>SHA: Using the value of <tt>abc</tt> for the messsage, the base64-encoded representation of the sha256 is <tt>ungWv48Bz+pBQUDeXa4iI7ADYaOWF3qctBD/YfIAFa0=</tt> </li>
+          <li>HMAC: Using the values of <tt>abc</tt> for the messsage, and <tt>secret</tt> for the key, the base64-encoded hmac-sha256 is <tt>mUba1OAOkT/Ivo5dP34RCkqegy+D+wnDRShdeGONig4=</tt> </li>
+          <li>The base64-encoded value is case sensitive. The hex-encoded result is not. </li>
+        </ol>
       </div>
     </div>
 
