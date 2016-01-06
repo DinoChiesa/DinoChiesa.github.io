@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HMAC and SHA calculator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" 
+          href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script type='text/javascript'
+            src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ 
+    <script type='text/javascript'
+            src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script type='text/javascript'
+            src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/hmac-md5.js"></script>
+    <script type='text/javascript'
+            src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/hmac-sha1.js"></script>
+    <script type='text/javascript'
+            src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/hmac-sha224.js"></script>
+    <script type='text/javascript'
+            src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/hmac-sha256.js"></script>
+    <script type='text/javascript'
+            src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/hmac-sha384.js"></script>
+
+    <script type='text/javascript'
+            src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/hmac-sha512.js"></script>
+
+
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha1.js"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha224.js"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha384.js"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha512.js"></script>
+
+
+    <script type='text/javascript'
+            src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/components/core-min.js"></script>
+    <script type='text/javascript'
+            src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/components/enc-utf16-min.js"></script>
+    <script type='text/javascript'
+            src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/components/enc-base64-min.js"></script>
+
+    <style type='text/css'>
+     body {
+       font-size: 180%;
+     }
+     .notshown {
+       display: none;
+     }
+     .shown {
+       display: block;
+     }
+     form div label {
+       float: left;
+       width: 148px;
+       margin: 8px 0;
+     }
+     form > div > select,
+     form > div > textarea,
+     form > div > input {
+       float: left;
+       max-width: 660px;
+       margin: 2px 0;
+     }
+     form > div,
+     form > div.form-group {
+       display:block;
+       clear:both;
+     }
+     #output, #notes {
+       display:block;
+       border-color: White;
+       border-style: solid;
+       border-width: 1px;
+       margin-top: 32px;
+     }
+     #notes {
+       font-size:80%;
+       color: #565656;
+     }
+     #output > div  {
+       margin-top: 16px;
+     }
+     #output > div > div {
+       border: 1px dotted Grey;
+       max-width: 1024px;
+       margin: 2px 0;
+       padding: 4px 10px;
+       font-size: 75%;
+     }
+     .disabled {
+       color:  #F1F1f1;
+       background: none repeat scroll 0 0 #DCDCDC;
+       cursor: default !important;
+     }
+     input[type="radio"] {
+       vertical-align: middle; 
+       margin-top: 8px; 
+     }
+     input[type="radio"] + div {
+       display:block;
+       margin-left:166px;
+     }
+     input[type="checkbox"] {
+       vertical-align: middle; 
+       margin-top: 14px; 
+     }
+     form > div > select {max-width:120px;}
+    </style>
+
+
+    <script type='text/javascript'>
+     function calcHmac() {
+       var message = $('#text').val();
+       var key = $('#key').val();
+       if (message && key) {
+         var hmac = CryptoJS.algo.HMAC.create(getAlgo(), key);
+         hmac.update(message);
+         var hash = hmac.finalize();
+         var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
+         $('#resultb64').text(hashInBase64);
+         var hashInHex = CryptoJS.enc.Hex.stringify(hash);
+         $('#resulthex').text(hashInHex);
+       }
+       else {
+         $('#resulthex').text('You must specify a message and a key');
+         $('#resultb64').text('error');
+       }
+       $('#resultb64').addClass('shown');
+       $('#resultb64').removeClass('notshown');
+       $('#resulthex').addClass('shown');
+       $('#resulthex').removeClass('notshown');
+     }
+
+     function getAlgo() {
+       var algorithm = $('#function option:selected').val();
+       switch (algorithm) { 
+         case 'md-5':
+           return CryptoJS.algo.MD5;
+           break;
+         case 'sha-1':
+           return CryptoJS.algo.SHA1;
+           break;
+         case 'sha-224':
+           return CryptoJS.algo.SHA224;
+           break;
+         case 'sha-256':
+           return CryptoJS.algo.SHA256;
+           break;
+         case 'sha-384':
+           return CryptoJS.algo.SHA384;
+           break;
+         case 'sha-512':
+           return CryptoJS.algo.SHA512;
+           break;
+       }
+       throw { error: 'unsupported algorithm.'};
+     }
+
+     function getHash(message) {
+       var algorithm = $('#function option:selected').val();
+       switch (algorithm) { 
+         case 'md-5':
+           return CryptoJS.MD5(message);
+           break;
+         case 'sha-1':
+           return CryptoJS.SHA1(message);
+           break;
+         case 'sha-224':
+           return CryptoJS.SHA224(message);
+           break;
+         case 'sha-256':
+           return CryptoJS.SHA256(message);
+           break;
+         case 'sha-384':
+           return CryptoJS.SHA384(message);
+           break;
+         case 'sha-512':
+           return CryptoJS.SHA512(message);
+           break;
+       }
+       throw { error: 'unsupported algorithm.'};
+     }
+
+     function calcSha() {
+       var message = $('#text').val();
+       if (message) {
+         var hash = getHash(message);
+         var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
+         $('#resultb64').text(hashInBase64);
+         var hashInHex = CryptoJS.enc.Hex.stringify(hash);
+         $('#resulthex').text(hashInHex);
+
+         $('#resultb64').addClass('shown')
+                        .removeClass('notshown');
+         $('#resulthex').addClass('shown')
+                        .removeClass('notshown');
+       }
+     }
+
+     function calcResult(event) {
+       if (event) { event.preventDefault(); }
+       if ($('#hmac').is(':checked')) {
+         calcHmac();
+       }
+       else { 
+         calcSha();
+       }
+     }
+
+     function changeFunction(event) {
+       if (event) { event.preventDefault(); }
+       // enable the compute button
+       $( "#submit" ).removeClass('disabled')
+                     .prop("disabled", false); 
+
+       // erase the results
+       $('#resulthex').text('')
+                     .addClass('notshown')
+                     .removeClass('shown');
+       $('#resultb64').text('')
+                     .addClass('notshown')
+                     .removeClass('shown');
+     }
+
+     function changeHmac(event) {
+       if (event) { event.preventDefault(); }
+       // display or hide the key as appropriate
+       if ($('#hmac').is(':checked')) {
+         $('#key').addClass('shown')
+                     .removeClass('notshown');
+         $('#keylabel').addClass('shown')
+                     .removeClass('notshown');
+         $( "#key" ).removeClass('disabled')
+                     .prop("disabled", false); 
+       }
+       else { 
+         $('#key').addClass('notshown')
+                     .removeClass('shown');
+         $('#keylabel').addClass('notshown')
+                     .removeClass('shown');
+         $( "#key" ).addClass('disabled')
+                     .prop("disabled", true); 
+       }
+     }
+
+
+     $(document).ready(function() {
+       $('#function').val("");
+       $('#function').change(changeFunction);
+       $('#hmac').change(changeHmac);
+       $( "#submit" ).on('click',calcResult);
+       changeHmac();
+     });
+    </script>
+
+  </head>
+
+  <!-- ======================================================= -->
+
+  <body>
+
+    <div style='margin: 10px;'>
+      <h3>Calculate a SHA or MD5, or an HMAC with SHA or MD5</h3>
+
+      <form role='form' id='form1'>
+        <div class="form-group">
+          <label for="function">hash function:</label>
+          <select name="function" id="function" class="form-control">
+            <option value="" selected></option>
+            <option value="md-5" >md-5</option>
+            <option value="sha-1" >sha-1</option>
+            <option value="sha-224" >sha-224</option>
+            <option value="sha-256" >sha-256</option>
+            <option value="sha-384" >sha-384</option>
+            <option value="sha-512" >sha-512</option>
+          </select>
+        </div>
+
+        <div class='form-group'>
+          <label for='hmac'>hmac?:</label>
+          <input type="checkbox" name="hmac" id='hmac'/>
+        </div>
+
+        <div class='form-group'>
+          <label for='text'>text or message:</label>
+        <!-- input type='textarea' id='text' class='form-control'  -->
+          <textarea class="form-control" rows="5" id='text' 
+                 placeholder="insert your message here"
+                    title='The message to use in the function. This data never leaves your browser.'></textarea>
+        </div>
+        <div class='form-group'>
+          <label for='key' id='keylabel'>secret key:</label>
+          <input type='text' id='key' class='form-control disabled' disabled
+                 placeholder="secret key"
+                 title='The key or password for the HMAC. This data never leaves your browser.'/>
+        </div>
+
+        <div class='form-group'>
+          <input type='submit' value='compute' class='button disabled' id='submit' disabled/>
+        </div>
+      </form>
+
+      <div id='output'>
+
+        <div>
+          <span id='resultlabel'>Base64-encoded result:</span>
+          <div id='resultb64' title='base64 encoding is case-sensitive' 
+               class='notshown'></div>
+        </div>
+
+        <div>
+          <span id='resultlabel2'>HEX-encoded result:</span>
+          <div id='resulthex' title='hex encoding is case-insensitive' 
+               class='notshown'></div>
+        </div>
+
+      </div>
+
+      <div id='notes'>
+        Notes:
+        <ol>
+          <li>The hex and base64 results are different encodings that represent the same value.</li>
+          <li>The key is used only for HMAC calculation. </li>
+          <li>SHA: Using the value of <tt>abc</tt> for the messsage, the base64-encoded representation of the sha256 is <tt>ungWv48Bz+pBQUDeXa4iI7ADYaOWF3qctBD/YfIAFa0=</tt> </li>
+          <li>HMAC: Using the values of <tt>abc</tt> for the messsage, and <tt>secret</tt> for the key, the base64-encoded hmac-sha256 is <tt>mUba1OAOkT/Ivo5dP34RCkqegy+D+wnDRShdeGONig4=</tt> </li>
+          <li>The base64-encoded value is case sensitive. The hex-encoded result is not. </li>
+          <li>Be careful when pasting content into the box. Newlines and CR may or may not cross over the cut/paste action correctly. Whitespace in the content is significant.</li>
+        </ol>
+      </div>
+    </div>
+
+  </body>
+
+</html>
