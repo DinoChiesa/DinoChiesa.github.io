@@ -61,7 +61,7 @@
      form > div > textarea,
      form > div > input {
        float: left;
-       max-width: 660px;
+       max-width: 860px;
        margin: 2px 0;
      }
      form > div,
@@ -89,6 +89,7 @@
        margin: 2px 0;
        padding: 4px 10px;
        font-size: 75%;
+       font-family: "Consolas", "Courier New", Courier, monospace;
      }
      .disabled {
        color:  #F1F1f1;
@@ -112,28 +113,6 @@
 
 
     <script type='text/javascript'>
-     function calcHmac() {
-       var message = $('#text').val();
-       var key = $('#key').val();
-       if (message && key) {
-         var hmac = CryptoJS.algo.HMAC.create(getAlgo(), key);
-         hmac.update(message);
-         var hash = hmac.finalize();
-         var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
-         $('#resultb64').text(hashInBase64);
-         var hashInHex = CryptoJS.enc.Hex.stringify(hash);
-         $('#resulthex').text(hashInHex);
-       }
-       else {
-         $('#resulthex').text('You must specify a message and a key');
-         $('#resultb64').text('error');
-       }
-       $('#resultb64').addClass('shown');
-       $('#resultb64').removeClass('notshown');
-       $('#resulthex').addClass('shown');
-       $('#resulthex').removeClass('notshown');
-     }
-
      function getAlgo() {
        var algorithm = $('#function option:selected').val();
        switch (algorithm) { 
@@ -184,9 +163,35 @@
        throw { error: 'unsupported algorithm.'};
      }
 
+     function calcHmac() {
+       var message = $('#text').val();
+       var key = $('#key').val();
+       if (message && key) {
+var re1 = new RegExp('(\r\n|\n)', 'g');
+message = message.replace(re1,'\n');
+         var hmac = CryptoJS.algo.HMAC.create(getAlgo(), key);
+         hmac.update(message);
+         var hash = hmac.finalize();
+         var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
+         $('#resultb64').text(hashInBase64);
+         var hashInHex = CryptoJS.enc.Hex.stringify(hash);
+         $('#resulthex').text(hashInHex);
+       }
+       else {
+         $('#resulthex').text('You must specify a message and a key');
+         $('#resultb64').text('error');
+       }
+       $('#resultb64').addClass('shown');
+       $('#resultb64').removeClass('notshown');
+       $('#resulthex').addClass('shown');
+       $('#resulthex').removeClass('notshown');
+     }
+
      function calcSha() {
        var message = $('#text').val();
        if (message) {
+var re1 = new RegExp('(\r\n|\n)', 'g');
+message = message.replace(re1,'\n');
          var hash = getHash(message);
          var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
          $('#resultb64').text(hashInBase64);
@@ -202,6 +207,9 @@
 
      function calcResult(event) {
        if (event) { event.preventDefault(); }
+       var message = $('#text').val();
+//var re1 = new RegExp('(\r\n|\n)', 'g');
+//alert('message:\n' + message.replace(re1,'\\n\n'));
        if ($('#hmac').is(':checked')) {
          calcHmac();
        }
@@ -327,7 +335,7 @@
           <li>SHA: Using the value of <tt>abc</tt> for the messsage, the base64-encoded representation of the sha256 is <tt>ungWv48Bz+pBQUDeXa4iI7ADYaOWF3qctBD/YfIAFa0=</tt> </li>
           <li>HMAC: Using the values of <tt>abc</tt> for the messsage, and <tt>secret</tt> for the key, the base64-encoded hmac-sha256 is <tt>mUba1OAOkT/Ivo5dP34RCkqegy+D+wnDRShdeGONig4=</tt> </li>
           <li>The base64-encoded value is case sensitive. The hex-encoded result is not. </li>
-          <li>Be careful when pasting content into the box. Newlines and CR may or may not cross over the cut/paste action correctly. Whitespace in the content is significant.</li>
+          <li>For message content, Whitespace in the content is significant. Line-breaks will be converted to newline (\n). It's not possible to paste in a carriage-return (CR), because this page strips them. Trailing newlines will not be stripped.</li>
         </ol>
       </div>
     </div>
