@@ -48,36 +48,30 @@
     <!-- ======================================================= -->
     <div style='margin: 10px;'>
       <h3>View Release Content</h3>
-      <form role="form">
-        <div class="form-group">
-          <label for="release">release:</label>
-          <select name="release" id="release" class="form-control" 
-                  data-placeholder="release" required>
-            <option value="160120" >160120</option>
-          </select>
-        </div>
-        <div>
-          <input type="submit" class="btn btn-default" value='fetch' id='submit'/>
-        </div>
-      </form>
+      <div style='margin: 10px 0;'>
+        <form role="form">
+          <div class="form-group">
+            <label for="release">release:</label>
+            <select name="release" id="release" class="form-control" 
+                    data-placeholder="release" required>
+              <option value="160120" >160120</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="component">component:</label>
+            <select name="component" id="component" class="form-control" 
+                    data-placeholder="component" required>
+              <option value="platform">platform</option>
+              <option value="ui">ui</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-default" value='fetch' id='submit'>submit</button>
+          </div>
+        </form>
+      </div>
 
-      <div id='output'>
-        <table id="rtable" class="display" cellspacing="0" width="100%" style='display:none;'>
-          <thead>
-            <tr>
-              <th>id</th>
-              <th>description</th>
-              <th>commits</th>
-            </tr>
-          </thead>
-          <tfoot>
-            <tr>
-              <th>id</th>
-              <th>description</th>
-              <th>commits</th>
-            </tr>
-          </tfoot>
-        </table>
+      <div id='output' style='margin: 18px 0;'>
       </div>
 
     </div>
