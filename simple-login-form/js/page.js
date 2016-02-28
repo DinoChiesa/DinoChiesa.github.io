@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------
 //
 // created: Sun Feb 28 13:04:06 2016
-// last saved: <2016-February-28 13:14:32>
+// last saved: <2016-February-28 13:25:11>
 
 (function(){
   'use strict';
@@ -21,13 +21,11 @@
    *
    */
   function getLocalProfile(callback){
-    var profileImgSrc      = getStorageItem("PROFILE_IMG_SRC");
     var profileName        = getStorageItem("PROFILE_NAME");
+    var profileImgSrc      = getStorageItem("PROFILE_IMG_SRC");
     var profileReAuthEmail = getStorageItem("PROFILE_REAUTH_EMAIL");
 
-    if(profileName !== null
-       && profileReAuthEmail !== null
-       && profileImgSrc !== null) {
+    if (profileName && profileReAuthEmail && profileImgSrc) {
       callback(profileImgSrc, profileName, profileReAuthEmail);
     }
   }
