@@ -4,10 +4,10 @@
 // page logic for link-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2016-March-01 14:46:51>
+// last saved: <2016-March-01 14:53:28>
 
 
-var model = {
+var model = model || {
       edgeorg : '',
       edgeenv : '',
       clientid : '',
@@ -21,7 +21,7 @@ var model = {
 var html5AppId = html5AppId || "43C9BB71-3E94-441C-B7F5-7FAE6FCD8458";
 
 function updateLink() {
-  var linkTemplate = "http://${edgeorg}-${edgeenv}.apigee.net/oauth2/v1/authorize?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}";
+  var linkTemplate = linkTemplate || "http://${edgeorg}-${edgeenv}.apigee.net/oauth2/v1/authorize?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}";
   Object.keys(model).forEach(function(key) {
     var pattern = "${" + key + "}", value = '';
     if (model[key]) {
