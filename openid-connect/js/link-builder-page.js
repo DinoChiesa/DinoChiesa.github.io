@@ -4,7 +4,7 @@
 // page logic for link-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2016-March-01 14:56:59>
+// last saved: <2016-March-01 15:01:30>
 
 
 var model = model || {
@@ -22,20 +22,21 @@ var html5AppId = html5AppId || "43C9BB71-3E94-441C-B7F5-7FAE6FCD8458";
 var linkTemplate = linkTemplate || "http://${edgeorg}-${edgeenv}.apigee.net/oauth2/v1/authorize?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}";
 
 function updateLink() {
-   Object.keys(model).forEach(function(key) {
+  var link = linkTemplate;
+  Object.keys(model).forEach(function(key) {
     var pattern = "${" + key + "}", value = '';
     if (model[key]) {
-     value = (typeof model[key] != 'string') ? model[key].join('+') : model[key];
+      value = (typeof model[key] != 'string') ? model[key].join('+') : model[key];
       // set into local storage
       if (value) {
         console.log('setting into LS: ' + key + '= ' + value);
         window.localStorage.setItem(html5AppId + '.model.' + key, value);
       }
     }
-    linkTemplate = linkTemplate.replace(pattern,value);
+    link = link.replace(pattern,value);
   });
-  $('#authzlink').text(linkTemplate);
-  $('#authzlink').attr('href', linkTemplate);
+  $('#authzlink').text(link);
+  $('#authzlink').attr('href', link);
 }
 
 function onInputChanged() {
