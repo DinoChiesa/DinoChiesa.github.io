@@ -4,7 +4,7 @@
 // page logic for link-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-October-28 06:17:50>
+// last saved: <2016-March-01 14:46:51>
 
 
 var model = {
@@ -18,7 +18,7 @@ var model = {
     };
 
 // for localstorage
-var html5AppId = "43C9BB71-3E94-441C-B7F5-7FAE6FCD8458";
+var html5AppId = html5AppId || "43C9BB71-3E94-441C-B7F5-7FAE6FCD8458";
 
 function updateLink() {
   var linkTemplate = "http://${edgeorg}-${edgeenv}.apigee.net/oauth2/v1/authorize?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}";
@@ -54,7 +54,6 @@ function onSelectChanged() {
 }
 
 function updateModel(event) {
-
   Object.keys(model).forEach(function(key) {
     var $item = $('#' + key), value = $item.val();
     model[key] = value;
@@ -66,8 +65,8 @@ function updateModel(event) {
 }
 
 function populateFormFields() {
+  // get values from local storage, and place into the form
   Object.keys(model).forEach(function(key) {
-    // get from local storage
     var value = window.localStorage.getItem(html5AppId + '.model.' + key);
     if (value && value !== '') {
       var $item = $('#' + key);
@@ -79,7 +78,7 @@ function populateFormFields() {
         });
       }
       else {
-        // value is a simple string, form field type is input
+        // value is a simple string, form field type is input.
         $item.val(value);
       }
     }
