@@ -23,10 +23,10 @@
     <link rel="stylesheet" type="text/css" href="css/chosen-bootstrap.css">
 
     <script type='text/javascript'>
-
      var model = {
        edgeorg : '',
        edgeenv : '',
+       basepath : '',
        clientid : '',
        nonce : '',
        cburi : '',
@@ -35,7 +35,7 @@
        scope : []
      };
      var html5AppId = '503DB209-CCE8-46F7-84B4-400C9F9F2647';
-     var linkTemplate = "https://${edgeorg}-${edgeenv}.apigee.net/E1A50130-A38A-4D0C-A365-3A6CCFF80523/oauth2/authorize?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}&nonce=${nonce}";
+     var linkTemplate = "https://${edgeorg}-${edgeenv}.apigee.net/${basepath}/authorize?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}&nonce=${nonce}";
     </script>
     <script type='text/javascript' src='js/link-builder-page.js'></script>
   </head>
@@ -51,6 +51,10 @@
       <div class="form-group">
         <label for="edgeenv">Edge env:</label>
         <input type="text" class="form-control" id="edgeenv">
+      </div>
+      <div class="form-group">
+        <label for="basepath">basepath:</label>
+        <input type="text" class="form-control" id="basepath">
       </div>
       <div class="form-group">
         <label for="clientid">clientid:</label>
