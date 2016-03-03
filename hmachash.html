@@ -167,8 +167,8 @@
        var message = $('#text').val();
        var key = $('#key').val();
        if (message!=null && key) {
-var re1 = new RegExp('(\r\n|\n)', 'g');
-message = message.replace(re1,'\n');
+         var re1 = new RegExp('(\r\n|\n)', 'g');
+         message = message.replace(re1,'\n');
          var hmac = CryptoJS.algo.HMAC.create(getAlgo(), key);
          hmac.update(message);
          var hash = hmac.finalize();
@@ -190,8 +190,8 @@ message = message.replace(re1,'\n');
      function calcSha() {
        var message = $('#text').val();
        if (message!=null) {
-var re1 = new RegExp('(\r\n|\n)', 'g');
-message = message.replace(re1,'\n');
+         var re1 = new RegExp('(\r\n|\n)', 'g');
+         message = message.replace(re1,'\n');
          var hash = getHash(message);
          var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
          $('#resultb64').text(hashInBase64);
