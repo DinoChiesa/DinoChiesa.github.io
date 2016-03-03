@@ -189,7 +189,7 @@ message = message.replace(re1,'\n');
 
      function calcSha() {
        var message = $('#text').val();
-       if (message) {
+       if (message!=null) {
 var re1 = new RegExp('(\r\n|\n)', 'g');
 message = message.replace(re1,'\n');
          var hash = getHash(message);
