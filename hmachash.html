@@ -26,14 +26,12 @@
     <script type='text/javascript'
             src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/hmac-sha512.js"></script>
 
-
-<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
-<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha1.js"></script>
-<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha224.js"></script>
-<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
-<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha384.js"></script>
-<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha512.js"></script>
-
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha1.js"></script>
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha224.js"></script>
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha384.js"></script>
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha512.js"></script>
 
     <script type='text/javascript'
             src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/components/core-min.js"></script>
@@ -110,7 +108,6 @@
      }
      form > div > select {max-width:120px;}
     </style>
-
 
     <script type='text/javascript'>
      function getAlgo() {
@@ -208,8 +205,8 @@
      function calcResult(event) {
        if (event) { event.preventDefault(); }
        var message = $('#text').val();
-//var re1 = new RegExp('(\r\n|\n)', 'g');
-//alert('message:\n' + message.replace(re1,'\\n\n'));
+       //var re1 = new RegExp('(\r\n|\n)', 'g');
+       //alert('message:\n' + message.replace(re1,'\\n\n'));
        if ($('#hmac').is(':checked')) {
          calcHmac();
        }
@@ -254,12 +251,11 @@
        }
      }
 
-
      $(document).ready(function() {
-       $('#function').val("");
+       $('#function').val('');
        $('#function').change(changeFunction);
        $('#hmac').change(changeHmac);
-       $( "#submit" ).on('click',calcResult);
+       $('#submit').on('click',calcResult);
        changeHmac();
      });
     </script>
