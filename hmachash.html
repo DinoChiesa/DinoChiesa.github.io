@@ -166,7 +166,7 @@
      function calcHmac() {
        var message = $('#text').val();
        var key = $('#key').val();
-       if (message && key) {
+       if (message!=null && key) {
 var re1 = new RegExp('(\r\n|\n)', 'g');
 message = message.replace(re1,'\n');
          var hmac = CryptoJS.algo.HMAC.create(getAlgo(), key);
@@ -296,7 +296,7 @@ message = message.replace(re1,'\n');
           <label for='text'>text or message:</label>
         <!-- input type='textarea' id='text' class='form-control'  -->
           <textarea class="form-control" rows="5" id='text' 
-                 placeholder="insert your message here"
+                 placeholder="-insert your message here-"
                     title='The message to use in the function. This data never leaves your browser.'></textarea>
         </div>
         <div class='form-group'>
