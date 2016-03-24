@@ -4,10 +4,11 @@
 // page logic for link-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2016-March-01 15:01:30>
+// last saved: <2016-March-23 17:34:20>
 
 
 var model = model || {
+      apihost : '',
       edgeorg : '',
       edgeenv : '',
       clientid : '',
