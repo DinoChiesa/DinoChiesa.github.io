@@ -332,6 +332,7 @@
           <li>HMAC: Using the values of <tt>abc</tt> for the messsage, and <tt>secret</tt> for the key, the base64-encoded hmac-sha256 is <tt>mUba1OAOkT/Ivo5dP34RCkqegy+D+wnDRShdeGONig4=</tt> </li>
           <li>The base64-encoded value is case sensitive. The hex-encoded result is not. </li>
           <li>For message content, Whitespace in the content is significant. Line-breaks will be converted to newline (\n). It's not possible to paste in a carriage-return (CR), because this page strips them. Trailing newlines will not be stripped.</li>
+          <li>Unicode is ok. The calculator will encode the string as UTF-8 bytes before computing the checksum. UTF-8 ought to be good enough for anybody. :) </li>
         </ol>
       </div>
     </div>
