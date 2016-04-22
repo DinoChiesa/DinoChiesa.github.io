@@ -4,67 +4,34 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-December-11 10:53:20>
+// last saved: <2016-April-22 10:26:59>
 
 // for localstorage
 var html5AppId = "C1C25FDA-7820-43D0-A5CB-BFE5659698E9";
 
 var model = {
-      edgeorg : '',
-      edgeenv : '',
       keyId : '',
+      verb : '',
       secretkey : '',
-      basepath : '',
-      algorithm : '',
-      rpath : '',
-      qstring : '', 
-      headers : []
-    }, 
-    defaultValues = {
-      edgeorg : 'ap-parityapi',
-      edgeenv : 'stage',
-      keyId : 'fbGaI0AinHi4GOUeOWGP0a7yUDGr3nn8',
-      secretkey : '3puLIK8V8kmKK9fu',
-      basepath : 'httpsig-java-dev',
+      endpoint : '',
       algorithm : 'hmac-sha256',
-      rpath : '/hmac-t1',
-      qstring : 'greeting=whatsup', 
-      headers : 'X-Date+(request-target)'
+      headers : []
+    },
+    defaultValues = {
+      verb : 'GET',
+      endpoint : 'https://prod.parity.starbucks.com/parity/v2/loyalty/us/ping',
+      headers : 'X-Date+(request-target)+Digest'
     };
-
-function updateLink() {
-  var linkTemplate = "https://${edgeorg}-${edgeenv}.apigee.net/${basepath}${rpath}",
-      link = linkTemplate;
-
-  Object.keys(model).forEach(function(key) {
-    var pattern = "${" + key + "}", value = '';
-    if (model[key]) {
-     value = (typeof model[key] != 'string') ? 
-        model[key].filter(function(item){return item && item !== '';}).join('+') : 
-        model[key];
-      // set into local storage
-      if (value) {
-        //console.log('setting into LS: ' + key + '= ' + value);
-        window.localStorage.setItem(html5AppId + '.model.' + key, value);
-      }
-    }
-    link = link.replace(pattern,value);
-  });
-  if (model.qstring) {
-    link += '?' + model.qstring;
-  }
-  link = link.replace('??', '?');
-  link = link.replace('apigee.net//', 'apigee.net/');
-  $('#requestlink').text(link);
-  $('#requestlink').attr('href', link);
-}
 
 
 function onInputChanged() {
   var $$ = $(this), name = $$.attr('id'), value = $$.val();
   model[name] = value;
-  updateLink();
+  if (value) {
+    window.localStorage.setItem(html5AppId + '.model.' + name, value);
+  }
 }
+
 
 function onSelectChanged() {
   var $$ = $(this), name = $$.attr('name'), values = [];
@@ -75,23 +42,27 @@ function onSelectChanged() {
     }
   });
   model[name] = values;
-  updateLink();
+
+  // convert to string and store
+  window.localStorage.setItem(html5AppId + '.model.' + name, values.join('+'));
 }
+
 
 function updateModel(event) {
   Object.keys(model).forEach(function(key) {
-    var $item = $('#' + key), 
+    var $item = $('#' + key),
         value = $item.val();
-    if (key == 'headers') {
-      value = [];
-      $item.find("option:selected").each(function() {
-        var val = $( this ).text();
-        if (val && val !== '') { value.push(val); }
-      });
+    if ($item.size()>0) {
+      if (key == 'headers') {
+        value = [];
+        $item.find("option:selected").each(function() {
+          var val = $( this ).text();
+          if (val && val !== '') { value.push(val); }
+        });
+      }
+      model[key] = value;
     }
-    model[key] = value;
   });
-  updateLink();
 
   if (event)
     event.preventDefault();
@@ -100,17 +71,22 @@ function updateModel(event) {
 function populateFormFields() {
   // get values from local storage, and place into the form
   Object.keys(model).forEach(function(key) {
-    var value = window.localStorage.getItem(html5AppId + '.model.' + key), 
+    var value = window.localStorage.getItem(html5AppId + '.model.' + key),
         $item = $('#' + key);
     if ( !value || value === '') {
       // apply a default
-      value = defaultValues[key];
+      if ( defaultValues[key] && defaultValues[key] !== '') {
+        value = defaultValues[key];
+      }
     }
     if (typeof model[key] != 'string') {
       // the value is a set of values concatenated by +
       // and the type of form field is select.
       $item.find("option").prop('selected', false); // deselect all
-      value.split('+').forEach(function(part){
+      if (typeof value == 'string') {
+        value = value.split('+'); // convert to array
+      }
+      value.forEach(function(part){
         if (part && part !== '') {
           var option = $item.find("option[value='"+part.toLowerCase()+"']");
             option.prop("selected", true);
@@ -127,7 +103,7 @@ function populateFormFields() {
 
 
 function computeHttpSignature(headers) {
-  var template = 'keyId="${keyId}",algorithm="${algorithm}",headers="${headers}",signature="${signature}"', 
+  var template = 'keyId="${keyId}",algorithm="${algorithm}",headers="${headers}",signature="${signature}"',
       sig = template;
 
   // compute sig here
@@ -148,15 +124,15 @@ function computeHttpSignature(headers) {
 
   var hash = hashf(signingBase, model.secretkey);
   var signatureOptions = {
-        keyId : model.keyId, 
+        keyId : model.keyId,
         algorithm: model.algorithm,
-        headers: Object.keys(headers), 
-        signature : CryptoJS.enc.Base64.stringify(hash) 
+        headers: Object.keys(headers),
+        signature : CryptoJS.enc.Base64.stringify(hash)
       };
 
   // build sig string here
   Object.keys(signatureOptions).forEach(function(key) {
-    var pattern = "${" + key + "}", 
+    var pattern = "${" + key + "}",
         value = (typeof signatureOptions[key] != 'string') ? signatureOptions[key].join(' ') : signatureOptions[key];
     sig = sig.replace(pattern, value);
   });
@@ -164,14 +140,16 @@ function computeHttpSignature(headers) {
   return sig;
 }
 
+
 function getRequestTarget(uri){
-  var path = uri.path(), 
+  var path = uri.path(),
       query = uri.query();
   if (query && query !== '') {
     return path + '?' + query;
   }
   return path;
 }
+
 
 function generateRandomString(L) {
   var c = function() {
@@ -184,25 +162,35 @@ function generateRandomString(L) {
   return pw;
 }
 
+
 function appendRow(tagname, value, $div){
   var $newdiv = $( "<div class='msg-element'/>" );
   $newdiv.html('<div class="msg-label">' + tagname + ':</div><div class="msg-value">' + value + '</div>');
   $div.append($newdiv);
 }
 
+
 function sendSignedRequest() {
+  updateModel();
   var headers = {};
-  var url = $('#requestlink').text();
-  var uri = new URI($('#requestlink').text());
+  var uri = new URI(model.endpoint);
   var $request = $( "<div id='tab-request'/>" );
-  var funcTable = { 
-        // we use x-date because XHR cannot send a date header outbound
-        'x-date': function(){ return (new Date()).valueOf();}, 
-        'user-agent': function() {return navigator.userAgent;}, 
-        'app-specific-header': function() { return generateRandomString(12) +'-' + generateRandomString(28); }, 
-        '(request-target)': function() {return 'get ' + getRequestTarget(uri);}
+  var funcTable = {
+        // we must use x-date because XHR cannot send a date header outbound
+        'x-date': function() { return (new Date()).toUTCString(); },
+        'user-agent': function() { return navigator.userAgent; },
+        'digest': function() {
+          var messageBody = (model.verb == 'GET') ? '' : model.payload;
+          var hash = CryptoJS.SHA256(messageBody);
+          var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
+          var digest = 'sha-256=' + hashInBase64;
+          return digest;
+        },
+        'app-specific-header': function() { return generateRandomString(12) + '-' + generateRandomString(28); },
+        '(request-target)': function() { return 'get ' + getRequestTarget(uri); }
       };
 
+  // for all headers the user *wants* to send, let's apply them
   model.headers.forEach(function(n) {
     n = n.toLowerCase();
     if (funcTable[n]) {
@@ -211,8 +199,8 @@ function sendSignedRequest() {
   });
 
   $.ajax({
-    type: 'GET', 
-    url: url, 
+    type: 'GET',
+    url: model.endpoint,
     beforeSend: function (request) {
       headers.authorization = 'Signature ' + computeHttpSignature(headers);
       appendRow('request', 'GET ' + getRequestTarget(uri), $request);
@@ -220,7 +208,7 @@ function sendSignedRequest() {
       appendRow('scheme', uri.scheme(), $request);
       Object.keys(headers).forEach(function(headername) {
         // skip headers we do not need to set.
-        if (headername != 'user-agent' && headername != '(request-target)') { 
+        if (headername != 'user-agent' && headername != '(request-target)') {
           request.setRequestHeader(headername, headers[headername]);
         }
         appendRow(headername, headers[headername], $request);
@@ -228,8 +216,8 @@ function sendSignedRequest() {
     },
     processData: false,
     complete: function(jqxhr, status) {
-      var $$ = $('<div title="Request complete"/>'), 
-          $response = $( "<div id='tab-response'/>" ), 
+      var $$ = $('<div title="Request complete"/>'),
+          $response = $( "<div id='tab-response'/>" ),
           stat = jqxhr.statusCode();
       appendRow('response', stat.status + ' ' + stat.statusText, $response);
       jqxhr.getAllResponseHeaders().split('\n').forEach(function(hdr){
@@ -248,9 +236,9 @@ function sendSignedRequest() {
       }
 
       // this UL is required by jquery-ui tabs:
-      $$.html('<ul>' + 
-              '<li><a href="#tab-request">Request</a></li>' + 
-              '<li><a href="#tab-response">Response</a></li>' + 
+      $$.html('<ul>' +
+              '<li><a href="#tab-request">Request</a></li>' +
+              '<li><a href="#tab-response">Response</a></li>' +
               '</ul>');
       $$.append($request);
       $$.append($response);
@@ -262,10 +250,10 @@ function sendSignedRequest() {
           Ok: function() { $( this ).dialog( "close" ); }
         }
       });
-
     }
-  });  
+  });
 }
+
 
 $(document).ready(function() {
    $('.headers-chosen').chosen({

@@ -9,6 +9,7 @@ form div label {
 }
 form > div > select,
 form > div > div ul, /* chosen */
+form > div > textarea,
 form > div > input {
   float: left;
   max-width: 660px;
