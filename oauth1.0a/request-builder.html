@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>OAuth v1.0a request builder</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" 
+          href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script type='text/javascript'
+            src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ 
+    <script type='text/javascript'
+            src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type='text/javascript'
+            src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/core-min.js"></script>
+    <script type='text/javascript'
+            src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/enc-base64-min.js"></script>
+    <script type='text/javascript'
+            src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/hmac-sha1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+    <link rel="stylesheet" type="text/css" 
+          href="http://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
+
+    <script type='text/javascript' 
+             src='http://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js'>
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/chosen-bootstrap.css">
+
+    <script type='text/javascript' src='js/request-builder-page.js'></script>
+
+  </head>
+  <body>
+    <!-- ======================================================= -->
+    <div style='margin: 10px;'>
+      <h3>Compute an OAuth v1.0a signature</h3>
+    <form role="form">
+      <div class="form-group">
+        <label for="reqmethod">HTTP Method:</label>
+        <select name="reqmethod" id="reqmethod" class="form-control chosen reqmethod-chosen" 
+                data-placeholder="request method" required>
+          <option value=""></option>
+          <option value="GET">GET</option>
+          <option value="PUT">PUT</option>
+          <option value="POST">POST</option>
+          <option value="PATCH">PATCH</option>
+          <option value="DELETE">DELETE</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="targurl">URL:</label>
+        <input type="text" class="form-control" id="targurl">
+      </div>
+
+      <div class="form-group">
+        <label for="callback">OAuth Callback:</label>
+        <input type="text" class="form-control" title='probably "oob". Needed only for request for request-token' id="callback">
+      </div>
+
+      <div class="form-group">
+        <label for="qparams">Query param string:</label>
+        <input type="text" class="form-control" id="qparams">
+      </div>
+
+      <div class="form-group">
+        <label for="consumerkey">consumer key:</label>
+        <input type="text" class="form-control" id="consumerkey">
+      </div>
+      <div class="form-group">
+        <label for="consumersecret">consumer secret:</label>
+        <input type="text" class="form-control" id="consumersecret">
+      </div>
+
+      <div class="form-group">
+        <label for="token">token:</label>
+        <input type="text" class="form-control"
+               title='leave blank for request for request-token'
+               id="token">
+      </div>
+      <div class="form-group">
+        <label for="tokensecret">token secret:</label>
+        <input type="text" class="form-control" 
+               title='leave blank for request for request-token'
+               id="tokensecret">
+      </div>
+
+      <div class="form-group">
+        <label for="timestamp">timestamp:</label>
+        <input type="text" class="form-control" id="timestamp">
+        <button id='btn-now' type='button' class="btn btn-default">Now</button>
+      </div>
+
+      <div class="form-group">
+        <label for="nonce">nonce:</label>
+        <input type="text" class="form-control" id="nonce">
+        <button id='btn-random' type='button' class="btn btn-default">Random</button>
+      </div>
+      </div>
+      <div>
+        <button type="button" id='btn-sign' title='using HMAC-SHA1' class="btn btn-default">Sign</button>
+        <button type="button" id='btn-reset' class="btn btn-default">Reset</button>
+      </div>
+    </form>
+
+    <div id='output'>
+    </div>
+    </div>
+
+  </body>
+
+</html>
