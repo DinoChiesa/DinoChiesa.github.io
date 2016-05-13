@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2016-May-12 15:49:49>
+// last saved: <2016-May-12 17:14:29>
 
 var model = model || {
       reqmethod : '',
@@ -52,8 +52,10 @@ function getOauthParams() {
         'version=1.0',
         'signature_method=HMAC-SHA1'
       ];
-  var cb = $('#callback').val();
-  if (cb !== null) {a.push('callback=' + cb);}
+  ['callback', 'verifier', 'token'].forEach(function(term){
+    var value = $('#' + term).val();
+    if (value) { a.push(term + '=' + value); }
+  });
   return a.map(function(elt){return 'oauth_' + elt;});
 }
 
