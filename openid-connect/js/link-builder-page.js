@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2016-June-16 16:49:41>
+// last saved: <2016-June-16 16:52:57>
 
 
 var model = model || {
@@ -49,6 +49,8 @@ function updateLink() {
     $('#redeemCode').text('curl -X POST -H content-type:application/x-www-form-urlencoded -u ' +
                           model.clientid + ':' + model.clientsecret + ' ' +
                           wrapInSingleQuote(newUrl) + ' -d ' + wrapInSingleQuote(payload));
+    $('#redeemCode').show();
+    $('#redeemButton').show();
   }
   else {
     $('#redeemCode').hide();
