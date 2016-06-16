@@ -32,6 +32,9 @@ form > div.form-group {
   margin-top: 28px;
   font-size: 160%;
 }
+#output > div {
+  margin-top: 18px;
+}
 body {
   font-size: 140%;
 }
