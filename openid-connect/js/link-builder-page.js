@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2016-June-15 20:32:54>
+// last saved: <2016-June-16 16:43:21>
 
 
 var model = model || {
@@ -42,6 +42,7 @@ function updateLink() {
   $('#authzlink').text(link);
   $('#authzlink').attr('href', link);
 
+  if (model.code){
   if ($('#redeemCode').length > 0) {
     var re1 = new RegExp('/authorize.+');
     var newUrl = link.replace(re1, '/token');
@@ -50,6 +51,10 @@ function updateLink() {
     $('#redeemCode').text('curl -X POST -H content-type:application/x-www-form-urlencoded -u ' +
                           model.clientid + ':' + model.clientsecret + ' ' +
                           wrapInSingleQuote(newUrl) + ' -d ' + wrapInSingleQuote(payload));
+  }
+  }
+  else {
+    $('#redeemCode').hide();
   }
 }
 
@@ -124,5 +129,5 @@ $(document).ready(function() {
   }
 
   updateModel();
-
+  $('#redeemCode').hide();
 });
