@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2016-June-15 20:22:23>
+// last saved: <2016-June-15 20:31:09>
 
 
 var model = model || {
@@ -21,6 +21,9 @@ var model = model || {
 // for localstorage
 var html5AppId = html5AppId || "43C9BB71-3E94-441C-B7F5-7FAE6FCD8458";
 var linkTemplate = linkTemplate || "http://${edgeorg}-${edgeenv}.apigee.net/oauth2/v1/authorize?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}";
+
+
+function wrapInSingleQuote(s) {return "'" + s + "'";}
 
 function updateLink() {
   var link = linkTemplate;
@@ -39,10 +42,15 @@ function updateLink() {
   $('#authzlink').text(link);
   $('#authzlink').attr('href', link);
 
-  var re1 = new RegExp('/authorize.+');
-  var newUrl = link.replace(re1, '/token');
-  $('#redeemCode').text('curl -X POST -u ' +model.clientid + ':' + model.client_secret +
-                        ' \'' + newUrl + '\' -d authorization_code=' + model.code);
+  if ($('#redeemCode').length > 0) {
+    var re1 = new RegExp('/authorize.+');
+    var newUrl = link.replace(re1, '/token');
+    var payload = 'grant_type=authorization_code&code=' + model.code;
+
+    $('#redeemCode').text('curl -X POST -H content-type:application/x-www-form-urlencoded -u ' +
+                          model.clientid + ':' + model.client_secret +
+                          wrapInSingleQuote(newUrl) + ' -d ' + wrapInSingleQuote(payload));
+  }
 }
 
 function onInputChanged() {
