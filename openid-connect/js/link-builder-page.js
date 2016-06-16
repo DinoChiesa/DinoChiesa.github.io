@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2016-June-15 20:31:09>
+// last saved: <2016-June-15 20:32:54>
 
 
 var model = model || {
@@ -48,7 +48,7 @@ function updateLink() {
     var payload = 'grant_type=authorization_code&code=' + model.code;
 
     $('#redeemCode').text('curl -X POST -H content-type:application/x-www-form-urlencoded -u ' +
-                          model.clientid + ':' + model.client_secret +
+                          model.clientid + ':' + model.clientsecret + ' ' +
                           wrapInSingleQuote(newUrl) + ' -d ' + wrapInSingleQuote(payload));
   }
 }
