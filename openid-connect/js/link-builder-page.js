@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2016-June-16 16:46:43>
+// last saved: <2016-June-16 16:49:41>
 
 
 var model = model || {
@@ -43,17 +43,16 @@ function updateLink() {
   $('#authzlink').attr('href', link);
 
   if (model.code){
-    if ($('#redeemCode').length > 0) {
-      var re1 = new RegExp('/authorize.+');
-      var newUrl = link.replace(re1, '/token');
-      var payload = 'grant_type=authorization_code&code=' + model.code;
-      $('#redeemCode').text('curl -X POST -H content-type:application/x-www-form-urlencoded -u ' +
-                            model.clientid + ':' + model.clientsecret + ' ' +
-                            wrapInSingleQuote(newUrl) + ' -d ' + wrapInSingleQuote(payload));
-    }
+    var re1 = new RegExp('/authorize.+');
+    var newUrl = link.replace(re1, '/token');
+    var payload = 'grant_type=authorization_code&code=' + model.code;
+    $('#redeemCode').text('curl -X POST -H content-type:application/x-www-form-urlencoded -u ' +
+                          model.clientid + ':' + model.clientsecret + ' ' +
+                          wrapInSingleQuote(newUrl) + ' -d ' + wrapInSingleQuote(payload));
   }
   else {
     $('#redeemCode').hide();
+    $('#redeemButton').hide();
   }
 }
 
@@ -134,6 +133,5 @@ $(document).ready(function() {
   }
 
   updateModel();
-  $('#redeemCode').hide();
-  $('#redeemButton').hide();
+
 });
