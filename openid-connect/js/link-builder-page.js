@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2016-June-16 16:52:57>
+// last saved: <2016-June-16 16:55:29>
 
 
 var model = model || {
@@ -27,7 +27,9 @@ function wrapInSingleQuote(s) {return "'" + s + "'";}
 
 function updateLink() {
   var link = linkTemplate;
-  Object.keys(model).forEach(function(key) {
+  Object.keys(model)
+    .filter(excludeTransientFields)
+    .forEach(function(key) {
     var pattern = "${" + key + "}", value = '';
     if (model[key]) {
       value = (typeof model[key] != 'string') ? model[key].join('+') : model[key];
@@ -49,12 +51,10 @@ function updateLink() {
     $('#redeemCode').text('curl -X POST -H content-type:application/x-www-form-urlencoded -u ' +
                           model.clientid + ':' + model.clientsecret + ' ' +
                           wrapInSingleQuote(newUrl) + ' -d ' + wrapInSingleQuote(payload));
-    $('#redeemCode').show();
-    $('#redeemButton').show();
+    $('#authzRedemption').show();
   }
   else {
-    $('#redeemCode').hide();
-    $('#redeemButton').hide();
+    $('#authzRedemption').hide();
   }
 }
 

@@ -38,6 +38,7 @@ div.divider {
 #output > div {
   margin-top: 18px;
 }
+#authzRedemption { border: 1px dotted Grey;}
 body {
   font-size: 140%;
 }
