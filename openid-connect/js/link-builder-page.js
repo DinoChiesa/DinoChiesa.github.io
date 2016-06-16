@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2016-June-16 16:43:21>
+// last saved: <2016-June-16 16:46:43>
 
 
 var model = model || {
@@ -43,15 +43,14 @@ function updateLink() {
   $('#authzlink').attr('href', link);
 
   if (model.code){
-  if ($('#redeemCode').length > 0) {
-    var re1 = new RegExp('/authorize.+');
-    var newUrl = link.replace(re1, '/token');
-    var payload = 'grant_type=authorization_code&code=' + model.code;
-
-    $('#redeemCode').text('curl -X POST -H content-type:application/x-www-form-urlencoded -u ' +
-                          model.clientid + ':' + model.clientsecret + ' ' +
-                          wrapInSingleQuote(newUrl) + ' -d ' + wrapInSingleQuote(payload));
-  }
+    if ($('#redeemCode').length > 0) {
+      var re1 = new RegExp('/authorize.+');
+      var newUrl = link.replace(re1, '/token');
+      var payload = 'grant_type=authorization_code&code=' + model.code;
+      $('#redeemCode').text('curl -X POST -H content-type:application/x-www-form-urlencoded -u ' +
+                            model.clientid + ':' + model.clientsecret + ' ' +
+                            wrapInSingleQuote(newUrl) + ' -d ' + wrapInSingleQuote(payload));
+    }
   }
   else {
     $('#redeemCode').hide();
@@ -84,9 +83,15 @@ function updateModel(event) {
     event.preventDefault();
 }
 
+function excludeTransientFields(key) {
+  return key != 'code'; // the only transient field, currently
+}
+
 function populateFormFields() {
   // get values from local storage, and place into the form
-  Object.keys(model).forEach(function(key) {
+  Object.keys(model)
+    .filter(excludeTransientFields)
+    .forEach(function(key) {
     var value = window.localStorage.getItem(html5AppId + '.model.' + key);
     if (value && value !== '') {
       var $item = $('#' + key);
@@ -130,4 +135,5 @@ $(document).ready(function() {
 
   updateModel();
   $('#redeemCode').hide();
+  $('#redeemButton').hide();
 });
