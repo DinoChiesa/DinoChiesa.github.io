@@ -4,6 +4,8 @@
     <title>HMAC and SHA calculator</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/base-min.css">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">    
     <link rel="stylesheet" type="text/css" 
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script type='text/javascript'
@@ -326,11 +328,23 @@
       <div id='notes'>
         Notes:
         <ol>
-          <li>The hex and base64 results are different encodings that represent the same value.</li>
-          <li>The key is used only for HMAC calculation. </li>
-          <li>SHA: Using the value of <tt>abc</tt> for the messsage, the base64-encoded representation of the sha256 is <tt>ungWv48Bz+pBQUDeXa4iI7ADYaOWF3qctBD/YfIAFa0=</tt> </li>
-          <li>HMAC: Using the values of <tt>abc</tt> for the messsage, and <tt>secret</tt> for the key, the base64-encoded hmac-sha256 is <tt>mUba1OAOkT/Ivo5dP34RCkqegy+D+wnDRShdeGONig4=</tt> </li>
-          <li>The base64-encoded value is case sensitive. The hex-encoded result is not. </li>
+          <li>The hex and base64 results shown by this page are different encodings that represent the same value.</li>
+          <li>The key is used only for HMAC calculation, and never leaves your browser. </li>
+          <li>Here are a few test cases:
+            <table class='testcases pure-table pure-table-bordered'>
+              <thead>
+                <tr><th>Alg</th><th>message</th><th>key</th><th>result</th></tr>
+              </thead>
+              <tbody>
+              <tr><td>HMAC-sha256 </td><td>abc</td><td>secret</td><td>
+                (hex) 9946dad4e00e913fc8be8e5d3f7e110a4a9e832f83fb09c345285d78638d8a0e<br/>
+                (b64) mUba1OAOkT/Ivo5dP34RCkqegy+D+wnDRShdeGONig4=</td></tr>
+              <tr><td>SHA-256</td><td>abc</td><td>--</td><td>(hex) ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad<br/>
+                (b64) ungWv48Bz+pBQUDeXa4iI7ADYaOWF3qctBD/YfIAFa0=</td></tr>
+              </tbody>
+            </table>
+          </li>
+          <li>Just a reminder, base64-encoded values are case sensitive.  Hex-encoded results are not. This is characteristic of the encodings, not special to this page, or to checksums or HMACs.</li>
           <li>For message content, Whitespace in the content is significant. Line-breaks will be converted to newline (\n). It's not possible to paste in a carriage-return (CR), because this page strips them. Trailing newlines will not be stripped.</li>
           <li>Unicode is ok. The calculator will encode the string as UTF-8 bytes before computing the checksum. UTF-8 ought to be good enough for anybody. :) </li>
         </ol>
