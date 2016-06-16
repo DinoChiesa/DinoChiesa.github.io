@@ -18,7 +18,10 @@
     <script type='text/javascript' 
              src='http://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js'>
     </script>
-
+    <script type='text/javascript' 
+            src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js">
+    </script>
+    
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/chosen-bootstrap.css">
 
@@ -104,6 +107,10 @@
 
     <div id='output'>
       <a href='' id='authzlink'></a>
+      <div id='redeemCode'></div>
+      <!-- Trigger -->
+      <button class="btn clipboard-btn" data-clipboard-target="#redeemCode"
+              title="Copy to clipboard">Copy</button>
     </div>
     </div>
 

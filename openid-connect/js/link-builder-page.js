@@ -1,10 +1,10 @@
 // link-builder-page.js
 // ------------------------------------------------------------------
 //
-// page logic for link-builder.html
+// page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2016-March-23 17:34:20>
+// last saved: <2016-June-15 20:13:36>
 
 
 var model = model || {
@@ -38,6 +38,8 @@ function updateLink() {
   });
   $('#authzlink').text(link);
   $('#authzlink').attr('href', link);
+
+  $('#redeemCode').text('curl -X POST \'' + link.replace('/authorize', '/token') + '\'');
 }
 
 function onInputChanged() {
@@ -104,6 +106,11 @@ $(document).ready(function() {
   $( "form button" ).submit(updateModel);
 
   populateFormFields();
+
+  if (typeof Clipboard != 'undefined') {
+    // attach clipboard things
+    new Clipboard('.clipboard-btn');
+  }
 
   updateModel();
 
