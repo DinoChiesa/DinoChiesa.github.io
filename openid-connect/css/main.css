@@ -28,6 +28,9 @@ form > div.form-group {
   display:block;
   clear:both;
 }
+div.divider {
+  border-top: 1px solid Black;
+}
 #output { 
   margin-top: 28px;
   font-size: 160%;

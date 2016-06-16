@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2016-June-15 20:13:36>
+// last saved: <2016-June-15 20:22:23>
 
 
 var model = model || {
@@ -39,7 +39,10 @@ function updateLink() {
   $('#authzlink').text(link);
   $('#authzlink').attr('href', link);
 
-  $('#redeemCode').text('curl -X POST \'' + link.replace('/authorize', '/token') + '\'');
+  var re1 = new RegExp('/authorize.+');
+  var newUrl = link.replace(re1, '/token');
+  $('#redeemCode').text('curl -X POST -u ' +model.clientid + ':' + model.client_secret +
+                        ' \'' + newUrl + '\' -d authorization_code=' + model.code);
 }
 
 function onInputChanged() {
