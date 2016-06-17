@@ -38,7 +38,14 @@ div.divider {
 #output > div {
   margin-top: 18px;
 }
-#authzRedemption { border: 1px dotted Grey;}
+#authzRedemption {
+  border: 1px dotted Grey;
+}
+#redeemCode {
+  font-family: "Lucida Console", Monaco, monospace;
+  padding: 4px 12px;
+  font-size: 120%;
+}
 body {
   font-size: 140%;
 }
