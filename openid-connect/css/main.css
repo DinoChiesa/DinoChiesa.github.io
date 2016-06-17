@@ -40,10 +40,10 @@ div.divider {
 }
 #authzRedemption {
   border: 1px dotted Grey;
+  padding: 4px 12px;
 }
 #redeemCode {
   font-family: "Lucida Console", Monaco, monospace;
-  padding: 4px 12px;
   font-size: 80%;
 }
 body {
