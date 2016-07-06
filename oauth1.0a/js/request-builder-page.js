@@ -4,7 +4,7 @@
 // page logic for request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2016-July-06 10:03:57>
+// last saved: <2016-July-06 10:06:02>
 
 var model = model || {
       reqmethod : '',
@@ -125,7 +125,7 @@ function produceHeader(signature, realm) {
   oauthparams.sort();
   // return 'OAuth realm="'+ (realm || '')+'",' +
   //   oauthparams.map(quoteValue).join(',');
-  var realmString = $('#realm').val() ? ('realm=' + quoteValue($('#realm').val().trim()) + ',') : '';
+  var realmString = $('#realm').val() ? (quoteValue('realm=' +$('#realm').val().trim()) + ',') : '';
   return 'OAuth ' + realmString + oauthparams.map(quoteValue).join(',');
 }
 
