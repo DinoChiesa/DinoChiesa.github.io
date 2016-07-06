@@ -35,6 +35,19 @@
     <!-- ======================================================= -->
     <div style='margin: 10px;'>
       <h3>Compute an OAuth v1.0a signature</h3>
+      <p>This should work with nay OAuth v1.0a -enabled endpoint.  The standard is
+        pretty clear. All you need to do here is fill in the correct parameters, and
+        click "Sign". It works for generating the signature for a
+        request-for-temporary-request-token, or a sig for the request-for-access-token,
+        or a signed request for any service. If you don't understand the distinction
+        between these things, I suggest you consult<a href='http://oauth.net/core/1.0a/'>the
+        OAuth v1.0 spec</a>. Pay no attention to the statement that it has been superceded;
+        OAuth v2.0 is different. </p>
+      
+      <p>When you click "Sign", divs at the bottom will appear showing intermediate
+      results. If you're having trouble generating your own signatures, examine these
+        closely to see how the encoding and sorting is done.</p>
+      
     <form role="form">
       <div class="form-group">
         <label for="reqmethod">HTTP Method:</label>
