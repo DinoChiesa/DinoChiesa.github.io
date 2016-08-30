@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>UG Asset Demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" 
+          href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script type='text/javascript'
+            src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ 
+    <script type='text/javascript'
+            src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" 
+          href="http://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
+
+    <script type='text/javascript' 
+             src='http://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js'>
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/chosen-bootstrap.css">
+
+    <script type='text/javascript' src='js/usergrid.js'></script>
+    <script type='text/javascript' src='js/jquery-throttle-debounce.js'></script>
+    <script type='text/javascript' src='js/asset-demo-page.js'></script>
+  </head>
+  <body>
+    <!-- ======================================================= -->
+    <div style='margin: 10px;'>
+      <h3>Demonstrate Assets in Usergrid</h3>
+      <form role="form">
+      <div class="form-group">
+        <label for="ugorg">UG org:</label>
+        <input type="text" class="form-control" id="ugorg">
+      </div>
+      <div class="form-group">
+        <label for="ugapp">UG app:</label>
+        <input type="text" class="form-control" id="ugapp">
+      </div>
+      <!-- 
+      <div class="form-group">
+        <label for="btnListUsers"></label>
+        <input id="btnListUsers" type="submit" value="List Users" />
+      </div>
+      -->
+      <div class="form-group">
+        <label for="userselect">user:</label>
+        <select name="userselect" id="userselect" class="form-control chosen user-chosen" 
+                data-placeholder="user uuid" required>
+          <option value=""></option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="btnSelectFile"></label>
+        <input id="btnSelectFile" type="submit" value="Select file" />
+        <div style='margin-left:24px;' id='selectedfile'></div>
+      </div>
+      <div class="form-group">
+        <label for="file1"></label>
+        <input id="file1" type="file" style="display: none">
+      </div>
+      <div>
+        <label for="btnSubmit"></label>
+        <button id='btnSubmit' type="submit" class="btn btn-default">Upload</button>
+      </div>
+    </form>
+
+    <div id='output'>
+      <div><a href='' id='authzlink'></a></div>
+      <div id='authzRedemption'>
+        <div id='redeemCode'></div>
+        <!-- Trigger -->
+        <button class="btn btn-default clipboard-btn" data-clipboard-target="#redeemCode"
+                title="Copy to clipboard">Copy</button>
+      </div>
+    </div>
+    </div>
+
+  </body>
+
+</html>
