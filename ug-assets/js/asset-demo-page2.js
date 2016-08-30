@@ -1,10 +1,10 @@
-// asset-demo-page.js
+// asset-demo-page2.js
 // ------------------------------------------------------------------
 //
 // Description goes here....
 //
 // created: Tue Aug 30 10:28:33 2016
-// last saved: <2016-August-30 12:48:17>
+// last saved: <2016-August-30 13:00:01>
 
 (function (){
   'use strict';
@@ -118,27 +118,6 @@
     var selectedFiles = $('#file1')[0].files;
     if (selectedFiles[0] && selectedFiles[0].name) {
       var c = getClient();
-      new Usergrid.Asset({
-        client: c,
-        data: { name: selectedFiles[0].name,
-                owner: userUuid,
-                path: '/assets'
-              }
-      }, function(e, response, asset) {
-        if(e){
-          alert('while creating asset: ' + e);
-          return;
-        }
-        asset.upload(selectedFiles[0], function(e, response, asset) {
-          if(e){
-            alert('while uploading asset: ' + e);
-          }
-          else {
-            alert('uploaded asset.');
-          }
-        });
-
-      });
 
       // I could not get the following to work properly.
       // 500 error, with this payload:
@@ -148,21 +127,21 @@
       //   "duration":0,
       //   "exception":"javax.ws.rs.WebApplicationException"
       // }
-      //
-      // c.getEntity({ type: 'user', uuid: userUuid}, function(e, response, userEntity) {
-      //   if ( e) {
-      //     alert('error: ' + e);
-      //     return;
-      //   }
-      //   userEntity.attachAsset(selectedFiles[0], function(e, xhr, entity) {
-      //     if (e) {
-      //       alert('while attaching asset: ' + e);
-      //     }
-      //     else {
-      //       alert ('the asset has been attached');
-      //     }
-      //   });
-      // });
+
+      c.getEntity({ type: 'user', uuid: userUuid}, function(e, response, userEntity) {
+        if ( e) {
+          alert('error: ' + e);
+          return;
+        }
+        userEntity.attachAsset(selectedFiles[0], function(e, xhr, entity) {
+          if (e) {
+            alert('while attaching asset: ' + e);
+          }
+          else {
+            alert ('the asset has been attached');
+          }
+        });
+      });
 
     }
     else {

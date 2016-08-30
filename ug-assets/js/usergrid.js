@@ -8,7 +8,7 @@
  * with the License.  You may obtain a copy of the License at
  *
  *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -72,7 +72,7 @@ UsergridEventable.mixin = function(destObject) {
         return Logger.prototype.log.bind(this, method);
     };
     Logger.prototype.prefix = function(method, args) {
-        var prepend = "[" + method.toUpperCase() + "][" + name + "]:	";
+        var prepend = "[" + method.toUpperCase() + "][" + name + "]:    ";
         if ([ "log", "error", "warn", "info" ].indexOf(method) !== -1) {
             if ("string" === typeof args[0]) {
                 args[0] = prepend + args[0];
@@ -1212,7 +1212,7 @@ function doCallback(callback, params, context) {
    *
    *  @method logout
    *  @public
-   *  @param {string} username	the user associated with the token to revoke
+   *  @param {string} username  the user associated with the token to revoke
    *  @param {string} token set to 'null' to revoke the token of the currently logged in user
    *    or set to token value to revoke a specific token
    *  @param {string} revokeAll set to 'true' to revoke all tokens for the user
@@ -3050,12 +3050,15 @@ Usergrid.Entity.prototype.attachAsset = function(file, callback) {
     if (isNaN(attempts)) {
         attempts = 3;
     }
-    if (type != "assets" && type != "asset") {
-        var endpoint = [ this._client.URI, this._client.orgName, this._client.appName, type, self.get("uuid") ].join("/");
+  var endpoint = '';
+  if (type != "assets" && type != "asset") {
+      endpoint = [ this._client.URI, this._client.orgName, this._client.appName, type,
+                       self.get("uuid") ].join("/");
     } else {
         self.set("content-type", file.type);
         self.set("size", file.size);
-        var endpoint = [ this._client.URI, this._client.orgName, this._client.appName, "assets", self.get("uuid"), "data" ].join("/");
+      endpoint = [ this._client.URI, this._client.orgName, this._client.appName, "assets",
+                       self.get("uuid"), "data" ].join("/");
     }
     var xhr = new XMLHttpRequest();
     xhr.open("POST", endpoint, true);
