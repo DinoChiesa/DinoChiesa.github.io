@@ -61,9 +61,26 @@
         <input id="file1" type="file" style="display: none">
       </div>
       <div>
-        <label for="btnSubmit"></label>
-        <button id='btnSubmit' type="submit" class="btn btn-default">Upload</button>
+        <label for="btnUpload"></label>
+        <button id='btnUpload' type="submit" class="btn btn-default">Upload</button>
       </div>
+<div class="alert" style="display:none;" role="alert" id='alertbanner'>
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  <span class="sr-only" id='msgtag'>something:</span>
+  <span id='messagetext'></span>
+</div>
+<img id='img1' style='max-width:540px;'
+     src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"/>
+      <hr/>
+      <div class="form-group">
+        <label for="asseturl">asset url:</label>
+        <input type="text" class="form-control" id="asseturl" disabled>
+      </div>
+      <div>
+        <label for="btnReset"></label>
+        <button id='btnReset' type="submit" class="btn btn-default">Reset</button>
+      </div>
+      
     </form>
 
   </body>

@@ -4,7 +4,7 @@
 // Description goes here....
 //
 // created: Tue Aug 30 10:28:33 2016
-// last saved: <2016-August-30 12:48:17>
+// last saved: <2016-August-31 16:27:42>
 
 (function (){
   'use strict';
@@ -57,21 +57,21 @@
     return client;
   }
 
-  function createAsset(client, done) {
-    var asset = new Usergrid.Asset({
-          client: client,
-          data: {
-            name: filename,
-            owner: user.get("uuid"),
-            path: filepath
-          }
-        }, function(e, response, asset) {
-          if(err){
-            assert(false, err);
-          }
-          done(asset);
-        });
-  }
+  // function createAsset(client, done) {
+  //   var asset = new Usergrid.Asset({
+  //         client: client,
+  //         data: {
+  //           name: filename,
+  //           owner: user.get("uuid"),
+  //           path: filepath
+  //         }
+  //       }, function(e, response, asset) {
+  //         if(err){
+  //           assert(false, err);
+  //         }
+  //         done(asset);
+  //       });
+  // }
 
   function updateModel() {
     Object.keys(model).forEach(function(key) {
@@ -112,66 +112,132 @@
     $('#file1').trigger('click');
   }
 
+  function clearMessage() {
+    $('#alertbanner').css("display","none");
+  }
+
+  function displayError(msg) {
+    $('#alertbanner').css("display","block")
+      .addClass('alert-danger')
+      .removeClass('alert-info');
+    $('#msgtag').html('Error:');
+    $('#messagetext').html(msg);
+  }
+
+  function displayMessage(msg) {
+    $('#alertbanner').css("display","block")
+      .addClass('alert-info')
+      .removeClass('alert-danger');
+    $('#msgtag').html('Message:');
+    $('#messagetext').html(msg);
+  }
+
+  function clearAnyExistingAsset(client, name, done) {
+    client.request({ method: 'GET', endpoint: 'Assets' },
+                   function(err, data) {
+                     var assets = [];
+                     if(data && data.entities && data.entities.length){
+                       assets = data.entities.filter(function(asset) {
+                         return asset.name === name;
+                       });
+                     }
+                     if (assets.length) {
+                       assets.forEach(function(asset) {
+                         client.request({ method: 'DELETE', endpoint: 'assets/' + asset.uuid });
+                       });
+                     }
+                     done(null, assets.length);
+                   });
+  }
+
   function uploadAsset(event) {
     event.preventDefault();
+    storeValues();
+    clearMessage();
     var userUuid = $( "#userselect option:selected" )[0].value;
     var selectedFiles = $('#file1')[0].files;
     if (selectedFiles[0] && selectedFiles[0].name) {
       var c = getClient();
+      clearAnyExistingAsset(c, selectedFiles[0].name, function(e, count) {
+        if (e) {
+          displayError('cannot clear existing assets: ' + JSON.stringify(e.message));
+          return;
+        }
+        if (count) {
+          displayMessage('cleared '+ count +' asset(s).');
+        }
+        new Usergrid.Asset({
+          client: c,
+          data: { name: selectedFiles[0].name,
+                  owner: userUuid,
+                  path : '/images/' + Math.round(10000 * Math.random())
+                }
+        }, function(e, response, asset) {
+          if(e){
+            displayError('while creating asset: ' + JSON.stringify(e.message));
+            return;
+          }
+          asset.upload(selectedFiles[0], function(e, xhr, window) {
+            if(e){
+              displayError('while uploading asset: ' + e);
+            }
+            else {
+              displayMessage('uploaded asset.');
+              if (xhr && xhr.responseURL) {
+                $('#asseturl').val(xhr.responseURL);
+                $('#img1').attr('src', xhr.responseURL);
+              }
+              else {
+                displayMessage('no url to display.');
+              }
+            }
+          });
+        });
+      });
+    }
+    else {
+      displayError('select a file before clicking UPLOAD');
+    }
+  }
+
+  function downloadAsset(event) {
+    event.preventDefault();
+    clearMessage();
+    storeValues();
+    var assetUuid = $('#assetuuid').value();
+    if (assetUuid) {
       new Usergrid.Asset({
         client: c,
-        data: { name: selectedFiles[0].name,
-                owner: userUuid,
-                path: '/assets'
-              }
+        data: { name: assetUuid, path: '/assets' }
       }, function(e, response, asset) {
         if(e){
           alert('while creating asset: ' + e);
           return;
         }
-        asset.upload(selectedFiles[0], function(e, response, asset) {
+        asset.download(function(e, response, asset) {
           if(e){
-            alert('while uploading asset: ' + e);
+            displayError('while downloading asset: ' + e);
           }
           else {
-            alert('uploaded asset.');
+            displayMessage('downloaded asset.');
           }
         });
-
       });
-
-      // I could not get the following to work properly.
-      // 500 error, with this payload:
-      // {
-      //   "error":"web_application",
-      //   "timestamp":1472585023491,
-      //   "duration":0,
-      //   "exception":"javax.ws.rs.WebApplicationException"
-      // }
-      //
-      // c.getEntity({ type: 'user', uuid: userUuid}, function(e, response, userEntity) {
-      //   if ( e) {
-      //     alert('error: ' + e);
-      //     return;
-      //   }
-      //   userEntity.attachAsset(selectedFiles[0], function(e, xhr, entity) {
-      //     if (e) {
-      //       alert('while attaching asset: ' + e);
-      //     }
-      //     else {
-      //       alert ('the asset has been attached');
-      //     }
-      //   });
-      // });
-
     }
     else {
-      alert('select a file before clicking UPLOAD');
+      displayError('select a file before clicking DOWNLOAD');
     }
   }
 
   function updateFile(event) {
     $('#selectedfile').html($('#file1')[0].value );
+  }
+
+  function resetImages(event) {
+    event.preventDefault();
+    clearMessage();
+    $('#img1').attr('src', "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
+    $('#asseturl').val('');
   }
 
   $(document).ready(function() {
@@ -185,7 +251,9 @@
     // $("#ugapp").on('change', clearUsers);
     $("#btnSelectFile").click(selectFile);
     $('#file1').change(updateFile);
-    $("#btnSubmit").click(uploadAsset);
+    $("#btnUpload").click(uploadAsset);
+    //$("#btnDownload").click(downloadAsset);
+    $("#btnReset").click(resetImages);
 
     populateFormFields();
     updateModel();
