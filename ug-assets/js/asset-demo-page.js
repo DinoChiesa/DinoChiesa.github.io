@@ -1,10 +1,10 @@
 // asset-demo-page.js
 // ------------------------------------------------------------------
 //
-// Description goes here....
+// Demonstrate the use of the Usergrid SDK to upload assets.
 //
 // created: Tue Aug 30 10:28:33 2016
-// last saved: <2016-August-31 16:27:42>
+// last saved: <2016-August-31 17:20:41>
 
 (function (){
   'use strict';
@@ -79,7 +79,6 @@
       model[key] = value;
     });
   }
-
 
   function resetUsers(event) {
     updateModel();
@@ -200,34 +199,34 @@
     }
   }
 
-  function downloadAsset(event) {
-    event.preventDefault();
-    clearMessage();
-    storeValues();
-    var assetUuid = $('#assetuuid').value();
-    if (assetUuid) {
-      new Usergrid.Asset({
-        client: c,
-        data: { name: assetUuid, path: '/assets' }
-      }, function(e, response, asset) {
-        if(e){
-          alert('while creating asset: ' + e);
-          return;
-        }
-        asset.download(function(e, response, asset) {
-          if(e){
-            displayError('while downloading asset: ' + e);
-          }
-          else {
-            displayMessage('downloaded asset.');
-          }
-        });
-      });
-    }
-    else {
-      displayError('select a file before clicking DOWNLOAD');
-    }
-  }
+  // function downloadAsset(event) {
+  //   event.preventDefault();
+  //   clearMessage();
+  //   storeValues();
+  //   var assetUuid = $('#assetuuid').value();
+  //   if (assetUuid) {
+  //     new Usergrid.Asset({
+  //       client: c,
+  //       data: { name: assetUuid, path: '/assets' }
+  //     }, function(e, response, asset) {
+  //       if(e){
+  //         alert('while creating asset: ' + e);
+  //         return;
+  //       }
+  //       asset.download(function(e, response, asset) {
+  //         if(e){
+  //           displayError('while downloading asset: ' + e);
+  //         }
+  //         else {
+  //           displayMessage('downloaded asset.');
+  //         }
+  //       });
+  //     });
+  //   }
+  //   else {
+  //     displayError('select a file before clicking DOWNLOAD');
+  //   }
+  // }
 
   function updateFile(event) {
     $('#selectedfile').html($('#file1')[0].value );
@@ -240,15 +239,14 @@
     $('#asseturl').val('');
   }
 
+
   $(document).ready(function() {
     $('.user-chosen').chosen();
-    //$('.user-chosen').on('chosen:showing_dropdown', retrieveUsers);
 
+    // debounce changes in the ug org and app, before retrieving users
     $('#ugorg').keyup( $.debounce( 850, resetUsers ) );
     $('#ugapp').keyup( $.debounce( 850, resetUsers ) );
 
-    // $("#ugorg").on('change', clearUsers);
-    // $("#ugapp").on('change', clearUsers);
     $("#btnSelectFile").click(selectFile);
     $('#file1').change(updateFile);
     $("#btnUpload").click(uploadAsset);
@@ -258,7 +256,6 @@
     populateFormFields();
     updateModel();
     resetUsers(null);
-
   });
 
 
