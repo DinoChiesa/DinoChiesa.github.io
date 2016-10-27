@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Pitch</title>
+<meta name="author" content="(Dino Chiesa)"/>
+<link rel="shortcut icon" href="//apigee.com/themes/custom/apigee_frontend/favicon.ico" type="image/vnd.microsoft.icon">
+<link rel="stylesheet" href="css/reveal.css"/>
+<link rel="stylesheet" href="css/theme/apigee.css" id="theme"/>
+
+<style type="text/css">
+ .reveal section > img.top-banner {
+   border:none;
+   box-shadow:none;
+   position:absolute;
+   top:-160px;
+   left:40px;
+   width: 58%;
+   z-index:-1;
+ }
+ div.illustration {
+   position:absolute;
+   left: 400px;
+   opacity: 80%;
+   z-index: -1;
+ }
+ .reveal section div.subtle-bg {
+   position:absolute;
+   opacity: 0.23;
+   z-index: -1;
+   left: 440px;
+   top: 40px;
+   height: auto;   
+ }
+ .reveal section div.subtle-bg img {
+   border:none;
+   box-shadow:none;
+   width:80%;
+ }
+ .reveal section div.illustration img {
+   border:none;
+   box-shadow:none;
+   left: 120px;
+   position: relative;
+   top: 40px;
+   width: 100%; 
+ }
+ div.content-container * { z-index:inherit;}
+ div.content-container {
+   width: 600px;
+   margin-left: auto;
+   margin-right: auto;
+   z-index:99;
+ }
+ div.content-container.wider { width: 800px; }
+ div.content-container p {
+   text-align: left;
+   margin-top: 10px;
+   margin-bottom: 6px;
+ }
+ div.content-container h2 {
+   text-align: left; /*: -80px; */
+   font-size:120%;
+   position:relative;
+ }
+ div.content-container h1 {
+   text-align: left; /*: -80px; */
+   font-size:220%;
+   position:relative;
+ }
+ .reveal section div.content-container ul > li { text-align: left; margin-left:42px; font-size:66%;}
+ .reveal section div.content-container .horiz-overlay { margin-top: 34px; margin-bottom: 42px;}
+ .reveal section div.content-container .lineitem { color: #1b91ff; }
+ /*
+ .reveal section div.content-container .fragment.bold-600 { font-weight: 900; }
+ .reveal section div.content-container .fragment.bold-500 { font-weight: 600; }
+ .reveal section div.content-container .fragment.bold-400 { font-weight: 400; }
+ */
+</style>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+
+<body>
+  
+  <div class="reveal">
+    <div class="slides">
+      <!--
+      <section>
+        <div class='content-container'>
+          <h2>Table of Contents</h2>
+          <p><a href="#sec-1">It's Happening</a></p>
+          <p><a href="#sec-2">DVC</a></p>
+          <p><a href="#sec-3">Org-mode</a></p>
+        </div>
+      </section>
+      -->
+
+      <section>
+        <section id="sec-01-happening"
+                 data-autoslide="1700"
+                 data-transition='fade-in'
+                 data-background="bg-apigee.jpg"
+                 >
+          <div class='content-container'>
+            <h2>It's Happening</h2>
+            <p class="fragment lineitem" data-autoslide="1800">Digital.</p>
+            <p class="fragment lineitem" data-autoslide="2400">Cloud.</p>
+            <p class="fragment lineitem" data-autoslide="3800">Microservices.</p>
+          </div>
+
+
+    <aside class="notes">
+        Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
+    </aside>
+    
+        </section>
+      </section>
+      
+      <section>
+        <section id="sec-02-stresses"
+                 data-autoslide="1700"
+                 data-transition='fade-in'
+                 data-background="bg-apigee.jpg"
+                 >
+          <div class='content-container'>
+            <h2>API First</h2>
+            <p class="fragment lineitem" data-autoslide="1800">Consumption.</p>
+            <p class="fragment lineitem" data-autoslide="2200">Exposure.</p>
+            <p class="fragment lineitem" data-autoslide="2200">...with Visibility.</p>
+            <h2 class="fragment horiz-overlay" data-autoslide="3800"> Speed | Scale | Security</h2>
+            <p class="fragment lineitem" >What is your Mars Landing project?</p>
+          </div>
+        </section>
+      </section>
+      
+      <section>
+        <section id="sec-03-dvc" 
+                 data-background="bg-apigee.jpg"
+                 data-transition="fade-out"
+                 >
+          <img style='border:none; box-shadow:none; position:absolute; top:0; left:0; width:100%;'
+               src='dvc-20161026.png'
+               >
+        </section>
+      </section>
+
+      <section>
+        <section id="sec-04-consumption" 
+                 data-background="bg-apigee-dvc.png"
+                 data-transition="fade-in"
+                 >
+          <div class='content-container wider'>
+            <h2>Consumption</h2>
+            <p class="lineitem">API & Services Catalog
+            <ul>
+              <li>Automatic doc generation</li>
+              <li>Automatic library generation</li>
+              <li>Taxomized</li>
+            </ul>
+            </p>
+            <p class="lineitem">Self service</p>
+            <ul>
+              <li>Onboarding</li>
+              <li>Credential management</li>
+              <li>Analytics</li>
+            </ul>
+            <p class="lineitem">Personalized and Contextual</p>
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <section id="sec-05-exposure" 
+                 data-background="bg-apigee-dvc.png"
+                 data-transition="fade-in"
+                 >
+          <div class='content-container wider' style='top:20px; position:relative;'>
+            <h2>Exposure</h2>
+            <p class="lineitem">Distributed Gateway
+            <ul>
+              <li>multi-region</li>
+              <li>multi-cloud</li>
+              <li>microservices gateway plugins - k8s, PCF, zuul, nginx,...</li>
+              <li>works with your tools - golang, Java, nodejs, .NET,...</li>
+            </ul>
+            </p>
+            <p class="lineitem">Centralized Authoring, Global Enforcement</p>
+            <ul>
+              <li>SSO</li>
+              <li>global policies</li>
+              <li>microservices</li>
+              <li>heterogeneous stack - golang, Java, nodejs,...</li>
+            </ul>
+            <p class="lineitem">Organization @ Scale</p>
+            <ul>
+              <li>automation</li>
+              <li>team management</li>
+              <li>auditing</li>
+            </ul>
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <section id="sec-06-pre" 
+                 data-autoslide="1700"
+                 data-transition="fade-in"
+                 data-background='chaos.jpg'
+                 >
+          <div class='content-container marquis'>
+            <h1 style='color:#fff;'>Chaos</h1>
+            <p>Image Search for Chaos</p>
+            <p>secondary keywords: connection, train track, networks, roads, intersection</p>
+            <p>Pixabay?</p>
+          </div>
+        </section>
+      </section>
+      
+      <section>
+        <section id="sec-06-exposure" 
+                 data-background="bg-apigee-dvc.png"
+                 data-transition="fade-in"
+                 >
+          <div class='illustration'>
+            <img src='API-Performance_5.png'>
+          </div>
+          <div class='content-container wider'>
+            <h2>Organization-wide Visibility</h2>
+            <p class="lineitem">API & Developer Analytics</p>
+            <ul>
+              <li>custom metrics, custom reports</li>
+              <li>dashboards & subscriptions</li>
+              <li>Anomalies</li>
+            </ul>
+            <p class="lineitem">Realtime Monitoring</p>
+            <ul>
+              <li>Ops - latency, RPS, error trends</li>
+              <li>Tracing</li>
+            </ul>
+            <p class="lineitem">Alerting & Notifications</p>
+            <ul>
+              <li>TWS</li>
+              <li>Admin webhooks</li>
+            </ul>
+          </div>
+        </section>
+      </section>
+      
+      <section>
+        <section id="sec-10"
+                 data-background='product_api_platform_dark.png'
+                 data-background-size='88%'
+                 >
+        </section>
+      </section>
+      
+      <section>
+        <section id="sec-20"
+                 data-background="bg-apigee-dvc.png"
+                 >
+          <div class='subtle-bg'>
+            <img src='dvc-20161026.png'>
+          </div>
+          <div class='content-container wider'>
+            <h2>The Digital Future is Now</h2>
+            <p class="lineitem">Machine Learning for APIs</p>
+            <ul>
+              <li>bot detection, protection</li>
+              <li>auto-scale</li>
+              <li>self-healing</li>
+            </ul>
+            <p class="lineitem">API Management for Devices</p>
+            <p class="lineitem">Ecosystems</p>
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <section id="sec-30">
+          <div class='subtle-bg'>
+            <img src='dvc-20161026.png'>
+          </div>
+          <div class='content-container wider'>
+            <h2>Blockbuster plan?</h2>
+            <h2>...or a Mars Landing?</h2>
+            <p class="lineitem">&nbsp;</p>
+            <ul>
+              <li>Discover API use, pass-through proxies</li>
+              <li>Get analytics instantly</li>
+              <li>Experiment, iterate, and learn</li>
+            </ul>
+          </div>
+        </section>
+      </section>
+            
+    </div>
+  </div>
+
+  <script src="lib/js/head.min.js"></script>
+  <script src="js/reveal.js"></script>
+
+  <script>
+   // Full list of configuration options available here:
+   // https://github.com/hakimel/reveal.js#configuration
+   Reveal.initialize({
+
+     controls: true,
+     progress: true,
+     history: false,
+     center: true,
+     slideNumber: true,
+     rollingLinks: false,
+     keyboard: true,
+     overview: true,
+     theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+     transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none/slide?
+     transitionSpeed: 'default',
+     autoSlide: 0,
+     
+     // Optional libraries used to extend on reveal.js
+     dependencies: [
+       { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+       { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+       { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+       { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+       { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+       { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+     ]
+   });
+  </script>
+</body>
+</html>
