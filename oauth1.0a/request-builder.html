@@ -155,19 +155,20 @@
       </div>
       <div class="form-group">
         <label for="consumersecret">consumer secret:</label>
-        <input type="text" class="form-control" id="consumersecret">
+        <input type="text" class="form-control" id="consumersecret"
+               title='Never sent. Used only for generating signatures. Never stored by this webpage.'>
       </div>
 
       <div class="form-group">
         <label for="token">token:</label>
         <input type="text" class="form-control"
-               title='leave blank for request for request-token'
+               title='leave blank for request for temporary request-token'
                id="token">
       </div>
       <div class="form-group">
         <label for="tokensecret">token secret:</label>
         <input type="text" class="form-control" 
-               title='leave blank for request for request-token'
+               title='Never sent. Used only for generating signatures. Never stored by this webpage. Leave blank for request for request-token.'>
                id="tokensecret">
       </div>
 
