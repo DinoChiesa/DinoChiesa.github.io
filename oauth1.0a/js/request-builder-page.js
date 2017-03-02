@@ -4,7 +4,7 @@
 // page logic for oauth1.0a request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2017-March-02 12:04:02>
+// last saved: <2017-March-02 12:07:28>
 
 var model = model || {
       reqmethod : '',
@@ -129,7 +129,6 @@ function produceHeader(signature, realm) {
   return 'OAuth ' + realmString + oauthparams.map(quoteValue).join(',');
 }
 
-
 function produceSignature(event) {
   var nonce = $('#nonce').val();
   var timestamp = $('#timestamp').val();
@@ -176,11 +175,16 @@ function produceSignature(event) {
     event.preventDefault();
 }
 
+function clearError() {
+  var $output = $('#output');
+  $output.html('');
+}
+
 function emitError(msg) {
   var $output = $('#output');
-  var $div = $('<div class="error-message">' + msg + '</div>');
+  clearError();
+  var $div = $('<div id="error-message" class="error-message">' + msg + '</div>');
   $output.append($div);
-
 }
 
 // function updateModel(event) {
