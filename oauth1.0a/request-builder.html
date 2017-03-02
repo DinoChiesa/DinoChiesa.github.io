@@ -40,13 +40,74 @@
         click "Sign". It works for generating the signature for a
         request-for-temporary-request-token, or a sig for the request-for-access-token,
         or a signed request for any service. If you don't understand the distinction
-        between these things, I suggest you consult<a href='http://oauth.net/core/1.0a/'>the
-        OAuth v1.0 spec</a>. Pay no attention to the statement that it has been superceded;
+        between these things, I suggest you consult <a href='http://oauth.net/core/1.0a/'>the
+        OAuth v1.0 spec</a>. Pay no attention to the statement that it has been superceded; that's not really true.
         OAuth v2.0 is different. </p>
       
-      <p>When you click "Sign", divs at the bottom will appear showing intermediate
-      results. If you're having trouble generating your own signatures, examine these
-        closely to see how the encoding and sorting is done.</p>
+      <p>When you click "Sign", divs at the bottom will appear showing
+         intermediate results. If you're having trouble generating signatures from
+         your own code, examine the intermediate results shown here to see how the
+         encoding and sorting is done, and compare with the intermediate results
+         you are generating. I've tested this, it works in all cases I've tried.</p>
+      
+      <p>This table describes the parameters you must send for the various messages in an OAuthv1.0a sequence.</p>
+
+      <table class="table table-striped table-bordered table-condensed" style='font-size: 80%; width:auto;'>
+        <tbody>
+          <tr>
+            <th>request type</th>
+            <th>callback</th>
+            <th>consumer_key</th>
+            <th>nonce</th>
+            <th>signature</th>
+            <th>signature_method</th>
+            <th>timestamp</th>
+            <th>token</th>
+            <th>verifier</th>
+            <th>version</th>
+          </tr>
+          <tr>
+            <th>request for temporary request token</th>
+            <th>Y</th>
+            <th>Y</th>
+            <th>Y</th>
+            <th>Y</th>
+            <th>Y</th>
+            <th>Y</th>
+            <th></th>
+            <th></th>
+            <th>Y</th>
+          </tr>
+          <tr>
+            <th>request for access token</th>
+            <th></th>
+            <th>Y</th>
+            <th>Y</th>
+            <th>Y</th>
+            <th>Y</th>
+            <th>Y</th>
+            <th>Y</th>
+            <th>Y</th>
+            <th>Y</th>
+          </tr>
+          <tr>
+            <th>any other signed request</th>
+            <th>--</th>
+            <th>Y</th>
+            <th>Y</th>
+            <th>Y</th>
+            <th>Y</th>
+            <th>Y</th>
+            <th>Y</th>
+            <th></th>
+            <th>Y</th>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>Remember, the URL will be different for each one of those requests.</p>
+
+      <p>Use this form to generate requests.</p>
       
     <form role="form">
       <div class="form-group">
