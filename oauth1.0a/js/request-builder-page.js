@@ -1,10 +1,10 @@
 // request-builder-page.js
 // ------------------------------------------------------------------
 //
-// page logic for request-builder.html
+// page logic for oauth1.0a request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2016-July-06 10:06:02>
+// last saved: <2017-March-02 11:50:35>
 
 var model = model || {
       reqmethod : '',
@@ -77,7 +77,7 @@ function computeNormalizedParameters() {
 function getRequestMethod() {
   var $$ = $('#reqmethod'), value = '';
   $$.find("option:selected").each(function() {
-    value = $( this ).text();
+    value = $( this ).text().toUpperCase();
   });
   return value;
 }
@@ -90,7 +90,7 @@ function rfc3986EncodeURIComponent (str) {
 
 function computeBaseString(normalized) {
   return [
-        getRequestMethod().toUpperCase(),
+        getRequestMethod(),
         $('#targurl').val(),
         normalized
       ]
@@ -133,7 +133,16 @@ function produceHeader(signature, realm) {
 function produceSignature(event) {
   var nonce = $('#nonce');
   var timestamp = $('#timestamp');
-  if (nonce !== '' && timestamp !== '') {
+  if (nonce === '') {
+    emitError('missing required parameter: nonce');
+  }
+  else if (timestamp === '') {
+    emitError('missing required parameter: timestamp');
+  }
+  else if (getRequestMethod() === ''){
+    emitError('missing required parameter: method');
+  }
+  else {
     storeFormFieldValues();
     var $output = $('#output');
     var $table = $('<table id="sigtable" class="table table-hover table-mc-light-blue table-bordered"></table>');
@@ -167,6 +176,12 @@ function produceSignature(event) {
     event.preventDefault();
 }
 
+function emitError(msg) {
+  var $output = $('#output');
+  var $div = $('<div class="error-message">' + msg + '</div>');
+  $output.append($div);
+
+}
 
 // function updateModel(event) {
 //   Object.keys(model).forEach(function(key) {
