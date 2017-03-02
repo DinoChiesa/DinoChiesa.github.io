@@ -4,7 +4,7 @@
 // page logic for oauth1.0a request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2017-March-02 11:50:35>
+// last saved: <2017-March-02 11:58:57>
 
 var model = model || {
       reqmethod : '',
@@ -133,10 +133,10 @@ function produceHeader(signature, realm) {
 function produceSignature(event) {
   var nonce = $('#nonce');
   var timestamp = $('#timestamp');
-  if (nonce === '') {
+  if (nonce === '' || nonce == 'undefined') {
     emitError('missing required parameter: nonce');
   }
-  else if (timestamp === '') {
+  else if (timestamp === '' || timestamp == 'undefined') {
     emitError('missing required parameter: timestamp');
   }
   else if (getRequestMethod() === ''){
