@@ -4,7 +4,7 @@
 // page logic for oauth1.0a request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2017-March-02 12:02:01>
+// last saved: <2017-March-02 12:04:02>
 
 var model = model || {
       reqmethod : '',
@@ -47,8 +47,8 @@ function getQueryParams() {
 function getOauthParams() {
   var a = [
         'consumer_key=' + $('#consumerkey').val(),
-        'nonce=' + $('#nonce')[0].val(),
-        'timestamp=' + $('#timestamp')[0].val(),
+        'nonce=' + $('#nonce').val(),
+        'timestamp=' + $('#timestamp').val(),
         'version=1.0',
         'signature_method=HMAC-SHA1'
       ];
@@ -131,8 +131,8 @@ function produceHeader(signature, realm) {
 
 
 function produceSignature(event) {
-  var nonce = $('#nonce')[0].val();
-  var timestamp = $('#timestamp')[0].val();
+  var nonce = $('#nonce').val();
+  var timestamp = $('#timestamp').val();
   if (nonce === '' || nonce == 'undefined') {
     emitError('missing required parameter: nonce');
   }
