@@ -4,8 +4,15 @@
 // for callback-handler.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2016-June-15 20:05:18>
+// last saved: <2017-March-06 14:06:33>
 
+
+function decodeToken(matches) {
+  if (matches.length == 4) {
+    var $decodeddiv = $("#id_token-decoded");
+    $decodeddiv.html = 'decoded JWT here';
+  }
+}
 
 function formatIdToken() {
   var $$ = $( '#id_token-value div.cb-value' ),
@@ -14,6 +21,7 @@ function formatIdToken() {
   if (text) {
     text = text.replace(re1, '<span class="jwt-header">$1</span>.<span class="jwt-payload">$2</span>.<span class="jwt-signature">$3</span');
     $$.html(text);
+    decodeToken(re1.exec(text));
   }
 }
 
@@ -44,9 +52,18 @@ $(document).ready(function() {
 
   Object.keys(hash).forEach(function(key){
     if (key) {
-      var $newdiv = $( "<div id='"+ key +"-value' class='cb-element cb-clearfix'/>" );
+      var $newdiv = $("<div id='"+ key +"-value' class='cb-element'/>");
+      if (key != 'id_token') {
+        $newdiv.addClass("cb-clearfix");
+      }
       $newdiv.html('<div class="cb-label">' + key + ':</div><div class="cb-value">' + hash[key] + '</div>');
       $$.append($newdiv);
+      if (key == 'id_token') {
+        $newdiv = $("<div id='"+ key +"-decoded' class='cb-element'/>");        
+        $newdiv.addClass("cb-clearfix");
+        //$newdiv.html('<div class="cb-label">' + key + ':</div><div class="cb-value">' + hash[key] + '</div>');
+        $$.append($newdiv);
+      }
     }
   });
 
