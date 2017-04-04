@@ -34,22 +34,28 @@
         <label for="baseloginurl">Base URL:</label>
         <input type="text" class="form-control" id="baseloginurl" value='https://accounts.google.com/o/oauth2/v2/auth' title='eg, https://accounts.google.com/o/oauth2/v2/auth'>
       </div>
+      
       <div class="form-group">
         <label for="clientid">clientid:</label>
+        <!-- find this id in the Google API console: https://console.developers.google.com/apis/credentials?project=dpc-signin-3  -->
         <input type="text" class="form-control" id="clientid" value='96134933903-v3m16mg3qer4a4etkg0t7vuij1bj3na8.apps.googleusercontent.com'>
       </div>
+      
       <div class="form-group">
         <label for="state">state:</label>
         <input type="text" class="form-control" id="state">
       </div>
+      
       <div class="form-group">
         <label for="nonce">nonce:</label>
         <input type="text" class="form-control" id="nonce">
       </div>
+      
       <div class="form-group">
         <label for="cburi">callback URI:</label>
         <input type="text" class="form-control" id="cburi" value='http://dinochiesa.github.io/openid-connect/goog-reply.html'>
       </div>
+      
       <div class="form-group">
         <label for="rtype">response type:</label>
         <select name="rtype" id="rtype" multiple class="form-control chosen rtype-chosen" 
@@ -60,7 +66,6 @@
           <option value="id_token" >id_token</option>
           <option value="invalid_option" >invalid_option</option>
         </select>
-
       </div>
 
       <div class="form-group">
@@ -74,8 +79,13 @@
           <option value="https://www.googleapis.com/auth/drive" >drive</option>
           <option value="invalid_option" >invalid_option</option>
         </select>
-
       </div>
+      
+      <div class="form-group" style='display:none;'>
+        <label for="aud">Audience:</label>
+        <input type="text" class="form-control" id="aud" value=''>
+      </div>
+      
       <div>
         <button type="submit" class="btn btn-default" style='display:none'>Submit</button>
       </div>

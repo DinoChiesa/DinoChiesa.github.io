@@ -4,7 +4,7 @@
 // page logic for aad-login.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-October-07 21:42:44>
+// last saved: <2017-March-06 17:29:59>
 
 
 var model = {
@@ -14,15 +14,31 @@ var model = {
       state : '',
       nonce : '',
       rtype : [],
-      scope : []
+      scope : [],
+      aud : ''
     };
+
+function copyHash(obj) {
+  var copy = {};
+  if (null !== obj && typeof obj == "object") {
+    Object.keys(obj).forEach(function(attr){
+      copy[attr] = (Array.isArray(obj[attr])) ? obj[attr].slice() : obj[attr];
+    });
+  }
+  return copy;
+}
 
 function updateLink() {
   var linkTemplate = "${baseloginurl}?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}&nonce=${nonce}";
-  Object.keys(model).forEach(function(key) {
+  var copyModel = copyHash(model);
+  if (copyModel.aud && copyModel.scope) {
+    copyModel.scope.push('audience:server:client_id:' + copyModel.aud);
+    delete copyModel.aud;
+  }
+  Object.keys(copyModel).forEach(function(key) {
     var pattern = "${" + key + "}", value = '';
-    if (model[key]) {
-     value = (typeof model[key] != 'string') ? model[key].join('+') : model[key];
+    if (copyModel[key]) {
+     value = (typeof copyModel[key] != 'string') ? copyModel[key].join('+') : copyModel[key];
     }
     linkTemplate = linkTemplate.replace(pattern,value);
   });
