@@ -38,6 +38,9 @@ div.divider {
 #output > div {
   margin-top: 18px;
 }
+#authzlink {
+  overflow-wrap: break-word;
+}
 #authzRedemption {
   border: 1px dotted Grey;
   padding: 4px 12px;
