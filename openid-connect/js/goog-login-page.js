@@ -1,11 +1,10 @@
-// aad-login-page.js
+// goog-login-page.js
 // ------------------------------------------------------------------
 //
-// page logic for aad-login.html
+// page logic for goog-login.html and oidc-login.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2017-March-06 17:29:59>
-
+// last saved: <2017-April-19 08:11:57>
 
 var model = {
       baseloginurl : '',
@@ -17,6 +16,8 @@ var model = {
       scope : [],
       aud : ''
     };
+
+var html5AppId = html5AppId || "B673CC48-1927-46CB-827A-E6E9D7D5103D";
 
 function copyHash(obj) {
   var copy = {};
@@ -39,6 +40,10 @@ function updateLink() {
     var pattern = "${" + key + "}", value = '';
     if (copyModel[key]) {
      value = (typeof copyModel[key] != 'string') ? copyModel[key].join('+') : copyModel[key];
+      if (value) {
+        console.log('setting into LS: ' + key + '= ' + value);
+        window.localStorage.setItem(html5AppId + '.model.' + key, value);
+      }
     }
     linkTemplate = linkTemplate.replace(pattern,value);
   });
@@ -62,7 +67,6 @@ function onSelectChanged() {
 }
 
 function updateModel(event) {
-
   Object.keys(model).forEach(function(key) {
     var $item = $('#' + key), value = $item.val();
     model[key] = value;
@@ -71,6 +75,34 @@ function updateModel(event) {
 
   if (event)
     event.preventDefault();
+}
+
+
+function excludeTransientFields(key) {
+  return key != 'code'; // the only transient field, currently
+}
+
+function populateFormFields() {
+  // get values from local storage, and place into the form
+  Object.keys(model)
+    //.filter(excludeTransientFields)
+    .forEach(function(key) {
+    var value = window.localStorage.getItem(html5AppId + '.model.' + key);
+    if (value && value !== '') {
+      var $item = $('#' + key);
+      if (typeof model[key] != 'string') {
+        // the value is a set of values concatenated by +
+        // and the type of form field is select.
+        value.split('+').forEach(function(part){
+          $item.find("option[value='"+part+"']").prop("selected", "selected");
+        });
+      }
+      else {
+        // value is a simple string, form field type is input.
+        $item.val(value);
+      }
+    }
+  });
 }
 
 $(document).ready(function() {
@@ -83,6 +115,7 @@ $(document).ready(function() {
     allow_single_deselect: true
   });
 
+  populateFormFields();
 
   $( "form input[type='text']" ).change(onInputChanged);
   $( "form select" ).change(onSelectChanged);
