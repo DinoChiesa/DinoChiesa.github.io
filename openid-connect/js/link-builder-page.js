@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2017-June-12 15:21:39>
+// last saved: <2017-June-12 15:36:47>
 
 
 var model = model || {
@@ -44,7 +44,7 @@ function updateLink() {
   $('#authzlink').text(link);
   $('#authzlink').attr('href', link);
 
-  if (model.code){
+  if (model.code) {
     var re1 = new RegExp('/authorize.+');
     var newUrl = link.replace(re1, '/token');
     var payload = 'grant_type=authorization_code&code=' + model.code;
@@ -83,6 +83,15 @@ function updateModel(event) {
     event.preventDefault();
 }
 
+function resetRedemption(event) {
+  $('#redeemResult').html('');
+  $('#redeemCode').text('');
+  $('#code').val('');
+  updateModel();
+
+  if (event)
+    event.preventDefault();
+}
 
 function invokeRedemption(event) {
   var linkUrl = $('#authzlink').text();
@@ -158,6 +167,7 @@ $(document).ready(function() {
   $( "form button" ).submit(updateModel);
 
   $( "#invokeRedemption" ).click(invokeRedemption);
+  $( "#resetRedemption" ).click(resetRedemption);
 
   populateFormFields();
 
