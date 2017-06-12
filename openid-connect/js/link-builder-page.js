@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2017-June-12 15:36:47>
+// last saved: <2017-June-12 16:23:53>
 
 
 var model = model || {
@@ -88,7 +88,6 @@ function resetRedemption(event) {
   $('#redeemCode').text('');
   $('#code').val('');
   updateModel();
-
   if (event)
     event.preventDefault();
 }
@@ -110,13 +109,18 @@ function invokeRedemption(event) {
     data : payload,
     success: function(data, textStatus, jqXHR) {
       //data - response from server
-      $('#redeemResult').html('<pre class="access-token">' +
+      $('#redeemResult')
+        .removeClass('error')
+        .html('<pre class="access-token-response">' +
                               JSON.stringify(data, null, 2) +
                               '</pre>');
-
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      $('#redeemResult').text("Error.");
+      $('#redeemResult')
+        .addClass('error')
+        .html('<pre class="access-token-response">' +
+                              JSON.stringify(jqXHR.responseJSON || "error", null, 2) +
+                              '</pre>');
     }
   });
 

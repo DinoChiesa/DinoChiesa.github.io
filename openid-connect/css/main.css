@@ -35,6 +35,9 @@ div.divider {
   margin-top: 28px;
   font-size: 160%;
 }
+#output .error { 
+  color: Red;
+}
 #output > div {
   margin-top: 18px;
 }
