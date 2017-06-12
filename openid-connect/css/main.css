@@ -48,7 +48,7 @@ div.divider {
 #authzRedemption > button {
   margin: 4px 12px;
 }
-#redeemCode {
+#redeemCode, #redeemResult {
   font-family: "Lucida Console", Monaco, monospace;
   font-size: 80%;
 }

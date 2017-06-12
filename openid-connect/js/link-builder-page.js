@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2017-April-19 08:11:20>
+// last saved: <2017-June-12 15:21:39>
 
 
 var model = model || {
@@ -79,6 +79,37 @@ function updateModel(event) {
     model[key] = value;
   });
   updateLink();
+  if (event)
+    event.preventDefault();
+}
+
+
+function invokeRedemption(event) {
+  var linkUrl = $('#authzlink').text();
+  var re1 = new RegExp('/authorize.+');
+  var newUrl = linkUrl.replace(re1, '/token');
+  var payload = {
+        grant_type: 'authorization_code',
+        code: model.code
+      };
+
+  // NB: This call will fail if the server does not include CORS headers in the response
+  $.ajax({
+    url : newUrl,
+    type: "POST",
+    headers: { 'Authorization': 'Basic ' + btoa( model.clientid + ':' + model.clientsecret ) },
+    data : payload,
+    success: function(data, textStatus, jqXHR) {
+      //data - response from server
+      $('#redeemResult').html('<pre class="access-token">' +
+                              JSON.stringify(data, null, 2) +
+                              '</pre>');
+
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      $('#redeemResult').text("Error.");
+    }
+  });
 
   if (event)
     event.preventDefault();
@@ -122,10 +153,11 @@ $(document).ready(function() {
     allow_single_deselect: true
   });
 
-
   $( "form input[type='text']" ).change(onInputChanged);
   $( "form select" ).change(onSelectChanged);
   $( "form button" ).submit(updateModel);
+
+  $( "#invokeRedemption" ).click(invokeRedemption);
 
   populateFormFields();
 
