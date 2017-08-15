@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2017-June-12 16:23:53>
+// last saved: <2017-August-15 10:34:06>
 
 
 var model = model || {
@@ -40,7 +40,10 @@ function updateLink() {
       }
     }
     link = link.replace(pattern,value);
-  });
+    });
+  var extraneousDoubleSlashFinder = new RegExp('^(https?://[^/]+)//(.+)$');
+  var m = extraneousDoubleSlashFinder.exec(link);
+  if (m) { link = m[1] + '/' + m[2]; }
   $('#authzlink').text(link);
   $('#authzlink').attr('href', link);
 
