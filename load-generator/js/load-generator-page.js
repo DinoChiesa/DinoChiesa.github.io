@@ -1,7 +1,6 @@
 // load-generator-page.js
 // ------------------------------------------------------------------
 
-
 (function (){
   'use strict';
   var model = model || {
@@ -46,8 +45,8 @@
   }
 
   function onSelectChanged() {
-    var $$ = $(this), name = $$.attr('name'), values = [];
-    $$.find("option:selected" ).each(function() {
+    var $$ = $(this), name = $$.attr('name');
+    $$.find("option:selected").each(function() {
       model[name] = $( this ).text();
     });
   }
@@ -190,7 +189,8 @@
 
 
   $(document).ready(function() {
-    $( "form input[type='text']" ).change(onInputChanged);
+    //$( "form input[type='text']" ).change(onInputChanged);
+    $( "form input[type='url']" ).change(onInputChanged);
     $( "form select" ).change(onSelectChanged);
     $( "form button" ).click(updateRunState);
     populateFormFields();
