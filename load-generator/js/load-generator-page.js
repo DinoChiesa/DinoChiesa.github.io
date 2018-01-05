@@ -9,7 +9,7 @@
         endpoint : '',
       };
   var oneHourInMs = 60 * 60 * 1000;
-  var minSleepTimeInMs = 300;
+  var minSleepTimeInMs = 60;
   var html5AppId = html5AppId || "67B53CD3-AD0A-4D58-8DE7-997EBC7B3ED1";   // for localstorage
   var runState = 0;
   var Gaussian = function(mean, stddev) {
@@ -38,7 +38,6 @@
       };
 
 
-  var gaussian = new Gaussian(42, 2);
 
   function onInputChanged() {
     var $$ = $(this), name = $$.attr('id'), value = $$.val();
@@ -80,8 +79,10 @@
           188, 174, 179, 166, 181, 178, 179, 207,
           210, 224, 207, 219, 242, 244, 200, 196,
           194, 204, 241, 273, 266, 245, 246, 207];
-    var speed = Math.min(6, parseInt($('#speed option:selected').val(), 10));
-    return invocationsPerHour[Math.abs(currentHour) % 24] * Math.pow(2, speed - 1);
+    var speedFactor = Math.min(6, parseInt($('#speed option:selected').val(), 10));
+    var baseValue = invocationsPerHour[Math.abs(currentHour) % 24] * Math.pow(2, speedFactor);
+    var gaussian = new Gaussian(baseValue, 0.1 * baseValue);
+    return Math.floor(gaussian.next());
   }
 
   function getSleepTime(startOfMostRecentRequest) {
@@ -91,9 +92,9 @@
         durationOfLastRun = now - startOfMostRecentRequest,
         sleepTimeInMs = (oneHourInMs / runsPerHour) - durationOfLastRun;
     if (sleepTimeInMs < minSleepTimeInMs) { sleepTimeInMs = minSleepTimeInMs; }
-    sleepTimeInMs += gaussian.next();
+    //sleepTimeInMs += gaussian.next();
     sleepTimeInMs = Math.floor(sleepTimeInMs);
-    $('#status').html('runs per hour('+ runsPerHour +') ' +
+    $('#status').html(//'runs per hour('+ runsPerHour +') ' +
                        'sleep(' + sleepTimeInMs + 'ms) ' +
                        'wake(' +  new Date(now.valueOf() + sleepTimeInMs).toString().substr(16, 8) + ')');
     return sleepTimeInMs;
