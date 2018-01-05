@@ -12,6 +12,7 @@
   var minSleepTimeInMs = 60;
   var html5AppId = html5AppId || "67B53CD3-AD0A-4D58-8DE7-997EBC7B3ED1";   // for localstorage
   var runState = 0;
+  var timeoutId = null;
   var Gaussian = function(mean, stddev) {
         /*
           Function normal.
@@ -101,7 +102,7 @@
   }
 
   function invokeOneCall() {
-    if (runState !== 1) { return 0;}
+    if (runState !== 1) { return 0; }
 
     var linkUrl = $('#endpoint').val().trim();
     var method = $('#method option:selected').val();
@@ -112,11 +113,11 @@
           headers: { },
           success: function(data, textStatus, jqXHR) {
             incrementCount('#requestcount');
-            setTimeout(invokeOneCall, getSleepTime(startTime));
+            timeoutId = window.setTimeout(invokeOneCall, getSleepTime(startTime));
           },
           error: function (jqXHR, textStatus, errorThrown) {
             incrementCount('#errorcount');
-            setTimeout(invokeOneCall, getSleepTime(startTime));
+            timeoutId = window.setTimeout(invokeOneCall, getSleepTime(startTime));
           }
         };
 
@@ -160,6 +161,11 @@
     var state = $ss.attr('data_state');
     if (state == 'running') {
       runState = 0;
+      if (timeoutId) {
+        window.clearTimeout(timeoutId);
+        timeoutId = null;
+      $('#status').html('stopped.');
+      }
       $ss.attr('data_state', 'stopped');
       $ss.addClass('btn-success');
       $ss.removeClass('btn-danger');
@@ -167,8 +173,9 @@
     }
     else {
       runState = 1;
+      $('#status').html('running...');
       $ss.attr('data_state', 'running');
-      setTimeout(invokeOneCall, 2);
+      timeoutId = setTimeout(invokeOneCall, 2);
       $ss.html('Stop');
       $ss.addClass('btn-danger');
       $ss.removeClass('btn-success');

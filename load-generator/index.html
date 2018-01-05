@@ -14,8 +14,9 @@
 
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <style>
-     body { margin: 4px 8px; }
-     li a { font-size: 140%; }
+     body { margin: 4px 8px; font-size: 180%; }
+     input[type='url'] { font-size: 120%; }
+     optgroup { font-size: 120%; }
     </style>
     <script type='text/javascript'>
      var html5AppId = '7C4BBBFB-7870-44FF-A532-E1DD7FE90F99';
@@ -34,9 +35,11 @@
       <form role="form">
         <div class="form-group">
           <select name="method" id="method" class="form-control" style='width:auto;position:relative;float:left;' data-placeholder="method" required>
+            <optgroup>
             <option value="GET" >GET</option>
             <option value="POST">POST</option>
             <option value="PUT" >PUT</option>
+            </optgroup>
           </select>
 
           <div class="form-group col-sm-10 end-point" style='position:relative; width:72%;' >
