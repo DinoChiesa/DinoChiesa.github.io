@@ -137,28 +137,6 @@
     $.ajax(options);
   }
 
-  function populateFormFields() {
-    // get values from local storage, and place into the form
-    Object.keys(model)
-      .forEach(function(key) {
-        var value = window.localStorage.getItem(html5AppId + '.model.' + key);
-        if (value && value !== '') {
-          var $item = $('#' + key);
-          if (typeof model[key] != 'string') {
-            // the value is a set of values concatenated by +
-            // and the type of form field is select.
-            value.split('+').forEach(function(part){
-              $item.find("option[value='"+part+"']").prop("selected", "selected");
-            });
-          }
-          else {
-            // value is a simple string, form field type is input.
-            $item.val(value);
-          }
-        }
-      });
-  }
-
   function updateRunState(event) {
     var $ss = $('#startstop');
     var state = $ss.attr('data_state');
@@ -187,13 +165,33 @@
       event.preventDefault();
   }
 
+  function populateFormFieldsFromLocalStorage() {
+    Object.keys(model)
+      .forEach(function(key) {
+        var value = window.localStorage.getItem(html5AppId + '.model.' + key);
+        if (value && value !== '') {
+          var $item = $('#' + key);
+          if (typeof model[key] != 'string') {
+            // the value is a set of values concatenated by +
+            // and the type of form field is select.
+            value.split('+').forEach(function(part){
+              $item.find("option[value='"+part+"']").prop("selected", "selected");
+            });
+          }
+          else {
+            // value is a simple string, form field type is input.
+            $item.val(value);
+          }
+        }
+      });
+  }
 
   $(document).ready(function() {
     //$( "form input[type='text']" ).change(onInputChanged);
     $( "form input[type='url']" ).change(onInputChanged);
     $( "form select" ).change(onSelectChanged);
     $( "form button" ).click(updateRunState);
-    populateFormFields();
+    populateFormFieldsFromLocalStorage();
   });
 
 
