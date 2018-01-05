@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Load generator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" 
+          href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script type='text/javascript'
+            src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ 
+    <script type='text/javascript'
+            src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <style>
+     body { margin: 4px 8px; }
+     li a { font-size: 140%; }
+    </style>
+    <script type='text/javascript'>
+     var html5AppId = '7C4BBBFB-7870-44FF-A532-E1DD7FE90F99';
+    </script>
+    <script type='text/javascript' src='js/load-generator-page.js'></script>
+  </head>
+
+  <!-- ======================================================= -->
+
+  <body>
+    <div style='margin: 10px;'>
+
+      <h2>Load Generator</h2>
+      <p>This web page will generate load against an API that you specify.</p>
+
+      <form role="form">
+        <div class="form-group">
+          <select name="method" id="method" class="form-control" style='width:auto;position:relative;float:left;' data-placeholder="method" required>
+            <option value="GET" >GET</option>
+            <option value="POST">POST</option>
+            <option value="PUT" >PUT</option>
+          </select>
+
+          <div class="form-group col-sm-10 end-point" style='position:relative; width:72%;' >
+            <input type="url" autocomplete="off" class="form-control http-end-point" name="endpoint" id='endpoint' required="" value='https://amer-demo2-prod.apigee.net/sumiya-1/t1'/>
+          </div>
+
+          <div class="form-group col-sm-1 nopadding" style='position:relative; width:auto;' >
+            <button class="btn btn-success send-req" id='startstop'>Start</button>
+          </div>
+          <div style='width:100%;clear:both;'/>
+          <label for'='speed'>speed:</label>
+          <select name="speed" id="speed" class="form-control" style='width:auto;position:relative;float:left;' required>
+            <option value="1" >1</option>
+            <option value="2" >2</option>
+            <option selected value="3" >3</option>
+            <option value="4" >4</option>
+            <option value="5" >5</option>
+            <option value="6" >6</option>
+          </select>
+          <div style='width:100%;clear:both;'/>
+          
+          </div>
+      </form>
+
+      <div id='output'>
+        <div>status: <span id='status'>--</span></div>
+        <div>success: <span id='requestcount'>0</span></div>
+        <div>errors: <span id='errorcount'>0</span></div>
+      </div>
+
+    </div>
+  </body>
+
+</html>
