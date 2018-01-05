@@ -9,7 +9,7 @@
         endpoint : '',
       };
   var oneHourInMs = 60 * 60 * 1000;
-  var minSleepTimeInMs = 60;
+  var minSleepTimeInMs = 20;
   var html5AppId = html5AppId || "67B53CD3-AD0A-4D58-8DE7-997EBC7B3ED1";   // for localstorage
   var runState = 0;
   var timeoutId = null;
@@ -113,11 +113,15 @@
           headers: { },
           success: function(data, textStatus, jqXHR) {
             incrementCount('#requestcount');
-            timeoutId = window.setTimeout(invokeOneCall, getSleepTime(startTime));
+            if (runState == 1) {
+              timeoutId = window.setTimeout(invokeOneCall, getSleepTime(startTime));
+            }
           },
           error: function (jqXHR, textStatus, errorThrown) {
             incrementCount('#errorcount');
-            timeoutId = window.setTimeout(invokeOneCall, getSleepTime(startTime));
+            if (runState == 1) {
+              timeoutId = window.setTimeout(invokeOneCall, getSleepTime(startTime));
+            }
           }
         };
 
