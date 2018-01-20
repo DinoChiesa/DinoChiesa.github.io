@@ -108,14 +108,14 @@
     //sleepTimeInMs += gaussian.next();
     sleepTimeInMs = Math.floor(sleepTimeInMs);
     $('#status').html(//'runs per hour('+ runsPerHour +') ' +
-      'sleep(' + sleepTimeInMs + 'ms) ' +
-      'wake(' +  new Date(now.valueOf() + sleepTimeInMs).toString().substr(16, 8) + ')');
+      'sleep ' + sleepTimeInMs + 'ms, wake at: ' +
+        new Date(now.valueOf() + sleepTimeInMs).toString().substr(16, 8) );
     return sleepTimeInMs;
   }
 
   function invokeOneCall() {
     if (runState !== 1) { return 0; }
-
+    $('#status').html('sending...');
     var linkUrl = $('#endpoint').val().trim();
     var method = $('#method option:selected').val().toLowerCase();
     var startTime = new Date();
@@ -189,7 +189,7 @@
       event.preventDefault();
   }
 
-  function resetCounts(event) {
+  function resetPage(event) {
     var $ss = $('#startstop');
     var state = $ss.attr('data_state');
     if (state !== 'running') {
@@ -198,6 +198,8 @@
       $c = $('#errorcount');
       $c.html('0');
     }
+    $( "#response" ).html("");
+    $( "#option-tabs" ).tabs('select', 0);
     if (event)
       event.preventDefault();
   }
@@ -247,7 +249,7 @@
     $( "form select" ).change(onSelectChanged);
     $( "#add-header" ).click(addOneHeader);
     $( "form #startstop" ).click(updateRunState);
-    $( "form #reset" ).click(resetCounts);
+    $( "form #reset" ).click(resetPage);
     populateFormFieldsFromLocalStorage();
   });
 
