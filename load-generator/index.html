@@ -6,35 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" 
           href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    
     <script type='text/javascript'
             src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
- 
+
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <!-- 
     <script type='text/javascript'
             src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
+ -->
     <link rel="stylesheet" type="text/css" href="css/main.css">
-    <style>
-     body { margin: 4px 8px; font-size: 180%; }
-     input[type='url'] { font-size: 120%; }
-     optgroup { font-size: 120%; }
-    </style>
     <script type='text/javascript'>
      var html5AppId = '7C4BBBFB-7870-44FF-A532-E1DD7FE90F99';
     </script>
     <script type='text/javascript' src='js/load-generator-page.js'></script>
   </head>
 
-  <!-- ======================================================= -->
-
   <body>
     <div style='margin: 10px auto; max-width:1140px; background-color: #F1F1F1; padding: 20px;'>
 
       <h2>Load Generator</h2>
-      <p>This web page will generate load against an API that you specify.</p>
+      <p>This web page will generate requests against an HTTP Endpoint that you specify.</p>
 
       <form role="form">
         <div class="form-group">
-          <select name="method" id="method" class="form-control" style='width:auto;position:relative;float:left;' data-placeholder="method" required>
+          <select name="method" id="method" class="form-control" style='width:auto;position:relative;float:left;' placeholder="method" required>
             <optgroup>
             <option value="GET" >GET</option>
             <option value="POST">POST</option>
@@ -46,10 +43,34 @@
             <input type="url" autocomplete="off" class="form-control http-end-point" name="endpoint" id='endpoint' required="" value='https://amer-demo2-prod.apigee.net/sumiya-1/t1'/>
           </div>
 
-          <div class="form-group col-sm-1 nopadding" style='position:relative; width:auto;' >
+          <div class="form-group col-sm-1 nopadding" style='position:relative; width:auto; float:left; padding-left: 4px; padding-right: 4px;' >
             <button class="btn btn-success send-req" id='startstop'>Start</button>
           </div>
-          <div style='width:100%;clear:both;'/>
+          <div class="form-group col-sm-1 nopadding" style='position:relative; width:auto;float:left; padding-left: 4px; padding-right: 4px;' >
+            <button class="btn btn-default btn-outline send-req" id='reset'>Reset</button>
+          </div>
+          <div style='width:100%;clear:both;'></div>
+
+          <div id='option-tabs'>
+            <ul>
+              <li><a href="#headers">Headers</a></li>
+              <li><a href="#payload">Payload</a></li>
+              <li><a href="#response">Response</a></li>
+            </ul>
+
+            <div id='headers'>
+              <div><button class="btn btn-default btn-outline" id='add-header' title="add">+</button></div>
+            </div>
+          
+            <div id='payload'>
+              <textarea id='txt-payload' title="payload" rows='5' placeholder="Payload Here"></textarea>
+            </div>
+            
+            <div id='response'>
+            </div>
+
+          </div>
+          
           <label for'='speed'>speed:</label>
           <select name="speed" id="speed" class="form-control" style='width:auto;position:relative;float:left;' required>
             <option value="1" >1</option>
@@ -59,9 +80,8 @@
             <option value="5" >5</option>
             <option selected value="6" >6</option>
           </select>
-          <div style='width:100%;clear:both;'/>
-          
-          </div>
+          <div style='width:100%;clear:both;'></div>
+        </div>
       </form>
 
       <div id='output'>
@@ -69,8 +89,8 @@
         <div>success: <span id='requestcount'>0</span></div>
         <div>errors: <span id='errorcount'>0</span></div>
       </div>
-
     </div>
+
   </body>
 
 </html>
