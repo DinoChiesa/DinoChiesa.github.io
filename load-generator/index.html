@@ -20,6 +20,7 @@
     <script type='text/javascript'>
      var html5AppId = '7C4BBBFB-7870-44FF-A532-E1DD7FE90F99';
     </script>
+    <script type='text/javascript' src='js/CountdownTimer.js'></script>
     <script type='text/javascript' src='js/load-generator-page.js'></script>
   </head>
 
@@ -71,15 +72,11 @@
 
           </div>
           
-          <label for'='speed'>speed:</label>
-          <select name="speed" id="speed" class="form-control" style='width:auto;position:relative;float:left;' required>
-            <option value="1" >1</option>
-            <option value="2" >2</option>
-            <option value="3" >3</option>
-            <option value="4" >4</option>
-            <option value="5" >5</option>
-            <option selected value="6" >6</option>
-          </select>
+          <label for'='batchsize'>batch size:</label>
+          <select name="batchsize" id="batchsize" class="form-control" style='width:auto;position:relative;float:left;' required></select>
+          <div style='width:100%;clear:both;'></div>
+          <label for'='speedfactor'>speed factor:</label>
+          <select name="speedfactor" id="speedfactor" class="form-control" style='width:auto;position:relative;float:left;' required></select>
           <div style='width:100%;clear:both;'></div>
         </div>
       </form>

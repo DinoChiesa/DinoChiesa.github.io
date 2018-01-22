@@ -7,11 +7,13 @@
         method : '',
         endpoint : '',
       };
-  var oneHourInMs = 60 * 60 * 1000;
-  var minSleepTimeInMs = 20;
+  const oneHourInMs = 60 * 60 * 1000;
+  const minSleepTimeInMs = 20;
+  var sleepTimer;
+  const maxBatchSize = 20;
+  const maxSpeedFactor = 11;
   var html5AppId = html5AppId || "67B53CD3-AD0A-4D58-8DE7-997EBC7B3ED1";   // for localstorage
   var runState = 0;
-  var timeoutId = null;
   var oneHeaderLine =
     '<div class="form-group col-sm-8 one-header">\n' +
     '  <input autocomplete="off" class="form-control http-header-name" value="" placeholder="Header Name"/>\n' +
@@ -89,23 +91,24 @@
 
   function getRunsPerHour(currentHour) {
     var invocationsPerHour = [
-          188, 174, 179, 166, 181, 178, 179, 207,
-          210, 224, 207, 219, 242, 244, 200, 196,
-          194, 204, 241, 273, 266, 245, 246, 207];
-    var speedFactor = Math.min(6, parseInt($('#speed option:selected').val(), 10));
-    var baseValue = invocationsPerHour[Math.abs(currentHour) % 24] * Math.pow(2, speedFactor);
+          94, 87, 89, 83, 90, 89, 89, 103,
+          105, 112, 103, 109, 121, 122, 100, 98,
+          97, 102, 120, 136, 133, 122, 123, 103];
+    var speedfactor = Math.min(maxSpeedFactor, parseInt($('#speedfactor option:selected').val(), 10));
+    var baseValue = invocationsPerHour[Math.abs(currentHour) % 24] * speedfactor;
     var gaussian = new Gaussian(baseValue, 0.1 * baseValue);
     return Math.floor(gaussian.next());
+    //return invocationsPerHour[Math.abs(currentHour) % 24];
   }
 
-  function getSleepTime(startOfMostRecentRequest) {
+  function getSleepTimeInMs(startOfMostRecentRequest) {
     var now = new Date(),
         currentHour = now.getHours(),
         runsPerHour = getRunsPerHour(currentHour),
         durationOfLastRun = now - startOfMostRecentRequest,
         sleepTimeInMs = (oneHourInMs / runsPerHour) - durationOfLastRun;
     if (sleepTimeInMs < minSleepTimeInMs) { sleepTimeInMs = minSleepTimeInMs; }
-    //sleepTimeInMs += gaussian.next();
+    // sleepTimeInMs += gaussian.next();
     sleepTimeInMs = Math.floor(sleepTimeInMs);
     $('#status').html(//'runs per hour('+ runsPerHour +') ' +
       'sleep ' + sleepTimeInMs + 'ms, wake at: ' +
@@ -113,50 +116,83 @@
     return sleepTimeInMs;
   }
 
-  function invokeOneCall() {
+  function errorHandler(resolve, fail) {
+    return function(jqXHR, textStatus, errorThrown) {
+      incrementCount('#errorcount');
+      resolve({});
+    };
+  }
+
+  function successHandler (resolve, fail) {
+    return function (data, textStatus, jqXHR) {
+      incrementCount('#requestcount');
+      $( "#response" ).html("<pre>" +
+                            jqXHR.status + " " + jqXHR.statusText + "\n" +
+                            jqXHR.getAllResponseHeaders() + "\n" +
+                            jqXHR.responseText +
+                            "</pre>");
+      resolve({});
+    };
+  }
+
+
+  function invokeOne(linkUrl, method, payload, headers) {
+    return new Promise(function(resolve, fail) {
+      var options = {
+            url : linkUrl,
+            type: method,
+            headers: headers,
+            success: successHandler(resolve, fail),
+            error: errorHandler(resolve, fail)
+          };
+
+      if ((method === 'post') || (method === 'put')) {
+        options.data = payload;
+      }
+
+      // NB: This call may fail if the server does not include CORS headers in the response
+      //console.log(method + ' ' + linkUrl);
+      $.ajax(options);
+    });
+  }
+
+  function sleepTick(millisecondsRemaining) {
+    var val = Math.floor(millisecondsRemaining / 1000) ;
+    if (val > 0) {
+      $('#status').html('wake in ' + val + 's');
+    }
+  }
+
+  function invokeOneBatch() {
     if (runState !== 1) { return 0; }
-    $('#status').html('sending...');
+    var startTime = new Date();
+    $('#status').html('sending batch...');
     var linkUrl = $('#endpoint').val().trim();
     var method = $('#method option:selected').val().toLowerCase();
-    var startTime = new Date();
-    var options = {
-          url : linkUrl,
-          type: method,
-          headers: { },
-          success: function(data, textStatus, jqXHR) {
-            incrementCount('#requestcount');
-            $( "#response" ).html("<pre>" +
-                                  jqXHR.status + " " + jqXHR.statusText + "\n" +
-                                  jqXHR.getAllResponseHeaders() + "\n" +
-                                  jqXHR.responseText +
-                                  "</pre>");
-            if (runState == 1) {
-              timeoutId = window.setTimeout(invokeOneCall, getSleepTime(startTime));
-            }
-          },
-          error: function (jqXHR, textStatus, errorThrown) {
-            incrementCount('#errorcount');
-            if (runState == 1) {
-              timeoutId = window.setTimeout(invokeOneCall, getSleepTime(startTime));
-            }
-          }
-        };
-
-    if (method !== 'get') {
-      options.data = $('#txt-payload').val();
-    }
-
+    var payload = $('#txt-payload').val();
+    var headers = [];
     var $container = $('#headers');
     $container.find('.one-header').each(function(ix, element){
       var name = $(this).find('.http-header-name').val();
       var value = $(this).find('.http-header-value').val();
-      options.headers[name] = value;
+      headers[name] = value;
     });
+    var batchsize = Math.min(maxBatchSize, parseInt($('#batchsize option:selected').val(), 10));
 
-    // NB: This call may fail if the server does not include CORS headers in the response
-    //console.log(method + ' ' + linkUrl);
-    $.ajax(options);
+    // initialize array of N promises
+    const promises = Array.apply(null, Array(batchsize))
+      .map((x, i) => invokeOne(linkUrl, method, payload, headers));
+
+    Promise.all(promises).then(function(resultValues) {
+      if (runState == 1) {
+        sleepTimer = new CountdownTimer(getSleepTimeInMs(startTime))
+          .onTick(sleepTick)
+          .onExpired(invokeOneBatch)
+          .start();
+      }
+    });
   }
+
 
   function updateRunState(event) {
     var $ss = $('#startstop');
@@ -164,11 +200,11 @@
     var state = $ss.attr('data_state');
     if (state == 'running') {
       runState = 0;
-      if (timeoutId) {
-        window.clearTimeout(timeoutId);
-        timeoutId = null;
-        $('#status').html('stopped.');
+      if (sleepTimer) {
+        sleepTimer.stop();
+        sleepTimer = null;
       }
+      $('#status').html('stopped.');
       $ss.attr('data_state', 'stopped');
       $ss.addClass('btn-success');
       $ss.removeClass('btn-danger');
@@ -179,7 +215,7 @@
       runState = 1;
       $('#status').html('running...');
       $ss.attr('data_state', 'running');
-      timeoutId = setTimeout(invokeOneCall, 2);
+      setTimeout(invokeOneBatch, 2);
       $r.attr("disabled", "disabled");
       $ss.html('Stop');
       $ss.addClass('btn-danger');
@@ -241,7 +277,22 @@
       event.preventDefault();
   }
 
+  function initDropdowns() {
+    initDropdown("#batchsize", maxBatchSize);
+    initDropdown("#speedfactor", maxSpeedFactor);
+  }
+
+  function initDropdown(query, N) {
+    var $dropdown = $(query);
+    const values = Array.apply(null, Array(N)).map((x, i) => (N - i));
+    $.each(values, function(ix, value) {
+      // <option value="1" >1</option>
+      $dropdown.append($("<option />").val(value).text(value));
+    });
+  }
+
   $(document).ready(function() {
+    initDropdowns();
     // $( "form input[type='text']" ).change(onInputChanged);
     $( "#option-tabs" ).tabs({ active: 0 });
     $( "#option-tabs" ).tabs( "option", "disabled", [ 1 ] ); // initially
