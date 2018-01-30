@@ -6,22 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" 
           href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    
     <script type='text/javascript'
             src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <!-- 
-    <script type='text/javascript'
-            src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
- -->
     <link rel="stylesheet" type="text/css" href="css/main.css">
-    <script type='text/javascript'>
-     var html5AppId = '7C4BBBFB-7870-44FF-A532-E1DD7FE90F99';
-    </script>
-
-    
     <script type='text/javascript' src='js/CountdownTimer.js'></script>
     <script type='text/javascript' src='js/s3u-jsonpath.js'></script>
     <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js'></script>
@@ -32,8 +21,11 @@
     <div style='margin: 10px auto; max-width:1140px; background-color: #F1F1F1; padding: 20px;'>
 
       <h2>Request Generator</h2>
-      <p>This web page will generate a stream of requests against an HTTP Endpoint, with parameters that you specify.</p>
-      <p>Endpoints specified here must support <a href='https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS'>CORS</a> and must <span title='Access-Control-Allow-Origin: *'>allow any origin.</span></p>
+      <p>This web page will generate a stream of requests against one or more HTTP Endpoints, with parameters that you specify.</p>
+      <p>Endpoints specified here must support <a href='https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS'>CORS</a> and must <span title='Access-Control-Allow-Origin: *'>allow any origin.</span>
+You can extract values from JSON payloads using jsonpath, then employ those values in the url, payload, or headers for subsequent steps.
+        The behavior of the extraction logic is not defined or tested for responses that contain non-JSON payloads.
+      </p>
 
       <form role="form">
         <div class="form-group">

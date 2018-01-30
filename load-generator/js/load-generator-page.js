@@ -8,12 +8,13 @@
         maxSpeedFactor = 11,
         defaultSpeedFactor = 5,
         oneHourInMs = 60 * 60 * 1000,
-        minSleepTimeInMs = 20;
+        minSleepTimeInMs = 20,
+        requestFieldsToStore = ['http-end-point', 'method', 'batchsize-select', 'txt-payload', 'headers', 'extracts'];
 
   var context = { };
   var sleepTimer;
   var requestIndex = 0;
-  var html5AppId = html5AppId || "67B53CD3-AD0A-4D58-8DE7-997EBC7B3ED1";   // for localstorage
+  var html5AppId = "67B53CD3-AD0A-4D58-8DE7-997EBC7B3ED1";   // for localstorage
   var oneRequestTemplate;
   var oneHeaderLine = '', oneExtractLine = '';
   var runState = 0;
@@ -289,7 +290,7 @@
   }
 
   function populateRequestFieldsFromLocalStorage($div, n) {
-    ['http-end-point', 'method', 'batchsize-select', 'txt-payload', 'headers', 'extracts'].forEach( key => {
+    requestFieldsToStore.forEach( key => {
       var storageKey = storageKeyForRequest(n, key);
       var value = window.localStorage.getItem( storageKey );
       if (value && value !== '') {
@@ -316,7 +317,7 @@
   }
 
   function storeRequestFieldsIntoLocalStorage($div, n) {
-    ['http-end-point', 'method', 'batchsize-select', 'txt-payload', 'headers', 'extracts'].forEach( key => {
+    requestFieldsToStore.forEach( key => {
       var $field = $div.find('.' + key );
       var storageKey = storageKeyForRequest(n, key);
       var value = '';
