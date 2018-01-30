@@ -4,12 +4,13 @@
     <option value="GET" >GET</option>
     <option value="POST">POST</option>
     <option value="PUT" >PUT</option>
+    <option value="OPTIONS" >OPTIONS</option>
     </optgroup>
   </select>
 
   <div class="form-group col-sm-10 end-point endpoint" style='position:relative; width:72%;' >
     <input type="url" autocomplete="off" class="form-control http-end-point" placeholder='URL here'
-           required="" value=''/>
+           required="" value='' title='This should be an http/s URL. Can use handlebars syntax.'/>
   </div>
 
   <div style='width:100%;clear:both;'></div>
@@ -17,7 +18,7 @@
   <div class='option-tabs'>
     <ul>
       <li><a href="#headers-{{ix}}">Request Headers</a></li>
-      <li><a href="#payload-{{ix}}">Request Payload</a></li>
+      <li><a href="#payload-{{ix}}" title='Meaningful only for PUT or POST'>Request Payload</a></li>
       <li><a href="#response-{{ix}}">Response</a></li>
       <li><a href="#extracts-{{ix}}">Post-Response Extracts</a></li>
     </ul>
@@ -27,7 +28,9 @@
     </div>
 
     <div id='payload-{{ix}}' class='payload'>
-      <textarea class='txt-payload' title="payload" rows='5' placeholder="Payload Here"></textarea>
+      <textarea class='txt-payload' rows='5' placeholder="Payload Here"
+         title='You can use handlebars syntax here to refer to context values, eg { "foo": "\{{bar}}" }'/>
+      ></textarea>
     </div>
 
     <div id='response-{{ix}}' class='response'>

@@ -1,6 +1,8 @@
 <div class="form-group col-sm-8 one-extract">
-  <input autocomplete="off" class="form-control extract-name" value="" placeholder="Extract Name"/>
-  <input autocomplete="off" class="form-control extract-jsonpath" value="" placeholder="JSON Path, e.g.: $.access_token"/>
+  <input autocomplete="off" class="form-control extract-name" value="" placeholder="Extract Name"
+         title="name for the field in the context"/>
+  <input autocomplete="off" class="form-control extract-jsonpath" value="" placeholder="JSON Path, e.g.: $.access_token"
+         title="jsonpath to use, to extract the value for the context"/>
   <button class="btn btn-default btn-outline remove" title="delete">X</button>
   <div class="clearfix"></div>
 </div>

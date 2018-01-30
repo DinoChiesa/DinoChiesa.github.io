@@ -1,6 +1,8 @@
 <div class="form-group col-sm-8 one-header">
-  <input autocomplete="off" class="form-control http-header-name" value="" placeholder="Header Name"/>
-  <input autocomplete="off" class="form-control http-header-value" value="" placeholder="Header Value"/>
+  <input autocomplete="off" class="form-control http-header-name" value="" placeholder="Header Name"
+         title="You can use handlebars syntax here to refer to context values, eg 'X-{{username}}'"/>
+  <input autocomplete="off" class="form-control http-header-value" value="" placeholder="Header Value"
+         title="You can use handlebars syntax here to refer to context values, eg 'Bearer {{token}}'"/>
   <button class="btn btn-default btn-outline remove" title="delete">X</button>
   <div class="clearfix"></div>
 </div>
