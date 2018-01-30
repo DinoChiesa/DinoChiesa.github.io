@@ -1,0 +1,4 @@
+{
+    "browser"       : true,     // Web Browser (window, document, etc)
+    "esversion": 6
+}

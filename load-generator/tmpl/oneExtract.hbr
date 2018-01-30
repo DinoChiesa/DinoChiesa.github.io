@@ -1,0 +1,6 @@
+<div class="form-group col-sm-8 one-extract">
+  <input autocomplete="off" class="form-control extract-name" value="" placeholder="Extract Name"/>
+  <input autocomplete="off" class="form-control extract-jsonpath" value="" placeholder="JSON Path, e.g.: $.access_token"/>
+  <button class="btn btn-default btn-outline remove" title="delete">X</button>
+  <div class="clearfix"></div>
+</div>

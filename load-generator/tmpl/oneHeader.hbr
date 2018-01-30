@@ -1,0 +1,6 @@
+<div class="form-group col-sm-8 one-header">
+  <input autocomplete="off" class="form-control http-header-name" value="" placeholder="Header Name"/>
+  <input autocomplete="off" class="form-control http-header-value" value="" placeholder="Header Value"/>
+  <button class="btn btn-default btn-outline remove" title="delete">X</button>
+  <div class="clearfix"></div>
+</div>

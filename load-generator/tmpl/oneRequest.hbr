@@ -1,0 +1,47 @@
+<div id='request-form-{{ix}}' class='one-request'>
+  <select class="form-control method" style='width:auto;position:relative;float:left;' placeholder="method" required>
+    <optgroup>
+    <option value="GET" >GET</option>
+    <option value="POST">POST</option>
+    <option value="PUT" >PUT</option>
+    </optgroup>
+  </select>
+
+  <div class="form-group col-sm-10 end-point endpoint" style='position:relative; width:72%;' >
+    <input type="url" autocomplete="off" class="form-control http-end-point" placeholder='URL here'
+           required="" value=''/>
+  </div>
+
+  <div style='width:100%;clear:both;'></div>
+
+  <div class='option-tabs'>
+    <ul>
+      <li><a href="#headers-{{ix}}">Request Headers</a></li>
+      <li><a href="#payload-{{ix}}">Request Payload</a></li>
+      <li><a href="#response-{{ix}}">Response</a></li>
+      <li><a href="#extracts-{{ix}}">Post-Response Extracts</a></li>
+    </ul>
+
+    <div id='headers-{{ix}}' class='headers'>
+      <button class="btn btn-default btn-outline add" title="add">+</button>
+    </div>
+
+    <div id='payload-{{ix}}' class='payload'>
+      <textarea class='txt-payload' title="payload" rows='5' placeholder="Payload Here"></textarea>
+    </div>
+
+    <div id='response-{{ix}}' class='response'>
+    </div>
+    
+    <div id='extracts-{{ix}}' class='extracts'>
+      <div><button class="btn btn-default btn-outline add" title="add">+</button></div>
+    </div>
+  </div>
+
+  <div class='batchsize'>
+    <label >batch size:</label>
+    <select class="form-control batchsize-select" style='width:auto;position:relative;float:left;' required></select>
+  </div>
+  
+  <div style='width:100%;clear:both;'></div>
+</div>

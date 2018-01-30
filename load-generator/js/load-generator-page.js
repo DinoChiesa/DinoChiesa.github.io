@@ -3,24 +3,20 @@
 
 (function (){
   'use strict';
-  var model = model || {
-        method : '',
-        endpoint : '',
-      };
-  const oneHourInMs = 60 * 60 * 1000;
-  const minSleepTimeInMs = 20;
+  const maxBatchSize = 20,
+        defaultBatchSize = 1,
+        maxSpeedFactor = 11,
+        defaultSpeedFactor = 5,
+        oneHourInMs = 60 * 60 * 1000,
+        minSleepTimeInMs = 20;
+
+  var context = { };
   var sleepTimer;
-  const maxBatchSize = 20;
-  const maxSpeedFactor = 11;
+  var requestIndex = 0;
   var html5AppId = html5AppId || "67B53CD3-AD0A-4D58-8DE7-997EBC7B3ED1";   // for localstorage
+  var oneRequestTemplate;
+  var oneHeaderLine = '', oneExtractLine = '';
   var runState = 0;
-  var oneHeaderLine =
-    '<div class="form-group col-sm-8 one-header">\n' +
-    '  <input autocomplete="off" class="form-control http-header-name" value="" placeholder="Header Name"/>\n' +
-    '  <input autocomplete="off" class="form-control http-header-value" value="" placeholder="Header Value"/>\n' +
-    '  <button class="btn btn-default btn-outline remove-header" title="delete">X</button>\n' +
-    '</div>\n' +
-    '<div class="clearfix"></div>';
   var Gaussian = function(mean, stddev) {
         /*
           Function normal.
@@ -46,33 +42,21 @@
         };
       };
 
-  function onInputChanged() {
-    var $$ = $(this), name = $$.attr('id'), value = $$.val();
-    model[name] = value;
+  function onSelectChanged(event) {
+    var $$ = $(this);
+    showOrHidePayloadAsNecessary($$);
   }
 
-  function onSelectChanged() {
-    var $$ = $(this), name = $$.attr('name');
+  function showOrHidePayloadAsNecessary($$) {
     $$.find("option:selected").each(function() {
-      var text = $( this ).text().toLowerCase(),
-          $payload = $("#payload");
-      model[name] = text;
-      if (text === 'post' || text === 'put') {
-        $( "#option-tabs" ).tabs( "option", "disabled", false );
-      }
-      else if (text === 'get') {
-        $( "#option-tabs" ).tabs( "option", "disabled", [1] );
-      }
+      var text = $( this ).text().toLowerCase();
+    if (text === 'post' || text === 'put') {
+      $$.parent().find( ".option-tabs" ).tabs( "option", "disabled", false );
+    }
+    else if (text === 'get') {
+      $$.parent().find( ".option-tabs" ).tabs( "option", "disabled", [1] );
+    }
     });
-  }
-
-  function updateModel(event) {
-    Object.keys(model).forEach(function(key) {
-      var $item = $('#' + key), value = $item.val();
-      model[key] = value;
-    });
-    if (event)
-      event.preventDefault();
   }
 
   function incrementCount(query) {
@@ -95,10 +79,9 @@
           105, 112, 103, 109, 121, 122, 100, 98,
           97, 102, 120, 136, 133, 122, 123, 103];
     var speedfactor = Math.min(maxSpeedFactor, parseInt($('#speedfactor option:selected').val(), 10));
-    var baseValue = invocationsPerHour[Math.abs(currentHour) % 24] * speedfactor;
-    var gaussian = new Gaussian(baseValue, 0.1 * baseValue);
+    var baseValue = invocationsPerHour[Math.abs(currentHour) % 24] * speedfactor / 2;
+    var gaussian = new Gaussian(baseValue, 0.1 * baseValue); // fuzz
     return Math.floor(gaussian.next());
-    //return invocationsPerHour[Math.abs(currentHour) % 24];
   }
 
   function getSleepTimeInMs(startOfMostRecentRequest) {
@@ -116,34 +99,38 @@
     return sleepTimeInMs;
   }
 
-  function errorHandler(resolve, fail) {
+  function errorHandler($div, resolve, fail) {
     return function(jqXHR, textStatus, errorThrown) {
       incrementCount('#errorcount');
-      resolve({});
-    };
-  }
-
-  function successHandler (resolve, fail) {
-    return function (data, textStatus, jqXHR) {
-      incrementCount('#requestcount');
-      $( "#response" ).html("<pre>" +
+      $div.find( ".response" ).html("<pre>" +
                             jqXHR.status + " " + jqXHR.statusText + "\n" +
                             jqXHR.getAllResponseHeaders() + "\n" +
                             jqXHR.responseText +
-                            "</pre>");
+                                    "</pre>");
       resolve({});
     };
   }
 
+  function successHandler ($div, resolve, fail) {
+    return function (data, textStatus, jqXHR) {
+      incrementCount('#requestcount');
+      $div.find( ".response" ).html("<pre>" +
+                            jqXHR.status + " " + jqXHR.statusText + "\n" +
+                            jqXHR.getAllResponseHeaders() + "\n" +
+                            jqXHR.responseText +
+                                    "</pre>");
+      resolve(JSON.parse(jqXHR.responseText));
+    };
+  }
 
-  function invokeOne(linkUrl, method, payload, headers) {
+  function invokeOneRequest(linkUrl, method, payload, headers, $div) {
     return new Promise(function(resolve, fail) {
       var options = {
             url : linkUrl,
             type: method,
             headers: headers,
-            success: successHandler(resolve, fail),
-            error: errorHandler(resolve, fail)
+            success: successHandler($div, resolve, fail),
+            error: errorHandler($div, resolve, fail)
           };
 
       if ((method === 'post') || (method === 'put')) {
@@ -157,42 +144,97 @@
   }
 
   function sleepTick(millisecondsRemaining) {
+    if (runState !== 1) { return 0; }
     var val = Math.floor(millisecondsRemaining / 1000) ;
     if (val > 0) {
       $('#status').html('wake in ' + val + 's');
     }
   }
 
-  function invokeOneBatch() {
+  function invokeBatch($div) {
     if (runState !== 1) { return 0; }
-    var startTime = new Date();
     $('#status').html('sending batch...');
-    var linkUrl = $('#endpoint').val().trim();
-    var method = $('#method option:selected').val().toLowerCase();
-    var payload = $('#txt-payload').val();
+    var linkUrl = $div.find('.http-end-point').val().trim();
+    var template = Handlebars.compile(linkUrl);
+    linkUrl = template(context);
+    var method = $div.find('.method option:selected').val().toLowerCase();
+    var payload = $div.find('.txt-payload').val();
+    var pTemplate = Handlebars.compile(payload);
+    payload = pTemplate(context);
     var headers = [];
-    var $container = $('#headers');
-    $container.find('.one-header').each(function(ix, element){
+    var $headerContainer = $div.find('.headers');
+    $headerContainer.find('.one-header').each(function(ix, element){
       var name = $(this).find('.http-header-name').val();
       var value = $(this).find('.http-header-value').val();
-      headers[name] = value;
+      var nTemplate = Handlebars.compile(name);
+      var vTemplate = Handlebars.compile(value);
+      headers[nTemplate(context)] = vTemplate(context);
     });
-    var batchsize = Math.min(maxBatchSize, parseInt($('#batchsize option:selected').val(), 10));
+    var batchsize = Math.min(maxBatchSize, parseInt($div.find('.batchsize-select option:selected').val(), 10));
 
     // initialize array of N promises
     const promises = Array.apply(null, Array(batchsize))
-      .map((x, i) => invokeOne(linkUrl, method, payload, headers));
+      .map((x, i) => invokeOneRequest(linkUrl, method, payload, headers, $div));
 
-    Promise.all(promises).then(function(resultValues) {
-      if (runState == 1) {
-        sleepTimer = new CountdownTimer(getSleepTimeInMs(startTime))
-          .onTick(sleepTick)
-          .onExpired(invokeOneBatch)
-          .start();
-      }
-    });
+    var p = Promise.all(promises)
+      .then( (results) => {
+        return new Promise(function(resolve, reject) {
+          // perform extracts
+          var payload = results[results.length - 1];
+          var $extractContainer = $div.find('.extracts');
+          var $divSet = $extractContainer.find('.one-extract');
+          $divSet.each( function(ix, element) {
+            var $one = $(this);
+            var name = $one.find('.extract-name').val();
+            var jsonpath = $one.find('.extract-jsonpath').val();
+            if (name && jsonpath) {
+              // https://github.com/s3u/JSONPath
+              var result = JSONPath({json: payload, path: jsonpath});
+              context[name] =  (Array.isArray(result) && result.length == 1) ? result[0]: result;
+              //console.log('context[%s] = %s', name, context[name]);
+            }
+          });
+          resolve({});
+        });
+      });
+    return p;
   }
 
+  function invokeSequence() {
+    var startTime = new Date();
+    var $requestHolder = $('#requestHolder');
+    var $requests = $requestHolder.find('div.one-request');
+    context = {};
+    var p = new Promise(function(resolve, reject) {
+          var value = $requests.length;
+          if (value && value !== '') {
+            window.localStorage.setItem( html5AppId + '.nrequests', value );
+          }
+          var speedfactor = Math.min(maxSpeedFactor, parseInt($('#speedfactor option:selected').val(), 10));
+          window.localStorage.setItem( html5AppId + '.speedfactor', speedfactor );
+
+          $requests.each(function(ix, element) {
+            var $this = $(this);
+            storeRequestFieldsIntoLocalStorage($this, ix + 1);
+          });
+          resolve({});
+        });
+
+    var promises = [];
+    $requests.each(function(){
+      var $this = $(this);
+      p = p.then(() => invokeBatch($this));
+    });
+
+    p = p .then(function(resultValues) {
+        if (runState == 1) {
+          sleepTimer = new CountdownTimer(getSleepTimeInMs(startTime))
+            .onTick(sleepTick)
+            .onExpired(invokeSequence)
+            .start();
+        }
+      });
+  }
 
   function updateRunState(event) {
     var $ss = $('#startstop');
@@ -215,7 +257,7 @@
       runState = 1;
       $('#status').html('running...');
       $ss.attr('data_state', 'running');
-      setTimeout(invokeOneBatch, 2);
+      setTimeout(invokeSequence, 2);
       $r.attr("disabled", "disabled");
       $ss.html('Stop');
       $ss.addClass('btn-danger');
@@ -234,74 +276,235 @@
       $c = $('#errorcount');
       $c.html('0');
     }
-    $( "#response" ).html("");
-    $( "#option-tabs" ).tabs('select', 0);
+
+    //$( "#response" ).html("");
+    //$( "#option-tabs" ).tabs('select', 0);
+
     if (event)
       event.preventDefault();
   }
 
-  function populateFormFieldsFromLocalStorage() {
-    Object.keys(model)
-      .forEach(function(key) {
-        var value = window.localStorage.getItem(html5AppId + '.model.' + key);
-        if (value && value !== '') {
-          var $item = $('#' + key);
-          if (typeof model[key] != 'string') {
-            // the value is a set of values concatenated by +
-            // and the type of form field is select.
-            value.split('+').forEach(function(part){
-              $item.find("option[value='"+part+"']").prop("selected", "selected");
-            });
-          }
-          else {
-            // value is a simple string, form field type is input.
-            $item.val(value);
-          }
+  function storageKeyForRequest(n, key) {
+    return html5AppId + '.request.' + n + '.' + key;
+  }
+
+  function populateRequestFieldsFromLocalStorage($div, n) {
+    ['http-end-point', 'method', 'batchsize-select', 'txt-payload', 'headers', 'extracts'].forEach( key => {
+      var storageKey = storageKeyForRequest(n, key);
+      var value = window.localStorage.getItem( storageKey );
+      if (value && value !== '') {
+        var $item = $div.find('.' + key );
+        if (key === 'method' || key === 'batchsize-select' ) {
+          $item.find("option[value='" + value + "']").prop("selected", "selected");
+          if (key === 'method') { showOrHidePayloadAsNecessary($item); }
         }
-      });
+        else if (key === 'headers' || key === 'extracts') {
+          value = JSON.parse(value);
+          Object.keys(value).forEach(function(itemName) {
+            addOneHeaderOrExtract0($item, (key === 'headers')?oneHeaderLine:oneExtractLine);
+            // now that the elements exist, apply the values into them
+            var $one = $item.find(((key === 'headers')?".one-header":'.one-extract') + ":last");
+            $one.find((key === 'headers')?'.http-header-name':'.extract-name').val(itemName);
+            $one.find((key === 'headers')?'.http-header-value':'.extract-jsonpath').val(value[itemName]);
+          });
+        }
+        else {
+          $item.val(value);
+        }
+      }
+    });
+  }
+
+  function storeRequestFieldsIntoLocalStorage($div, n) {
+    ['http-end-point', 'method', 'batchsize-select', 'txt-payload', 'headers', 'extracts'].forEach( key => {
+      var $field = $div.find('.' + key );
+      var storageKey = storageKeyForRequest(n, key);
+      var value = '';
+        if (key === 'method' || key === 'batchsize-select' ) {
+        value = $field.find(":selected").text();
+      }
+      else if (key === 'headers' || key === 'extracts' ) {
+        value = {};
+        var $divSet = $field.find((key === 'headers')?'.one-header':'.one-extract');
+        $divSet.each( function(ix, element) {
+          var $one = $(this);
+          var name = $one.find((key === 'headers')?'.http-header-name':'.extract-name').val();
+          var value2 = $one.find((key === 'headers')?'.http-header-value':'.extract-jsonpath').val();
+          if (name && value2) {
+            value[name] = value2;
+          }
+        });
+        value = JSON.stringify(value);
+      }
+      else {
+        value = $field.val();
+      }
+      if (value && value !== '') {
+        window.localStorage.setItem( storageKey, value );
+      }
+    });
+  }
+
+  function addOneHeaderOrExtract0 ($containerDiv, html, event) {
+    $containerDiv.find( 'button.remove' ).unbind('click'); // unbind click handlers
+    $containerDiv.find( 'button.add'  ).before(html); // just before the + button
+    $containerDiv.find( 'button.remove' ).click(removeHeaderOrExtract); // query again, and rebind
+    if (event)
+      event.preventDefault();
+  }
+
+  function addOneHeaderOrExtract ($this, label, html, event) {
+    var $containerDiv = $this.closest("." + label);
+    addOneHeaderOrExtract0($containerDiv, html, event);
   }
 
   function addOneHeader (event) {
-    var $container = $('#headers');
-    $container.find('button.remove-header').unbind('click'); // unbind click handlers
-    $( "#add-header" ).before(oneHeaderLine);
-    $container.find('button.remove-header').click(removeHeader); // query again
-    if (event)
-      event.preventDefault();
+    return addOneHeaderOrExtract($(this), 'headers', oneHeaderLine, event);
   }
 
-  function removeHeader(event) {
+  function addOneExtract (event) {
+    return addOneHeaderOrExtract($(this), 'extracts', oneExtractLine, event);
+  }
+
+  function removeHeaderOrExtract(event) {
     var $source = $(this);
     $source.parent().remove();
     if (event)
       event.preventDefault();
   }
 
-  function initDropdowns() {
-    initDropdown("#batchsize", maxBatchSize);
-    initDropdown("#speedfactor", maxSpeedFactor);
-  }
-
-  function initDropdown(query, N) {
+  function initDropdown(query, N, selected) {
     var $dropdown = $(query);
+    selected = selected || N;
     const values = Array.apply(null, Array(N)).map((x, i) => (N - i));
     $.each(values, function(ix, value) {
       // <option value="1" >1</option>
       $dropdown.append($("<option />").val(value).text(value));
     });
+    $dropdown.find('option[value='+ selected +']').prop('selected', true);
+  }
+
+  function getFormId(omitOctothorpe) {
+    var id = 'request-form-' + requestIndex;
+    if (omitOctothorpe)
+      return id;
+    return '#' + id;
+  }
+
+  function removeOneRequestTab() {
+    var $$ = $(this);
+    //var tabContainerId = $$.closest(".ui-tabs").attr("id");
+    var $requestHolder = $('#requestHolder');
+    var tabCount = $requestHolder.find(".ui-closable-tab").length;
+    if (tabCount > 0) {
+      var panelId = $$.closest( "li" ).remove().attr( "aria-controls" );
+      $( "#" + panelId ).remove();
+      $requestHolder.tabs("refresh");
+    }
+  }
+
+  function addRequestTab() {
+    requestIndex++;
+    var $requestHolder = $('#requestHolder');
+    var liTemplate = '<li id="li-{{ix}}"><a href="#request-form-{{ix}}">#'+requestIndex + '</a>';
+    if (requestIndex > 1) {
+      liTemplate += '<span class="ui-icon ui-icon-circle-close ui-closable-tab"></span>';
+    }
+    liTemplate += '</li>';
+    liTemplate = Handlebars.compile(liTemplate);
+    $requestHolder.find(">ul li:last").before(liTemplate({ix: requestIndex}));
+    $requestHolder.append(oneRequestTemplate({ix: requestIndex}));
+    $requestHolder.tabs("refresh");
+
+    // now set up the tabs inside this panel
+    var id = getFormId();
+    initDropdown(id + " .batchsize-select", maxBatchSize, defaultBatchSize);
+    var $requestPanel = $(id);
+    $requestPanel.find( "select.method" ).change(onSelectChanged);
+    $requestPanel.find( " .option-tabs" ).tabs({ active: 0 });
+    $requestPanel.find( " .option-tabs" ).tabs( "option", "disabled", [ 1 ] ); // initially, because no payload for GET
+    var $headers = $requestPanel.find( " .headers ");
+    $headers.find( "button.add" ).click(addOneHeader);
+    $requestPanel.find( " .extracts button.add" ).click(addOneExtract);
+
+    populateRequestFieldsFromLocalStorage($requestPanel, requestIndex);
+
+    var $closableTabs = $requestHolder.find(".ui-closable-tab");
+    $closableTabs.unbind( "click" );
+    $closableTabs.on( "click", removeOneRequestTab);
+
+    return $requestHolder;
+  }
+
+  function onActivateRequestTab( event, ui ) {
+    var id = ui.newPanel.attr('id');
+    // focus the URL
+    $('#' + id).find('.http-end-point').focus();
+  }
+
+  function beforeActivateRequestTab( event, ui ) {
+    var id = ui.newPanel.attr('id');
+    // conditionally add a tab instead of allowing selection
+    if (id === 'request-adder-tab') {
+      var $requestHolder = addRequestTab();
+      var count = $requestHolder.find('div.one-request').length;
+      $( "#requestHolder" ).tabs("option", "active", count - 1);
+      return false; // suppress selection of this tab
+    }
+  }
+
+  /**
+   * Load multiple template files via ajax.
+   *
+   * Example usage:
+   *
+   * retrieveTemplates('file1.hbr', 'file2.hbr')
+   *   .fail(function(jqxhr, textStatus, error){})
+   *   .done(function(file1, file2){})
+   * ;
+   */
+  function retrieveTemplates() {
+    return jQuery.when.apply(jQuery,
+                             jQuery.map(arguments, function(url) {
+                               return $.ajax({ url : "tmpl/" + url, dataType: "text" }); // a promise
+                             }))
+      .then(function(){
+        var def = jQuery.Deferred();
+        return def.resolve.apply(def, jQuery.map(arguments, function(response){
+          //console.log(response[1]);
+          return response[0];
+        }));
+      });
+  }
+
+  function restorePageState() {
+    var value = window.localStorage.getItem( html5AppId + '.nrequests' );
+    if (value && value !== '') {
+      for (var i = 1; i<value; i++) {
+        addRequestTab();
+      }
+    }
+    value = window.localStorage.getItem( html5AppId + '.speedfactor' );
+    initDropdown("#speedfactor", maxSpeedFactor, value || defaultSpeedFactor);
   }
 
   $(document).ready(function() {
-    initDropdowns();
-    // $( "form input[type='text']" ).change(onInputChanged);
-    $( "#option-tabs" ).tabs({ active: 0 });
-    $( "#option-tabs" ).tabs( "option", "disabled", [ 1 ] ); // initially
-    $( "form input[type='url']" ).change(onInputChanged);
-    $( "form select" ).change(onSelectChanged);
-    $( "#add-header" ).click(addOneHeader);
-    $( "form #startstop" ).click(updateRunState);
-    $( "form #reset" ).click(resetPage);
-    populateFormFieldsFromLocalStorage();
+
+    retrieveTemplates( "oneRequest.hbr", "oneHeader.hbr", "oneExtract.hbr" )
+      .done(function(requestHbr, headerHbr, extractHbr) {
+        oneHeaderLine = headerHbr; // not really treated as a Handlebars template
+        oneExtractLine = extractHbr; // not really treated as a Handlebars template
+        oneRequestTemplate = Handlebars.compile(requestHbr);
+
+        $( "#requestHolder" ).tabs({ beforeActivate: beforeActivateRequestTab, activate: onActivateRequestTab });
+        addRequestTab();
+        restorePageState();
+        $( "#requestHolder" ).tabs("option", "active", 0);
+
+        $( "form #startstop" ).click(updateRunState);
+        $( "form #reset" ).click(resetPage);
+      });
   });
+
 
 }());

@@ -75,31 +75,38 @@ optgroup {
   clear:both;  
 }
 
-#headers .one-header > input {
+.headers .one-header, .extracts .one-extract {
+  width: 100%;
+}
+
+.headers .one-header > input, .extracts .one-extract > input {
   float: left;
   margin: 2px 4px;
 }
-#headers .one-header > .http-header-name {
+
+.headers .one-header > .http-header-name, .extracts .one-extract > .extract-name {
   width: 38%;
 }
 
-#headers .one-header > .http-header-value {
+.headers .one-header > .http-header-value, .extracts .one-extract > .extract-jsonpath {
   width: 50%;
 }
 
-#headers .one-header > input, .headers .one-header > button {
+.headers .one-header > input, .headers .one-header > button {
   display: inline-block;
   margin-left: 0;
 }
 
-#headers .one-header > input::placeholder,
-#payload textarea::placeholder {
+.end-point > input::placeholder,
+.headers .one-header > input::placeholder,
+.extracts .one-extract > input::placeholder,
+.payload textarea::placeholder {
   color: #D3D3D3;
   font-size: 1.0em;
   font-style: italic;
 }
 
-#payload {
+.payload {
 }
 
 textarea {
@@ -109,4 +116,9 @@ textarea {
 
 .ui-tabs, .ui-tabs-nav {
   width:100%;
+}
+
+
+.batchsize, .speedfactor {
+    margin-top: 12px;
 }

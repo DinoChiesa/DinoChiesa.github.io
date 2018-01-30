@@ -20,7 +20,11 @@
     <script type='text/javascript'>
      var html5AppId = '7C4BBBFB-7870-44FF-A532-E1DD7FE90F99';
     </script>
+
+    
     <script type='text/javascript' src='js/CountdownTimer.js'></script>
+    <script type='text/javascript' src='js/s3u-jsonpath.js'></script>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js'></script>
     <script type='text/javascript' src='js/load-generator-page.js'></script>
   </head>
 
@@ -32,18 +36,19 @@
 
       <form role="form">
         <div class="form-group">
-          <select name="method" id="method" class="form-control" style='width:auto;position:relative;float:left;' placeholder="method" required>
-            <optgroup>
-            <option value="GET" >GET</option>
-            <option value="POST">POST</option>
-            <option value="PUT" >PUT</option>
-            </optgroup>
-          </select>
-
-          <div class="form-group col-sm-10 end-point" style='position:relative; width:72%;' >
-            <input type="url" autocomplete="off" class="form-control http-end-point" name="endpoint" id='endpoint' required="" value='https://amer-demo2-prod.apigee.net/sumiya-1/t1'/>
+          
+          <div id='requestHolder'>
+            <ul>
+              <li id='request-li-0'><a href='#request-adder-tab'>+</a></li>
+            </ul>
+            <div id='request-adder-tab'></div>
           </div>
 
+          <div class='speedfactor'>
+            <label for'='speedfactor'>speed factor:</label>
+            <select name="speedfactor" id="speedfactor" class="form-control" style='width:auto;position:relative;float:left;' required></select>
+          </div>
+          <div style='width:100%;clear:both;'></div>
           <div class="form-group col-sm-1 nopadding" style='position:relative; width:auto; float:left; padding-left: 4px; padding-right: 4px;' >
             <button class="btn btn-success send-req" id='startstop'>Start</button>
           </div>
@@ -51,34 +56,8 @@
             <button class="btn btn-default btn-outline send-req" id='reset'>Reset</button>
           </div>
           <div style='width:100%;clear:both;'></div>
-
-          <div id='option-tabs'>
-            <ul>
-              <li><a href="#headers">Request Headers</a></li>
-              <li><a href="#payload">Request Payload</a></li>
-              <li><a href="#response">Response</a></li>
-            </ul>
-
-            <div id='headers'>
-              <div><button class="btn btn-default btn-outline" id='add-header' title="add">+</button></div>
-            </div>
-          
-            <div id='payload'>
-              <textarea id='txt-payload' title="payload" rows='5' placeholder="Payload Here"></textarea>
-            </div>
-            
-            <div id='response'>
-            </div>
-
-          </div>
-          
-          <label for'='batchsize'>batch size:</label>
-          <select name="batchsize" id="batchsize" class="form-control" style='width:auto;position:relative;float:left;' required></select>
-          <div style='width:100%;clear:both;'></div>
-          <label for'='speedfactor'>speed factor:</label>
-          <select name="speedfactor" id="speedfactor" class="form-control" style='width:auto;position:relative;float:left;' required></select>
-          <div style='width:100%;clear:both;'></div>
         </div>
+        
       </form>
 
       <div id='output'>
