@@ -400,6 +400,7 @@
     if (tabCount > 0) {
       var panelId = $$.closest( "li" ).remove().attr( "aria-controls" );
       $( "#" + panelId ).remove();
+      requestIndex--;
       $requestHolder.tabs("refresh");
     }
   }
