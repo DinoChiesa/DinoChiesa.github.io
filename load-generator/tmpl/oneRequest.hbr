@@ -30,7 +30,6 @@
     <div id='payload-{{ix}}' class='payload'>
       <textarea class='txt-payload' rows='5' placeholder="Payload Here"
          title='You can use handlebars syntax here to refer to context values, eg { "foo": "\{{bar}}" }'/>
-      ></textarea>
     </div>
 
     <div id='response-{{ix}}' class='response'>
