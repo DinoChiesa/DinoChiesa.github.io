@@ -118,7 +118,14 @@ textarea {
   width:100%;
 }
 
-
 .batchsize, .speedfactor {
     margin-top: 12px;
+}
+
+.blank-response {
+  color: #D3D3D3;
+  font-size: 1.0em;
+  font-style: italic;
+  border: solid 1px #D3D3D3;
+  padding: 4px 6px;
 }

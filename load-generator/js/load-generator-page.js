@@ -15,8 +15,7 @@
   var sleepTimer;
   var requestIndex = 0;
   var html5AppId = "67B53CD3-AD0A-4D58-8DE7-997EBC7B3ED1";   // for localstorage
-  var oneRequestTemplate;
-  var oneHeaderLine = '', oneExtractLine = '';
+  var templates = Array.apply(null, Array(4)).map((x, i) => '');
   var runState = 0;
   var Gaussian = function(mean, stddev) {
         /*
@@ -61,17 +60,20 @@
   }
 
   function incrementCount(query) {
-    var $rc = $(query);
-    var currentValue = 0;
-    try {
-      currentValue = parseInt($rc.html(), 10);
-      if (isNaN(currentValue)) {
-        currentValue = 0;
+    var state = $('#startstop').attr('data_state');
+    if (state !== 'stopped') {
+      var $rc = $(query);
+      var currentValue = 0;
+      try {
+        currentValue = parseInt($rc.html(), 10);
+        if (isNaN(currentValue)) {
+          currentValue = 0;
+        }
       }
+      catch(e) {}
+      currentValue += 1;
+      $rc.html(currentValue);
     }
-    catch(e) {}
-    currentValue += 1;
-    $rc.html(currentValue);
   }
 
   function getRunsPerHour(currentHour) {
@@ -271,16 +273,14 @@
   function resetPage(event) {
     var $ss = $('#startstop');
     var state = $ss.attr('data_state');
-    if (state !== 'running') {
-      var $c = $('#requestcount');
-      $c.html('0');
-      $c = $('#errorcount');
-      $c.html('0');
+    if (state === 'stopped') {
+      ['#requestcount','#errorcount'].forEach( q => { $(q).html('0'); });
     }
-
-    //$( "#response" ).html("");
-    //$( "#option-tabs" ).tabs('select', 0);
-
+    var $requestHolder = $('#requestHolder');
+    var $requests = $requestHolder.find('div.one-request');
+    $requests.each(function(){
+      $(this).find( ".response" ).html(templates[3]({}));
+    });
     if (event)
       event.preventDefault();
   }
@@ -302,7 +302,7 @@
         else if (key === 'headers' || key === 'extracts') {
           value = JSON.parse(value);
           Object.keys(value).forEach(function(itemName) {
-            addOneHeaderOrExtract0($item, (key === 'headers')?oneHeaderLine:oneExtractLine);
+            addOneHeaderOrExtract0($item, templates[(key === 'headers')?1:2]);
             // now that the elements exist, apply the values into them
             var $one = $item.find(((key === 'headers')?".one-header":'.one-extract') + ":last");
             $one.find((key === 'headers')?'.http-header-name':'.extract-name').val(itemName);
@@ -346,25 +346,25 @@
     });
   }
 
-  function addOneHeaderOrExtract0 ($containerDiv, html, event) {
+  function addOneHeaderOrExtract0 ($containerDiv, hbrTemplate, event) {
     $containerDiv.find( 'button.remove' ).unbind('click'); // unbind click handlers
-    $containerDiv.find( 'button.add'  ).before(html); // just before the + button
+    $containerDiv.find( 'button.add'  ).before(hbrTemplate({})); // just before the + button
     $containerDiv.find( 'button.remove' ).click(removeHeaderOrExtract); // query again, and rebind
     if (event)
       event.preventDefault();
   }
 
-  function addOneHeaderOrExtract ($this, label, html, event) {
+  function addOneHeaderOrExtract ($this, label, hbrTemplate, event) {
     var $containerDiv = $this.closest("." + label);
-    addOneHeaderOrExtract0($containerDiv, html, event);
+    addOneHeaderOrExtract0($containerDiv, hbrTemplate, event);
   }
 
   function addOneHeader (event) {
-    return addOneHeaderOrExtract($(this), 'headers', oneHeaderLine, event);
+    return addOneHeaderOrExtract($(this), 'headers', templates[1], event);
   }
 
   function addOneExtract (event) {
-    return addOneHeaderOrExtract($(this), 'extracts', oneExtractLine, event);
+    return addOneHeaderOrExtract($(this), 'extracts', templates[2], event);
   }
 
   function removeHeaderOrExtract(event) {
@@ -415,16 +415,19 @@
     liTemplate += '</li>';
     liTemplate = Handlebars.compile(liTemplate);
     $requestHolder.find(">ul li:last").before(liTemplate({ix: requestIndex}));
-    $requestHolder.append(oneRequestTemplate({ix: requestIndex}));
+    $requestHolder.append(templates[0]({ix: requestIndex}));
     $requestHolder.tabs("refresh");
 
     // now set up the tabs inside this panel
     var id = getFormId();
     initDropdown(id + " .batchsize-select", maxBatchSize, defaultBatchSize);
     var $requestPanel = $(id);
+    $requestPanel.find( ".response" ).html(templates[3]({}));
+
     $requestPanel.find( "select.method" ).change(onSelectChanged);
-    $requestPanel.find( " .option-tabs" ).tabs({ active: 0 });
+    $requestPanel.find( " .option-tabs" ).tabs({ active: 0, activate: onActivateInnerTab } );
     $requestPanel.find( " .option-tabs" ).tabs( "option", "disabled", [ 1 ] ); // initially, because no payload for GET
+
     var $headers = $requestPanel.find( " .headers ");
     $headers.find( "button.add" ).click(addOneHeader);
     $requestPanel.find( " .extracts button.add" ).click(addOneExtract);
@@ -439,9 +442,19 @@
   }
 
   function onActivateRequestTab( event, ui ) {
-    var id = ui.newPanel.attr('id');
-    // focus the URL
-    $('#' + id).find('.http-end-point').focus();
+    // focus the URL input element
+    ui.newPanel.find('.http-end-point').focus();
+  }
+
+  function onActivateInnerTab( event, ui ) {
+    var $elt = ui.newPanel;
+    // focus the desired element
+    ['.txt-payload', '.add'].forEach( (cls) => {
+      var $childElement = $elt.find(cls);
+      if ($childElement) {
+        $childElement.focus();
+      }
+    });
   }
 
   function beforeActivateRequestTab( event, ui ) {
@@ -492,17 +505,13 @@
 
   $(document).ready(function() {
 
-    retrieveTemplates( "oneRequest.hbr", "oneHeader.hbr", "oneExtract.hbr" )
-      .done(function(requestHbr, headerHbr, extractHbr) {
-        oneHeaderLine = headerHbr; // not really treated as a Handlebars template
-        oneExtractLine = extractHbr; // not really treated as a Handlebars template
-        oneRequestTemplate = Handlebars.compile(requestHbr);
-
+    retrieveTemplates( 'oneRequest.hbr', 'oneHeader.hbr', 'oneExtract.hbr', 'blankResponse.hbr' )
+      .done(function( /* va_args */) {
+        templates = Array.from(arguments).map(tmpl => Handlebars.compile(tmpl));
         $( "#requestHolder" ).tabs({ beforeActivate: beforeActivateRequestTab, activate: onActivateRequestTab });
         addRequestTab();
         restorePageState();
         $( "#requestHolder" ).tabs("option", "active", 0);
-
         $( "form #startstop" ).click(updateRunState);
         $( "form #reset" ).click(resetPage);
       });

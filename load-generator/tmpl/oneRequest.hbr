@@ -28,13 +28,13 @@
     </div>
 
     <div id='payload-{{ix}}' class='payload'>
-      <textarea class='txt-payload' rows='5' placeholder="Payload Here"
+      <textarea class='txt-payload' rows='5' placeholder="Insert Payload Here. Use handlebars syntax to refer to context values."
          title='You can use handlebars syntax here to refer to context values, eg { "foo": "\{{bar}}" }'/>
     </div>
 
     <div id='response-{{ix}}' class='response'>
     </div>
-    
+
     <div id='extracts-{{ix}}' class='extracts'>
       <div><button class="btn btn-default btn-outline add" title="add">+</button></div>
     </div>
@@ -44,6 +44,6 @@
     <label >batch size:</label>
     <select class="form-control batchsize-select" style='width:auto;position:relative;float:left;' required></select>
   </div>
-  
+
   <div style='width:100%;clear:both;'></div>
 </div>
