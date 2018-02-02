@@ -48,8 +48,18 @@
             you don't have a CORS-enable endpoint, then all requests will
             fail. This is due to the same-origin policy enforced by the
             browser.</li>
-          <li>
-            The behavior of the extraction logic is not defined or tested for responses that contain non-JSON payloads.</li>
+          
+          <li>The behavior of the extraction logic is not defined or
+            tested for responses that contain non-JSON payloads.</li>
+          
+          <li>You can change the URLs, headers, payload, etc, while the
+            agent is running. But be careful - the agent won't wait for
+            you to get everything formatted correctly in your URL or JSON
+            payload!</li>
+          
+          <li>The page uses LocalStorage to remember your most recent settings.</li>
+          
+          <li>No information is sent to any endpoint, other than the ones you specify.</li>
           
         </ol>
       </div>
