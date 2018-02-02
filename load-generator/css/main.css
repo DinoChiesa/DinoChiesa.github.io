@@ -129,3 +129,12 @@ textarea {
   border: solid 1px #D3D3D3;
   padding: 4px 6px;
 }
+
+#help-message { display: none; }
+
+#main-div {
+  margin: 10px auto;
+  max-width:1140px;
+  background-color: #F1F1F1; 
+  padding: 20px;
+}

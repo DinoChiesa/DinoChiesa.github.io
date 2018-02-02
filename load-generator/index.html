@@ -18,15 +18,20 @@
   </head>
 
   <body>
-    <div style='margin: 10px auto; max-width:1140px; background-color: #F1F1F1; padding: 20px;'>
+    <div id='main-div'>
 
-      <h2>Request Generator</h2>
+      <h2>Request Generator
+      <button class="btn btn-default btn-outline" id='open-help'>Help</button>
+      </h2>
+      
+      <div id='help-message' title="Help">
       <p>This web page will generate a stream of requests against one or more HTTP Endpoints, with parameters that you specify.</p>
       <p>Endpoints specified here must support <a href='https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS'>CORS</a> and must <span title='Access-Control-Allow-Origin: *'>allow any origin.</span>
 You can extract values from JSON payloads using jsonpath, then employ those values in the url, payload, or headers for subsequent steps.
         The behavior of the extraction logic is not defined or tested for responses that contain non-JSON payloads.
       </p>
-
+      </div>
+      
       <form role="form">
         <div class="form-group">
           

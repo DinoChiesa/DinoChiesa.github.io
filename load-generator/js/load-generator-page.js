@@ -504,7 +504,6 @@
   }
 
   $(document).ready(function() {
-
     retrieveTemplates( 'oneRequest.hbr', 'oneHeader.hbr', 'oneExtract.hbr', 'blankResponse.hbr' )
       .done(function( /* va_args */) {
         templates = Array.from(arguments).map(tmpl => Handlebars.compile(tmpl));
@@ -514,6 +513,20 @@
         $( "#requestHolder" ).tabs("option", "active", 0);
         $( "form #startstop" ).click(updateRunState);
         $( "form #reset" ).click(resetPage);
+        $( "#open-help" ).click( () => {
+          var w = $('#main-div').width();
+          $( "#help-message" ).dialog({
+            minWidth: w * 0.72,
+            maxWidth: w * 0.88,
+            modal: true,
+            buttons: {
+              Ok: function() {
+                $( this ).dialog( "close" );
+              }
+            }
+          });
+          //  $( "#help-message" ).dialog("open")
+        });
       });
   });
 
