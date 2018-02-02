@@ -25,11 +25,33 @@
       </h2>
       
       <div id='help-message' title="Help">
-      <p>This web page will generate a stream of requests against one or more HTTP Endpoints, with parameters that you specify.</p>
-      <p>Endpoints specified here must support <a href='https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS'>CORS</a> and must <span title='Access-Control-Allow-Origin: *'>allow any origin.</span>
-You can extract values from JSON payloads using jsonpath, then employ those values in the url, payload, or headers for subsequent steps.
-        The behavior of the extraction logic is not defined or tested for responses that contain non-JSON payloads.
-      </p>
+        <p>This web page will generate a stream of requests against one or more HTTP Endpoints, with parameters that you specify.</p>
+        <p>Usage</p>
+        <ol>
+          <li>It's required to select the verb, the URL, and optionally the headers to send. If the verb is PUT or POST, then you can also specify the request payload. </li>
+          <li>Specify the "batch size" - this is the number of identical requests to make in sequence.</li>
+          <li>Select the "speed factor". It goes to 11.</li>
+          <li>If you want to send requests of different types, you can click the + tab to add a new request, with a new verb, url, headers, payload, and batchsize.</li>
+          <li>If you added a request you don't want, click the X to remove the tab.</li>
+          <li>Batches run in sequence. So if you have two requests, with batchsize 1 and 14 respectively, each run will send one of the first request, and 14 of the second.</li>
+          
+          <li>For each request, you can extract values from the response JSON payloads using jsonpath.
+            Use the "Post-Response Extracts" tab to specify that.
+            You can then employ those values in the url, payload, or headers for subsequent requests.</li>
+          
+        </ol>
+        <p>Notes</p>
+        <ol>
+          
+          <li>Endpoints specified here must support <a href='https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS'>CORS</a>
+            and must <span title='Access-Control-Allow-Origin: *'>allow any origin.</span> If
+            you don't have a CORS-enable endpoint, then all requests will
+            fail. This is due to the same-origin policy enforced by the
+            browser.</li>
+          <li>
+            The behavior of the extraction logic is not defined or tested for responses that contain non-JSON payloads.</li>
+          
+        </ol>
       </div>
       
       <form role="form">
