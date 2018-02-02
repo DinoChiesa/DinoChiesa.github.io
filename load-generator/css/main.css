@@ -1,4 +1,4 @@
-body { margin: 4px 8px; font-size: 180%; }
+body { margin: 4px 8px; font-size: 140%; }
 
 form div label {
   float: left;
@@ -85,11 +85,11 @@ optgroup {
 }
 
 .headers .one-header > .http-header-name, .extracts .one-extract > .extract-name {
-  width: 38%;
+  width: 34%;
 }
 
 .headers .one-header > .http-header-value, .extracts .one-extract > .extract-jsonpath {
-  width: 50%;
+  width: 58%;
 }
 
 .headers .one-header > input, .headers .one-header > button {
@@ -134,7 +134,13 @@ textarea {
 
 #main-div {
   margin: 10px auto;
-  max-width:1140px;
+  max-width:1280px;
   background-color: #F1F1F1; 
   padding: 20px;
+}
+
+.ui-state-default.ui-tab .ui-tabs-anchor {
+  font-size: 65%;
+  font-style: italic;
+  color: #a8afb5;
 }
