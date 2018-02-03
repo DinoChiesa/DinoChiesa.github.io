@@ -100,7 +100,8 @@ optgroup {
 .end-point > input::placeholder,
 .headers .one-header > input::placeholder,
 .extracts .one-extract > input::placeholder,
-.payload textarea::placeholder {
+.payload textarea::placeholder,
+textarea.txt-initial-context::placeholder {
   color: #D3D3D3;
   font-size: 1.0em;
   font-style: italic;
@@ -143,4 +144,8 @@ textarea {
   font-size: 65%;
   font-style: italic;
   color: #a8afb5;
+}
+
+.term {
+  font-weight: bold;
 }

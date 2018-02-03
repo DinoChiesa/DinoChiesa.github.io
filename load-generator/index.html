@@ -14,6 +14,7 @@
     <script type='text/javascript' src='js/CountdownTimer.js'></script>
     <script type='text/javascript' src='js/s3u-jsonpath.js'></script>
     <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js'></script>
+    <script type='text/javascript' src='js/handlebars-helpers.js'></script>
     <script type='text/javascript' src='js/load-generator-page.js'></script>
   </head>
 
@@ -28,17 +29,55 @@
         <p>This web page will generate a stream of requests against one or more HTTP Endpoints, with parameters that you specify.</p>
         <p>Usage</p>
         <ol>
-          <li>It's required to select the verb, the URL, and optionally the headers to send. If the verb is PUT or POST, then you can also specify the request payload. </li>
-          <li>Specify the "batch size" - this is the number of identical requests to make in sequence.</li>
-          <li>Select the "speed factor". It goes to 11.</li>
-          <li>If you want to send requests of different types, you can click the + tab to add a new request, with a new verb, url, headers, payload, and batchsize.</li>
-          <li>If you added a request you don't want, click the X to remove the tab.</li>
-          <li>Batches run in sequence. So if you have two requests, with batchsize 1 and 14 respectively, each run will send one of the first request, and 14 of the second.</li>
+          <li>The basic metaphor is the batch - each batch specifies a series of 1 or more identical GET/POST/PUT requests that will be sent.</li>
+          <li>For each batch, select the verb, the URL, and optionally the headers to send. If the verb is PUT or POST, then you can also specify the request payload. </li>
+          <li>Also adjust the "batch size" if you like - this is the number of identical requests to make in sequence.</li>
+          <li>If you want to send requests of different types, you can click the + tab to add a new batch of requests, with a new verb, url, headers, payload, and batchsize.</li>
+          <li>If you added a batch you don't want, click the X to remove the tab.</li>
+          <li>Select the "speed factor". It goes to 11. This apples to the set of all batches.</li>
+          <li>Batches run in sequence. So if you have two batches, with batchsize 1 and 14 respectively, each run will send one of the first request, and 14 of the second. If the speedfactor is low enough and the response rate is fast enough, the logic will sleep between runs.</li>
+        </ol>
+
+        <p>Templates</p>
+        <ol>
+          <li>You can specify the initial context in JSON format in the Initial Context tab. Make sure it's valid.</li>
           
-          <li>For each request, you can extract values from the response JSON payloads using jsonpath.
+          <li>You can use <a href='http://handlebarsjs.com/expressions.html'>handlebars expressions</a> to inject things from the context into the URL, payload, or headers. For example suppose your context is {"client_id" : "ABC", "client_secret": "DEF"} .  You can use {{client_id}} in any URL, payload, or header (name or value) to emit the value "ABC". </li>
+          
+          <li>There are handlebars helper functions available:
+            <ul>
+              
+              <li><span class='term'>httpbasicauth</span> - suppose your context is
+                <tt>{"client" : {"id":"ABC", "secret":"DEF"}}</tt> .
+                You can use <tt>{{httpbasicauth client.id client.secret}}</tt> to
+                produce an HTTP Basic Auth header value: the word "Basic " followed by a
+                base64 blob.</li>
+              
+              <li><span class='term'>random</span> - <tt>{{random 2 20}}</tt> generates a random number between 2 and 20.</li>
+              
+              <li><span class='term'>randomItem</span> - <tt>{{randomItem a}}</tt> selects a random item from the array a.</li>
+              
+              <li><span class='term'>randomString</span> - <tt>{{randomString}}</tt> generates
+              a string of length between 12 and 40, consisting of random ASCII
+              alphanumeric characters.<tt>{{randomString 23}}</tt> generates a random
+              string of length 23.</li>
+              
+              <li><span class='term'>weightedRandomSelect</span> - selects a random item
+                from the array aa using a weighted selector. Each element of the array
+                must itself be an array of form<tt>[VALUE, WEIGHT]</tt>. For example,  <tt>{{weightedRandomSelect aa}}</tt>
+                selects "Mackerel" 10 times for every one time it selects "Sardine" if
+                the array is<tt>[ ["Mackerel", 10], ["Sardine", 1]]</tt>. The value
+                returned is the first element of the selected inner 2-element array. One
+                application of this is to use a variety of client_ids for calls. Another
+                option is to use it to randomly select IP addresses to insert into an
+                X-Forwarded-For header.</li>
+              
+            </ul>
+          
+          <li>For each type of request, you can extract values from the response JSON payloads using jsonpath.
             Use the "Post-Response Extracts" tab to specify that.
-            You can then employ those values in the url, payload, or headers for subsequent requests.</li>
-          
+            You can then employ those values via handlebars templates in the url, payload, or headers for subsequent requests.</li>
+
         </ol>
         <p>Notes</p>
         <ol>
@@ -67,10 +106,14 @@
       <form role="form">
         <div class="form-group">
           
-          <div id='requestHolder'>
+          <div id='batchHolder'>
             <ul>
+              <li><a href='#initial-context-tab'>Initial Context</a></li>
               <li id='request-li-0'><a href='#request-adder-tab'>+</a></li>
             </ul>
+            <div id='initial-context-tab'>
+              <textarea class='txt-initial-context' rows='15' placeholder="Insert Context Here. It should be valid JSON."></textarea>
+            </div>
             <div id='request-adder-tab'></div>
           </div>
 

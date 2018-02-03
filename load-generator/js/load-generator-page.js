@@ -159,19 +159,31 @@
     $('#status').html('sending batch...');
     var linkUrl = $div.find('.http-end-point').val().trim();
     var template = Handlebars.compile(linkUrl);
-    linkUrl = template(context);
+    // faulty input from user can cause exception in handlebars
+    try {
+      linkUrl = template(context);
+    }
+    catch (e) { }
     var method = $div.find('.method option:selected').val().toLowerCase();
     var payload = $div.find('.txt-payload').val();
     var pTemplate = Handlebars.compile(payload);
-    payload = pTemplate(context);
+    try {
+      payload = pTemplate(context);
+    }
+    catch (e) { }
     var headers = [];
     var $headerContainer = $div.find('.headers');
     $headerContainer.find('.one-header').each(function(ix, element){
       var name = $(this).find('.http-header-name').val();
       var value = $(this).find('.http-header-value').val();
-      var nTemplate = Handlebars.compile(name);
-      var vTemplate = Handlebars.compile(value);
-      headers[nTemplate(context)] = vTemplate(context);
+      try {
+        var nTemplate = Handlebars.compile(name, {noEscape:true});
+        var vTemplate = Handlebars.compile(value, {noEscape:true});
+        name = nTemplate(context);
+        value = vTemplate(context);
+        headers[name] = value;
+      }
+      catch (e) { }
     });
     var batchsize = Math.min(maxBatchSize, parseInt($div.find('.batchsize-select option:selected').val(), 10));
 
@@ -203,11 +215,23 @@
     return p;
   }
 
+  function getContext() {
+    var s = $('textarea.txt-initial-context').val();
+    var result = {};
+    try {
+      result = JSON.parse(s);
+
+    }
+    catch (e) { }
+    window.localStorage.setItem( html5AppId + '.initialcontext', JSON.stringify(result) );
+    return result;
+  }
+
   function invokeSequence() {
     var startTime = new Date();
-    var $requestHolder = $('#requestHolder');
-    var $requests = $requestHolder.find('div.one-request');
-    context = {};
+    var $batchHolder = $('#batchHolder');
+    var $requests = $batchHolder.find('div.one-request');
+    context = getContext();
     var p = new Promise(function(resolve, reject) {
           var value = $requests.length;
           if (value && value !== '') {
@@ -276,8 +300,8 @@
     if (state === 'stopped') {
       ['#requestcount','#errorcount'].forEach( q => { $(q).html('0'); });
     }
-    var $requestHolder = $('#requestHolder');
-    var $requests = $requestHolder.find('div.one-request');
+    var $batchHolder = $('#batchHolder');
+    var $requests = $batchHolder.find('div.one-request');
     $requests.each(function(){
       $(this).find( ".response" ).html(templates[3]({}));
     });
@@ -394,29 +418,29 @@
 
   function removeOneRequestTab() {
     var $$ = $(this);
-    //var tabContainerId = $$.closest(".ui-tabs").attr("id");
-    var $requestHolder = $('#requestHolder');
-    var tabCount = $requestHolder.find(".ui-closable-tab").length;
+    var $batchHolder = $('#batchHolder');
+    var tabCount = $batchHolder.find(".ui-closable-tab").length;
     if (tabCount > 0) {
       var panelId = $$.closest( "li" ).remove().attr( "aria-controls" );
       $( "#" + panelId ).remove();
       requestIndex--;
-      $requestHolder.tabs("refresh");
+      $batchHolder.tabs("refresh");
     }
   }
 
-  function addRequestTab() {
+
+  function addBatchTab() {
     requestIndex++;
-    var $requestHolder = $('#requestHolder');
-    var liTemplate = '<li id="li-{{ix}}"><a href="#request-form-{{ix}}">#'+requestIndex + '</a>';
+    var $batchHolder = $('#batchHolder');
+    var liTemplate = '<li id="li-{{ix}}"><a href="#request-form-{{ix}}">Batch #'+requestIndex + '</a>';
     if (requestIndex > 1) {
       liTemplate += '<span class="ui-icon ui-icon-circle-close ui-closable-tab"></span>';
     }
     liTemplate += '</li>';
     liTemplate = Handlebars.compile(liTemplate);
-    $requestHolder.find(">ul li:last").before(liTemplate({ix: requestIndex}));
-    $requestHolder.append(templates[0]({ix: requestIndex}));
-    $requestHolder.tabs("refresh");
+    $batchHolder.find(">ul li:last").before(liTemplate({ix: requestIndex}));
+    $batchHolder.append(templates[0]({ix: requestIndex}));
+    $batchHolder.tabs("refresh");
 
     // now set up the tabs inside this panel
     var id = getFormId();
@@ -434,11 +458,11 @@
 
     populateRequestFieldsFromLocalStorage($requestPanel, requestIndex);
 
-    var $closableTabs = $requestHolder.find(".ui-closable-tab");
+    var $closableTabs = $batchHolder.find(".ui-closable-tab");
     $closableTabs.unbind( "click" );
     $closableTabs.on( "click", removeOneRequestTab);
 
-    return $requestHolder;
+    return $batchHolder;
   }
 
   function onActivateRequestTab( event, ui ) {
@@ -461,9 +485,9 @@
     var id = ui.newPanel.attr('id');
     // conditionally add a tab instead of allowing selection
     if (id === 'request-adder-tab') {
-      var $requestHolder = addRequestTab();
-      var count = $requestHolder.find('div.one-request').length;
-      $( "#requestHolder" ).tabs("option", "active", count - 1);
+      var $batchHolder = addBatchTab();
+      var count = $batchHolder.find('div.one-request').length;
+      $( "#batchHolder" ).tabs("option", "active", count - 1);
       return false; // suppress selection of this tab
     }
   }
@@ -496,21 +520,30 @@
     var value = window.localStorage.getItem( html5AppId + '.nrequests' );
     if (value && value !== '') {
       for (var i = 1; i<value; i++) {
-        addRequestTab();
+        addBatchTab();
       }
     }
     value = window.localStorage.getItem( html5AppId + '.speedfactor' );
     initDropdown("#speedfactor", maxSpeedFactor, value || defaultSpeedFactor);
-  }
+    value = window.localStorage.getItem( html5AppId + '.initialcontext' );
+    var obj = { name1: "value1" };
+    if (value && value !== '') {
+    try {
+      obj = JSON.parse(value);
+    }
+    catch (e) { }
+    }
+    $('textarea.txt-initial-context').val(JSON.stringify(obj, null, 2));
+ }
 
   $(document).ready(function() {
     retrieveTemplates( 'oneRequest.hbr', 'oneHeader.hbr', 'oneExtract.hbr', 'blankResponse.hbr' )
       .done(function( /* va_args */) {
         templates = Array.from(arguments).map(tmpl => Handlebars.compile(tmpl));
-        $( "#requestHolder" ).tabs({ beforeActivate: beforeActivateRequestTab, activate: onActivateRequestTab });
-        addRequestTab();
+        $( "#batchHolder" ).tabs({ beforeActivate: beforeActivateRequestTab, activate: onActivateRequestTab });
+        addBatchTab();
         restorePageState();
-        $( "#requestHolder" ).tabs("option", "active", 0);
+        $( "#batchHolder" ).tabs("option", "active", 1);
         $( "form #startstop" ).click(updateRunState);
         $( "form #reset" ).click(resetPage);
         $( "#open-help" ).click( () => {
