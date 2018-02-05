@@ -1,0 +1,9 @@
+    <ul>
+      <li><a href='#initial-context-tab'>Initial Context</a></li>
+      <li id='request-li-0'><a href='#request-adder-tab'>+</a></li>
+    </ul>
+
+    <div id='initial-context-tab'>
+      <textarea class='txt-initial-context' rows='15' placeholder="Insert Context Here. It should be valid JSON."></textarea>
+    </div>
+    <div id='request-adder-tab'></div>
