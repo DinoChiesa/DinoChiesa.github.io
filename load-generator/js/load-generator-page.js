@@ -220,7 +220,6 @@
     var result = {};
     try {
       result = JSON.parse(s);
-
     }
     catch (e) { }
     window.localStorage.setItem( html5AppId + '.initialcontext', JSON.stringify(result) );
@@ -428,7 +427,6 @@
     }
   }
 
-
   function addBatchTab() {
     requestIndex++;
     var $batchHolder = $('#batchHolder');
@@ -467,7 +465,13 @@
 
   function onActivateRequestTab( event, ui ) {
     // focus the URL input element
-    ui.newPanel.find('.http-end-point').focus();
+    var $panel = ui.newPanel.find('.http-end-point');
+    if ($panel.length>0) {
+      $panel.focus();
+      return;
+    }
+    $panel = ui.newPanel.find('.txt-initial-context');
+    $panel.focus();
   }
 
   function onActivateInnerTab( event, ui ) {
@@ -533,8 +537,17 @@
     }
     catch (e) { }
     }
-    $('textarea.txt-initial-context').val(JSON.stringify(obj, null, 2));
- }
+    $('textarea.txt-initial-context').val(jsonStringifyCompactly(obj));
+  }
+
+  var reWhitespace = new RegExp('\\s', 'g');
+  var reInnerArray = new RegExp('\\[([^\\[\\]]*)\\]', 'g');
+  function jsonStringifyCompactly(obj) {
+    function replacer(match, p1, offset, string) {
+      return '[' + p1.replace(reWhitespace, '') + ']';
+    }
+    return JSON.stringify(obj, null, 2).replace(reInnerArray, replacer);
+  }
 
   $(document).ready(function() {
     retrieveTemplates( 'oneRequest.hbr', 'oneHeader.hbr', 'oneExtract.hbr', 'blankResponse.hbr' )
