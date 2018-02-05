@@ -14,6 +14,8 @@
   var context = { };
   var sleepTimer;
   var requestIndex = 0;
+  var counts = [0, 0];
+  var batchdata = {};
   var html5AppId = "67B53CD3-AD0A-4D58-8DE7-997EBC7B3ED1";   // for localstorage
   var templates = Array.apply(null, Array(4)).map((x, i) => '');
   var runState = 0;
@@ -59,21 +61,60 @@
     });
   }
 
-  function incrementCount(query) {
-    var state = $('#startstop').attr('data_state');
-    if (state !== 'stopped') {
-      var $rc = $(query);
-      var currentValue = 0;
-      try {
-        currentValue = parseInt($rc.html(), 10);
-        if (isNaN(currentValue)) {
-          currentValue = 0;
+  var updateSuccessCountDisplay = $.throttle(500, false, function() {
+        var state = $('#startstop').attr('data_state');
+        if (state !== 'stopped') {
+          $('#successcount').html(counts[0]);
         }
-      }
-      catch(e) {}
-      currentValue += 1;
-      $rc.html(currentValue);
+      });
+
+  var updateErrorCountDisplay = $.throttle(500, false, function() {
+        var state = $('#startstop').attr('data_state');
+        if (state !== 'stopped') {
+          $('#errorcount').html(counts[1]);
+        }
+      });
+
+  // function updateCountDisplay(typ) {
+  //   var state = $('#startstop').attr('data_state');
+  //   if (state !== 'stopped') {
+  //     $((typ === 'error')?'#errorcount':'#requestcount').html((typ === 'error')?counts[1]:counts[0]);
+  //   }
+  // }
+
+  function updateResponseOutput(divid) {
+    if (batchdata[divid].mostRecentJQXHR) {
+      var jqXHR = batchdata[divid].mostRecentJQXHR;
+      $('#' + divid).find( ".response" ).html("<pre>" +
+                                        jqXHR.status + " " + jqXHR.statusText + "\n" +
+                                        jqXHR.getAllResponseHeaders() + "\n" +
+                                        jqXHR.responseText +
+                                        "</pre>");
+      batchdata[divid].mostRecentJQXHR = null;
     }
+  }
+
+  function updateOutput(divid, jqXHR, typ) {
+    if (typ === 'error') updateErrorCountDisplay();
+    else updateSuccessCountDisplay();
+    batchdata[divid].mostRecentJQXHR = jqXHR;
+    batchdata[divid].updateResponse();
+  }
+
+  function errorHandler(divid, resolve, fail) {
+    return function(jqXHR, textStatus, errorThrown) {
+      counts[1]++;
+      updateOutput(divid, jqXHR, 'error');
+      resolve({});
+    };
+  }
+
+  function successHandler (divid, resolve, fail) {
+    return function (data, textStatus, jqXHR) {
+      counts[0]++;
+      updateOutput(divid, jqXHR, 'success');
+      resolve(JSON.parse(jqXHR.responseText));
+    };
   }
 
   function getRunsPerHour(currentHour) {
@@ -94,46 +135,21 @@
         durationOfLastRun = now - startOfMostRecentRequest,
         sleepTimeInMs = (oneHourInMs / runsPerHour) - durationOfLastRun;
     if (sleepTimeInMs < minSleepTimeInMs) { sleepTimeInMs = minSleepTimeInMs; }
-    // sleepTimeInMs += gaussian.next();
     sleepTimeInMs = Math.floor(sleepTimeInMs);
-    $('#status').html(//'runs per hour('+ runsPerHour +') ' +
+    $('#status').html(
       'sleep ' + sleepTimeInMs + 'ms, wake at: ' +
         new Date(now.valueOf() + sleepTimeInMs).toString().substr(16, 8) );
     return sleepTimeInMs;
   }
 
-  function errorHandler($div, resolve, fail) {
-    return function(jqXHR, textStatus, errorThrown) {
-      incrementCount('#errorcount');
-      $div.find( ".response" ).html("<pre>" +
-                            jqXHR.status + " " + jqXHR.statusText + "\n" +
-                            jqXHR.getAllResponseHeaders() + "\n" +
-                            jqXHR.responseText +
-                                    "</pre>");
-      resolve({});
-    };
-  }
-
-  function successHandler ($div, resolve, fail) {
-    return function (data, textStatus, jqXHR) {
-      incrementCount('#requestcount');
-      $div.find( ".response" ).html("<pre>" +
-                            jqXHR.status + " " + jqXHR.statusText + "\n" +
-                            jqXHR.getAllResponseHeaders() + "\n" +
-                            jqXHR.responseText +
-                                    "</pre>");
-      resolve(JSON.parse(jqXHR.responseText));
-    };
-  }
-
-  function invokeOneRequest(linkUrl, method, payload, headers, $div) {
+  function invokeOneRequest(linkUrl, method, payload, headers, divid) {
     return new Promise(function(resolve, fail) {
       var options = {
             url : linkUrl,
             type: method,
             headers: headers,
-            success: successHandler($div, resolve, fail),
-            error: errorHandler($div, resolve, fail)
+            success: successHandler(divid, resolve, fail),
+            error: errorHandler(divid, resolve, fail)
           };
 
       if ((method === 'post') || (method === 'put')) {
@@ -189,7 +205,7 @@
 
     // initialize array of N promises
     const promises = Array.apply(null, Array(batchsize))
-      .map((x, i) => invokeOneRequest(linkUrl, method, payload, headers, $div));
+      .map((x, i) => invokeOneRequest(linkUrl, method, payload, headers, $div.attr('id')));
 
     var p = Promise.all(promises)
       .then( (results) => {
@@ -297,7 +313,8 @@
     var $ss = $('#startstop');
     var state = $ss.attr('data_state');
     if (state === 'stopped') {
-      ['#requestcount','#errorcount'].forEach( q => { $(q).html('0'); });
+      ['#successcount','#errorcount'].forEach( q => { $(q).html('0'); });
+      counts = [0, 0];
     }
     var $batchHolder = $('#batchHolder');
     var $requests = $batchHolder.find('div.one-request');
@@ -312,18 +329,20 @@
     return html5AppId + '.request.' + n + '.' + key;
   }
 
-  function populateRequestFieldsFromLocalStorage($div, n) {
+  function populateRequestFields($div, n, tabConfig) {
     requestFieldsToStore.forEach( key => {
-      var storageKey = storageKeyForRequest(n, key);
-      var value = window.localStorage.getItem( storageKey );
+      var value = (tabConfig) ? tabConfig[key] : window.localStorage.getItem( storageKeyForRequest(n, key) );
+
       if (value && value !== '') {
         var $item = $div.find('.' + key );
         if (key === 'method' || key === 'batchsize-select' ) {
-          $item.find("option[value='" + value + "']").prop("selected", "selected");
+          $item.find("option[value='" + ('' + value).toUpperCase() + "']").prop("selected", "selected");
           if (key === 'method') { showOrHidePayloadAsNecessary($item); }
         }
         else if (key === 'headers' || key === 'extracts') {
-          value = JSON.parse(value);
+          if (typeof value === 'string'){
+            value = JSON.parse(value);
+          }
           Object.keys(value).forEach(function(itemName) {
             addOneHeaderOrExtract0($item, templates[(key === 'headers')?1:2]);
             // now that the elements exist, apply the values into them
@@ -415,7 +434,7 @@
     return '#' + id;
   }
 
-  function removeOneRequestTab() {
+  function removeOneBatchTab() {
     var $$ = $(this);
     var $batchHolder = $('#batchHolder');
     var tabCount = $batchHolder.find(".ui-closable-tab").length;
@@ -427,7 +446,7 @@
     }
   }
 
-  function addBatchTab() {
+  function addBatchTab(tabConfig) {
     requestIndex++;
     var $batchHolder = $('#batchHolder');
     var liTemplate = '<li id="li-{{ix}}"><a href="#request-form-{{ix}}">Batch #'+requestIndex + '</a>';
@@ -446,6 +465,10 @@
     var $requestPanel = $(id);
     $requestPanel.find( ".response" ).html(templates[3]({}));
 
+    // create a debounced function for update of the response payload
+    var trimmedId = id.slice(1);
+    batchdata[trimmedId] = { updateResponse : $.throttle(650, false, function(){ updateResponseOutput(trimmedId); }) };
+
     $requestPanel.find( "select.method" ).change(onSelectChanged);
     $requestPanel.find( " .option-tabs" ).tabs({ active: 0, activate: onActivateInnerTab } );
     $requestPanel.find( " .option-tabs" ).tabs( "option", "disabled", [ 1 ] ); // initially, because no payload for GET
@@ -454,11 +477,11 @@
     $headers.find( "button.add" ).click(addOneHeader);
     $requestPanel.find( " .extracts button.add" ).click(addOneExtract);
 
-    populateRequestFieldsFromLocalStorage($requestPanel, requestIndex);
+    populateRequestFields($requestPanel, requestIndex, tabConfig);
 
     var $closableTabs = $batchHolder.find(".ui-closable-tab");
     $closableTabs.unbind( "click" );
-    $closableTabs.on( "click", removeOneRequestTab);
+    $closableTabs.on( "click", removeOneBatchTab);
 
     return $batchHolder;
   }
@@ -520,7 +543,19 @@
       });
   }
 
-  function restorePageState() {
+  var reWhitespace = new RegExp('\\s', 'g');
+  var reInnerArray = new RegExp('\\[([^\\[\\]]*)\\]', 'g');
+  function jsonStringifyCompactly(obj) {
+    function replacer(match, p1, offset, string) {
+      if (p1.length < 80) {
+        return '[' + p1.replace(reWhitespace, '') + ']';
+      }
+      return '[' + p1 + ']';
+    }
+    return JSON.stringify(obj, null, 2).replace(reInnerArray, replacer);
+  }
+
+  function restorePageStateFromStorage() {
     var value = window.localStorage.getItem( html5AppId + '.nrequests' );
     if (value && value !== '') {
       for (var i = 1; i<value; i++) {
@@ -540,23 +575,78 @@
     $('textarea.txt-initial-context').val(jsonStringifyCompactly(obj));
   }
 
-  var reWhitespace = new RegExp('\\s', 'g');
-  var reInnerArray = new RegExp('\\[([^\\[\\]]*)\\]', 'g');
-  function jsonStringifyCompactly(obj) {
-    function replacer(match, p1, offset, string) {
-      return '[' + p1.replace(reWhitespace, '') + ']';
+  function restorePageStateFromConfig(config) {
+    if (Array.isArray(config.requests) && config.requests.length > 0) {
+      var $batchHolder = $( "#batchHolder" );
+      $batchHolder.tabs('destroy')
+        .html(templates[4]({}))
+        .tabs({ beforeActivate: beforeActivateRequestTab, activate: onActivateRequestTab });
+      requestIndex = 0;
+      config.requests.forEach(function(request) {
+        addBatchTab(request);
+      });
+      $batchHolder.tabs("option", "active", 1);
+      initDropdown("#speedfactor", maxSpeedFactor, config.speedfactor || defaultSpeedFactor);
+      $('textarea.txt-initial-context').val(jsonStringifyCompactly(config.initialContext));
     }
-    return JSON.stringify(obj, null, 2).replace(reInnerArray, replacer);
+  }
+
+  function getConfigString() {
+    var config = {};
+    var $batchHolder = $('#batchHolder');
+    var $requests = $batchHolder.find('div.one-request');
+    config.requests = [];
+    $requests.each(function(){
+      var thisRequest = {};
+      var $div = $(this);
+      thisRequest['http-end-point'] = $div.find('.http-end-point').val().trim();
+      thisRequest.method = $div.find('.method option:selected').val().toUpperCase();
+      thisRequest['txt-payload'] = $div.find('.txt-payload').val();
+      thisRequest.headers = {};
+      var $headerContainer = $div.find('.headers');
+      $headerContainer.find('.one-header').each(function(ix, element){
+        var name = $(this).find('.http-header-name').val();
+        var value = $(this).find('.http-header-value').val();
+        thisRequest.headers[name] = value;
+      });
+
+      thisRequest.extracts = {};
+      var $extractContainer = $div.find('.extracts');
+      var $divSet = $extractContainer.find('.one-extract');
+      $divSet.each( function(ix, element) {
+        var $one = $(this);
+        var name = $one.find('.extract-name').val();
+        var jsonpath = $one.find('.extract-jsonpath').val();
+        if (name && jsonpath && name.trim() && jsonpath.trim()) {
+          thisRequest.extracts[name.trim()] = jsonpath.trim();
+        }
+      });
+
+      thisRequest['batchsize-select'] = Math.min(maxBatchSize, parseInt($div.find('.batchsize-select option:selected').val(), 10));
+      config.requests.push(thisRequest);
+    });
+
+    try {
+      config.initialContext = JSON.parse($('textarea.txt-initial-context').val());
+    }
+    catch(e) {
+      config.initialContext = {};
+    }
+    config.speedfactor = Math.min(maxSpeedFactor, parseInt($('#speedfactor option:selected').val(), 10));
+
+    return jsonStringifyCompactly(config);
   }
 
   $(document).ready(function() {
-    retrieveTemplates( 'oneRequest.hbr', 'oneHeader.hbr', 'oneExtract.hbr', 'blankResponse.hbr' )
+    retrieveTemplates( 'oneRequest.hbr', 'oneHeader.hbr', 'oneExtract.hbr', 'blankResponse.hbr', 'batchHolder.hbr' )
       .done(function( /* va_args */) {
         templates = Array.from(arguments).map(tmpl => Handlebars.compile(tmpl));
-        $( "#batchHolder" ).tabs({ beforeActivate: beforeActivateRequestTab, activate: onActivateRequestTab });
+        var $batchHolder = $( "#batchHolder" );
+        $batchHolder.html(templates[4]({}))
+          .tabs({ beforeActivate: beforeActivateRequestTab, activate: onActivateRequestTab });
         addBatchTab();
-        restorePageState();
-        $( "#batchHolder" ).tabs("option", "active", 1);
+        restorePageStateFromStorage();
+        $batchHolder.tabs("option", "active", 1);
         $( "form #startstop" ).click(updateRunState);
         $( "form #reset" ).click(resetPage);
         $( "#open-help" ).click( () => {
@@ -571,7 +661,34 @@
               }
             }
           });
-          //  $( "#help-message" ).dialog("open")
+        });
+
+        $( "#open-config" ).click( () => {
+          var w = $('#main-div').width();
+          var s = getConfigString();
+          $( "#config" ).find( '.txt-config' ).val(s);
+          $( "#config" ).dialog({
+            minWidth: w * 0.84,
+            modal: true,
+            buttons: {
+              Cancel: function() {
+                $( this ).dialog( "close" );
+              },
+              'Apply Changes': function() {
+                // apply the maybe modified config to the SPA
+                try {
+                  var c = $( this ).find( '.txt-config' ).val();
+                  c = JSON.parse(c);
+                  restorePageStateFromConfig(c);
+                }
+                catch (e) {
+                  console.log('exception while restoring: ' + e);
+                }
+                $( this ).dialog( "close" );
+              }
+            }
+          });
+
         });
       });
   });

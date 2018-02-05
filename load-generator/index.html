@@ -8,6 +8,7 @@
           href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script type='text/javascript'
             src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type='text/javascript' src='js/jquery-debounce.js'></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/main.css">
@@ -23,26 +24,36 @@
 
       <h2>Request Generator
       <button class="btn btn-default btn-outline" id='open-help'>Help</button>
+      <button class="btn btn-default btn-outline" id='open-config'>JSON Configuration</button>
       </h2>
+      
+      <div id='config' title="JSON Configuration">
+        <textarea class='txt-config' rows='25' style='max-width:90%'></textarea>
+      </div>
       
       <div id='help-message' title="Help">
         <p>This web page will generate a stream of requests against one or more HTTP Endpoints, with parameters that you specify.</p>
-        <p>Usage</p>
+        <p>Basic Usage</p>
         <ol>
-          <li>The basic metaphor is the batch - each batch specifies a series of 1 or more identical GET/POST/PUT requests that will be sent.</li>
-          <li>For each batch, select the verb, the URL, and optionally the headers to send. If the verb is PUT or POST, then you can also specify the request payload. </li>
+          <li>Define one or more batches; each batch specifies a series of 1 or more identical GET/POST/PUT requests that will be sent.</li>
+          <li>For each batch, select the verb, the URL, and optionally the headers to send. If the verb is PUT or POST, then you can also specify the request payload.</li>
           <li>Also adjust the "batch size" if you like - this is the number of identical requests to make in sequence.</li>
           <li>If you want to send requests of different types, you can click the + tab to add a new batch of requests, with a new verb, url, headers, payload, and batchsize.</li>
           <li>If you added a batch you don't want, click the X to remove the tab.</li>
           <li>Select the "speed factor". It goes to 11. This apples to the set of all batches.</li>
           <li>Batches run in sequence. So if you have two batches, with batchsize 1 and 14 respectively, each run will send one of the first request, and 14 of the second. If the speedfactor is low enough and the response rate is fast enough, the logic will sleep between runs.</li>
+          <li>Hint: use batch 1 to POST to your /token endpoint, then extract the token, and use batch 2 to invoke a number of requests with that token.</li>
         </ol>
 
         <p>Templates</p>
         <ol>
           <li>You can specify the initial context in JSON format in the Initial Context tab. Make sure it's valid.</li>
           
-          <li>You can use <a href='http://handlebarsjs.com/expressions.html'>handlebars expressions</a> to inject things from the context into the URL, payload, or headers. For example suppose your context is {"client_id" : "ABC", "client_secret": "DEF"} .  You can use {{client_id}} in any URL, payload, or header (name or value) to emit the value "ABC". </li>
+          <li>You can use <a href='http://handlebarsjs.com/expressions.html'>handlebars expressions</a> 
+            to inject things from the context into the URL, payload, or headers. For example
+            suppose your context is {"client_id" : "ABC", "client_secret": "DEF"} .  You
+            can use {{client_id}} in any URL, payload, or header (name or value) to emit
+            the value "ABC".</li>
           
           <li>There are handlebars helper functions available:
             <ul>
@@ -79,7 +90,7 @@
             You can then employ those values via handlebars templates in the url, payload, or headers for subsequent requests.</li>
 
         </ol>
-        <p>Notes</p>
+        <p>Other Notes</p>
         <ol>
           
           <li>Endpoints specified here must support <a href='https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS'>CORS</a>
@@ -96,9 +107,9 @@
             you to get everything formatted correctly in your URL or JSON
             payload!</li>
           
-          <li>The page uses LocalStorage to remember your most recent settings.</li>
+          <li>The page uses LocalStorage to remember your most recent settings. Click the Configuration tab to see or modify the configuration in JSON form. hint: you can save this JSON and share it.</li>
           
-          <li>No information is sent to any endpoint, other than the ones you specify.</li>
+          <li>No information is sent to any endpoint, other than the ones you specify explicitly as endpoints.</li>
           
         </ol>
       </div>
@@ -107,14 +118,6 @@
         <div class="form-group">
           
           <div id='batchHolder'>
-            <ul>
-              <li><a href='#initial-context-tab'>Initial Context</a></li>
-              <li id='request-li-0'><a href='#request-adder-tab'>+</a></li>
-            </ul>
-            <div id='initial-context-tab'>
-              <textarea class='txt-initial-context' rows='15' placeholder="Insert Context Here. It should be valid JSON."></textarea>
-            </div>
-            <div id='request-adder-tab'></div>
           </div>
 
           <div class='speedfactor'>
@@ -135,7 +138,7 @@
 
       <div id='output'>
         <div>status: <span id='status'>--</span></div>
-        <div>success: <span id='requestcount'>0</span></div>
+        <div>success: <span id='successcount'>0</span></div>
         <div>errors: <span id='errorcount'>0</span></div>
       </div>
     </div>

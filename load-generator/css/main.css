@@ -133,6 +133,8 @@ textarea {
 
 #help-message { display: none; }
 
+#config { display: none; }
+
 #main-div {
   margin: 10px auto;
   max-width:1280px;
