@@ -142,7 +142,7 @@
     return sleepTimeInMs;
   }
 
-  function invokeOneRequest(linkUrl, method, payload, headers, divid) {
+  function invokeOneRequest(linkUrl, method, payload, headers, divid, lastOne) {
     return new Promise(function(resolve, fail) {
       var options = {
             url : linkUrl,
@@ -156,8 +156,10 @@
         options.data = payload;
       }
 
+      if (lastOne) {
+        $('#status').html('awaiting replies...');
+      }
       // NB: This call may fail if the server does not include CORS headers in the response
-      //console.log(method + ' ' + linkUrl);
       $.ajax(options);
     });
   }
@@ -170,9 +172,8 @@
     }
   }
 
-  function invokeBatch($div) {
+  function invokeBatch($div, nBatchesRemaining) {
     if (runState !== 1) { return 0; }
-    $('#status').html('sending batch...');
     var linkUrl = $div.find('.http-end-point').val().trim();
     var template = Handlebars.compile(linkUrl);
     // faulty input from user can cause exception in handlebars
@@ -203,15 +204,16 @@
     });
     var batchsize = Math.min(maxBatchSize, parseInt($div.find('.batchsize-select option:selected').val(), 10));
 
-    // initialize array of N promises
+    // initialize array of N + 1 promises
     const promises = Array.apply(null, Array(batchsize))
-      .map((x, i) => invokeOneRequest(linkUrl, method, payload, headers, $div.attr('id')));
+      .map((x, i) => invokeOneRequest(linkUrl, method, payload, headers, $div.attr('id'), (nBatchesRemaining === 0) && ((batchsize - i) === 1)));
 
     var p = Promise.all(promises)
       .then( (results) => {
         return new Promise(function(resolve, reject) {
           // perform extracts
           var payload = results[results.length - 1];
+          // var payload = results[results.length - 2]; // last promise is the status update
           var $extractContainer = $div.find('.extracts');
           var $divSet = $extractContainer.find('.one-extract');
           $divSet.each( function(ix, element) {
@@ -246,11 +248,11 @@
     var startTime = new Date();
     var $batchHolder = $('#batchHolder');
     var $requests = $batchHolder.find('div.one-request');
+    var nRequests = $requests.length;
     context = getContext();
     var p = new Promise(function(resolve, reject) {
-          var value = $requests.length;
-          if (value && value !== '') {
-            window.localStorage.setItem( html5AppId + '.nrequests', value );
+          if (nRequests) {
+            window.localStorage.setItem( html5AppId + '.nrequests', nRequests );
           }
           var speedfactor = Math.min(maxSpeedFactor, parseInt($('#speedfactor option:selected').val(), 10));
           window.localStorage.setItem( html5AppId + '.speedfactor', speedfactor );
@@ -262,13 +264,16 @@
           resolve({});
         });
 
-    var promises = [];
-    $requests.each(function(){
+    p = p.then( () => { $('#status').html('sending batches...'); return ({});});
+
+    // batches must be serialized
+    $requests.each(function(ix){
       var $this = $(this);
-      p = p.then(() => invokeBatch($this));
+      p = p.then(() => invokeBatch($this, nRequests - ix - 1));
     });
 
-    p = p .then(function(resultValues) {
+    p = p
+      .then(function(resultValues) {
         if (runState == 1) {
           sleepTimer = new CountdownTimer(getSleepTimeInMs(startTime))
             .onTick(sleepTick)
