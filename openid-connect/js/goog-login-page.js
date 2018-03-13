@@ -4,7 +4,7 @@
 // page logic for goog-login.html and oidc-login.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2018-March-13 09:13:37>
+// last saved: <2018-March-13 09:17:26>
 
 (function (){
   'use strict';
@@ -65,7 +65,7 @@
       var pattern = "${" + key + "}", value = '';
       if (copyModel[key]) {
         value = (typeof copyModel[key] != 'string') ? copyModel[key].join('+') : copyModel[key];
-        if (value) {
+        if (value !== null) {
           console.log('setting into LS: ' + key + '= ' + value);
           window.localStorage.setItem(html5AppId + '.model.' + key, value);
         }
