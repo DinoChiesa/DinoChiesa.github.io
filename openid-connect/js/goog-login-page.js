@@ -4,7 +4,7 @@
 // page logic for goog-login.html and oidc-login.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2018-March-13 09:20:37>
+// last saved: <2018-March-13 09:27:49>
 
 (function (){
   'use strict';
@@ -63,7 +63,7 @@
     }
     Object.keys(copyModel).forEach(function(key) {
       var pattern = "${" + key + "}", value = '';
-      if (copyModel[key]) {
+      if (copyModel[key] !== null) {
         value = (typeof copyModel[key] != 'string') ? copyModel[key].join('+') : copyModel[key];
         if (value !== null) {
           console.log('setting into LS: ' + key + '= ' + value);
@@ -132,11 +132,12 @@
         var value = window.localStorage.getItem(html5AppId + '.model.' + key);
         var $item = $('#' + key);
         if (value && value !== '') {
-          if (typeof model[key] != 'string') {
+          if (typeof model[key] !== 'string') {
             // the value is a set of values concatenated by +
             // and the type of form field is select.
             value.split('+').forEach(function(part){
-              $item.find("option[value='"+part+"']").prop("selected", "selected");
+              var $f = $item.find("option[value='"+part+"']");
+              $f.prop("selected", "selected");
             });
           }
           else {
