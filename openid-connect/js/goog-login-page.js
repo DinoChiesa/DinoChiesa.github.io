@@ -4,7 +4,7 @@
 // page logic for goog-login.html and oidc-login.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2018-March-13 09:44:28>
+// last saved: <2018-March-13 09:49:27>
 
 (function (){
   'use strict';
@@ -60,11 +60,13 @@
     }
     Object.keys(copyModel).forEach(function(key) {
       var pattern = "${" + key + "}", value = '';
-      if (copyModel[key] !== null) {
-        value = (typeof copyModel[key] != 'string') ? copyModel[key].join('+') : copyModel[key];
-        if (value !== null) {
-          console.log('setting into LS: ' + key + '= ' + value);
-          window.localStorage.setItem(html5AppId + '.model.' + key, value);
+      if (key !== 'state' && key !== 'nonce') {
+        if (copyModel[key] !== null) {
+          value = (typeof copyModel[key] != 'string') ? copyModel[key].join('+') : copyModel[key];
+          if (value !== null) {
+            //console.log('setting into LS: ' + key + '= ' + value);
+            window.localStorage.setItem(html5AppId + '.model.' + key, value);
+          }
         }
       }
       link = link.replace(pattern,value);
@@ -128,7 +130,10 @@
       .forEach(function(key) {
         var value = window.localStorage.getItem(html5AppId + '.model.' + key);
         var $item = $('#' + key);
-        if (value && value !== '') {
+        if (key === 'state' || key === 'nonce') {
+          $item.val(generateRandomAlphaString(6));
+        }
+        else if (value && value !== '') {
           if (typeof model[key] !== 'string') {
             // the value is a set of values concatenated by +
             // and the type of form field is select.
@@ -141,9 +146,6 @@
             // value is a simple string, form field type is input.
             $item.val(value);
           }
-        }
-        else if (key === 'state' || key === 'nonce') {
-          $item.val(generateRandomAlphaString(6));
         }
       });
   }

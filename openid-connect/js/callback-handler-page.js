@@ -4,19 +4,19 @@
 // for callback-handler.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2017-March-06 15:08:38>
+// last saved: <2018-March-13 09:47:08>
 
 
 function decodeToken(matches) {
   if (matches.length == 4) {
-    var styles = ['header','payload','signature']; 
+    var styles = ['header','payload','signature'];
     var $decodeddiv = $('#id_token-decoded');
     matches.slice(1,-1).forEach(function(item,index){
       var json = atob(item);
       var obj = JSON.parse(json);
-      $decodeddiv.append('<pre class="jwt-'+ styles[index] +'">' + 
+      $decodeddiv.append('<pre class="jwt-'+ styles[index] +'">' +
                          JSON.stringify(obj,null,2) +
-                         '</pre>')
+                         '</pre>');
     });
   }
 }
