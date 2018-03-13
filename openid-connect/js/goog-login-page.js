@@ -4,7 +4,7 @@
 // page logic for goog-login.html and oidc-login.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2017-November-07 10:58:52>
+// last saved: <2018-March-13 09:13:37>
 
 (function (){
   'use strict';
@@ -36,6 +36,23 @@
   }
 
   function wrapInSingleQuote(s) {return "'" + s + "'";}
+
+  function generateRandomString(L) {
+    function c() {
+      var m = Math.floor(Math.random() * 26),
+          a = (Math.floor(Math.random() * 2) * 32);
+      return String.fromCharCode(65 + m + a);
+    }
+
+    var i, pw = '';
+
+    L = Math.floor(Math.random() * (L || 7)) + 8;
+
+    for (i=0; i<L; i++) {
+      pw += c();
+    }
+    return pw;
+  }
 
   function updateLink() {
     var link = linkTemplate;
@@ -126,6 +143,9 @@
             // value is a simple string, form field type is input.
             $item.val(value);
           }
+        }
+        else if (key === 'state' || key === 'nonce') {
+          $item.val(generateRandomString(6));
         }
       });
   }
