@@ -4,7 +4,7 @@
 // page logic for goog-login.html and oidc-login.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2018-March-13 09:17:26>
+// last saved: <2018-March-13 09:20:37>
 
 (function (){
   'use strict';
@@ -37,21 +37,21 @@
 
   function wrapInSingleQuote(s) {return "'" + s + "'";}
 
-  function generateRandomString(L) {
+  function generateRandomAlphaString(L) {
     function c() {
       var m = Math.floor(Math.random() * 26),
           a = (Math.floor(Math.random() * 2) * 32);
       return String.fromCharCode(65 + m + a);
     }
 
-    var i, pw = '';
+    var i, s = '';
 
-    L = Math.floor(Math.random() * (L || 7)) + 8;
+    L = L || (Math.floor(Math.random() * 7) + 8);
 
     for (i=0; i<L; i++) {
-      pw += c();
+      s += c();
     }
-    return pw;
+    return s;
   }
 
   function updateLink() {
@@ -130,8 +130,8 @@
       .filter(excludeTransientFields)
       .forEach(function(key) {
         var value = window.localStorage.getItem(html5AppId + '.model.' + key);
+        var $item = $('#' + key);
         if (value && value !== '') {
-          var $item = $('#' + key);
           if (typeof model[key] != 'string') {
             // the value is a set of values concatenated by +
             // and the type of form field is select.
@@ -145,7 +145,7 @@
           }
         }
         else if (key === 'state' || key === 'nonce') {
-          $item.val(generateRandomString(6));
+          $item.val(generateRandomAlphaString(6));
         }
       });
   }
