@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2018-March-13 09:34:17>
+// last saved: <2018-March-13 09:44:20>
 
 
 var model = model || {
@@ -135,29 +135,32 @@ function excludeTransientFields(key) {
   return key != 'code'; // the only transient field, currently
 }
 
-function populateFormFields() {
-  // get values from local storage, and place into the form
-  Object.keys(model)
-    .filter(excludeTransientFields)
-    .forEach(function(key) {
-    var value = window.localStorage.getItem(html5AppId + '.model.' + key);
-    if (value && value !== '') {
-      var $item = $('#' + key);
-      if (typeof model[key] != 'string') {
-        // the value is a set of values concatenated by +
-        // and the type of form field is select.
-        value.split('+').forEach(function(part){
-          $item.find("option[value='"+part+"']").prop("selected", "selected");
-        });
-        $item.trigger("chosen:updated");
-      }
-      else {
-        // value is a simple string, form field type is input.
-        $item.val(value);
-      }
-    }
-  });
-}
+  function populateFormFields() {
+    // get values from local storage, and place into the form
+    Object.keys(model)
+      .filter(excludeTransientFields)
+      .forEach(function(key) {
+        var value = window.localStorage.getItem(html5AppId + '.model.' + key);
+        var $item = $('#' + key);
+        if (value && value !== '') {
+          if (typeof model[key] !== 'string') {
+            // the value is a set of values concatenated by +
+            // and the type of form field is select.
+            value.split('+').forEach(function(part){
+              $item.find("option[value='"+part+"']").prop("selected", "selected");
+            });
+            $item.trigger("chosen:updated");
+          }
+          else {
+            // value is a simple string, form field type is input.
+            $item.val(value);
+          }
+        }
+        else if (key === 'state' || key === 'nonce') {
+          $item.val(generateRandomAlphaString(6));
+        }
+      });
+  }
 
 
 $(document).ready(function() {
