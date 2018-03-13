@@ -4,7 +4,7 @@
 // page logic for goog-login.html and oidc-login.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2018-March-13 09:27:49>
+// last saved: <2018-March-13 09:34:12>
 
 (function (){
   'use strict';
@@ -136,9 +136,9 @@
             // the value is a set of values concatenated by +
             // and the type of form field is select.
             value.split('+').forEach(function(part){
-              var $f = $item.find("option[value='"+part+"']");
-              $f.prop("selected", "selected");
+              $item.find("option[value='"+part+"']").prop("selected", "selected");
             });
+            $item.trigger("chosen:updated");
           }
           else {
             // value is a simple string, form field type is input.

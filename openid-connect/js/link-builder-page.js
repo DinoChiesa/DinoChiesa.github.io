@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2017-August-15 10:34:06>
+// last saved: <2018-March-13 09:34:17>
 
 
 var model = model || {
@@ -149,6 +149,7 @@ function populateFormFields() {
         value.split('+').forEach(function(part){
           $item.find("option[value='"+part+"']").prop("selected", "selected");
         });
+        $item.trigger("chosen:updated");
       }
       else {
         // value is a simple string, form field type is input.
