@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2018-March-13 10:05:59>
+// last saved: <2018-March-15 16:32:09>
 
 
 var model = model || {
@@ -31,15 +31,9 @@ function updateLink() {
     .filter(excludeTransientFields)
     .forEach(function(key) {
       var pattern = "${" + key + "}", value = '';
-      if (model[key]) {
-        value = (typeof model[key] != 'string') ? model[key].join('+') : model[key];
-        // set into local storage
-        if (key !== 'state' && key !== 'nonce') {
-          if (value) {
-            //console.log('setting into LS: ' + key + '= ' + value);
-            window.localStorage.setItem(html5AppId + '.model.' + key, value);
-          }
-        }
+      value = (typeof model[key] != 'string') ? model[key].join('+') : model[key];
+      if ((model[key]) && (key !== 'state' && key !== 'nonce') && (value !== null) && (typeof value !== 'undefined')) {
+        window.localStorage.setItem(html5AppId + '.model.' + key, value);
       }
       link = link.replace(pattern,value);
     });

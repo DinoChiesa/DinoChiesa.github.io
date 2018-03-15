@@ -4,7 +4,7 @@
 // page logic for goog-login.html and oidc-login.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2018-March-13 10:05:46>
+// last saved: <2018-March-15 16:32:21>
 
 (function (){
   'use strict';
@@ -60,14 +60,9 @@
     }
     Object.keys(copyModel).forEach(function(key) {
       var pattern = "${" + key + "}", value = '';
-      if (copyModel[key] !== null) {
-        value = (typeof copyModel[key] != 'string') ? copyModel[key].join('+') : copyModel[key];
-        if (key !== 'state' && key !== 'nonce') {
-          if (value !== null) {
-            //console.log('setting into LS: ' + key + '= ' + value);
-            window.localStorage.setItem(html5AppId + '.model.' + key, value);
-          }
-        }
+      value = (typeof copyModel[key] != 'string') ? copyModel[key].join('+') : copyModel[key];
+      if ((copyModel[key] !== null) && (key !== 'state' && key !== 'nonce') && (value !== null) && (typeof value !== 'undefined')) {
+        window.localStorage.setItem(html5AppId + '.model.' + key, value);
       }
       link = link.replace(pattern,value);
     });
