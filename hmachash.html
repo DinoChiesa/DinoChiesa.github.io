@@ -85,7 +85,7 @@
      }
      #output > div > div {
        border: 1px dotted Grey;
-       max-width: 1024px;
+       max-width: 1248px;
        margin: 2px 0;
        padding: 4px 10px;
        font-size: 75%;
@@ -291,13 +291,6 @@
         </div>
 
         <div class='form-group'>
-          <label for='text'>text or message:</label>
-        <!-- input type='textarea' id='text' class='form-control'  -->
-          <textarea class="form-control" rows="5" id='text' 
-                 placeholder="-insert your message here-"
-                    title='The message to use in the function. This data never leaves your browser.'></textarea>
-        </div>
-        <div class='form-group'>
           <label for='key' id='keylabel'>secret key:</label>
           <input type='text' id='key' class='form-control disabled' disabled
                  placeholder="secret key"
@@ -305,31 +298,34 @@
         </div>
 
         <div class='form-group'>
+          <label for='text'>text or message:</label>
+        <!-- input type='textarea' id='text' class='form-control'  -->
+          <textarea class="form-control" rows="5" id='text' 
+                 placeholder="-insert your message here-"
+                    title='The message to use in the function. This data never leaves your browser.'></textarea>
+        </div>
+        
+        <div class='form-group'>
           <input type='submit' value='compute' class='button disabled' id='submit' disabled/>
         </div>
       </form>
 
       <div id='output'>
-
         <div>
-          <span id='resultlabel'>Base64-encoded result:</span>
-          <div id='resultb64' title='base64 encoding is case-sensitive' 
-               class='notshown'></div>
+          <span>HEX-encoded result:</span>
+          <div id='resulthex' title='hex encoding is case-insensitive' class='notshown'></div>
         </div>
-
         <div>
-          <span id='resultlabel2'>HEX-encoded result:</span>
-          <div id='resulthex' title='hex encoding is case-insensitive' 
-               class='notshown'></div>
+          <span>Base64-encoded result:</span>
+          <div id='resultb64' title='base64 encoding is case-sensitive' class='notshown'></div>
         </div>
-
       </div>
 
       <div id='notes'>
         Notes:
         <ol>
           <li>The hex and base64 results shown by this page are different encodings that represent the same value.</li>
-          <li>The key is used only for HMAC calculation, and never leaves your browser. </li>
+          <li>If you specify a key for HMAC, the key is used only for HMAC calculation, and never leaves your browser. </li>
           <li>Here are a few test cases:
             <table class='testcases pure-table pure-table-bordered'>
               <thead>
