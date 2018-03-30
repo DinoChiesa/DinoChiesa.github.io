@@ -5,14 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/base-min.css">
-    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">    
-    <link rel="stylesheet" type="text/css" 
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" type="text/css"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script type='text/javascript'
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"</script>
     <script type='text/javascript'
             src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
- 
+
     <script type='text/javascript'
             src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/hmac-md5.js"></script>
     <script type='text/javascript'
@@ -20,7 +20,7 @@
     <script type='text/javascript'
             src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/hmac-sha224.js"></script>
     <script type='text/javascript'
-            
+
             src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/hmac-sha256.js"></script>
     <script type='text/javascript'
             src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/hmac-sha384.js"></script>
@@ -91,17 +91,18 @@
        font-family: "Consolas", "Courier New", Courier, monospace;
        float: left;
      }
-     #key.notshown, 
-     #keylabel.notshown, 
+     #key.notshown,
+     #keylabel.notshown,
      #output.notshown > div > div {
        display: none;
      }
-     #key.shown, 
-     #keylabel.shown, 
+     #key.shown,
+     #keylabel.shown,
      #output.shown > div > div {
        display: block;
      }
      #output > div > .copyIconHolder {
+       /* https://material.io/icons/#ic_content_copy */
        content: url('images/ic_content_copy_black_24dp_1x.png');
        padding-left: 5px;
        float: left;
@@ -111,27 +112,23 @@
        content: "";
        display: table;
        clear: both;
-     }       
-       /* top: -24px;
-       position: absolute;
-       right: 0; */
-
+     }
      .disabled {
        color:  #F1F1f1;
        background: none repeat scroll 0 0 #DCDCDC;
        cursor: default !important;
      }
      input[type="radio"] {
-       vertical-align: middle; 
-       margin-top: 8px; 
+       vertical-align: middle;
+       margin-top: 8px;
      }
      input[type="radio"] + div {
        display:block;
        margin-left:166px;
      }
      input[type="checkbox"] {
-       vertical-align: middle; 
-       margin-top: 14px; 
+       vertical-align: middle;
+       margin-top: 14px;
      }
      form > div > select {max-width:120px;}
     </style>
@@ -139,7 +136,7 @@
     <script type='text/javascript'>
      function getAlgo() {
        var algorithm = $('#function option:selected').val();
-       switch (algorithm) { 
+       switch (algorithm) {
          case 'md-5':
            return CryptoJS.algo.MD5;
            break;
@@ -164,7 +161,7 @@
 
      function getHash(message) {
        var algorithm = $('#function option:selected').val();
-       switch (algorithm) { 
+       switch (algorithm) {
          case 'md-5':
            return CryptoJS.MD5(message);
            break;
@@ -240,7 +237,7 @@
        if ($('#hmac').is(':checked')) {
          calcHmac();
        }
-       else { 
+       else {
          calcSha();
        }
      }
@@ -249,7 +246,7 @@
        if (event) { event.preventDefault(); }
        // enable the compute button
        $( "#submit" ).removeClass('disabled')
-                         .prop("disabled", false); 
+                         .prop("disabled", false);
 
        // erase the results
        $('#resulthex').text('');
@@ -267,27 +264,27 @@
          $('#keylabel').addClass('shown')
                          .removeClass('notshown');
          $( "#key" ).removeClass('disabled')
-                         .prop("disabled", false); 
+                         .prop("disabled", false);
        }
-       else { 
+       else {
          $('#key').addClass('notshown')
                          .removeClass('shown');
          $('#keylabel').addClass('notshown')
                          .removeClass('shown');
          $( "#key" ).addClass('disabled')
-                         .prop("disabled", true); 
+                         .prop("disabled", true);
        }
      }
 
      function selectText(element) {
-       var doc = document, range, selection;    
+       var doc = document, range, selection;
        if (doc.body.createTextRange) {
          range = document.body.createTextRange();
          range.moveToElementText(element);
          range.select();
        }
        else if (window.getSelection) {
-         selection = window.getSelection();        
+         selection = window.getSelection();
          range = document.createRange();
          range.selectNodeContents(element);
          selection.removeAllRanges();
@@ -299,13 +296,13 @@
        var $iconDiv = $(this);
        var $textHolder = $iconDiv.prev();
        selectText($textHolder[0]);
-       try {  
-         document.execCommand('copy');  
+       try {
+         document.execCommand('copy');
        }
-       catch(exc1) {  
+       catch(exc1) {
        }
      }
-     
+
      $(document).ready(function() {
        $('#function').val('');
        $('#function').change(changeFunction);
@@ -354,11 +351,11 @@
         <div class='form-group'>
           <label for='text'>text or message:</label>
         <!-- input type='textarea' id='text' class='form-control'  -->
-          <textarea class="form-control" rows="5" id='text' 
+          <textarea class="form-control" rows="5" id='text'
                  placeholder="-insert your message here-"
                     title='The message to use in the function. This data never leaves your browser.'></textarea>
         </div>
-        
+
         <div class='form-group'>
           <input type='submit' value='compute' class='button disabled' id='submit' disabled/>
         </div>
