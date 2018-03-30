@@ -46,12 +46,6 @@
      body {
        font-size: 180%;
      }
-     .notshown {
-       display: none;
-     }
-     .shown {
-       display: block;
-     }
      form div label {
        float: left;
        width: 148px;
@@ -80,17 +74,48 @@
        font-size:80%;
        color: #565656;
      }
-     #output > div  {
+     #output > div {
        margin-top: 16px;
      }
-     #output > div > div {
+     #output > div > span {
+       float: left;
+       width: 228px;
+     }
+     #output > div > div:first-of-type {
        border: 1px dotted Grey;
        max-width: 1248px;
+       width: 1248px;
        margin: 2px 0;
        padding: 4px 10px;
        font-size: 75%;
        font-family: "Consolas", "Courier New", Courier, monospace;
+       float: left;
      }
+     #key.notshown, 
+     #keylabel.notshown, 
+     #output.notshown > div > div {
+       display: none;
+     }
+     #key.shown, 
+     #keylabel.shown, 
+     #output.shown > div > div {
+       display: block;
+     }
+     #output > div > .copyIconHolder {
+       content: url('images/ic_content_copy_black_24dp_1x.png');
+       padding-left: 5px;
+       float: left;
+       margin-top: 4px;
+     }
+     #output > div:after {
+       content: "";
+       display: table;
+       clear: both;
+     }       
+       /* top: -24px;
+       position: absolute;
+       right: 0; */
+
      .disabled {
        color:  #F1F1f1;
        background: none repeat scroll 0 0 #DCDCDC;
@@ -180,10 +205,12 @@
          $('#resulthex').text('You must specify a message and a key');
          $('#resultb64').text('error');
        }
-       $('#resultb64').addClass('shown');
-       $('#resultb64').removeClass('notshown');
-       $('#resulthex').addClass('shown');
-       $('#resulthex').removeClass('notshown');
+       $('#output').addClass('shown');
+       $('#output').removeClass('notshown');
+       // $('#resultb64').addClass('shown');
+       // $('#resultb64').removeClass('notshown');
+       // $('#resulthex').addClass('shown');
+       // $('#resulthex').removeClass('notshown');
      }
 
      function calcSha() {
@@ -196,11 +223,12 @@
          $('#resultb64').text(hashInBase64);
          var hashInHex = CryptoJS.enc.Hex.stringify(hash);
          $('#resulthex').text(hashInHex);
-
-         $('#resultb64').addClass('shown')
-                        .removeClass('notshown');
-         $('#resulthex').addClass('shown')
-                        .removeClass('notshown');
+         $('#output').addClass('shown')
+                                         .removeClass('notshown');
+         // $('#resultb64').addClass('shown')
+         //                .removeClass('notshown');
+         // $('#resulthex').addClass('shown')
+         //                .removeClass('notshown');
        }
      }
 
@@ -221,15 +249,13 @@
        if (event) { event.preventDefault(); }
        // enable the compute button
        $( "#submit" ).removeClass('disabled')
-                     .prop("disabled", false); 
+                         .prop("disabled", false); 
 
        // erase the results
-       $('#resulthex').text('')
-                     .addClass('notshown')
-                     .removeClass('shown');
-       $('#resultb64').text('')
-                     .addClass('notshown')
-                     .removeClass('shown');
+       $('#resulthex').text('');
+       $('#resultb64').text('');
+       $('#output').addClass('notshown')
+                         .removeClass('shown');
      }
 
      function changeHmac(event) {
@@ -237,27 +263,55 @@
        // display or hide the key as appropriate
        if ($('#hmac').is(':checked')) {
          $('#key').addClass('shown')
-                     .removeClass('notshown');
+                         .removeClass('notshown');
          $('#keylabel').addClass('shown')
-                     .removeClass('notshown');
+                         .removeClass('notshown');
          $( "#key" ).removeClass('disabled')
-                     .prop("disabled", false); 
+                         .prop("disabled", false); 
        }
        else { 
          $('#key').addClass('notshown')
-                     .removeClass('shown');
+                         .removeClass('shown');
          $('#keylabel').addClass('notshown')
-                     .removeClass('shown');
+                         .removeClass('shown');
          $( "#key" ).addClass('disabled')
-                     .prop("disabled", true); 
+                         .prop("disabled", true); 
        }
      }
 
+     function selectText(element) {
+       var doc = document, range, selection;    
+       if (doc.body.createTextRange) {
+         range = document.body.createTextRange();
+         range.moveToElementText(element);
+         range.select();
+       }
+       else if (window.getSelection) {
+         selection = window.getSelection();        
+         range = document.createRange();
+         range.selectNodeContents(element);
+         selection.removeAllRanges();
+         selection.addRange(range);
+       }
+     }
+
+     function copyToClipboard() {
+       var $iconDiv = $(this);
+       var $textHolder = $iconDiv.prev();
+       selectText($textHolder[0]);
+       try {  
+         document.execCommand('copy');  
+       }
+       catch(exc1) {  
+       }
+     }
+     
      $(document).ready(function() {
        $('#function').val('');
        $('#function').change(changeFunction);
        $('#hmac').change(changeHmac);
-       $('#submit').on('click',calcResult);
+       $('#submit').on('click', calcResult);
+       $('.copyIconHolder').on('click', copyToClipboard);
        changeHmac();
      });
     </script>
@@ -310,14 +364,16 @@
         </div>
       </form>
 
-      <div id='output'>
+      <div id='output' class='notshown'>
         <div>
           <span>HEX-encoded result:</span>
-          <div id='resulthex' title='hex encoding is case-insensitive' class='notshown'></div>
+          <div id='resulthex' title='hex encoding is case-insensitive'></div>
+          <div class='copyIconHolder'></div>
         </div>
         <div>
           <span>Base64-encoded result:</span>
-          <div id='resultb64' title='base64 encoding is case-sensitive' class='notshown'></div>
+          <div id='resultb64' title='base64 encoding is case-sensitive'></div>
+          <div class='copyIconHolder'></div>
         </div>
       </div>
 
