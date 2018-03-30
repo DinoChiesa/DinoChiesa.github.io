@@ -46,6 +46,12 @@
      body {
        font-size: 180%;
      }
+     body > div {
+       display: flex;
+       height: auto;
+       max-width: 1440px;
+       margin: 0 auto;
+     }
      form div label {
        float: left;
        width: 148px;
@@ -68,7 +74,10 @@
        border-color: White;
        border-style: solid;
        border-width: 1px;
-       margin-top: 32px;
+       margin-top: 54px;
+     }
+     #notes {
+       border-top:  thick double #32a1ce;
      }
      #notes {
        font-size:80%;
@@ -78,18 +87,20 @@
        margin-top: 16px;
      }
      #output > div > span {
-       float: left;
+       display:block;
        width: 228px;
      }
-     #output > div > div:first-of-type {
+     #output > div > div:last-of-type {
        border: 1px dotted Grey;
        max-width: 1248px;
        width: 1248px;
        margin: 2px 0;
        padding: 4px 10px;
        font-size: 75%;
-       font-family: "Consolas", "Courier New", Courier, monospace;
        float: left;
+     }
+     .code {
+       font-family: "Consolas", "Courier New", Courier, monospace;
      }
      #key.notshown,
      #keylabel.notshown,
@@ -104,7 +115,7 @@
      #output > div > .copyIconHolder {
        /* https://material.io/icons/#ic_content_copy */
        content: url('images/ic_content_copy_black_24dp_1x.png');
-       padding-left: 5px;
+       padding-right: 5px;
        float: left;
        margin-top: 4px;
      }
@@ -204,10 +215,6 @@
        }
        $('#output').addClass('shown');
        $('#output').removeClass('notshown');
-       // $('#resultb64').addClass('shown');
-       // $('#resultb64').removeClass('notshown');
-       // $('#resulthex').addClass('shown');
-       // $('#resulthex').removeClass('notshown');
      }
 
      function calcSha() {
@@ -220,12 +227,7 @@
          $('#resultb64').text(hashInBase64);
          var hashInHex = CryptoJS.enc.Hex.stringify(hash);
          $('#resulthex').text(hashInHex);
-         $('#output').addClass('shown')
-                                         .removeClass('notshown');
-         // $('#resultb64').addClass('shown')
-         //                .removeClass('notshown');
-         // $('#resulthex').addClass('shown')
-         //                .removeClass('notshown');
+         $('#output').addClass('shown').removeClass('notshown');
        }
      }
 
@@ -294,7 +296,7 @@
 
      function copyToClipboard() {
        var $iconDiv = $(this);
-       var $textHolder = $iconDiv.prev();
+       var $textHolder = $iconDiv.next();
        selectText($textHolder[0]);
        try {
          document.execCommand('copy');
@@ -319,6 +321,7 @@
 
   <body>
 
+    <div>
     <div style='margin: 10px;'>
       <h3>Calculate a SHA or MD5, or an HMAC with SHA or MD5</h3>
 
@@ -364,13 +367,13 @@
       <div id='output' class='notshown'>
         <div>
           <span>HEX-encoded result:</span>
-          <div id='resulthex' title='hex encoding is case-insensitive'></div>
-          <div class='copyIconHolder'></div>
+          <div class='copyIconHolder' title='click to copy'></div>
+          <div id='resulthex' class='code' title='hex encoding is case-insensitive'></div>
         </div>
         <div>
           <span>Base64-encoded result:</span>
-          <div id='resultb64' title='base64 encoding is case-sensitive'></div>
-          <div class='copyIconHolder'></div>
+          <div class='copyIconHolder' title='click to copy'></div>
+          <div id='resultb64' class='code' title='base64 encoding is case-sensitive'></div>
         </div>
       </div>
 
@@ -385,11 +388,12 @@
                 <tr><th>Alg</th><th>message</th><th>key</th><th>result</th></tr>
               </thead>
               <tbody>
+                <tr><td>SHA-256</td><td>abc</td><td>--</td><td>
+                  (hex) <span class='code'>ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad</span><br/>
+                  (b64) <span class='code'>ungWv48Bz+pBQUDeXa4iI7ADYaOWF3qctBD/YfIAFa0=</span></td></tr>
               <tr><td>HMAC-sha256 </td><td>abc</td><td>secret</td><td>
-                (hex) 9946dad4e00e913fc8be8e5d3f7e110a4a9e832f83fb09c345285d78638d8a0e<br/>
-                (b64) mUba1OAOkT/Ivo5dP34RCkqegy+D+wnDRShdeGONig4=</td></tr>
-              <tr><td>SHA-256</td><td>abc</td><td>--</td><td>(hex) ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad<br/>
-                (b64) ungWv48Bz+pBQUDeXa4iI7ADYaOWF3qctBD/YfIAFa0=</td></tr>
+                (hex) <span class='code'>9946dad4e00e913fc8be8e5d3f7e110a4a9e832f83fb09c345285d78638d8a0e</span><br/>
+                (b64) <span class='code'>mUba1OAOkT/Ivo5dP34RCkqegy+D+wnDRShdeGONig4=</span></td></tr>
               </tbody>
             </table>
           </li>
@@ -399,7 +403,7 @@
         </ol>
       </div>
     </div>
-
+    </div>
   </body>
 
 </html>
