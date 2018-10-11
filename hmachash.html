@@ -4,8 +4,9 @@
     <title>MD5, SHA, and HMAC calculator</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="//yui.yahooapis.com/pure/0.6.0/base-min.css">
-    <link rel="stylesheet" href="//yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <!--  0.6.2 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/base-min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
     <link rel="stylesheet" type="text/css"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script type='text/javascript'
@@ -388,6 +389,10 @@
                 <tr><th>Alg</th><th>message</th><th>key</th><th>result</th></tr>
               </thead>
               <tbody>
+
+                <tr><td>SHA-1</td><td>abc</td><td>--</td><td>
+                  (hex) <span class='code'>a9993e364706816aba3e25717850c26c9cd0d89d</span><br/>
+                  (b64) <span class='code'>qZk+NkcGgWq6PiVxeFDCbJzQ2J0=</span></td></tr>
                 <tr><td>SHA-256</td><td>abc</td><td>--</td><td>
                   (hex) <span class='code'>ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad</span><br/>
                   (b64) <span class='code'>ungWv48Bz+pBQUDeXa4iI7ADYaOWF3qctBD/YfIAFa0=</span></td></tr>
@@ -398,7 +403,7 @@
             </table>
           </li>
           <li>Just a reminder, base64-encoded values are case sensitive.  Hex-encoded results are not. This is characteristic of the encodings, not special to this page, or to hash functions or HMACs.</li>
-          <li>For message content, Whitespace in the content is significant. Line-breaks will be converted to newline (\n). It's not possible to paste in a carriage-return (CR), because this page strips them. Trailing newlines will not be stripped. And remember, the sha256 for 'abc\n' is completely different from the sha256 for 'abc'.</li>
+          <li>For message content, Whitespace in the content is significant. Line-breaks will be converted to newline (\n). It's not possible to paste in a carriage-return (CR), because this page strips them. Trailing newlines will not be stripped. And remember, the hash for 'abc\n' is completely different from the hash for 'abc'.</li>
           <li>Unicode is ok. The calculator will encode the string as UTF-8 bytes before computing the checksum. UTF-8 ought to be good enough for anybody. :) </li>
         </ol>
       </div>
