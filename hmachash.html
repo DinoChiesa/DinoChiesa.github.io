@@ -4,7 +4,6 @@
     <title>MD5, SHA, and HMAC calculator</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--  0.6.2 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/base-min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
     <link rel="stylesheet" type="text/css"
@@ -146,9 +145,14 @@
     </style>
 
     <script type='text/javascript'>
+
+     function getHashName() {
+       var hashName = $('#function option:selected').val();
+       return hashName;
+     }
+
      function getAlgo() {
-       var algorithm = $('#function option:selected').val();
-       switch (algorithm) {
+       switch (getHashName()) {
          case 'md-5':
            return CryptoJS.algo.MD5;
            break;
@@ -168,12 +172,11 @@
            return CryptoJS.algo.SHA512;
            break;
        }
-       throw { error: 'unsupported algorithm.'};
+       throw { error: 'unsupported hash name.'};
      }
 
      function getHash(message) {
-       var algorithm = $('#function option:selected').val();
-       switch (algorithm) {
+       switch (getHashName()) {
          case 'md-5':
            return CryptoJS.MD5(message);
            break;
@@ -193,7 +196,27 @@
            return CryptoJS.SHA512(message);
            break;
        }
-       throw { error: 'unsupported algorithm.'};
+       throw { error: 'unsupported hash name.'};
+     }
+
+     function eraseResults() {
+       $('#resultB16').text('');
+       $('#resultB64').text('');
+       $('#output').addClass('notshown').removeClass('shown');
+     }
+
+     function publishResults(arg1, arg2) {
+       if (arg2) {
+         $('#resultB16').text(arg2);
+         $('#resultB64').text('error');
+       }
+       else if (arg1) {
+         var hashInBase16 = CryptoJS.enc.Hex.stringify(arg1);
+         $('#resultB16').text(hashInBase16);
+         var hashInBase64 = CryptoJS.enc.Base64.stringify(arg1);
+         $('#resultB64').text(hashInBase64);
+       }
+       $('#output').addClass('shown').removeClass('notshown');
      }
 
      function calcHmac() {
@@ -205,17 +228,11 @@
          var hmac = CryptoJS.algo.HMAC.create(getAlgo(), key);
          hmac.update(message);
          var hash = hmac.finalize();
-         var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
-         $('#resultb64').text(hashInBase64);
-         var hashInHex = CryptoJS.enc.Hex.stringify(hash);
-         $('#resulthex').text(hashInHex);
+         publishResults(hash);
        }
        else {
-         $('#resulthex').text('You must specify a message and a key');
-         $('#resultb64').text('error');
+         publishResults(null, 'You must specify a message and a key');
        }
-       $('#output').addClass('shown');
-       $('#output').removeClass('notshown');
      }
 
      function calcSha() {
@@ -224,11 +241,7 @@
          var re1 = new RegExp('(\r\n|\n)', 'g');
          message = message.replace(re1,'\n');
          var hash = getHash(message);
-         var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
-         $('#resultb64').text(hashInBase64);
-         var hashInHex = CryptoJS.enc.Hex.stringify(hash);
-         $('#resulthex').text(hashInHex);
-         $('#output').addClass('shown').removeClass('notshown');
+         publishResults(hash);
        }
      }
 
@@ -237,46 +250,50 @@
        var message = $('#text').val();
        //var re1 = new RegExp('(\r\n|\n)', 'g');
        //alert('message:\n' + message.replace(re1,'\\n\n'));
-       if ($('#hmac').is(':checked')) {
-         calcHmac();
+       if (message) {
+         if ($('#hmac').is(':checked')) {
+           calcHmac();
+         }
+         else {
+           calcSha();
+         }
        }
-       else {
-         calcSha();
+     }
+
+     function changeText(event) {
+       if (getHashName()) {
+         calcResult(event);
+       }
+     }
+     function changeKey(event) {
+       if (getHashName()) {
+         calcResult(event);
        }
      }
 
      function changeFunction(event) {
        if (event) { event.preventDefault(); }
        // enable the compute button
-       $( "#submit" ).removeClass('disabled')
-                         .prop("disabled", false);
-
-       // erase the results
-       $('#resulthex').text('');
-       $('#resultb64').text('');
-       $('#output').addClass('notshown')
-                         .removeClass('shown');
+       // $( "#submit" ).removeClass('disabled').prop("disabled", false);
+       //eraseResults();
+       calcResult(event);
      }
 
      function changeHmac(event) {
        if (event) { event.preventDefault(); }
        // display or hide the key as appropriate
        if ($('#hmac').is(':checked')) {
-         $('#key').addClass('shown')
-                         .removeClass('notshown');
-         $('#keylabel').addClass('shown')
-                         .removeClass('notshown');
-         $( "#key" ).removeClass('disabled')
-                         .prop("disabled", false);
+         $('#key').addClass('shown') .removeClass('notshown');
+         $('#keylabel').addClass('shown') .removeClass('notshown');
+         $( "#key" ).removeClass('disabled') .prop("disabled", false);
        }
        else {
-         $('#key').addClass('notshown')
-                         .removeClass('shown');
-         $('#keylabel').addClass('notshown')
-                         .removeClass('shown');
-         $( "#key" ).addClass('disabled')
-                         .prop("disabled", true);
+         $('#key').addClass('notshown') .removeClass('shown');
+         $('#keylabel').addClass('notshown') .removeClass('shown');
+         $( "#key" ).addClass('disabled') .prop("disabled", true);
        }
+       //eraseResults();
+       calcResult(event);
      }
 
      function selectText(element) {
@@ -309,8 +326,11 @@
      $(document).ready(function() {
        $('#function').val('');
        $('#function').change(changeFunction);
+       $('#function').val('sha-1');
        $('#hmac').change(changeHmac);
        $('#submit').on('click', calcResult);
+       $('#text').bind('input propertychange', changeText);
+       $('#key').bind('input propertychange', changeKey);
        $('.copyIconHolder').on('click', copyToClipboard);
        changeHmac();
      });
@@ -369,19 +389,20 @@
         <div>
           <span>HEX-encoded result:</span>
           <div class='copyIconHolder' title='click to copy'></div>
-          <div id='resulthex' class='code' title='hex encoding is case-insensitive'></div>
+          <div id='resultB16' class='code' title='hex encoding is case-insensitive'></div>
         </div>
         <div>
           <span>Base64-encoded result:</span>
           <div class='copyIconHolder' title='click to copy'></div>
-          <div id='resultb64' class='code' title='base64 encoding is case-sensitive'></div>
+          <div id='resultB64' class='code' title='base64 encoding is case-sensitive'></div>
         </div>
       </div>
 
       <div id='notes'>
         Notes:
         <ol>
-          <li>The hex and base64 results shown by this page are different encodings that represent the same value.</li>
+          <li>The base16 and base64 results shown by this page are different encodings that represent the same value.</li>
+          <li>Base16 encoding is sometimes calld "Hex encoding". </li>
           <li>If you specify a key for HMAC, the key is used only for HMAC calculation, and never leaves your browser. </li>
           <li>Here are a few test cases:
             <table class='testcases pure-table pure-table-bordered'>
@@ -391,18 +412,18 @@
               <tbody>
 
                 <tr><td>SHA-1</td><td>abc</td><td>--</td><td>
-                  (hex) <span class='code'>a9993e364706816aba3e25717850c26c9cd0d89d</span><br/>
+                  (b16) <span class='code'>a9993e364706816aba3e25717850c26c9cd0d89d</span><br/>
                   (b64) <span class='code'>qZk+NkcGgWq6PiVxeFDCbJzQ2J0=</span></td></tr>
                 <tr><td>SHA-256</td><td>abc</td><td>--</td><td>
-                  (hex) <span class='code'>ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad</span><br/>
+                  (b16) <span class='code'>ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad</span><br/>
                   (b64) <span class='code'>ungWv48Bz+pBQUDeXa4iI7ADYaOWF3qctBD/YfIAFa0=</span></td></tr>
               <tr><td>HMAC-sha256 </td><td>abc</td><td>secret</td><td>
-                (hex) <span class='code'>9946dad4e00e913fc8be8e5d3f7e110a4a9e832f83fb09c345285d78638d8a0e</span><br/>
+                (b16) <span class='code'>9946dad4e00e913fc8be8e5d3f7e110a4a9e832f83fb09c345285d78638d8a0e</span><br/>
                 (b64) <span class='code'>mUba1OAOkT/Ivo5dP34RCkqegy+D+wnDRShdeGONig4=</span></td></tr>
               </tbody>
             </table>
           </li>
-          <li>Just a reminder, base64-encoded values are case sensitive.  Hex-encoded results are not. This is characteristic of the encodings, not special to this page, or to hash functions or HMACs.</li>
+          <li>Just a reminder, base64-encoded values are case sensitive.  base16-encoded results are not. This is characteristic of the encodings, not special to this page, or to hash functions or HMACs.</li>
           <li>For message content, Whitespace in the content is significant. Line-breaks will be converted to newline (\n). It's not possible to paste in a carriage-return (CR), because this page strips them. Trailing newlines will not be stripped. And remember, the hash for 'abc\n' is completely different from the hash for 'abc'.</li>
           <li>Unicode is ok. The calculator will encode the string as UTF-8 bytes before computing the checksum. UTF-8 ought to be good enough for anybody. :) </li>
         </ol>
