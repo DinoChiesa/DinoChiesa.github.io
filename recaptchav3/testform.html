@@ -445,38 +445,7 @@
           <div id='resultB64' class='code' title='base64 encoding is case-sensitive'></div>
         </div>
       </div>
-
-      <div id='notes'>
-        Notes:
-        <ol>
-          <li>The base16 and base64 results shown by this page are different encodings that represent the same value.</li>
-          <li>Base16 encoding is sometimes calld "Hex encoding". </li>
-          <li>If you specify a key for HMAC, the key is used only for HMAC calculation, and never leaves your browser. </li>
-          <li>Here are a few test cases:
-            <table class='testcases pure-table pure-table-bordered'>
-              <thead>
-                <tr><th>Alg</th><th>message</th><th>key</th><th>result</th></tr>
-              </thead>
-              <tbody>
-
-                <tr><td>SHA-1</td><td>abc</td><td>--</td><td>
-                  (b16) <span class='code'>a9993e364706816aba3e25717850c26c9cd0d89d</span><br/>
-                  (b64) <span class='code'>qZk+NkcGgWq6PiVxeFDCbJzQ2J0=</span></td></tr>
-                <tr><td>SHA-256</td><td>abc</td><td>--</td><td>
-                  (b16) <span class='code'>ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad</span><br/>
-                  (b64) <span class='code'>ungWv48Bz+pBQUDeXa4iI7ADYaOWF3qctBD/YfIAFa0=</span></td></tr>
-              <tr><td>HMAC-sha256 </td><td>abc</td><td>secret</td><td>
-                (b16) <span class='code'>9946dad4e00e913fc8be8e5d3f7e110a4a9e832f83fb09c345285d78638d8a0e</span><br/>
-                (b64) <span class='code'>mUba1OAOkT/Ivo5dP34RCkqegy+D+wnDRShdeGONig4=</span></td></tr>
-              </tbody>
-            </table>
-          </li>
-          <li>Just a reminder, base64-encoded values are case sensitive.  base16-encoded results are not. This is characteristic of the encodings, not special to this page, or to hash functions or HMACs.</li>
-          <li>For message content, Whitespace in the content is significant. Line-breaks will be converted to newline (\n). It's not possible to paste in a carriage-return (CR), because this page strips them. Trailing newlines will not be stripped. And remember, the hash for 'abc\n' is completely different from the hash for 'abc'.</li>
-          <li>Unicode is ok. The calculator will encode the string as UTF-8 bytes before computing the checksum. UTF-8 ought to be good enough for anybody. :) </li>
-        </ol>
-      </div>
-    </div>
+      
     </div>
   </body>
 
