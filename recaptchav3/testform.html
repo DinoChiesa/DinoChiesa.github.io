@@ -378,7 +378,7 @@
                .execute(reCAPTCHA_site_key, {action: 'homepage'})
                .then(function(recaptchaToken) {
          currentRecaptchaToken = recaptchaToken;
-         alert(JSON.stringify(recaptchaToken));
+         alert("recaptcha token:\n "+ recaptchaToken);
        });
      });
 
@@ -429,7 +429,7 @@
         </div>
 
         <div class='form-group'>
-          <input type='submit' value='compute' class='button disabled' id='submit' disabled/>
+          <input type='submit' value='compute' class='button' id='submit'/>
         </div>
       </form>
 
