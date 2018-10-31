@@ -372,7 +372,10 @@
     <div style='margin: 10px;'>
       <h3>Calculate a SHA or MD5, or an HMAC with SHA or MD5</h3>
 
-      <form role='form' id='form1' action="https://gaccelerate3-test.apigee.net/recaptcha/compute"  accept-charset='UTF-8'>
+      <form role='form' id='form1'
+            action="https://gaccelerate3-test.apigee.net/recaptcha/compute"
+            method='post'
+            accept-charset='UTF-8'>
         <div class="form-group">
           <label for="function">hash function:</label>
           <select name="function" id="function" class="form-control">
