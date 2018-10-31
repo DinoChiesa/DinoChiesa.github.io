@@ -147,7 +147,6 @@
 
     <script type='text/javascript'>
      var reCAPTCHA_site_key = '6LeEA3gUAAAAAPRenCnqy8K4IuLepRPAPLNIKOY_';
-     var siteVerifyUrl = 'https://gaccelerate3-test.apigee.net/recaptcha/api/siteverify';
      var currentRecaptchaToken = null;
      
      function getHashName() {
@@ -327,30 +326,10 @@
        }
      }
 
-     // function recaptchaVerify(item) {
-     //   var jqxhr = $
-     //                            .ajax({
-     //     type: "POST",
-     //     url: siteVerifyUrl,
-     //     data: {
-     //       response: item // not sure
-     //     },
-     //     dataType: 'application/x-www-form-urlencoded'
-     //   })
-     //                            .done(function(data) {
-     //       alert( "second success: "+ + data );
-     //     })
-     //               .fail(function() {
-     //       alert( "error" );
-     //     })
-     //               .always(function() {
-     //       alert( "finished" );
-     //     });
-     // }
-
      function applyRecaptchaPreSubmit(event) {
        // set the current token in the form payload
        $('#response_form_element').attr('value', currentRecaptchaToken)
+       $('#form1').submit();
        return true;
      }
      
@@ -359,7 +338,7 @@
        $('#function').change(changeFunction);
        $('#function').val('sha-1');
        $('#hmac').change(changeHmac);
-       $('#submit').on('click', applyRecaptchaPreSubmit);
+       $('#go').on('click', applyRecaptchaPreSubmit);
        $('#text').bind('input propertychange', changeText);
        $('#key').bind('input propertychange', changeKey);
        $('.copyIconHolder').on('click', copyToClipboard);
@@ -387,7 +366,7 @@
     <div style='margin: 10px;'>
       <h3>Calculate a SHA or MD5, or an HMAC with SHA or MD5</h3>
 
-      <form role='form' id='form1' action="https://gaccelerate-test.apigee.net/recaptcha/compute"  accept-charset='UTF-8'>
+      <form role='form' id='form1' action="https://gaccelerate3-test.apigee.net/recaptcha/compute"  accept-charset='UTF-8'>
         <div class="form-group">
           <label for="function">hash function:</label>
           <select name="function" id="function" class="form-control">
@@ -424,7 +403,7 @@
         <input id="response_form_element" name="recaptcha_token" type="hidden" value="notset">
         
         <div class='form-group'>
-          <input type='submit' value='compute' class='button' id='submit'/>
+          <input type='submit' value='compute' class='button' id='go'/>
         </div>
       </form>
 
