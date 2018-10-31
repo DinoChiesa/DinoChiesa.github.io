@@ -147,6 +147,7 @@
 
     <script type='text/javascript'>
      var reCAPTCHA_site_key = '6LeEA3gUAAAAAPRenCnqy8K4IuLepRPAPLNIKOY_';
+     var postbackEndpoint = 'https://gaccelerate3-test.apigee.net/recaptcha/compute';
      
      function getHashName() {
        var hashName = $('#function option:selected').val();
@@ -335,8 +336,10 @@
 
          //alert("recaptcha token:\n "+ recaptchaToken);
 
+         // post back to an endpoint . The thing on the other end will call to
+         // google to ask for the score for this user/token. 
          var jqxhr = $.ajax({
-           url: "https://gaccelerate3-test.apigee.net/recaptcha/compute",
+           url: postbackEndpoint,
            method: "POST",
            data: { recaptcha_token: recaptchaToken },
            dataType : 'json'
