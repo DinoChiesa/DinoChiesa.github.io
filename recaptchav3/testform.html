@@ -328,9 +328,15 @@
 
      function applyRecaptchaPreSubmit(event) {
        // set the current token in the form payload
-       $('#response_form_element').attr('value', currentRecaptchaToken)
-       $('#form1').submit();
-       return true;
+       grecaptcha
+               .execute(reCAPTCHA_site_key, {action: 'homepage'})
+               .then(function(recaptchaToken) {
+         currentRecaptchaToken = recaptchaToken;
+         //alert("recaptcha token:\n "+ recaptchaToken);
+         $('#response_form_element').attr('value', currentRecaptchaToken)         
+         $('#form1').submit();
+       });
+       return false;
      }
      
      $(document).ready(function() {
