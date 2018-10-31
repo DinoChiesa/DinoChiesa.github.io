@@ -327,38 +327,31 @@
        }
      }
 
-     function doRecaptcha(event) {
-       if (event) { event.preventDefault(); }
-       var response = grecaptcha.getResponse( 'form1' );
-       alert('reCAPTCHA response: ' + response);
+     // function recaptchaVerify(item) {
+     //   var jqxhr = $
+     //                            .ajax({
+     //     type: "POST",
+     //     url: siteVerifyUrl,
+     //     data: {
+     //       response: item // not sure
+     //     },
+     //     dataType: 'application/x-www-form-urlencoded'
+     //   })
+     //                            .done(function(data) {
+     //       alert( "second success: "+ + data );
+     //     })
+     //               .fail(function() {
+     //       alert( "error" );
+     //     })
+     //               .always(function() {
+     //       alert( "finished" );
+     //     });
+     // }
 
-         // at this point, the page is supposed to send this to the server to
-         // get server-side verification of the token? 
-       recaptchaVerify(response); 
-
-
-       
-     }
-
-     function recaptchaVerify(item) {
-       var jqxhr = $
-                                .ajax({
-         type: "POST",
-         url: siteVerifyUrl,
-         data: {
-           response: item // not sure
-         },
-         dataType: 'application/x-www-form-urlencoded'
-       })
-                                .done(function(data) {
-           alert( "second success: "+ + data );
-         })
-                   .fail(function() {
-           alert( "error" );
-         })
-                   .always(function() {
-           alert( "finished" );
-         });
+     function applyRecaptchaPreSubmit(event) {
+       // set the current token in the form payload
+       $('#response_form_element').attr('value', currentRecaptchaToken)
+       return true;
      }
      
      $(document).ready(function() {
@@ -366,7 +359,7 @@
        $('#function').change(changeFunction);
        $('#function').val('sha-1');
        $('#hmac').change(changeHmac);
-       $('#submit').on('click', doRecaptcha);
+       $('#submit').on('click', applyRecaptchaPreSubmit);
        $('#text').bind('input propertychange', changeText);
        $('#key').bind('input propertychange', changeKey);
        $('.copyIconHolder').on('click', copyToClipboard);
@@ -378,7 +371,7 @@
                .execute(reCAPTCHA_site_key, {action: 'homepage'})
                .then(function(recaptchaToken) {
          currentRecaptchaToken = recaptchaToken;
-         alert("recaptcha token:\n "+ recaptchaToken);
+         //alert("recaptcha token:\n "+ recaptchaToken);
        });
      });
 
@@ -394,7 +387,7 @@
     <div style='margin: 10px;'>
       <h3>Calculate a SHA or MD5, or an HMAC with SHA or MD5</h3>
 
-      <form role='form' id='form1' accept-charset='UTF-8'>
+      <form role='form' id='form1' action="https://gaccelerate-test.apigee.net/recaptcha/compute"  accept-charset='UTF-8'>
         <div class="form-group">
           <label for="function">hash function:</label>
           <select name="function" id="function" class="form-control">
@@ -428,6 +421,8 @@
                     title='The message to use in the function. This data never leaves your browser.'></textarea>
         </div>
 
+        <input id="response_form_element" name="recaptcha_token" type="hidden" value="notset">
+        
         <div class='form-group'>
           <input type='submit' value='compute' class='button' id='submit'/>
         </div>
