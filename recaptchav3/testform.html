@@ -335,8 +335,8 @@
 
          //alert("recaptcha token:\n "+ recaptchaToken);
 
-         var jqxhr = $.ajax( {
-           url: "https://gaccelerate3-test.apigee.net/recaptcha/compute"
+         var jqxhr = $.ajax({
+           url: "https://gaccelerate3-test.apigee.net/recaptcha/compute",
            method: "POST",
            data: { recaptcha_token: recaptchaToken },
            dataType : 'json'
