@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2018-November-27 13:24:46>
+// last saved: <2018-November-27 13:33:29>
 
 /* global $, CryptoJS, Clipboard */
 
@@ -144,7 +144,7 @@ function generateRandomAlphaNumericString(L) {
 }
 
 function base64url(source) {
-  var encodedSource = CryptoJS.Base64
+  var encodedSource = CryptoJS.enc.Base64
     .stringify(source)
     .replace(/=+$/, '')
     .replace(/\+/g, '-')
