@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2018-November-27 13:33:29>
+// last saved: <2018-November-27 13:44:00>
 
 /* global $, CryptoJS, Clipboard */
 
@@ -26,7 +26,6 @@ function wrapInSingleQuote(s) {return "'" + s + "'";}
 function updateLink() {
   var link = linkTemplate;
   Object.keys(model)
-    .filter(excludeTransientFields)
     .forEach(function(key) {
       var pattern = "${" + key + "}", value = '';
       value = (typeof model[key] != 'string') ? model[key].join('+') : model[key];
@@ -73,7 +72,7 @@ function onSelectChanged() {
 function updateModel(event) {
   Object.keys(model).forEach(function(key) {
     var $item = $('#' + key), value = $item.val();
-    model[key] = value;
+    model[key] = value || '';
   });
   updateLink();
   if (event)
