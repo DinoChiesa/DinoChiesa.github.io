@@ -326,7 +326,7 @@
      $(document).ready(function() {
        $('#function').val('');
        $('#function').change(changeFunction);
-       $('#function').val('sha-1');
+       $('#function').val('sha-256');
        $('#hmac').change(changeHmac);
        $('#submit').on('click', calcResult);
        $('#text').bind('input propertychange', changeText);
@@ -401,8 +401,9 @@
       <div id='notes'>
         Notes:
         <ol>
+          <li>Any data you enter on this page stays in the browser, and is never sent to any third-party site. The hash computation is performed in your browser.</li>
           <li>The base16 and base64 results shown by this page are different encodings that represent the same value.</li>
-          <li>Base16 encoding is sometimes calld "Hex encoding". </li>
+          <li>Base16 encoding is sometimes called "Hex encoding". </li>
           <li>If you specify a key for HMAC, the key is used only for HMAC calculation, and never leaves your browser. </li>
           <li>Here are a few test cases:
             <table class='testcases pure-table pure-table-bordered'>
@@ -423,7 +424,7 @@
               </tbody>
             </table>
           </li>
-          <li>Just a reminder, base64-encoded values are case sensitive.  base16-encoded results are not. This is characteristic of the encodings, not special to this page, or to hash functions or HMACs.</li>
+          <li>Just a reminder, base64-encoded values are case sensitive, base16-encoded results are not. This is characteristic of the encodings, not special to this page, or to hash functions or HMACs.</li><
           <li>For message content, Whitespace in the content is significant. Line-breaks will be converted to newline (\n). It's not possible to paste in a carriage-return (CR), because this page strips them. Trailing newlines will not be stripped. And remember, the hash for 'abc\n' is completely different from the hash for 'abc'.</li>
           <li>Unicode is ok. The calculator will encode the string as UTF-8 bytes before computing the checksum. UTF-8 ought to be good enough for anybody. :) </li>
         </ol>
