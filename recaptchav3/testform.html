@@ -330,14 +330,13 @@
        // prevent form submit
        if (event) { event.preventDefault(); } 
        // get new token for this click
-       grecaptcha
-               .execute(reCAPTCHA_site_key, {action: 'homepage'})
-               .then(function(recaptchaToken) {
+       grecaptcha.execute(reCAPTCHA_site_key, {action: 'homepage'})
+                 .then(function(recaptchaToken) {
 
          //alert("recaptcha token:\n "+ recaptchaToken);
 
-         // post back to an endpoint . The thing on the other end will call to
-         // google to ask for the score for this user/token. 
+         // post back to an endpoint. The thing on the other end will call to
+         // google to ask for the 'score' for this token. 
          var jqxhr = $.ajax({
            url: postbackEndpoint,
            method: "POST",
@@ -351,7 +350,7 @@
            alert( "error" );
          })
          .always(function() {
-           alert( "complete" );
+           //alert( "complete" );
          });
  
          //$('#form1').submit();
