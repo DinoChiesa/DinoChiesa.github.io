@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2018-November-27 13:09:24>
+// last saved: <2018-November-27 13:24:46>
 
 /* global $, CryptoJS, Clipboard */
 
@@ -159,15 +159,8 @@ function populateFormFields() {
     .forEach(function(key) {
       var value = window.localStorage.getItem(html5AppId + '.model.' + key);
       var $item = $('#' + key);
-      if (key === 'code_challenge') {
-        // no-op
-      }
-      else if (key === 'code_verifier') {
-        // RFC 7636 says "a random string of length between 43 and 128 chars"
-        var chosenLength = (Math.floor(Math.random() * (128 - 43)) + 43);
-        var code_verifier = generateRandomAlphaNumericString(chosenLength);
-        $item.val(code_verifier);
-        $('#code_challenge').val(base64url(CryptoJS.SHA256(code_verifier)));
+      if ((key === 'code_challenge') || (key === 'code_verifier') ){
+        // no-op. should never happen
       }
       else if (value && value !== '') {
         if (typeof model[key] !== 'string') {
@@ -184,14 +177,16 @@ function populateFormFields() {
         }
       }
     });
+
+  // RFC 7636 says "a random string of length between 43 and 128 chars"
+  var chosenLength = (Math.floor(Math.random() * (128 - 43)) + 43);
+  var code_verifier = generateRandomAlphaNumericString(chosenLength);
+  $('#code_verifier').val(code_verifier);
+  $('#code_challenge').val(base64url(CryptoJS.SHA256(code_verifier)));
 }
 
 
 $(document).ready(function() {
-  $('.rtype-chosen').chosen({
-    no_results_text: "No matching response types...",
-    allow_single_deselect: true
-  });
   $('.scope-chosen').chosen({
     no_results_text: "No matching scopes...",
     allow_single_deselect: true
