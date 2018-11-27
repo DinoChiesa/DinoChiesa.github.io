@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>PKCE OAuthV2 Link Builder</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" 
+          href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script type='text/javascript'
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"</script>
+    <script type='text/javascript'
+            src='https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js'</script>
+    <script type='text/javascript'
+            src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" 
+          href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
+
+    <script type='text/javascript' 
+             src='//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js'>
+    </script>
+    <script type='text/javascript' 
+            src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js">
+    </script>
+    
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/chosen-bootstrap.css">
+
+    <script type='text/javascript'>
+     var model = {
+       edgeorg : '',
+       edgeenv : '',
+       basepath : '',
+       clientid : '',
+       clientsecret : '',
+       cburi : '',
+       code_verifier : '',
+       code_challenge : '',
+       code : '',
+       scope : []
+     };
+     var html5AppId = '503DB209-CCE8-46F7-84B4-400C9F9F2647';
+     var linkTemplate = "https://${edgeorg}-${edgeenv}.apigee.net/${basepath}/authorize?client_id=${clientid}&redirect_uri=${cburi}&response_type=code&scope=${scope}&code_challenge_method=S256&code_challenge=${code_challenge}";
+    </script>
+    <script type='text/javascript' src='js/pkce-link-builder-page.js'></script>
+  </head>
+  <body>
+    <!-- ======================================================= -->
+    <div style='margin: 10px;'>
+      <h3>Build links for the OAuthV2 PKCE Sample in Edge</h3>
+    <form role="form">
+      <div class="form-group">
+        <label for="edgeorg">Edge org:</label>
+        <input type="text" class="form-control" id="edgeorg">
+      </div>
+      <div class="form-group">
+        <label for="edgeenv">Edge env:</label>
+        <input type="text" class="form-control" id="edgeenv">
+      </div>
+      <div class="form-group">
+        <label for="basepath">proxy basepath:</label>
+        <input type="text" class="form-control" id="basepath">
+      </div>
+      <div class="form-group">
+        <label for="clientid">client_id:</label>
+        <input type="text" class="form-control" id="clientid">
+      </div>
+      <div class="form-group">
+        <label for="clientsecret">client_secret:</label>
+        <input type="text" class="form-control" id="clientsecret">
+      </div>
+      <div class="form-group">
+        <label for="cburi">callback URI:</label>
+        <input type="text" class="form-control" id="cburi">
+      </div>
+      <div class="form-group">
+        <label for="cburi">verifier:</label>
+        <input type="text" class="form-control" id="code_verifier">
+      </div>
+      <div class="form-group">
+        <label for="cburi">challenge:</label>
+        <input type="text" class="form-control" id="code_challenge">
+      </div>
+      <div class="form-group">
+        <label for="scope">scope:</label>
+        <select name="scope" id="scope" multiple class="form-control chosen scope-chosen" 
+                data-placeholder="scope" required>
+          <option value=""></option>
+          <option value="A" >A</option>
+          <option value="B" >B</option>
+          <option value="C" >C</option>
+          <option value="invalid_option" >invalid_option</option>
+        </select>
+      </div>
+        
+      <div class="divider"></div>
+        
+      <div class="form-group">
+        <label for="code">code:</label>
+        <input type="text" title='use this only if the response_type includes "code"'
+               class="form-control" id="code">
+      </div>
+
+      <div>
+        <button type="submit" class="btn btn-default" style='display:none'>Submit</button>
+      </div>
+    </form>
+
+    <div id='output'>
+      <div><a href='' id='authzlink'></a></div>
+      <div id='authzRedemption'>
+        <div id='redeemCode'></div>
+        <button class="btn btn-default clipboard-btn" data-clipboard-target="#redeemCode"
+                title="Copy the curl command to the clipboard">Copy</button>
+        <button class="btn btn-default" id="invokeRedemption"
+                title="invoke the code redemption from the browser">Redeem</button>
+        <button class="btn btn-default" id="resetRedemption">Reset</button>
+        <div id='redeemResult'></div>
+      </div>
+    </div>
+    </div>
+
+  </body>
+
+</html>
