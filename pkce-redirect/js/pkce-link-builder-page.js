@@ -4,25 +4,29 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2018-November-27 13:45:14>
+// last saved: <2018-November-27 13:48:12>
 
 /* global $, CryptoJS, Clipboard */
 
 (function (){
   'use strict';
-  var model = model || {
-        apihost : '',
-        edgeorg : '',
-        edgeenv : '',
-        clientid : '',
-        cburi : '',
-        scope : []
-      };
-  var extraneousDoubleSlashFinder = new RegExp('^(https?://[^/]+)//(.+)$');
-
+     var model = {
+       edgeorg : '',
+       edgeenv : '',
+       basepath : '',
+       clientid : '',
+       clientsecret : '',
+       cburi : '',
+       code_verifier : '',
+       code_challenge : '',
+       code : '',
+       scope : []
+     };
   // for localstorage
-  var html5AppId = html5AppId || "6E72F190-495A-4064-B74E-BF299336629E";
-  var linkTemplate = linkTemplate || "http://${edgeorg}-${edgeenv}.apigee.net/oauth2/v1/authorize?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}";
+  var html5AppId = '07c2a3c2-b9dc-4ee3-882e-b5f8a40f2ad4';
+  var linkTemplate = "https://${edgeorg}-${edgeenv}.apigee.net/${basepath}/authorize?client_id=${clientid}&redirect_uri=${cburi}&response_type=code&scope=${scope}&code_challenge_method=S256&code_challenge=${code_challenge}";
+
+  var extraneousDoubleSlashFinder = new RegExp('^(https?://[^/]+)//(.+)$');
 
   function wrapInSingleQuote(s) {return "'" + s + "'";}
 

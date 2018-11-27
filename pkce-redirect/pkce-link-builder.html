@@ -26,22 +26,6 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/chosen-bootstrap.css">
 
-    <script type='text/javascript'>
-     var model = {
-       edgeorg : '',
-       edgeenv : '',
-       basepath : '',
-       clientid : '',
-       clientsecret : '',
-       cburi : '',
-       code_verifier : '',
-       code_challenge : '',
-       code : '',
-       scope : []
-     };
-     var html5AppId = '07c2a3c2-b9dc-4ee3-882e-b5f8a40f2ad4';
-     var linkTemplate = "https://${edgeorg}-${edgeenv}.apigee.net/${basepath}/authorize?client_id=${clientid}&redirect_uri=${cburi}&response_type=code&scope=${scope}&code_challenge_method=S256&code_challenge=${code_challenge}";
-    </script>
     <script type='text/javascript' src='js/pkce-link-builder-page.js'></script>
   </head>
   <body>
