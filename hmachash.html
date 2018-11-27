@@ -424,8 +424,8 @@
               </tbody>
             </table>
           </li>
-          <li>Just a reminder, base64-encoded values are case sensitive, base16-encoded results are not. This is characteristic of the encodings, not special to this page, or to hash functions or HMACs.</li><
-          <li>For message content, Whitespace in the content is significant. Line-breaks will be converted to newline (\n). It's not possible to paste in a carriage-return (CR), because this page strips them. Trailing newlines will not be stripped. And remember, the hash for 'abc\n' is completely different from the hash for 'abc'.</li>
+          <li>Just a reminder, base64-encoded values are case sensitive, base16-encoded results are not. This is characteristic of the encodings, not special to this page, or to hash functions or HMACs.</li>
+          <li>For message content, whitespace in the content is significant. Line-breaks will be converted to newline (\n). It's not possible to include a carriage-return (CR) in the text value, because the logic on this page strips them. Trailing newlines will not be stripped. And remember, the hash for 'abc\n' is completely different from the hash for 'abc'.</li>
           <li>Unicode is ok. The calculator will encode the string as UTF-8 bytes before computing the checksum. UTF-8 ought to be good enough for anybody. :) </li>
         </ol>
       </div>
