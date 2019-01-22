@@ -48,10 +48,10 @@
         that's not really true. OAuth v2.0 is different. </p>
       
       <p>When you click "Sign", divs at the bottom will appear showing
-         intermediate results. If you're having trouble generating signatures from
-         your own code, examine the intermediate results shown here to see how the
-         encoding and sorting is done, and compare with the intermediate results
-         you are generating. I've tested this, it works in all cases I've tried.</p>
+        intermediate results. If you're having trouble generating signatures from
+        your own code, examine the intermediate results shown here to see how the
+        encoding and sorting is done, and compare with the intermediate results
+        you are generating. I've tested this, it works in all cases I've tried.</p>
       
       <p>This table lists the parameters you must send for the various messages in an OAuthv1.0a sequence.</p>
 
@@ -95,15 +95,15 @@
           </tr>
           <tr>
             <th>any other signed request</td>
-            <td>--</td>
-            <td>Y</td>
-            <td>Y</td>
-            <td>Y</td>
-            <td>Y</td>
-            <td>Y</td>
-            <td>Y</td>
-            <td></td>
-            <td>Y</td>
+              <td>--</td>
+              <td>Y</td>
+              <td>Y</td>
+              <td>Y</td>
+              <td>Y</td>
+              <td>Y</td>
+              <td>Y</td>
+              <td></td>
+              <td>Y</td>
           </tr>
         </tbody>
       </table>
@@ -112,90 +112,103 @@
 
       <p>Use this form to generate requests.</p>
       
-    <form role="form">
-      <div class="form-group">
-        <label for="reqmethod">HTTP Method:</label>
-        <select name="reqmethod" id="reqmethod" class="form-control chosen reqmethod-chosen" 
-                data-placeholder="request method" required>
-          <option value=""></option>
-          <option value="GET">GET</option>
-          <option value="PUT">PUT</option>
-          <option value="POST">POST</option>
-          <option value="PATCH">PATCH</option>
-          <option value="DELETE">DELETE</option>
-        </select>
-      </div>
+      <form role="form" style='max-width:960px;'>
+        <div class="form-group">
+          <label for="reqmethod">HTTP Method:</label>
+          <select name="reqmethod" id="reqmethod" class="form-control chosen reqmethod-chosen" 
+                  data-placeholder="request method" required>
+            <option value=""></option>
+            <option value="GET">GET</option>
+            <option value="PUT">PUT</option>
+            <option value="POST">POST</option>
+            <option value="PATCH">PATCH</option>
+            <option value="DELETE">DELETE</option>
+          </select>
+        </div>
 
-      <div class="form-group">
-        <label for="targurl">URL:</label>
-        <input type="text" class="form-control" id="targurl"
-               title='Typically ends with /request-token for request for temporary token, /access-token for getting the request token'>
-      </div>
+        <div class="form-group">
+          <label for="targurl">URL:</label>
+          <input type="text" class="form-control" id="targurl"
+                 title='Typically ends with /request-token for request for temporary token, /access-token for getting the request token'>
+        </div>
 
-      <div class="form-group">
-        <label for="realm">realm:</label>
-        <input type="text" class="form-control" id="realm"
-               title='optional. Leave blank for no specific realm.'>
-      </div>
+        <div class="form-group">
+          <label for="realm">realm:</label>
+          <input type="text" class="form-control" id="realm"
+                 title='optional. Leave blank for no specific realm.'>
+        </div>
 
-      <div class="form-group">
-        <label for="callback">OAuth Callback:</label>
-        <input type="text" class="form-control" title='probably "oob". Needed only for request for request-token' id="callback">
+        <div class="form-group">
+          <label for="callback">OAuth Callback:</label>
+          <input type="text" class="form-control" title='probably "oob". Needed only for request for request-token' id="callback">
+        </div>
+        
+        <div class="form-group">
+          <label for="verifier">OAuth Verifier:</label>
+          <input type="text" class="form-control" title='Needed only for request for access-token' id="verifier">
+        </div>
+
+        <div class="form-group">
+          <label for="qparams" title='Query params (any order)'>Query Params:
+            <button id='btn-add-qparam' type='button' class="btn btn-default no-padding">+</button>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="fparams" title='Form params (any order)'>Form Params:
+            <button id='btn-add-fparam' type='button' class="btn btn-default no-padding">+</button>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="consumerkey">consumer key:</label>
+          <input type="text" class="form-control" id="consumerkey">
+        </div>
+        <div class="form-group">
+          <label for="consumersecret">consumer secret:</label>
+          <input type="text" class="form-control" id="consumersecret"
+                 title='Never sent. Used only for generating signatures. Never stored by this webpage.'>
+        </div>
+
+        <div class="form-group">
+          <label for="token">token:</label>
+          <input type="text" class="form-control"
+                 title='leave blank for request for temporary request-token'
+                 id="token">
+        </div>
+        
+        <div class="form-group">
+          <label for="tokensecret">token secret:</label>
+          <input type="text" class="form-control" 
+                 title='Never sent. Used only for generating signatures. Never stored by this webpage. Leave blank for request for request-token.'
+                 id="tokensecret">
+        </div>
+
+        <div class="form-group">
+          <label for="timestamp">timestamp:
+            <button id='btn-now' type='button' class="btn btn-default no-padding">Now</button>            
+          </label>
+          <input type="text" class="form-control" id="timestamp">
+          
+        </div>
+
+        <div class="form-group">
+          <label for="nonce">nonce:
+            <button id='btn-random' type='button' class="btn btn-default no-padding">Random</button>
+          </label>
+          <input type="text" class="form-control" id="nonce">
+        </div>
+
+        <div>
+          <button type="button" id='btn-sign' title='using HMAC-SHA1' class="btn btn-default">Sign</button>
+          <button type="button" id='btn-reset' class="btn btn-default">Reset</button>
+        </div>
+    
+      </form>
+
+      <div id='output'>
       </div>
       
-      <div class="form-group">
-        <label for="verifier">OAuth Verifier:</label>
-        <input type="text" class="form-control" title='Needed only for request for access-token' id="verifier">
-      </div>
-
-      <div class="form-group">
-        <label for="qparams">Query param string:</label>
-        <input type="text" class="form-control" id="qparams">
-      </div>
-
-      <div class="form-group">
-        <label for="consumerkey">consumer key:</label>
-        <input type="text" class="form-control" id="consumerkey">
-      </div>
-      <div class="form-group">
-        <label for="consumersecret">consumer secret:</label>
-        <input type="text" class="form-control" id="consumersecret"
-               title='Never sent. Used only for generating signatures. Never stored by this webpage.'>
-      </div>
-
-      <div class="form-group">
-        <label for="token">token:</label>
-        <input type="text" class="form-control"
-               title='leave blank for request for temporary request-token'
-               id="token">
-      </div>
-      <div class="form-group">
-        <label for="tokensecret">token secret:</label>
-        <input type="text" class="form-control" 
-               title='Never sent. Used only for generating signatures. Never stored by this webpage. Leave blank for request for request-token.'
-               id="tokensecret">
-      </div>
-
-      <div class="form-group">
-        <label for="timestamp">timestamp:</label>
-        <input type="text" class="form-control" id="timestamp">
-        <button id='btn-now' type='button' class="btn btn-default">Now</button>
-      </div>
-
-      <div class="form-group">
-        <label for="nonce">nonce:</label>
-        <input type="text" class="form-control" id="nonce">
-        <button id='btn-random' type='button' class="btn btn-default">Random</button>
-      </div>
-      </div>
-      <div>
-        <button type="button" id='btn-sign' title='using HMAC-SHA1' class="btn btn-default">Sign</button>
-        <button type="button" id='btn-reset' class="btn btn-default">Reset</button>
-      </div>
-    </form>
-
-    <div id='output'>
-    </div>
     </div>
 
   </body>

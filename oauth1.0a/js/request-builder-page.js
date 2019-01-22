@@ -4,16 +4,20 @@
 // page logic for oauth1.0a request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2017-March-02 12:07:28>
+// last saved: <2019-January-22 11:17:25>
+
+/* global $, CryptoJS, Clipboard */
 
 var model = model || {
       reqmethod : '',
       targurl : '',
-      qparams : '',
+      qfparams : '',
       consumerkey : '',
       consumersecret : '',
       token : '',
-      tokensecret : ''
+      tokensecret : '',
+      timestamp : '',
+      nonce : ''
     };
 
 // for localstorage
@@ -36,12 +40,24 @@ function generateRandomString(L) {
   return pw;
 }
 
+
 function getQueryParams() {
-  var value = $('#qparams').val(), a = [];
-  if (value && value.length > 0) {
-    a = value.split('&');
-  }
+  return getQueryOrFormParams('qparam');
+}
+
+function getQueryOrFormParams(divClass) {
+  var a = [];
+  $('div.' + divClass).each(function(ix) {
+    var $inputs = $(this).children('input');
+    if ($inputs.length == 2 && $inputs[0].value) { // non-blank
+      a.push(rfc3986EncodeURIComponent($inputs[0].value) + '=' + rfc3986EncodeURIComponent($inputs[1].value));
+    }
+  });
   return a;
+}
+
+function getQueryAndFormParams() {
+  return getQueryOrFormParams('qparam').concat(getQueryOrFormParams('fparam'));
 }
 
 function getOauthParams() {
@@ -68,7 +84,7 @@ function computeHmacSha1(input, key) {
 }
 
 function computeNormalizedParameters() {
-  var allparams = getQueryParams()
+  var allparams = getQueryAndFormParams()
     .concat( getOauthParams() )
     .sort();
   return allparams.join('&');
@@ -118,7 +134,7 @@ function produceHeader(signature, realm) {
   //    oauth_version="1.0"
   var oauthparams = getOauthParams();
   oauthparams.push('oauth_signature=' + rfc3986EncodeURIComponent(signature));
-  var oauthparams_in_qparams = getQueryParams().filter(function(elt){return elt.startsWith('oauth_');});
+  var oauthparams_in_qparams = getQueryAndFormParams().filter(function(elt){return elt.startsWith('oauth_');});
   if (oauthparams_in_qparams.length > 0) {
     oauthparams = oauthparams.concat(oauthparams_in_qparams);
   }
@@ -153,16 +169,16 @@ function produceSignature(event) {
     var signature = computeHmacSha1(baseString, key);
     var header = produceHeader(signature);
     var url = $('#targurl').val();
-    var qparams = $('#qparams').val();
+    var qparams = getQueryParams();
     if (qparams !== '') { url += '?' + qparams; }
-    $table.append('<tr><th>Normalized parameters</th><td>'+ normalized +'</td></tr>');
-    $table.append('<tr><th>Signature base string</th><td>'+ baseString +'</td></tr>');
+    $table.append('<tr><th>Normalized parameters</th><td style="overflow-wrap:break-word;">'+ normalized +'</td></tr>');
+    $table.append('<tr><th>Signature base string</th><td style="overflow-wrap:break-word;">'+ baseString +'</td></tr>');
     $table.append('<tr><th>Key</th><td>'+ key +'</td></tr>');
     $table.append('<tr><th>Signature</th><td>'+ signature +'</td></tr>');
-    $table.append('<tr><th>Authorization Header</th><td>'+ header +'</td></tr>');
+    $table.append('<tr><th>Authorization Header</th><td style="overflow-wrap:break-word;">'+ header +'</td></tr>');
     $table.append('<tr><th>curl command' +
-                  '<button class="btn" id="btn-copy" type="button">Copy</button>' +
-                  '</th><td id="curlcmd">curl -i -X '+ getRequestMethod() +
+                  '<button class="btn btn-default no-padding" id="btn-copy" type="button">Copy</button>' +
+                  '</th><td id="curlcmd" style="overflow-wrap:break-word;">curl -i -X '+ getRequestMethod() +
                   ' -H \'Authorization: '+ header + '\' \'' + url +
                   '\'</td></tr>');
     new Clipboard('#btn-copy', {
@@ -174,6 +190,7 @@ function produceSignature(event) {
   if (event)
     event.preventDefault();
 }
+
 
 function clearError() {
   var $output = $('#output');
@@ -211,12 +228,18 @@ function populateFormFields() {
     var value = window.localStorage.getItem(html5AppId + '.model.' + key);
     if (value && value !== '') {
       var $item = $('#' + key);
-      if (typeof model[key] != 'string') {
-        // the value is a set of values concatenated by +
-        // and the type of form field is select.
-        value.split('+').forEach(function(part){
-          $item.find("option[value='"+part+"']").prop("selected", "selected");
-        });
+      if (key === 'nonce') {
+        var length = Math.floor((Math.random() * 13 + 13));
+        $item.val(generateRandomString(length));
+      }
+      else if (key === 'timestamp') {
+        var n = (new Date()).valueOf() / 1000;
+        $item.val(n.toFixed(0));
+      }
+      else if (key === 'reqmethod') { // (typeof model[key] != 'string')
+        // the value is a string, one item in a select
+        $item.find("option[value='"+value+"']").prop("selected", "selected");
+        $item.trigger("chosen:updated");
       }
       else {
         // value is a simple string, form field type is input.
@@ -253,17 +276,52 @@ function resetForm(event){
     event.preventDefault();
 }
 
+function addQueryOrFormParam(type, event) {
+  event.preventDefault();
+  var divClass = (type == 'query')? 'qparam' : 'fparam';
+  var $params = $('div.form-group.' + divClass);
+  var max_num_fields = 10;
+  if($params.length < max_num_fields) {
+    var x = $params.length + 1;
+    var keyid = divClass + '_key_' + x;
+    var valueid = divClass + '_val_' + x;
+    var $containingDiv = $(event.target).parent().parent();
+    $containingDiv.next('div').before('<div class="form-group ' + divClass + '">' +
+                               '<label><button class="btn btn-default remove-param no-padding" type="button" class="btn btn-default">X</button></label>' +
+                               '<input class="form-control" title="parameter name" id="'+keyid+'"/>' +
+                               '<input class="form-control" title="parameter value" id="'+valueid+'"/>' +
+                               '</div>');
+  }
+}
+
+function addQueryParam(event) {
+  return addQueryOrFormParam('query', event);
+}
+
+function addFormParam(event) {
+  return addQueryOrFormParam('form', event);
+}
+
+function removeParam(event){
+  event.preventDefault();
+  var $containingDiv = $(event.target).parent().parent();
+  $containingDiv.remove();
+}
+
 $(document).ready(function() {
   $('.reqmethod-chosen').chosen({
-    no_results_text: "No matching method...",
+    no_results_text: 'No matching method...',
     allow_single_deselect: true
   });
 
+  $( '#btn-now' ).click(insertNow);
+  $( '#btn-random' ).click(insertNonce);
+  $( '#btn-add-qparam').click(addQueryParam);
+  $( '#btn-add-fparam').click(addFormParam);
+  $( '#btn-sign' ).click(produceSignature);
+  $( '#btn-reset' ).click(resetForm);
 
-  $( "#btn-now" ).click(insertNow);
-  $( "#btn-random" ).click(insertNonce);
-  $( "#btn-sign" ).click(produceSignature);
-  $( "#btn-reset" ).click(resetForm);
+  $('form').on('click', '.remove-param', removeParam);
 
   populateFormFields();
 
