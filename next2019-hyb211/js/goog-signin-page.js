@@ -7,8 +7,10 @@
   'use strict';
 
   function oneDiv(label, value) {
-    return '<div class="label">'+ label +'</div>' +
-      '<div class="value">' + value + '</div>';
+    return '<div class="item">'+
+      '  <div class="label">'+ label +'</div>' +
+      '  <div class="value">' + value + '</div>'+
+      '</div>';
   }
 
   function onSignIn(googleUser) {

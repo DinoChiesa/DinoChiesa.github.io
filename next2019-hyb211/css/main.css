@@ -34,11 +34,12 @@ div.divider {
   border: 1px dotted Grey;
   padding: 4px;
 }
-#output > .label {
+#output .label {
   float:left;
   width: 20%;
 }
-#output > .value {
+
+#output .value {
   float:left;
   
   /* all below, to handle display of really long data */
@@ -52,7 +53,7 @@ div.divider {
   white-space: normal;
 }
 
-#output > .value:after { 
+#output > .item:after { 
   /* clearfix */
    content: " ";
    display: block; 
