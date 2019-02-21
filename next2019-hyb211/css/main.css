@@ -1,0 +1,61 @@
+body {
+  font-size: 132%;
+}
+form div label {
+  float: left;
+  width: 148px;
+  margin: 8px 0;
+}
+form > div > select,
+form > div > div ul, /* chosen */
+form > div > input {
+  float: left;
+  max-width: 660px;
+  margin: 2px 0;
+}
+form > div,
+form > div.form-group {
+  display:block;
+  clear:both;
+}
+div.divider {
+  border-top: 1px solid Black;
+}
+#output { 
+  margin-top: 28px;
+  font-size: 160%;
+}
+#output .error { 
+  color: Red;
+}
+#output > div {
+  margin-top: 12px;
+  margin-bottom: 4px;
+  border: 1px dotted Grey;
+  padding: 4px;
+}
+#output > .label {
+  float:left;
+  width: 20%;
+}
+#output > .value {
+  float:left;
+  
+  /* all below, to handle display of really long data */
+  white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  white-space: pre-wrap;       /* css-3 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  white-space: -webkit-pre-wrap; /* Newer versions of Chrome/Safari*/
+  word-break: break-all;
+  white-space: normal;
+}
+
+#output > .value:after { 
+  /* clearfix */
+   content: " ";
+   display: block; 
+   height: 0; 
+   clear: both;
+}
