@@ -42,7 +42,7 @@ div.divider {
 
 #output .value {
   float:left;
-  
+  max-width: 78%;
   /* all below, to handle display of really long data */
   white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
   white-space: -pre-wrap;      /* Opera 4-6 */
