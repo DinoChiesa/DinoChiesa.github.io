@@ -3,13 +3,13 @@
   <head>
     <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="671646694294-2e6h95mkgafps8b5qh1us2hajlptqj8q.apps.googleusercontent.com">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://apis.google.com/js/platform.js?onload=gapiPostInit" async defer></script>
     <script type='text/javascript' src='js/goog-signin-page.js'></script>    
     <link rel="stylesheet" type="text/css" href="css/main.css">
   </head>
   <body>
     <!-- this will display the button -->
-    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+    <div id='signin' class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
     <a id='signout' class='hidden' href="#" onclick="signOut();">Sign out</a>
     <div id='output'>
     </div>

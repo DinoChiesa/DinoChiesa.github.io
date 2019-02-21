@@ -6,6 +6,10 @@
 (function (){
   'use strict';
 
+  function gauth() {
+    return gapi.auth2.getAuthInstance();
+  }
+
   function oneDiv(label, value) {
     return '<div class="item">'+
       '  <div class="label">'+ label +'</div>' +
@@ -17,14 +21,9 @@
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
       console.log('User signed out.');
-      var signout = document.getElementById("signout");
-      if (signout) {
-        signout.classList.remove('visible');
-        signout.classList.add('hidden');
-      }
+      showSignout(false);
     });
   }
-
 
   function onSignIn(googleUser) {
     var elt = document.getElementById("output");
@@ -34,7 +33,7 @@
       oneDiv('Given Name',  profile.getGivenName()) +
       oneDiv('Family Name', profile.getFamilyName()) +
       oneDiv("Email", profile.getEmail()) +
-      '<div class="image"><img src="' + profile.getImageUrl() + '"></div>';
+      oneDiv('Image', '<img src="' + profile.getImageUrl() + '">');
 
     // The ID token you need to pass to your backend:
     var id_token = googleUser.getAuthResponse().id_token;
@@ -47,7 +46,28 @@
     }
   }
 
+  function showSignout(visible) {
+    var signout = document.getElementById("signout");
+    if (signout) {
+      signout.classList.add(visible?'visible':'hidden');
+      signout.classList.remove(visible?'hidden':'visible');
+    }
+  }
+
+  function gapiPostInit() {
+    gapi.load('auth2', function() {
+      // Ready.
+      if (gauth().isSignedIn.get()) {
+        showSignout(true);
+      }
+      else {
+        showSignout(false);
+      }
+    });
+  }
+
   window.onSignIn = onSignIn;
   window.signOut = signOut;
+  window.gapiPostInit = gapiPostInit;
 
 }());

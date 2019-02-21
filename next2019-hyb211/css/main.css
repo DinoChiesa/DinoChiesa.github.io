@@ -1,5 +1,6 @@
 body {
-  font-size: 132%;
+  font-size: 100%;
+  font-family: Roboto, Arial;
 }
 form div label {
   float: left;
@@ -29,7 +30,7 @@ div.divider {
   color: Red;
 }
 #output > div {
-  margin-top: 12px;
+  margin-top: 8px;
   margin-bottom: 4px;
   border: 1px dotted Grey;
   padding: 4px;
