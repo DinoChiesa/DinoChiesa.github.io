@@ -60,3 +60,10 @@ div.divider {
    height: 0; 
    clear: both;
 }
+
+.visible {
+  display:block;
+}
+.hidden {
+  display:none;
+}

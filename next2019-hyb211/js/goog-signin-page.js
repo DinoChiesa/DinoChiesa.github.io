@@ -13,6 +13,13 @@
       '</div>';
   }
 
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  }
+
   function onSignIn(googleUser) {
     var elt = document.getElementById("output");
     var profile = googleUser.getBasicProfile();
@@ -27,8 +34,14 @@
     var id_token = googleUser.getAuthResponse().id_token;
     html += oneDiv("ID Token", id_token);
     elt.innerHTML = html;
+    var signout = document.getElementById("signout");
+    if (signout) {
+      signout.classList.add('visible');
+      signout.classList.remove('hidden');
+    }
   }
 
   window.onSignIn = onSignIn;
+  window.signOut = signOut;
 
 }());
