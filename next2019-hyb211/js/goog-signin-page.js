@@ -1,7 +1,7 @@
 // goog-signin-page.js
 // ------------------------------------------------------------------
 /* jshint esversion: 8, node: false */
-/* global console, Buffer, window */
+/* global console, Buffer, window, gapi */
 
 (function (){
   'use strict';
@@ -17,8 +17,14 @@
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
       console.log('User signed out.');
+      var signout = document.getElementById("signout");
+      if (signout) {
+        signout.classList.remove('visible');
+        signout.classList.add('hidden');
+      }
     });
   }
+
 
   function onSignIn(googleUser) {
     var elt = document.getElementById("output");
