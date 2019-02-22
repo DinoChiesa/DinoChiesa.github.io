@@ -9,18 +9,22 @@
 
   function renderToken(token) {
     let matches = jwtRe.exec(token);
-    let html = '';
-    if ( matches && matches.length == 4) {
+    if (matches && matches.length == 4) {
+      // colorize the base64-encoded blobs
+      let html = oneDiv("ID Token",
+                    token.replace(jwtRe, '<span class="jwt-header">$1</span>.<span class="jwt-payload">$2</span>.<span class="jwt-signature">$3</span'));
+
       let styles = ['header','payload'];
       matches.slice(1,-1).forEach(function(item,index){
         var json = atob(item);
         var obj = JSON.parse(json);
-        html += oneDiv('header', '<pre class="jwt-'+ styles[index] +'">' +
+        html += oneDiv(styles[index], '<pre class="jwt-'+ styles[index] +'">' +
                        JSON.stringify(obj,null,2) +
                        '</pre>');
       });
+      return html;
     }
-    return html;
+    return oneDiv("ID Token", token);
   }
 
   function g() {
@@ -61,8 +65,8 @@
 
     // The ID token you need to pass to your backend:
     var id_token = googleUser.getAuthResponse().id_token;
-    html += oneDiv("ID Token", id_token);
-    html += renderToken(id_token);
+    //html += oneDiv("ID Token", id_token);
+    html += renderIdToken(id_token);
     elt.innerHTML = html;
     showSignout(true);
   }
