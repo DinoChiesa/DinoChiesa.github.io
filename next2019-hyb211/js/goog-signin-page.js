@@ -7,7 +7,7 @@
   'use strict';
   var jwtRe = new RegExp('^([^\\.]+)\\.([^\\.]+)\\.([^\\.]+)$');
 
-  function renderToken(token) {
+  function renderIdToken(token) {
     let matches = jwtRe.exec(token);
     if (matches && matches.length == 4) {
       // colorize the base64-encoded blobs
