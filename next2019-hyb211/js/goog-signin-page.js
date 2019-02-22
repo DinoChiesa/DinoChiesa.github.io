@@ -1,25 +1,47 @@
 // goog-signin-page.js
 // ------------------------------------------------------------------
 /* jshint esversion: 8, node: false */
-/* global console, Buffer, window, gapi */
+/* global console, Buffer, window, gapi, atob */
 
 (function (){
   'use strict';
+  var jwtRe = new RegExp('^([^\\.]+)\\.([^\\.]+)\\.([^\\.]+)$');
 
-  function gauth() {
+  function renderToken(token) {
+    let matches = jwtRe.exec(token);
+    let html = '';
+    if ( matches && matches.length == 4) {
+      let styles = ['header','payload'];
+      matches.slice(1,-1).forEach(function(item,index){
+        var json = atob(item);
+        var obj = JSON.parse(json);
+        html += oneDiv('header', '<pre class="jwt-'+ styles[index] +'">' +
+                       JSON.stringify(obj,null,2) +
+                       '</pre>');
+      });
+    }
+    return html;
+  }
+
+  function g() {
     return gapi.auth2.getAuthInstance();
   }
 
   function oneDiv(label, value) {
+    var isToken = label.match(/token/i);
+    var valueClasses = ['value'];
+    if (isToken) {
+      valueClasses.push('token');
+    }
     return '<div class="item">'+
       '  <div class="label">'+ label +'</div>' +
-      '  <div class="value">' + value + '</div>'+
+      '  <div class="'+ valueClasses.join(' ') + '">' + value + '</div>'+
       '</div>';
   }
 
   function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
+
+    g().signOut().then(function () {
       var elt = document.getElementById('output');
       elt.innerHTML = '';
       console.log('User signed out.');
@@ -40,6 +62,7 @@
     // The ID token you need to pass to your backend:
     var id_token = googleUser.getAuthResponse().id_token;
     html += oneDiv("ID Token", id_token);
+    html += renderToken(id_token);
     elt.innerHTML = html;
     showSignout(true);
   }
@@ -55,7 +78,7 @@
   function gapiPostInit() {
     gapi.load('auth2', function() {
       // Ready.
-      if (gauth().isSignedIn.get()) {
+      if (g().isSignedIn.get()) {
         showSignout(true);
       }
       else {

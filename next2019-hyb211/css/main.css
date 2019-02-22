@@ -68,3 +68,15 @@ div.divider {
 .hidden {
   display:none;
 }
+
+#output .value.token {
+  font-size: 52%;
+}
+
+.jwt-header {
+  color: #fa003a; 
+}
+.jwt-payload {
+  color: #b100ff; 
+}
+
