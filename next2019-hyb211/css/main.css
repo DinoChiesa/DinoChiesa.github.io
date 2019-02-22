@@ -76,15 +76,16 @@ div.divider {
 .jwt-header {
   color: #fa003a;
   margin: 0px;
+  font-size:80%;
 }
 
 .jwt-payload {
   color: #b100ff; 
   margin: 0px;
+  font-size:80%;
 }
 
 .jwt-signature {
   color: #3184fb;
-  margin: 0px;
 }
 

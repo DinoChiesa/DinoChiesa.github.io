@@ -12,7 +12,7 @@
     if (matches && matches.length == 4) {
       // colorize the base64-encoded blobs
       let html = oneDiv("ID Token",
-                    token.replace(jwtRe, '<span class="jwt-header">$1</span>.<span class="jwt-payload">$2</span>.<span class="jwt-signature">$3</span'));
+                    token.replace(jwtRe, '<span class="jwt-header">$1</span>.<span class="jwt-payload">$2</span>.<span class="jwt-signature">$3</span>'));
 
       let styles = ['header','payload'];
       matches.slice(1,-1).forEach(function(item,index){
