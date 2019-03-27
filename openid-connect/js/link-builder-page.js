@@ -4,8 +4,10 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2018-March-15 16:32:09>
+// last saved: <2019-March-27 10:36:30>
 
+/* jshint esversion: 8 */
+/* global $, Clipboard */
 
 var model = model || {
       apihost : '',
@@ -25,18 +27,36 @@ var linkTemplate = linkTemplate || "http://${edgeorg}-${edgeenv}.apigee.net/oaut
 
 function wrapInSingleQuote(s) {return "'" + s + "'";}
 
-function updateLink() {
-  var link = linkTemplate;
+  function generateRandomAlphaString(L) {
+    function c() {
+      return (Math.floor(Math.random() * 5)<1) ?
+        (Math.floor(Math.random() * 10) + 48) :
+        String.fromCharCode(65 + Math.floor(Math.random() * 26) + (Math.floor(Math.random() * 2) * 32));
+    }
+    var i, s = '';
+    L = L || (Math.floor(Math.random() * 7) + 8);
+    for (i=0; i<L; i++) {
+      s += c();
+    }
+    return s;
+  }
+
+function evalTemplate(template, model) {
+  let s = template;
   Object.keys(model)
     .filter(excludeTransientFields)
     .forEach(function(key) {
-      var pattern = "${" + key + "}", value = '';
-      value = (typeof model[key] != 'string') ? model[key].join('+') : model[key];
-      if ((model[key]) && (key !== 'state' && key !== 'nonce') && (value !== null) && (typeof value !== 'undefined')) {
+      var pattern = "${" + key + "}", value = model[key];
+      if ((model[key]) && (value !== null) && (typeof value !== 'undefined')) {
         window.localStorage.setItem(html5AppId + '.model.' + key, value);
       }
-      link = link.replace(pattern,value);
+      s = s.replace(pattern,value);
     });
+  return s;
+}
+
+function updateLink() {
+  var link = evalTemplate(linkTemplate, model);
   var extraneousDoubleSlashFinder = new RegExp('^(https?://[^/]+)//(.+)$');
   var m = extraneousDoubleSlashFinder.exec(link);
   if (m) { link = m[1] + '/' + m[2]; }
@@ -131,32 +151,32 @@ function excludeTransientFields(key) {
   return key != 'code'; // the only transient field, currently
 }
 
-  function populateFormFields() {
-    // get values from local storage, and place into the form
-    Object.keys(model)
-      .filter(excludeTransientFields)
-      .forEach(function(key) {
-        var value = window.localStorage.getItem(html5AppId + '.model.' + key);
-        var $item = $('#' + key);
-        if (key === 'state' || key === 'nonce') {
-          $item.val(generateRandomAlphaString(6));
+function populateFormFields() {
+  // get values from local storage, and place into the form
+  Object.keys(model)
+    .filter(excludeTransientFields)
+    .forEach(function(key) {
+      var value = window.localStorage.getItem(html5AppId + '.model.' + key);
+      var $item = $('#' + key);
+      if (key === 'state' || key === 'nonce') {
+        $item.val(generateRandomAlphaString(6));
+      }
+      else if (value && value !== '') {
+        if (typeof model[key] !== 'string') {
+          // the value is a set of values concatenated by +
+          // and the type of form field is select.
+          value.split('+').forEach(function(part){
+            $item.find("option[value='"+part+"']").prop("selected", "selected");
+          });
+          $item.trigger("chosen:updated");
         }
-        else if (value && value !== '') {
-          if (typeof model[key] !== 'string') {
-            // the value is a set of values concatenated by +
-            // and the type of form field is select.
-            value.split('+').forEach(function(part){
-              $item.find("option[value='"+part+"']").prop("selected", "selected");
-            });
-            $item.trigger("chosen:updated");
-          }
-          else {
-            // value is a simple string, form field type is input.
-            $item.val(value);
-          }
+        else {
+          // value is a simple string, form field type is input.
+          $item.val(value);
         }
-      });
-  }
+      }
+    });
+}
 
 
 $(document).ready(function() {
