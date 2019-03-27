@@ -22,6 +22,7 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/chosen-bootstrap.css">
 
+    <script type='text/javascript' src='js/base32.js'></script>
     <script type='text/javascript' src='js/link-builder-page.js'></script>
   </head>
   <body>
@@ -45,9 +46,10 @@
         </div>
 
         <div class="form-group">
-          <label for="username">Username:</label>
-          <input type="text" class="form-control" id="username">
+          <label for="label">Label:</label>
+          <input type="text" class="form-control" id="label">
         </div>
+        
         <div class="form-group">
           <label for="secret">Secret:</label>
           <input type="text" class="form-control" id="secret"
@@ -61,7 +63,6 @@
           <button type="submit" class="btn btn-default" style='display:none'>Submit</button>
         </div>
       </form>
-
       
       <div id='output'>
         <div id='totplinkholder'><a href='' id='totplink'></a></div>  

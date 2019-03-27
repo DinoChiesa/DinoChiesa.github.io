@@ -1,27 +1,27 @@
 // link-builder-page.js
 // ------------------------------------------------------------------
 /* jshint esversion: 8 */
-/* global $ */
+/* global $, base32 */
 
 var model = {
       baseurl : '',
       bcsize : '',
-      username : '',
+      label : '',
       secret : '',
+      base32secret : '',
       issuer : ''
     };
 
 var html5AppId = '5FADBB91-0C35-49F6-BE3F-220B632874C3'; // for localstorage
 
 var linkTemplate = "${baseurl}?chs=${bcsize}&chld=M%7C0&cht=qr&chl=@@CHL@@";
-var chlTemplate = "otpauth://totp/${username}?secret=${secret}&issuer=${issuer}";
+var chlTemplate = "otpauth://totp/${label}?secret=${base32secret}&issuer=${issuer}";
 
 function wrapInSingleQuote(s) {return "'" + s + "'";}
 
 function evalTemplate(template, model) {
   let s = template;
   Object.keys(model)
-    .filter(excludeTransientFields)
     .forEach(function(key) {
       var pattern = "${" + key + "}", value = model[key];
       if ((model[key]) && (value !== null) && (typeof value !== 'undefined')) {
@@ -34,6 +34,7 @@ function evalTemplate(template, model) {
 
 function updateLink() {
   let baselink = evalTemplate(linkTemplate, model);
+  model.base32secret = base32.rfc4648.encode(model.secret);
   let chl = evalTemplate(chlTemplate, model);
   let link = baselink.replace('@@CHL@@', encodeURIComponent(chl));
   var extraneousDoubleSlashFinder = new RegExp('^(https?://[^/]+)//(.+)$');
@@ -70,7 +71,7 @@ function updateModel(event) {
 }
 
 function excludeTransientFields(key) {
-  return true; // keep all
+  return key != 'base32secret'; // keep all
 }
 
 function populateFormFields() {
@@ -80,14 +81,16 @@ function populateFormFields() {
     .forEach(function(key) {
       var value = window.localStorage.getItem(html5AppId + '.model.' + key);
       var $item = $('#' + key);
-      if (value && value !== '') {
-        if ($item[0].tagName === 'SELECT') {
-          $item.find("option[value='"+value+"']").prop("selected", "selected");
-          $item.trigger("chosen:updated");
-        }
-        else {
-          // value is a simple string, form field type is input.
-          $item.val(value);
+      if ($item.length > 0 ) {
+        if (value && value !== '') {
+          if ($item[0].tagName === 'SELECT') {
+            $item.find("option[value='"+value+"']").prop("selected", "selected");
+            $item.trigger("chosen:updated");
+          }
+          else {
+            // value is a simple string, form field type is input.
+            $item.val(value);
+          }
         }
       }
     });
