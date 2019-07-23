@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2019-March-27 10:36:30>
+// last saved: <2019-July-23 11:46:23>
 
 /* jshint esversion: 8 */
 /* global $, Clipboard */
@@ -23,7 +23,6 @@ var model = model || {
 // for localstorage
 var html5AppId = html5AppId || "43C9BB71-3E94-441C-B7F5-7FAE6FCD8458";
 var linkTemplate = linkTemplate || "http://${edgeorg}-${edgeenv}.apigee.net/oauth2/v1/authorize?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}";
-
 
 function wrapInSingleQuote(s) {return "'" + s + "'";}
 
@@ -78,8 +77,11 @@ function updateLink() {
 }
 
 function onInputChanged() {
-  var $$ = $(this), name = $$.attr('id'), value = $$.val();
-  model[name] = value;
+  let $$ = $(this),
+      id = $$.attr('id'),
+      value = $$.val();
+
+  model[id] = value;
   updateLink();
 }
 
@@ -88,7 +90,7 @@ function onSelectChanged() {
   $$.find("option:selected" ).each(function() {
     values.push($( this ).text());
   });
-  model[name] = values;
+  model[name] = values.join(' ');
   updateLink();
 }
 
