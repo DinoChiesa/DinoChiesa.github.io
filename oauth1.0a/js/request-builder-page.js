@@ -4,9 +4,10 @@
 // page logic for oauth1.0a request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2019-July-24 09:25:37>
+// last saved: <2019-July-24 10:11:03>
 
 /* global $, CryptoJS, Clipboard */
+/* jslint esversion: 9 */
 
 var model = model || {
       reqmethod : '',
@@ -158,8 +159,8 @@ function newNonce() {
 }
 
 function produceSignature(event) {
-  var nonce = ($('#chk-nonce').is(':checked')) ? newNonce() : $('#nonce').val();
-  var timestamp = ($('#chk-timestamp').is(':checked')) ? now() : $('#timestamp').val();
+  let nonce = ($('#chk-nonce').is(':checked')) ? newNonce() : $('#nonce').val(),
+      timestamp = ($('#chk-timestamp').is(':checked')) ? now() : $('#timestamp').val();
 
   if (nonce === '' || nonce == 'undefined') {
     emitError('missing required parameter: nonce');
@@ -172,17 +173,17 @@ function produceSignature(event) {
   }
   else {
     storeFormFieldValues();
-    var $output = $('#output');
-    var $table = $('<table id="sigtable" class="table table-hover table-mc-light-blue table-bordered"></table>');
-    var normalized = computeNormalizedParameters(nonce, timestamp);
-    var baseString = computeBaseString(normalized);
-    var key = $('#consumersecret').val() + '&';
-    var tokenSecret = $('#tokensecret').val();
+    let $output = $('#output'),
+     $table = $('<table id="sigtable" class="table table-hover table-mc-light-blue table-bordered"></table>'),
+     normalized = computeNormalizedParameters(nonce, timestamp),
+     baseString = computeBaseString(normalized),
+     key = $('#consumersecret').val() + '&',
+     tokenSecret = $('#tokensecret').val();
     if (tokenSecret !== '') { key += tokenSecret; }
-    var signature = computeHmacSha1(baseString, key);
-    var header = produceHeader(signature, nonce, timestamp);
-    var url = $('#targurl').val();
-    var qparams = getQueryParams();
+    let signature = computeHmacSha1(baseString, key),
+     header = produceHeader(signature, nonce, timestamp),
+     url = $('#targurl').val(),
+     qparams = getQueryParams();
     if (qparams.length > 0) { url += '?' + qparams.join('&'); }
     $table.append('<tr><th>Normalized parameters</th><td style="overflow-wrap:break-word;">'+ normalized +'</td></tr>');
     $table.append('<tr><th>Signature base string</th><td style="overflow-wrap:break-word;">'+ baseString +'</td></tr>');
@@ -190,7 +191,12 @@ function produceSignature(event) {
     $table.append('<tr><th>Signature</th><td>'+ signature +'</td></tr>');
     $table.append('<tr><th>Authorization Header</th><td style="overflow-wrap:break-word;">'+ header +'</td></tr>');
     $table.append('<tr><th>curl command' +
-                  '<button class="btn btn-default no-padding" id="btn-copy" type="button">Copy</button>' +
+                  '<button class="btn btn-default no-padding" id="btn-copy" type="button">'+
+                  '<span class="glyphicon glyphicon-copy" aria-hidden="true"></span>' +
+                  '</button>' +
+                  '<button class="btn btn-default no-padding" id="btn-execute" type="button">'+
+                  '<span class="glyphicon glyphicon-play" aria-hidden="true" title="This call will fail if the server does not include CORS headers in the response"></span>' +
+                  '</button>' +
                   '</th><td id="curlcmd" style="overflow-wrap:break-word;">curl -i -X '+ getRequestMethod() +
                   ' -H \'Authorization: '+ header + '\' \'' + url +
                   '\'</td></tr>');
@@ -199,6 +205,13 @@ function produceSignature(event) {
     });
     $output.html('');
     $output.append($table);
+    // attach data
+    let $curlcmd = $('#curlcmd');
+    $curlcmd.data('authzHeader', header);
+    $curlcmd.data('url', url);
+    $curlcmd.data('method', getRequestMethod());
+
+    $( "#btn-execute" ).click(invokeRequest);
   }
   if (event)
     event.preventDefault();
@@ -339,6 +352,44 @@ function checkedChange(which) {
   };
 }
 
+function invokeRequest(event) {
+  let $curlcmd = $('#curlcmd'),
+      authzHeader = $curlcmd.data('authzHeader'),
+      url = $curlcmd.data('url'),
+      method = $curlcmd.data('method'),
+      $table = $('#sigtable');
+
+  var payload = {};
+
+  // NB: This call will fail if the server does not include CORS headers in the response
+  $.ajax({
+    url : url,
+    type: method,
+    headers: { 'Authorization': authzHeader, 'Content-Type':'application/x-www-form-urlencoded' },
+    data : payload,
+    success: function(data, textStatus, jqXHR) {
+      $table.append('<tr><th>result</th>' +
+                  '<td>'+
+                  '<pre class="access-token-response">' +
+                  data +
+                  '</pre>' +
+                  '</td>');
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      $table.append('<tr><th>result</th>' +
+                  '<td>'+
+                  '<pre class="access-token-response">' +
+                    JSON.stringify(errorThrown) +
+                  '</pre>' +
+                  '</td>');
+    }
+  });
+
+  if (event)
+    event.preventDefault();
+}
+
+
 $(document).ready(function() {
   $('.reqmethod-chosen').chosen({
     no_results_text: 'No matching method...',
@@ -362,6 +413,5 @@ $(document).ready(function() {
   $("#chk-nonce")
     .change( checkedChange('nonce') )
     .trigger('click');
-
 
 });
