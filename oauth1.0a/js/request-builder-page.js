@@ -4,7 +4,7 @@
 // page logic for oauth1.0a request-builder.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2019-January-22 11:17:25>
+// last saved: <2019-July-24 09:25:37>
 
 /* global $, CryptoJS, Clipboard */
 
@@ -14,6 +14,7 @@ var model = model || {
       qfparams : '',
       consumerkey : '',
       consumersecret : '',
+      version : '',
       token : '',
       tokensecret : '',
       timestamp : '',
@@ -60,17 +61,17 @@ function getQueryAndFormParams() {
   return getQueryOrFormParams('qparam').concat(getQueryOrFormParams('fparam'));
 }
 
-function getOauthParams() {
+function getOauthParams(nonce, timestamp) {
   var a = [
         'consumer_key=' + $('#consumerkey').val(),
-        'nonce=' + $('#nonce').val(),
-        'timestamp=' + $('#timestamp').val(),
-        'version=1.0',
+        'nonce=' + nonce,
+        'timestamp=' + timestamp,
+        'version=' + $('#version').val(),
         'signature_method=HMAC-SHA1'
       ];
   ['callback', 'verifier', 'token'].forEach(function(term){
     var value = $('#' + term).val();
-    if (value) { a.push(term + '=' + value); }
+    if (value) { a.push(term + '=' + rfc3986EncodeURIComponent(value)); }
   });
   return a.map(function(elt){return 'oauth_' + elt;});
 }
@@ -83,9 +84,9 @@ function computeHmacSha1(input, key) {
   return hashInBase64;
 }
 
-function computeNormalizedParameters() {
+function computeNormalizedParameters(nonce, timestamp) {
   var allparams = getQueryAndFormParams()
-    .concat( getOauthParams() )
+    .concat( getOauthParams(nonce, timestamp) )
     .sort();
   return allparams.join('&');
 }
@@ -122,7 +123,7 @@ function quoteValue(elt) {
   return pair[0] + '="' + pair[1] + '"';
 }
 
-function produceHeader(signature, realm) {
+function produceHeader(signature, nonce, timestamp) {
   // Eg, something like:
   // OAuth realm="http://sp.example.com/",
   //    oauth_consumer_key="0685bd9184jfhq22",
@@ -132,7 +133,7 @@ function produceHeader(signature, realm) {
   //    oauth_timestamp="137131200",
   //    oauth_nonce="4572616e48616d6d65724c61686176",
   //    oauth_version="1.0"
-  var oauthparams = getOauthParams();
+  var oauthparams = getOauthParams(nonce, timestamp);
   oauthparams.push('oauth_signature=' + rfc3986EncodeURIComponent(signature));
   var oauthparams_in_qparams = getQueryAndFormParams().filter(function(elt){return elt.startsWith('oauth_');});
   if (oauthparams_in_qparams.length > 0) {
@@ -145,9 +146,21 @@ function produceHeader(signature, realm) {
   return 'OAuth ' + realmString + oauthparams.map(quoteValue).join(',');
 }
 
+function now() {
+  var value = (new Date()).valueOf() / 1000;
+  value = value.toFixed(0);
+  return value;
+}
+
+function newNonce() {
+  var length = Math.floor((Math.random() * 18 + 4));
+  return generateRandomString(length);
+}
+
 function produceSignature(event) {
-  var nonce = $('#nonce').val();
-  var timestamp = $('#timestamp').val();
+  var nonce = ($('#chk-nonce').is(':checked')) ? newNonce() : $('#nonce').val();
+  var timestamp = ($('#chk-timestamp').is(':checked')) ? now() : $('#timestamp').val();
+
   if (nonce === '' || nonce == 'undefined') {
     emitError('missing required parameter: nonce');
   }
@@ -161,16 +174,16 @@ function produceSignature(event) {
     storeFormFieldValues();
     var $output = $('#output');
     var $table = $('<table id="sigtable" class="table table-hover table-mc-light-blue table-bordered"></table>');
-    var normalized = computeNormalizedParameters();
+    var normalized = computeNormalizedParameters(nonce, timestamp);
     var baseString = computeBaseString(normalized);
     var key = $('#consumersecret').val() + '&';
     var tokenSecret = $('#tokensecret').val();
     if (tokenSecret !== '') { key += tokenSecret; }
     var signature = computeHmacSha1(baseString, key);
-    var header = produceHeader(signature);
+    var header = produceHeader(signature, nonce, timestamp);
     var url = $('#targurl').val();
     var qparams = getQueryParams();
-    if (qparams !== '') { url += '?' + qparams; }
+    if (qparams.length > 0) { url += '?' + qparams.join('&'); }
     $table.append('<tr><th>Normalized parameters</th><td style="overflow-wrap:break-word;">'+ normalized +'</td></tr>');
     $table.append('<tr><th>Signature base string</th><td style="overflow-wrap:break-word;">'+ baseString +'</td></tr>');
     $table.append('<tr><th>Key</th><td>'+ key +'</td></tr>');
@@ -225,25 +238,30 @@ function storeFormFieldValues() {
 function populateFormFields() {
   // get values from local storage, and place into the form
   Object.keys(model).forEach(function(key) {
-    var value = window.localStorage.getItem(html5AppId + '.model.' + key);
-    if (value && value !== '') {
-      var $item = $('#' + key);
-      if (key === 'nonce') {
-        var length = Math.floor((Math.random() * 13 + 13));
-        $item.val(generateRandomString(length));
-      }
-      else if (key === 'timestamp') {
-        var n = (new Date()).valueOf() / 1000;
-        $item.val(n.toFixed(0));
-      }
-      else if (key === 'reqmethod') { // (typeof model[key] != 'string')
-        // the value is a string, one item in a select
-        $item.find("option[value='"+value+"']").prop("selected", "selected");
-        $item.trigger("chosen:updated");
+    var $item = $('#' + key);
+    if (key === 'nonce') {
+      $item.val(newNonce());
+    }
+    else if (key === 'timestamp') {
+      $item.val(now());
+    }
+    else {
+      var storedValue = window.localStorage.getItem(html5AppId + '.model.' + key);
+      if (storedValue && storedValue !== '') {
+        if (key === 'reqmethod') { // (typeof model[key] != 'string')
+          // the value is a string, one item in a select
+          $item.find("option[value='"+storedValue+"']").prop("selected", "selected");
+          $item.trigger("chosen:updated");
+        }
+        else {
+          // value is a simple string, form field type is input.
+          $item.val(storedValue);
+        }
       }
       else {
-        // value is a simple string, form field type is input.
-        $item.val(value);
+        if (key === 'version') {
+          $item.val('1.0');
+        }
       }
     }
   });
@@ -252,17 +270,14 @@ function populateFormFields() {
 function insertNow(event) {
   //var $$ = $(this), name = $$.attr('id'), value = $$.val();
   var $$ = $('#timestamp');
-  var value = (new Date()).valueOf() / 1000;
-  value = value.toFixed(0);
-  $$.val(value + '');
+  $$.val(now());
   if (event)
     event.preventDefault();
 }
 
 function insertNonce(event) {
   var $$ = $('#nonce');
-  var length = Math.floor((Math.random() * 13 + 13));
-  $$.val(generateRandomString(length));
+  $$.val(newNonce());
   if (event)
     event.preventDefault();
 }
@@ -308,21 +323,45 @@ function removeParam(event){
   $containingDiv.remove();
 }
 
+function checkedChange(which) {
+  return function() {
+    let $which = $('#' + which);
+    if (this.checked) {
+      $which.prop('disabled', true);
+      $('#btn-' + which).prop('disabled', true);
+      $which.val('....');
+    }
+    else {
+      $which.prop('disabled', false);
+      $('#btn-' + which).prop('disabled', false);
+      $which.val((which == 'nonce')?newNonce():now());
+    }
+  };
+}
+
 $(document).ready(function() {
   $('.reqmethod-chosen').chosen({
     no_results_text: 'No matching method...',
     allow_single_deselect: true
   });
 
-  $( '#btn-now' ).click(insertNow);
-  $( '#btn-random' ).click(insertNonce);
+  $( '#btn-timestamp' ).click(insertNow);
+  $( '#btn-nonce' ).click(insertNonce);
   $( '#btn-add-qparam').click(addQueryParam);
   $( '#btn-add-fparam').click(addFormParam);
   $( '#btn-sign' ).click(produceSignature);
   $( '#btn-reset' ).click(resetForm);
-
   $('form').on('click', '.remove-param', removeParam);
 
   populateFormFields();
+
+  $("#chk-timestamp")
+    .change( checkedChange('timestamp') )
+    .trigger('click');
+
+  $("#chk-nonce")
+    .change( checkedChange('nonce') )
+    .trigger('click');
+
 
 });
