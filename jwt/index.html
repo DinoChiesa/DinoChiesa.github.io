@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JWT Encoder/Decoder</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/codemirror-5.48.4.css">
+    <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/8.0.12/jsrsasign-all-min.js'></script>
+    <script type='text/javascript' src='js/codemirror-5.48.4/codemirror.js'></script>
+    <script type='text/javascript' src='js/codemirror-5.48.4/addon/mode/simple.js'></script>
+    <script type='text/javascript' src='js/codemirror-5.48.4/mode/javascript/javascript.js'></script>
+    <script type='text/javascript' src='js/page.js'></script>
+  </head>
+
+  <!-- ======================================================= -->
+  <body>
+    <div class='container'>
+      
+      <div class='panel panel-left' id='panel_encoded'>
+        <p>Encoded Token
+          <button type="button" class="btn btn-default btn-md btn-copy" data-target="encodedjwt">
+            <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+          </button>
+        </p>
+        <textarea rows=12 cols=34 id='encodedjwt' class='rawvalue'></textarea>
+      </div>
+
+      <div class='panel panel-center' id='panel_buttons'>
+        <button type="button" class="btn btn-default btn-lg btn-encode">
+          <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+        </button>
+        <br/>
+        <button type="button" class="btn btn-default btn-lg btn-decode">
+          <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+        </button>        
+      </div>
+      
+      <div class='panel panel-right' id='panel_decoded'>
+        <div id='header'>
+        </div>
+        <div id='payload'>
+        </div>
+        <div id='privatekey' title='paste in your private key, it does not leave your browser'>
+        </div>
+        <div id='publickey'>
+        </div>
+      </div>
+
+    </div>
+  </body>
+
+</html>
