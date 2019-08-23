@@ -4,8 +4,8 @@
 // page logic for aad-login.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2015-October-07 21:42:14>
-
+// last saved: <2019-August-12 16:08:22>
+/* global $ */
 
 var model = {
       baseloginurl : '',
