@@ -4,11 +4,12 @@
     <title>JWT Encoder/Decoder</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/codemirror-5.48.4.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" >
     <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/8.0.12/jsrsasign-all-min.js'></script>
     <script type='text/javascript' src='js/codemirror-5.48.4/codemirror.js'></script>
     <script type='text/javascript' src='js/codemirror-5.48.4/addon/mode/simple.js'></script>
@@ -19,23 +20,37 @@
   <!-- ======================================================= -->
   <body>
     <div class='container'>
-      
+      <div class='header'>
+        <h2>JWT</h2>
+        <div class="alert alert-warning alert-dismissible" role="alert" id="mainalert"></div>
+        <div>
+          <button type="button" class="btn btn-outline-primary btn-md btn-refresh" title='generate new key pair'>
+            <span class="oi oi-reload" title="icon name"></span>    
+          </button>
+        
+          <button type="button" class="btn btn-outline-primary btn-md btn-alert" title='toggle alert' style='display:none;'>
+            <span class="oi oi-warning"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class='panel-group'>
       <div class='panel panel-left' id='panel_encoded'>
         <p>Encoded Token
-          <button type="button" class="btn btn-default btn-md btn-copy" data-target="encodedjwt">
-            <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+          <button type="button" class="btn btn-outline-secondary btn-md btn-copy" data-target="encodedjwt">
+            <span class="oi oi-clipboard"></span>
           </button>
         </p>
         <textarea rows=12 cols=34 id='encodedjwt' class='rawvalue'></textarea>
       </div>
 
       <div class='panel panel-center' id='panel_buttons'>
-        <button type="button" class="btn btn-default btn-lg btn-encode">
-          <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+        <button type="button" class="btn btn-outline-secondary btn-lg btn-encode" title='encode and sign a JWT'>
+          <span class="oi oi-arrow-thick-left"></span>
         </button>
         <br/>
-        <button type="button" class="btn btn-default btn-lg btn-decode">
-          <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+        <button type="button" class="btn btn-outline-secondary btn-lg btn-decode" title='decode (and verify) a JWT'>
+          <span class="oi oi-arrow-thick-right"></span>
         </button>        
       </div>
       
@@ -49,6 +64,7 @@
         <div id='publickey'>
         </div>
       </div>
+    </div>
 
     </div>
   </body>

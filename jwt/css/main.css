@@ -24,21 +24,20 @@ textarea {
   font-size:160%;
 }
 
-.container > .panel-left {
+.panel-left {
   float: left;
-  max-width: 600px;
+  width: 520px;
   min-height: 720px;
   margin: 2px 0;
 }
-.container > .panel-center {
+.panel-center {
   float: left;
-  max-width: 80px;
+  width: 80px;
   margin: 2px 0;
 }
-.container > .panel-right {
-  float: left;
-  min-width: 600px;
-  margin: 2px 0;
+.panel-right {
+  min-width: 480px;
+  margin-left: 590px;
 }
 
 .cm-jwt-header {
@@ -118,3 +117,33 @@ div.CodeMirror {
   margin-bottom: 18px;
 }
 
+.header > .alert {
+  margin: 0;
+  z-index: 10;
+}
+
+.btn-copy {
+  float: right;
+  top: 8px;
+  position: relative;  
+}
+
+.header {
+  margin-bottom:24px;
+  border: 1px dotted grey;
+  height: 120px;
+}
+
+.header > h2, .header > div {
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%)   
+}
+.header > h2 {
+  top: 36px;
+}
+.header > div {
+  top: 86px;
+}

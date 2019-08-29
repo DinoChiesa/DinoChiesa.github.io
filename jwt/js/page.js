@@ -1,50 +1,59 @@
 /* jshint esversion: 9 */
-/* global $ atob KJUR CodeMirror */
+/* global $ atob KJUR KEYUTIL CodeMirror */
 
 const tenMinutes = 10 * 60;
 const reSignedJwt2 = new RegExp('^([^\\.]+)(\\.)([^\\.]+)(\\.)([^\\.]+)$');
 const reSignedJwt = new RegExp('^([^\\.]+)\\.([^\\.]+)\\.([^\\.]+)$');
 const sampledata = {
+        initialJwt :
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJEaW5vQ2hpZXNhLmdpdGh1Yi5pbyIsInN1YiI6ImFubmEiLCJhdWQiOiJhbG1hIiwiaWF0IjoxNTY3MDk4NjI0LCJleHAiOjE1NjcwOTkyMjR9.YHjyxxBBJhjjTAVetV79SpSodffq-gDdCkY3P393cNBgpTuBBARlDqKN2BFbiKOZd0p7G2SAmQd3rdYe1r3SFVt4BOp_9jhEHQH9_KfExJ_adbqO3Cbul87vzKIFVW8JlN0CKZypp58XIaBoLGOGOMXbB_P3V0cIOtblOskYowe_FqDvUJ-yuLTDW6MPIzAQRtOOoJj3pZm97GlAM8uS4vvIz32yK3qEzHfSqVOdrS8mk1W97ec0OIXXz9ZjazQ8Kxzt83favYWL9UctwJ_mHyVPWKUUfQmykr1kDRwzDJwmhLp2Y-LM0f2II-1P_a8UJOfEhJfSWxSMy1x0CTMjVg",
         startingKeys : {
           rsapublic :
           "-----BEGIN PUBLIC KEY-----\n" +
-            "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtRxbunkP43TVuRwgXIam\n" +
-            "mdVArEcOerG1cGkqukFlEHtWdY5qy5RXBcqmhzGvuQH9l/oU08ikH9fQlM1O4oez\n" +
-            "2gMkX2hWRt8kx3LsCbpFY12lPAtldDHTorvVQ7Sgv+6Z/YzdDkC58sPaOVp0lMYX\n" +
-            "kzF1DW+Uj6CW0ojLwTaCyKaZzdfuV9cHi+n25K5fgxQhM2OkbutRO/cwaq7Eal4F\n" +
-            "V7xZZXIzVrIOfYL6bNOyGzR7DJRrpA6K4Ys76CQQTUd0+ueY8kgusGly1vb3iEiO\n" +
-            "vHPGJhWrLREiBJEScXvjn6EP7aBHCwW3mB1AgnTwrQrZmGgCZvKRe81IJcb2cab1\n" +
-            "jwIDAQAB\n" +
+            "...\n" +
             "-----END PUBLIC KEY-----\n",
+          // "-----BEGIN PUBLIC KEY-----\n" +
+          //   "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtRxbunkP43TVuRwgXIam\n" +
+          //   "mdVArEcOerG1cGkqukFlEHtWdY5qy5RXBcqmhzGvuQH9l/oU08ikH9fQlM1O4oez\n" +
+          //   "2gMkX2hWRt8kx3LsCbpFY12lPAtldDHTorvVQ7Sgv+6Z/YzdDkC58sPaOVp0lMYX\n" +
+          //   "kzF1DW+Uj6CW0ojLwTaCyKaZzdfuV9cHi+n25K5fgxQhM2OkbutRO/cwaq7Eal4F\n" +
+          //   "V7xZZXIzVrIOfYL6bNOyGzR7DJRrpA6K4Ys76CQQTUd0+ueY8kgusGly1vb3iEiO\n" +
+          //   "vHPGJhWrLREiBJEScXvjn6EP7aBHCwW3mB1AgnTwrQrZmGgCZvKRe81IJcb2cab1\n" +
+          //   "jwIDAQAB\n" +
+          //   "-----END PUBLIC KEY-----\n",
 
-          rsaprivate : "-----BEGIN PRIVATE KEY-----\n" +
-            "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC1HFu6eQ/jdNW5\n" +
-            "HCBchqaZ1UCsRw56sbVwaSq6QWUQe1Z1jmrLlFcFyqaHMa+5Af2X+hTTyKQf19CU\n" +
-            "zU7ih7PaAyRfaFZG3yTHcuwJukVjXaU8C2V0MdOiu9VDtKC/7pn9jN0OQLnyw9o5\n" +
-            "WnSUxheTMXUNb5SPoJbSiMvBNoLIppnN1+5X1weL6fbkrl+DFCEzY6Ru61E79zBq\n" +
-            "rsRqXgVXvFllcjNWsg59gvps07IbNHsMlGukDorhizvoJBBNR3T655jySC6waXLW\n" +
-            "9veISI68c8YmFastESIEkRJxe+OfoQ/toEcLBbeYHUCCdPCtCtmYaAJm8pF7zUgl\n" +
-            "xvZxpvWPAgMBAAECggEAWaOojvnecFDie1U9ey42BUu0T9B3jSipyfJzcG5vjCHP\n" +
-            "oC2WFB7el4I+vAlOlP40OuVPK6dR/GS/2vZnBd3umYgWl5Y3papKNOFfjE0CjPTL\n" +
-            "lJV7aHBE9HWNT452Rajd1M3El4pXvp1LRDnOG9iT0ImZCsZgPFpaa+fDGWVWg+KE\n" +
-            "TpFbVbYV33QEKIQzETZd3xxVhJspF3QObq+su3MttSvDlChRZy1quC8gtozdu84x\n" +
-            "6DBMTKGpqVuGHH0UE8P/rgLaVDpjmxu98nedCgRTDdWHMfZkhK//+SYiuqE1a0ti\n" +
-            "fP3L7gHii9tWO90mHjcIMN1M3vCT/6CYkv3FZOO5qQKBgQDfm4U4QYU/q2YRpGrn\n" +
-            "vGxgKI2wW92JRQvEmqLt/TciZX3TiJGZh8mcM7Scnb43TvqAUhyQHumh9NSxBapR\n" +
-            "PSM1JWHQPyDH99XRuxA2kJ42dcIUjg8xa+ZtWomzNNbX57G62xL9B4UGPE1N1784\n" +
-            "tRBCqukmL0fdUeVhpDAJcC0YgwKBgQDPWNkBj1nrwjnKZcG1Dkwl/OuOrvulrQYI\n" +
-            "3K5LsieAOD6YjV0w3o1CsYbjLJonUQF7M+2I2YEi1GlURz3xSFFdnIFGW/Bu6MGF\n" +
-            "rImnM8cQZoLOST2RQchCxTVwnAnaTSOOjnMceiPaK94zV43rFW5zuq554ONm57WH\n" +
-            "2aPt3F2pBQKBgHkndZ4OehkOUCZc9IOM5xeOwX59t+HpZD/pHUBfg2ECppNXmrQa\n" +
-            "C5WzujdljKvBAh9G3i0EYsgatKcZj7emrY3dLEs9+Q//631Qoq892ktdsIOcmQTJ\n" +
-            "FrfHZ3aOuZ2P7w90JaytR1kikSwNKpGaIS5OFjdXRNPYzLUD1fc3LWfrAoGBAL+S\n" +
-            "gFVfpB4eQpTM9W8aOaLzjpQy+hB1z1iKxILtpG9kB/mcythnFy7ipRTp1bezsWGq\n" +
-            "dbH1+8k5ZePXOtTeE0chXZOrSHbAmGSwKDKStT5i6EI+CyNVGvkOCjT0Bmpq0Qpa\n" +
-            "dOJ/uvZNh6v6HgZws687cQ7siE5AkUll/X68FtEdAoGAJJQ1V96dv6kEpeOSzWSl\n" +
-            "unG5mW5JAq2EVNAG4bhRj8G3M78jkrAvVR3OTW9cJhE4crsyfkMfktfUJm8wtKL+\n" +
-            "KTWeDxFRb/M6g61XuxKy9dn1okIkYokDj/KPjja8X3oJj4aLhfs6p5nCT7KNgxv3\n" +
-            "r1XzPLWHQE7QZ+A91M0Gna4=\n" +
+          rsaprivate :
+          "-----BEGIN PRIVATE KEY-----\n" +
+            "...\n" +
             "-----END PRIVATE KEY-----\n"
+          // "-----BEGIN PRIVATE KEY-----\n" +
+          //   "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC1HFu6eQ/jdNW5\n" +
+          //   "HCBchqaZ1UCsRw56sbVwaSq6QWUQe1Z1jmrLlFcFyqaHMa+5Af2X+hTTyKQf19CU\n" +
+          //   "zU7ih7PaAyRfaFZG3yTHcuwJukVjXaU8C2V0MdOiu9VDtKC/7pn9jN0OQLnyw9o5\n" +
+          //   "WnSUxheTMXUNb5SPoJbSiMvBNoLIppnN1+5X1weL6fbkrl+DFCEzY6Ru61E79zBq\n" +
+          //   "rsRqXgVXvFllcjNWsg59gvps07IbNHsMlGukDorhizvoJBBNR3T655jySC6waXLW\n" +
+          //   "9veISI68c8YmFastESIEkRJxe+OfoQ/toEcLBbeYHUCCdPCtCtmYaAJm8pF7zUgl\n" +
+          //   "xvZxpvWPAgMBAAECggEAWaOojvnecFDie1U9ey42BUu0T9B3jSipyfJzcG5vjCHP\n" +
+          //   "oC2WFB7el4I+vAlOlP40OuVPK6dR/GS/2vZnBd3umYgWl5Y3papKNOFfjE0CjPTL\n" +
+          //   "lJV7aHBE9HWNT452Rajd1M3El4pXvp1LRDnOG9iT0ImZCsZgPFpaa+fDGWVWg+KE\n" +
+          //   "TpFbVbYV33QEKIQzETZd3xxVhJspF3QObq+su3MttSvDlChRZy1quC8gtozdu84x\n" +
+          //   "6DBMTKGpqVuGHH0UE8P/rgLaVDpjmxu98nedCgRTDdWHMfZkhK//+SYiuqE1a0ti\n" +
+          //   "fP3L7gHii9tWO90mHjcIMN1M3vCT/6CYkv3FZOO5qQKBgQDfm4U4QYU/q2YRpGrn\n" +
+          //   "vGxgKI2wW92JRQvEmqLt/TciZX3TiJGZh8mcM7Scnb43TvqAUhyQHumh9NSxBapR\n" +
+          //   "PSM1JWHQPyDH99XRuxA2kJ42dcIUjg8xa+ZtWomzNNbX57G62xL9B4UGPE1N1784\n" +
+          //   "tRBCqukmL0fdUeVhpDAJcC0YgwKBgQDPWNkBj1nrwjnKZcG1Dkwl/OuOrvulrQYI\n" +
+          //   "3K5LsieAOD6YjV0w3o1CsYbjLJonUQF7M+2I2YEi1GlURz3xSFFdnIFGW/Bu6MGF\n" +
+          //   "rImnM8cQZoLOST2RQchCxTVwnAnaTSOOjnMceiPaK94zV43rFW5zuq554ONm57WH\n" +
+          //   "2aPt3F2pBQKBgHkndZ4OehkOUCZc9IOM5xeOwX59t+HpZD/pHUBfg2ECppNXmrQa\n" +
+          //   "C5WzujdljKvBAh9G3i0EYsgatKcZj7emrY3dLEs9+Q//631Qoq892ktdsIOcmQTJ\n" +
+          //   "FrfHZ3aOuZ2P7w90JaytR1kikSwNKpGaIS5OFjdXRNPYzLUD1fc3LWfrAoGBAL+S\n" +
+          //   "gFVfpB4eQpTM9W8aOaLzjpQy+hB1z1iKxILtpG9kB/mcythnFy7ipRTp1bezsWGq\n" +
+          //   "dbH1+8k5ZePXOtTeE0chXZOrSHbAmGSwKDKStT5i6EI+CyNVGvkOCjT0Bmpq0Qpa\n" +
+          //   "dOJ/uvZNh6v6HgZws687cQ7siE5AkUll/X68FtEdAoGAJJQ1V96dv6kEpeOSzWSl\n" +
+          //   "unG5mW5JAq2EVNAG4bhRj8G3M78jkrAvVR3OTW9cJhE4crsyfkMfktfUJm8wtKL+\n" +
+          //   "KTWeDxFRb/M6g61XuxKy9dn1okIkYokDj/KPjja8X3oJj4aLhfs6p5nCT7KNgxv3\n" +
+          //   "r1XzPLWHQE7QZ+A91M0Gna4=\n" +
+          //   "-----END PRIVATE KEY-----\n"
         },
         names : ['audrey', 'olaf', 'vinit', 'alma', 'ming', 'naimish', 'anna', ]
       };
@@ -102,14 +111,36 @@ function createJwt(header, payload) {
 // }
 
 function copyButtonHtml(elementid) {
-  return '<button type="button" title="copy to clipboard" class="btn btn-default btn-md btn-copy" data-target="'+ elementid +'">' +
-    '  <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>' +
+  return '<button type="button" title="copy to clipboard" class="btn btn-outline-secondary btn-md btn-copy" data-target="'+ elementid +'">' +
+    '<span class="oi oi-clipboard"></span>' +
     '</button>';
 }
 
 function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+// function selectAll(event) {
+//   // select all text in the parent of the parent
+//   let $elt = $(this),
+//       element = $elt.parent().parent().get(0);
+//   selectText(element);
+// }
+//
+// function selectText(element) {
+//     if (document.body.createTextRange) { // ms
+//         let range = document.body.createTextRange();
+//         range.moveToElementText(element);
+//         range.select();
+//     } else if (window.getSelection) {
+//         var selection = window.getSelection();
+//       let range = document.createRange();
+//         range.selectNodeContents(element);
+//         selection.removeAllRanges();
+//         selection.addRange(range);
+//     }
+// }
+
 
 function copyToClipboard(event) {
   let $elt = $(this),
@@ -141,14 +172,49 @@ function encodeJwt(event) {
     values[flavor] = JSON.parse(text);
   });
 
-  let jwt = createJwt(values.header, values.payload);
-  editors.encoded.setValue(jwt);
-  editors.encoded.save();
-  showDecoded();
+  try {
+    let jwt = createJwt(values.header, values.payload);
+    editors.encoded.setValue(jwt);
+    editors.encoded.save();
+    showDecoded(); // why? to re-format JSON
+  }
+  catch (e) {
+    setAlert(e);
+    $("#mainalert").show();
+  }
 }
 
 function decodeJwt(event) {
+  // TODO: implement this?
+}
 
+function setAlert(html) {
+  let buttonHtml = '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+    ' <span aria-hidden="true">&times;</span>\n' +
+    '</button>';
+  $("#mainalert").html(html + buttonHtml);
+}
+
+function toggleAlert(event){
+  $("#mainalert").toggle();
+  return false; // Keep close.bs.alert event from removing from DOM
+}
+
+function updateKeyValue(flavor /* public || private */, keyvalue) {
+  let editor = editors[flavor+'key'];
+  if (editor) {
+    editor.setValue(keyvalue);
+    editor.save();
+ }
+}
+
+function newKeyPair(event) {
+  let keypair = KEYUTIL.generateKeypair("RSA", 2048),
+      pem1 = KEYUTIL.getPEM(keypair.prvKeyObj, "PKCS8PRV"),
+      pem2 = KEYUTIL.getPEM(keypair.pubKeyObj);
+  updateKeyValue('private',pem1);
+  updateKeyValue('public', pem2);
+  encodeJwt(event); // re-sign same content
 }
 
 function showDecoded() {
@@ -183,45 +249,58 @@ function showDecoded() {
     $( '.btn-copy' )
       .off('click')
       .on('click', copyToClipboard);
+
+    // $( 'pre.CodeMirror-line > span' )
+    //   .off('click')
+    //   .on('click', selectAll);
   }
+}
+
+function setInitialKeyValue(flavor, keyvalue) {
+  let keytype = flavor+'key', // private || public
+      elementId = 'ta_'+ keytype;
+  $('#' + keytype).html('<p>'+ capitalize(flavor)+ ' key' + copyButtonHtml(elementId) + '</p>'+
+                        '<textarea id="'+elementId+'">' + keyvalue +'</textarea>');
+  if (editors[keytype]) {
+    let wrapper = editors[keytype].getWrapperElement();
+    wrapper.parentNode.removeChild(wrapper);
+  }
+  editors[keytype] = CodeMirror.fromTextArea(document.getElementById(elementId), {
+    mode: 'encodedjwt',
+    lineWrapping: true
+  });
 }
 
 
 $(document).ready(function() {
 
   $( '.btn-encode' ).on('click', encodeJwt);
-  $( '.btn-decode' ) .on('click', decodeJwt);
+  $( '.btn-decode' ).on('click', decodeJwt);
+  $( '.btn-refresh' ).on('click', newKeyPair);
+  $( '.btn-alert' ).on('click', toggleAlert);
+  $("#mainalert").hide();
+  $('#mainalert').on('close.bs.alert', toggleAlert);
 
-  ['private', 'public'].forEach( flavor => {
-    let keytype = flavor+'key',
-        elementId = 'ta_'+ keytype,
-        keyvalue = sampledata.startingKeys['rsa'+flavor].trim() ;
-    $('#' + keytype).html('<p>'+ capitalize(flavor)+ ' key' + copyButtonHtml(elementId) + '</p>'+
-                          '<textarea id="'+elementId+'">' + keyvalue +'</textarea>');
-    editors[keytype] = CodeMirror.fromTextArea(document.getElementById(elementId), {
-      mode: 'encodedjwt',
-      lineWrapping: true
-    });
-  });
+  ['private', 'public'].forEach( flavor => setInitialKeyValue(flavor, sampledata.startingKeys['rsa'+flavor].trim()) );
 
   $( '.btn-copy' ).on('click', copyToClipboard);
 
   setTimeout(function() {
-    let now = Math.floor((new Date()).valueOf() / 1000),
-        sub = selectRandomValue(sampledata.names),
-        aud = selectRandomValueExcept(sampledata.names, sub),
-        payload = {
-          iss:"DinoChiesa.github.io",
-          sub,
-          aud,
-          iat: now,
-          exp: now + tenMinutes
-        },
-        header = {},
-        jwt = createJwt(header, payload);
+    // let now = Math.floor((new Date()).valueOf() / 1000),
+    //     sub = selectRandomValue(sampledata.names),
+    //     aud = selectRandomValueExcept(sampledata.names, sub),
+    //     payload = {
+    //       iss:"DinoChiesa.github.io",
+    //       sub,
+    //       aud,
+    //       iat: now,
+    //       exp: now + tenMinutes
+    //     },
+    //     header = {},
+    //     jwt = createJwt(header, payload);
+    // $( '#encodedjwt').val(jwt);
 
-    //$( '#encodedjwt').html(colorCode(jwt));
-    $( '#encodedjwt').val(jwt);
+    $( '#encodedjwt').val(sampledata.initialJwt);
 
     editors.encoded = CodeMirror.fromTextArea(document.getElementById('encodedjwt'), {
       mode: 'encodedjwt',
