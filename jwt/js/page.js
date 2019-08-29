@@ -101,46 +101,9 @@ function createJwt(header, payload) {
   return signed;
 }
 
-// function colorCode(tokenString){
-//   var matches = reSignedJwt.exec(tokenString);
-//   if (matches.length == 4) {
-//     // color code
-//     return tokenString.replace(reSignedJwt, '<div id="token-raw"><span class="jwt-header">$1</span>.<span class="jwt-payload">$2</span>.<span class="jwt-signature">$3</span></div>');
-//   }
-//   return tokenString;
-// }
-
-function copyButtonHtml(elementid) {
-  return '<button type="button" title="copy to clipboard" class="btn btn-outline-secondary btn-md btn-copy" data-target="'+ elementid +'">' +
-    '<span class="oi oi-clipboard"></span>' +
-    '</button>';
-}
-
 function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
-
-// function selectAll(event) {
-//   // select all text in the parent of the parent
-//   let $elt = $(this),
-//       element = $elt.parent().parent().get(0);
-//   selectText(element);
-// }
-//
-// function selectText(element) {
-//     if (document.body.createTextRange) { // ms
-//         let range = document.body.createTextRange();
-//         range.moveToElementText(element);
-//         range.select();
-//     } else if (window.getSelection) {
-//         var selection = window.getSelection();
-//       let range = document.createRange();
-//         range.selectNodeContents(element);
-//         selection.removeAllRanges();
-//         selection.addRange(range);
-//     }
-// }
-
 
 function copyToClipboard(event) {
   let $elt = $(this),
@@ -167,9 +130,11 @@ function encodeJwt(event) {
       values = {};
   flavors.forEach( flavor => {
     let elementId = 'token-decoded-' + flavor;
-    editors[elementId].save();
-    let text =  $('#' + elementId).val();
-    values[flavor] = JSON.parse(text);
+    if (editors[elementId]) {
+      editors[elementId].save();
+      let text =  $('#' + elementId).val();
+      values[flavor] = JSON.parse(text);
+    }
   });
 
   try {
@@ -205,108 +170,95 @@ function updateKeyValue(flavor /* public || private */, keyvalue) {
   if (editor) {
     editor.setValue(keyvalue);
     editor.save();
- }
+  }
 }
 
 function newKeyPair(event) {
   let keypair = KEYUTIL.generateKeypair("RSA", 2048),
       pem1 = KEYUTIL.getPEM(keypair.prvKeyObj, "PKCS8PRV"),
       pem2 = KEYUTIL.getPEM(keypair.pubKeyObj);
-  updateKeyValue('private',pem1);
+  updateKeyValue('private', pem1);
   updateKeyValue('public', pem2);
-  encodeJwt(event); // re-sign same content
+  //encodeJwt(event); // re-sign same content
 }
 
 function showDecoded() {
-  //let tokenString = $( '#encodedjwt').text();
-  let tokenString = $( '#encodedjwt').val();
-  var matches = reSignedJwt.exec(tokenString);
+  let tokenString = $( '#encodedjwt').val(),
+      matches = reSignedJwt.exec(tokenString);
   if (matches && matches.length == 4) {
-    var flavors = ['header','payload']; // cannot decode signature
+    let flavors = ['header','payload']; // cannot decode signature
     //var $decodeddiv = $("<div id='token-decoded' class='decoded'/>");
     matches.slice(1,-1).forEach(function(item,index) {
       let json = atob(item),  // base64-decode
           obj = JSON.parse(json),
           flavor = flavors[index],
-          //prettyPrintedJson = markupJson(styles[index], JSON.stringify(obj,null,2)),
           prettyPrintedJson = JSON.stringify(obj,null,2),
-          elementId = 'token-decoded-' + flavor,
-          html = '<p>' + capitalize(flavor) + copyButtonHtml(elementId) + '</p>'+
-        '<textarea title="decoded ' + flavor + '" ' + 'class="jwt-'+ flavor + '" ' + 'id="' + elementId + '" ' + '>' +
-        prettyPrintedJson + '</textarea>';
-      $('#' + flavor).html(html);
-      editors[elementId] = CodeMirror.fromTextArea(document.getElementById(elementId), {
-        mode: {
-          name: 'javascript',
-          json: true,
-          indentWithTabs: false,
-          statementIndent : 2,
-          indentUnit : 2,
-          tabSize: 2
-        }
+          elementId = 'token-decoded-' + flavor;
+          editors[elementId].setValue(prettyPrintedJson);
       });
-    });
-    $( '.btn-copy' )
-      .off('click')
-      .on('click', copyToClipboard);
-
-    // $( 'pre.CodeMirror-line > span' )
-    //   .off('click')
-    //   .on('click', selectAll);
   }
 }
 
-function setInitialKeyValue(flavor, keyvalue) {
-  let keytype = flavor+'key', // private || public
-      elementId = 'ta_'+ keytype;
-  $('#' + keytype).html('<p>'+ capitalize(flavor)+ ' key' + copyButtonHtml(elementId) + '</p>'+
-                        '<textarea id="'+elementId+'">' + keyvalue +'</textarea>');
-  if (editors[keytype]) {
-    let wrapper = editors[keytype].getWrapperElement();
-    wrapper.parentNode.removeChild(wrapper);
-  }
-  editors[keytype] = CodeMirror.fromTextArea(document.getElementById(elementId), {
-    mode: 'encodedjwt',
-    lineWrapping: true
-  });
-}
 
+function contriveJwt(event) {
+    let now = Math.floor((new Date()).valueOf() / 1000),
+        sub = selectRandomValue(sampledata.names),
+        aud = selectRandomValueExcept(sampledata.names, sub),
+        payload = {
+          iss:"DinoChiesa.github.io",
+          sub,
+          aud,
+          iat: now,
+          exp: now + tenMinutes
+        },
+        header = {};
+
+  editors['token-decoded-header'].setValue(JSON.stringify(header));
+  editors['token-decoded-payload'].setValue(JSON.stringify(payload));
+  encodeJwt(event);
+}
 
 $(document).ready(function() {
 
+  $( '.btn-copy' ).on('click', copyToClipboard);
   $( '.btn-encode' ).on('click', encodeJwt);
   $( '.btn-decode' ).on('click', decodeJwt);
-  $( '.btn-refresh' ).on('click', newKeyPair);
-  $( '.btn-alert' ).on('click', toggleAlert);
+  $( '.btn-newkeypair' ).on('click', newKeyPair);
+  $( '.btn-regen' ).on('click', contriveJwt);
+
   $("#mainalert").hide();
   $('#mainalert').on('close.bs.alert', toggleAlert);
 
-  ['private', 'public'].forEach( flavor => setInitialKeyValue(flavor, sampledata.startingKeys['rsa'+flavor].trim()) );
+  editors.encoded = CodeMirror.fromTextArea(document.getElementById('encodedjwt'), {
+    mode: 'encodedjwt',
+    lineWrapping: true
+  });
 
-  $( '.btn-copy' ).on('click', copyToClipboard);
-
-  setTimeout(function() {
-    // let now = Math.floor((new Date()).valueOf() / 1000),
-    //     sub = selectRandomValue(sampledata.names),
-    //     aud = selectRandomValueExcept(sampledata.names, sub),
-    //     payload = {
-    //       iss:"DinoChiesa.github.io",
-    //       sub,
-    //       aud,
-    //       iat: now,
-    //       exp: now + tenMinutes
-    //     },
-    //     header = {},
-    //     jwt = createJwt(header, payload);
-    // $( '#encodedjwt').val(jwt);
-
-    $( '#encodedjwt').val(sampledata.initialJwt);
-
-    editors.encoded = CodeMirror.fromTextArea(document.getElementById('encodedjwt'), {
+  ['private', 'public'].forEach( flavor => {
+    let keytype = flavor+'key', // private || public
+        elementId = 'ta_'+ keytype;
+    editors[keytype] = CodeMirror.fromTextArea(document.getElementById(elementId), {
       mode: 'encodedjwt',
       lineWrapping: true
     });
+    //editors[keytype].setValue(sampledata.startingKeys['rsa'+flavor].trim());
+  });
 
-    showDecoded();
-  }, 180);
+  ['header', 'payload'].forEach( portion => {
+    let elementId = 'token-decoded-' + portion;
+    editors[elementId] = CodeMirror.fromTextArea(document.getElementById(elementId), {
+      mode: {
+        name: 'javascript',
+        json: true,
+        indentWithTabs: false,
+        statementIndent : 2,
+        indentUnit : 2,
+        tabSize: 2
+      }
+    });
+  });
+
+  newKeyPair();
+  contriveJwt();
+
 });
