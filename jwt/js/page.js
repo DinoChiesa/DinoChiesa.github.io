@@ -43,6 +43,12 @@ function getPrivateKey() {
   return keyvalue;
 }
 
+function getPublicKey() {
+  editors.publickey.save();
+  let keyvalue = $('#ta_publickey').val();
+  return keyvalue;
+}
+
 function createJwt(header, payload) {
   if ( ! header.typ) { header.typ = "JWT"; }
   if ( ! header.alg) { header.alg = "RS256"; }
@@ -89,13 +95,12 @@ function encodeJwt(event) {
 
   try {
     let jwt = createJwt(values.header, values.payload);
-    editors.encoded.setValue(jwt);
-    editors.encoded.save();
+    editors.encodedjwt.setValue(jwt);
+    editors.encodedjwt.save();
     showDecoded(); // why? to re-format JSON
   }
   catch (e) {
     setAlert(e);
-    $("#mainalert").show();
   }
 }
 
@@ -103,11 +108,44 @@ function decodeJwt(event) {
   showDecoded();
 }
 
-function setAlert(html) {
+function verifyJwt(event) {
+  editors.encodedjwt.save();
+  editors.publickey.save();
+  let publicKey = getPublicKey(),
+      tokenString = editors.encodedjwt.getValue(),
+      matches = reSignedJwt.exec(tokenString);
+  if (matches && matches.length == 4) {
+    $("#mainalert").hide();
+    let isValid = KJUR.jws.JWS.verifyJWT(tokenString,
+                                         publicKey,
+                                         { alg: rsaAlgs });
+    if (isValid) {
+      let parsed = KJUR.jws.JWS.parse(tokenString),
+          message = 'The JWT is valid. Algorithm: ' + parsed.headerObj.alg;
+      showDecoded();
+      setAlert(message, 'success');
+    }
+    else {
+      setAlert('The JWT is not valid', 'warning');
+    }
+  }
+}
+
+
+function setAlert(html, alertClass) {
   let buttonHtml = '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
     ' <span aria-hidden="true">&times;</span>\n' +
-    '</button>';
-  $("#mainalert").html(html + buttonHtml);
+    '</button>',
+      $mainalert = $("#mainalert");
+  $mainalert.html(html + buttonHtml);
+  if (alertClass) {
+    $mainalert.removeClass('alert-warning'); // this is the default
+    $mainalert.addClass('alert-' + alertClass); // success, primary, warning, etc
+  }
+  else {
+    $mainalert.addClass('alert-warning');
+  }
+  $mainalert.show();
 }
 
 function toggleAlert(event){
@@ -130,11 +168,12 @@ function newKeyPair(event) {
   updateKeyValue('private', pem1);
   updateKeyValue('public', pem2);
   //encodeJwt(event); // re-sign same content
+  $("#mainalert").hide();
 }
 
 function showDecoded() {
-  editors.encoded.save();
-  let tokenString = $('#encodedjwt').val(),
+  editors.encodedjwt.save();
+  let tokenString =   editors.encodedjwt.getValue(), //$('#encodedjwt').val(),
       matches = reSignedJwt.exec(tokenString);
   if (matches && matches.length == 4) {
     $("#mainalert").hide();
@@ -151,9 +190,7 @@ function showDecoded() {
   }
   else {
     setAlert("That does not appear to be a signed JWT");
-    $("#mainalert").show();
   }
-
 }
 
 function contriveJwt(event) {
@@ -178,18 +215,19 @@ $(document).ready(function() {
   $( '.btn-copy' ).on('click', copyToClipboard);
   $( '.btn-encode' ).on('click', encodeJwt);
   $( '.btn-decode' ).on('click', decodeJwt);
+  $( '.btn-verify' ).on('click', verifyJwt);
   $( '.btn-newkeypair' ).on('click', newKeyPair);
   $( '.btn-regen' ).on('click', contriveJwt);
 
   $("#mainalert").hide();
   $('#mainalert').on('close.bs.alert', toggleAlert);
 
-  editors.encoded = CodeMirror.fromTextArea(document.getElementById('encodedjwt'), {
+  editors.encodedjwt = CodeMirror.fromTextArea(document.getElementById('encodedjwt'), {
     mode: 'encodedjwt',
     lineWrapping: true
   });
 
-  editors.encoded.on('inputRead', function(cm, event) {
+  editors.encodedjwt.on('inputRead', function(cm, event) {
     /* event -> object{
        origin: string, can be '+input', '+move' or 'paste'
        doc for origins >> http://codemirror.net/doc/manual.html#selection_origin
