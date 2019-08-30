@@ -97,7 +97,7 @@ div.CodeMirror {
 }
 
 #panel_buttons > button {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 #privatekey, #publickey {
