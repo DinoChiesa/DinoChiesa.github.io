@@ -24,6 +24,10 @@ textarea {
   font-size:160%;
 }
 
+.panel p {
+  margin-bottom: 0.2rem;
+}
+
 .panel-left {
   float: left;
   width: 520px;
@@ -83,11 +87,6 @@ pre.CodeMirror-line > span {
   white-space: normal;
 }
 
-.btn-copy {
-  padding: 2px 6px;
-  margin: 0px 4px;
-}
-
 div.CodeMirror {
   border: 1px dotted #ccc;
   height: auto;
@@ -105,7 +104,7 @@ div.CodeMirror {
 }
 
 #privatekey > .CodeMirror, #publickey > .CodeMirror {
-  font-size: 64%;
+  font-size: 74%;
   max-height: 232px;
 }
 
@@ -117,33 +116,35 @@ div.CodeMirror {
   margin-bottom: 18px;
 }
 
-.header > .alert {
+.banner > .alert {
   margin: 0;
   z-index: 10;
 }
 
 .btn-copy {
+  padding: 2px 6px;
+  margin: 0 4px;
   float: right;
   top: 8px;
   position: relative;  
 }
 
-.header {
+.banner {
   margin-bottom:24px;
   border: 1px dotted grey;
   height: 120px;
 }
 
-.header > h2, .header > div {
+.banner > h2, .banner > div {
   margin: 0;
   position: absolute;
   left: 50%;
   margin-right: -50%;
   transform: translate(-50%, -50%)   
 }
-.header > h2 {
+.banner > h2 {
   top: 36px;
 }
-.header > div {
+.banner > div {
   top: 86px;
 }
