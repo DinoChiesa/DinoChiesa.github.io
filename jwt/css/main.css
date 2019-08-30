@@ -133,6 +133,7 @@ div.CodeMirror {
   margin-bottom:24px;
   border: 1px dotted grey;
   height: 120px;
+  background-color: #DCD;  
 }
 
 .banner > h2, .banner > div {
@@ -143,8 +144,8 @@ div.CodeMirror {
   transform: translate(-50%, -50%)   
 }
 .banner > h2 {
-  top: 36px;
+  top: 46px;
 }
 .banner > div {
-  top: 86px;
+  top: 96px;
 }
