@@ -76,9 +76,11 @@ body {
   float: left;
   width: 180px;
 }
+
 .cb-element .cb-value  {
   float: left;
   max-width: 600px;
+  font-family: monospace;
 
   /* all below, to handle really long JWTs */
   white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
@@ -112,4 +114,12 @@ body {
 }
 .jwt-signature {
   color: #3184fb;
+}
+
+.btn-copy {
+  padding: 2px 6px;
+  margin: 0 4px;
+  float: right;
+  top: 6px;
+  position: relative;  
 }
