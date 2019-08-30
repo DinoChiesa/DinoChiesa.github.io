@@ -26,6 +26,7 @@ textarea {
 
 .panel p {
   margin-bottom: 0.2rem;
+  color: #BDBDBD;
 }
 
 .panel-left {
@@ -108,8 +109,12 @@ div.CodeMirror {
   max-height: 232px;
 }
 
-#privatekey  .CodeMirror-scroll, #publickey  .CodeMirror-scroll {
-  max-height: 196px;
+#privatekey  .CodeMirror-scroll {
+  max-height: 162px;
+}
+
+#publickey  .CodeMirror-scroll {
+  max-height: 216px;
 }
 
 #panel_decoded > div {
@@ -129,11 +134,21 @@ div.CodeMirror {
   position: relative;  
 }
 
+.banner, .footer {
+  border: 1px dotted grey;
+}
+
 .banner {
   margin-bottom:24px;
-  border: 1px dotted grey;
+  background-color: #DFDDDD;  
   height: 120px;
-  background-color: #DCD;  
+}
+
+.footer {
+  margin-top:24px;
+  background-color: #ECECEC;
+  padding: 0 4px;
+  min-height: 120px;
 }
 
 .banner > h2, .banner > div {
@@ -143,9 +158,14 @@ div.CodeMirror {
   margin-right: -50%;
   transform: translate(-50%, -50%)   
 }
-.banner > h2 {
+.banner > h2, .footer > h2 {
   top: 46px;
 }
 .banner > div {
   top: 96px;
+}
+
+.alert.fade {
+  opacity: 0;
+  transition: opacity .85s linear;
 }

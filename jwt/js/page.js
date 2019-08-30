@@ -50,10 +50,11 @@ function getPublicKey() {
 }
 
 function createJwt(header, payload) {
-  if ( ! header.typ) { header.typ = "JWT"; }
-  if ( ! header.alg) { header.alg = "RS256"; }
-  let privateKey = getPrivateKey();
-  let signed = KJUR.jws.JWS.sign(null, header, payload, privateKey);
+  if (!header.typ) { header.typ = "JWT"; }
+  if (!header.alg) { header.alg = "RS256"; }
+  let privateKeyPEM = getPrivateKey(),
+      rsaKey = KEYUTIL.getKeyFromPlainPrivatePKCS8PEM(privateKeyPEM),
+      signed = KJUR.jws.JWS.sign(null, header, payload, rsaKey);
   return signed;
 }
 
@@ -108,6 +109,48 @@ function decodeJwt(event) {
   showDecoded();
 }
 
+function checkValidityReasons(parsedJwt, acceptableAlgorithms) {
+  let pPayload = parsedJwt.payloadObj,
+      pHeader = parsedJwt.headerObj,
+      now = Math.floor((new Date()).valueOf() / 1000),
+      gracePeriod = 0,
+      wantCheckIat = true,
+      reasons = [];
+
+  // 4. algorithm ('alg' in header) check
+  if (pHeader.alg === undefined) {
+    reasons.push('the header lacks the required alg property');
+  }
+  if (acceptableAlgorithms.indexOf(pHeader.alg) < 0) {
+    reasons.push('the algorithm is not acceptable');
+  }
+
+  // 8.1 expired time 'exp' check
+  if (pPayload.exp !== undefined && typeof pPayload.exp == "number") {
+    if (pPayload.exp + gracePeriod < now) {
+      reasons.push('the token is expired');
+    }
+  }
+
+  // 8.2 not before time 'nbf' check
+  if (pPayload.nbf !== undefined && typeof pPayload.nbf == "number") {
+    if (now < pPayload.nbf - gracePeriod) {
+      reasons.push('the not-before time is in the future');
+    }
+  }
+
+  // 8.3 issued at time 'iat' check
+  if (wantCheckIat) {
+    if (pPayload.iat !== undefined && typeof pPayload.iat == "number") {
+      if (now < pPayload.iat - gracePeriod) {
+        reasons.push('the issued-at time is in the future');
+      }
+    }
+  }
+  return reasons;
+}
+
+
 function verifyJwt(event) {
   editors.encodedjwt.save();
   editors.publickey.save();
@@ -115,18 +158,29 @@ function verifyJwt(event) {
       tokenString = editors.encodedjwt.getValue(),
       matches = reSignedJwt.exec(tokenString);
   if (matches && matches.length == 4) {
-    $("#mainalert").hide();
-    let isValid = KJUR.jws.JWS.verifyJWT(tokenString,
-                                         publicKey,
-                                         { alg: rsaAlgs });
+    //$("#mainalert").hide();
+    $("#mainalert").addClass('fade').removeClass('show');
+    try {
+    let parsed = KJUR.jws.JWS.parse(tokenString),
+        reasons = checkValidityReasons(parsed, rsaAlgs), // KJUR.jws.JWS does not expose this function
+        isValid = KJUR.jws.JWS.verifyJWT(tokenString, publicKey, { alg: rsaAlgs });
     if (isValid) {
-      let parsed = KJUR.jws.JWS.parse(tokenString),
-          message = 'The JWT is valid. Algorithm: ' + parsed.headerObj.alg;
+      let message = 'The JWT signature has been verified and the times are valid. Algorithm: ' + parsed.headerObj.alg;
       showDecoded();
       setAlert(message, 'success');
     }
     else {
-      setAlert('The JWT is not valid', 'warning');
+      if (reasons && reasons.length) {
+        let label = (reasons.length == 1)? 'Reason' : 'Reasons';
+        setAlert('The JWT is not valid. ' + label+': ' + reasons.join(', and ') + '.', 'warning');
+      }
+      else {
+        setAlert('The JWT is not valid. Likely reason: the signature did not verify.', 'warning');
+      }
+    }
+    }
+    catch (e) {
+      setAlert('Cannot verify: ' + e);
     }
   }
 }
@@ -145,11 +199,14 @@ function setAlert(html, alertClass) {
   else {
     $mainalert.addClass('alert-warning');
   }
-  $mainalert.show();
+  // show()
+  $mainalert.removeClass('fade').addClass('show');
+  setTimeout(() => $("#mainalert").addClass('fade').removeClass('show'), 4650);
 }
 
-function toggleAlert(event){
-  $("#mainalert").toggle();
+function closeAlert(event){
+  //$("#mainalert").toggle();
+  $('#mainalert').removeClass('show').addClass('fade');
   return false; // Keep close.bs.alert event from removing from DOM
 }
 
@@ -162,23 +219,24 @@ function updateKeyValue(flavor /* public || private */, keyvalue) {
 }
 
 function newKeyPair(event) {
-  let keypair = KEYUTIL.generateKeypair("RSA", 2048),
-      pem1 = KEYUTIL.getPEM(keypair.prvKeyObj, "PKCS8PRV"),
-      pem2 = KEYUTIL.getPEM(keypair.pubKeyObj);
+  let keypair = KEYUTIL.generateKeypair('RSA', 2048),
+      pem1 = KEYUTIL.getPEM(keypair.prvKeyObj, 'PKCS8PRV').trim(),
+      pem2 = KEYUTIL.getPEM(keypair.pubKeyObj).trim();
   updateKeyValue('private', pem1);
   updateKeyValue('public', pem2);
   //encodeJwt(event); // re-sign same content
-  $("#mainalert").hide();
+  //$('#mainalert').hide();
+  $('#mainalert').removeClass('show').addClass('fade');
 }
 
 function showDecoded() {
   editors.encodedjwt.save();
-  let tokenString =   editors.encodedjwt.getValue(), //$('#encodedjwt').val(),
+  let tokenString = editors.encodedjwt.getValue(), //$('#encodedjwt').val(),
       matches = reSignedJwt.exec(tokenString);
   if (matches && matches.length == 4) {
-    $("#mainalert").hide();
+    //$('#mainalert').hide();
+    $('#mainalert').removeClass('show').addClass('fade');
     let flavors = ['header','payload']; // cannot decode signature
-    //var $decodeddiv = $("<div id='token-decoded' class='decoded'/>");
     matches.slice(1,-1).forEach(function(item,index) {
       let json = atob(item),  // base64-decode
           obj = JSON.parse(json),
@@ -219,8 +277,9 @@ $(document).ready(function() {
   $( '.btn-newkeypair' ).on('click', newKeyPair);
   $( '.btn-regen' ).on('click', contriveJwt);
 
-  $("#mainalert").hide();
-  $('#mainalert').on('close.bs.alert', toggleAlert);
+  //$('#mainalert').hide();
+  $('#mainalert').addClass('fade');
+  $('#mainalert').on('close.bs.alert', closeAlert);
 
   editors.encodedjwt = CodeMirror.fromTextArea(document.getElementById('encodedjwt'), {
     mode: 'encodedjwt',

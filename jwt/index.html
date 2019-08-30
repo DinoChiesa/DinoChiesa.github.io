@@ -4,6 +4,7 @@
     <title>JWT Encoder/Decoder</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="An online tool to perform JWT verification, decoding, or generation. RSA keys and algorithms only." />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/codemirror-5.48.4.css">
@@ -21,8 +22,9 @@
   <body>
     <div class='container'>
       <div class='banner'>
-        <h2>JWT</h2>
-        <div class="alert alert-warning alert-dismissible" role="alert" id="mainalert"></div>
+        <h2>JWT Decoder, Verifier, Generator</h2>
+        <div>For information on JWT see <a href='https://tools.ietf.org/html/rfc7519'>IETF RFC 7519</a>.</div>
+        <div class="alert alert-warning alert-dismissible fade" role="alert" id="mainalert"></div>
       </div>
 
       <div class='panel-group'>
@@ -97,6 +99,19 @@
         </div>
       </div>
 
+      <div class='footer'>
+        <div>Notes</div>
+        <ol>
+          <li>This page uses the KJUR library (<a href='https://kjur.github.io/jsrsasign'>jsrsasign</a>) for JWT decoding, verification, and generation, online, in the browser page.</li>
+          <li>Information that you paste here, including Encoded JWT and keys, either private or public, never leaves your browser.</li>
+          <li>The decoded header and payload shown here are pretty-printed.</li>
+          <li>To verify a JWT: paste in the signed JWT, and your <a href='https://tools.ietf.org/html/rfc7468#section-13'>PEM-formatted public key</a>, and click the verify button.</li>
+          <li>To create a JWT: set the payload and the header, and paste in your <a href='https://tools.ietf.org/html/rfc7468#section-10'>PEM-formatted (PKCS#8) private key</a>, and click the encode button.</li>
+          <li>This page supports RSA keys only. When generating or verifying a token, the page supports signed tokens only, and only these algorithms: RS256, RS384, RS512, PS256, PS384, or PS512. For details on these algorithms, see <a href='https://tools.ietf.org/html/rfc7518'>the JWA specification</a>.</li>
+        </ol>
+      </div>
+
+      
     </div>
   </body>
 
