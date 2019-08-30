@@ -79,7 +79,7 @@ body {
 
 .cb-element .cb-value  {
   float: left;
-  max-width: 600px;
+  max-width: 520px;
   font-family: monospace;
 
   /* all below, to handle really long JWTs */
@@ -95,7 +95,7 @@ body {
 .cb-element .jwt-decoded {
   float: left;
   margin-left:14px;
-  max-width: 560px;
+  max-width: 660px;
 }
 
 .cb-element .jwt-decoded pre {
