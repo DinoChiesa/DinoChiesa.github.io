@@ -102,15 +102,22 @@
       <div class='footer'>
         <div>Notes</div>
         <ol>
-          <li>This page uses the KJUR library (<a href='https://kjur.github.io/jsrsasign'>jsrsasign</a>) for JWT decoding, verification, and generation, online, in the browser page.</li>
-          <li>Information that you paste here, including Encoded JWT and keys, either private or public, never leaves your browser.</li>
-          <li>The decoded header and payload shown here are pretty-printed.</li>
           <li>To verify a JWT: paste in the signed JWT, and your <a href='https://tools.ietf.org/html/rfc7468#section-13'>PEM-formatted public key</a>, and click the verify button.</li>
           <li>To create a JWT: set the payload and the header, and paste in your <a href='https://tools.ietf.org/html/rfc7468#section-10'>PEM-formatted (PKCS#8) private key</a>, and click the encode button.</li>
+          <li>On initial page load, the browser will generate a new keypair and insert it into the approprite boxes. You can replace either or both with your own values.</li>
           <li>This page supports RSA keys only. When generating or verifying a token, the page supports signed tokens only, and only these algorithms: RS256, RS384, RS512, PS256, PS384, or PS512. For details on these algorithms, see <a href='https://tools.ietf.org/html/rfc7518'>the JWA specification</a>.</li>
+          <li>Information that you paste here, including Encoded JWT and keys, either private or public, never leaves your browser.</li>
+          <li>The decoded header and payload shown here are pretty-printed. The actual header and payload in a JWT do not have newlines.</li>
         </ol>
       </div>
+      
+      <div class='footer'>
+        <div>Credits</div>
+        <p>
+          This page uses the KJUR library (<a href='https://kjur.github.io/jsrsasign'>jsrsasign</a>) for JWT decoding, verification, and generation, online, in the browser page. It also uses <a href='https://codemirror.net/doc/manual.html'>CodeMirror</a> for the interactive editors, <a href='https://getbootstrap.com/docs/4.0'>Bootstrap 4.0</a> for styling, the <a href='https://useiconic.com/open/'>Open Iconic fonts</a> for button symbols, and <a href='https://jquery.com/'>jQuery</a> for interactivity. </p>
+        <p>The code for this page is <a href='https://github.com/DinoChiesa/DinoChiesa.github.io/tree/master/jwt'>here</a>.</p>
 
+      </div>
       
     </div>
   </body>
