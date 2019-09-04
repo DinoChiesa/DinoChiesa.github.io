@@ -44,21 +44,27 @@
           <br/>
           <button type="button" class="btn btn-outline-secondary btn-lg btn-decode" title='decode a JWT'>
             <span class="oi oi-arrow-thick-right"></span>
-          </button>        
+          </button>
           <br/>
           <button type="button" class="btn btn-outline-secondary btn-lg btn-regen" title='generate a new payload'>
             <span class="oi oi-reload"></span>
           </button>
           <br/>
-          <button type="button" class="btn btn-outline-secondary btn-lg btn-newkeypair" title='generate a new keypair'>
+          <button type="button" class="btn btn-outline-secondary btn-lg btn-newkeypair_rsa" title='generate a new RSA keypair'>
             <span class="oi oi-key"></span>
+            <span style='display: block;'>RSA</span>
+          </button>
+          <br/>
+          <button type="button" class="btn btn-outline-secondary btn-lg btn-newkeypair_ec" title='generate a new EC keypair'>
+            <span class="oi oi-key"></span>
+            <span style='display: block;'>EC</span>
           </button>
           <br/>
           <button type="button" class="btn btn-outline-secondary btn-lg btn-verify" title='verify the encoded JWT with the given public key'>
             <span class="oi oi-check"></span>
           </button>
         </div>
-        
+
         <div class='panel panel-right' id='panel_decoded'>
           <div id='header'>
             <p>Header
@@ -102,15 +108,16 @@
       <div class='footer'>
         <div>Notes</div>
         <ol>
+          <li>This page supports RSA or ECDSA keys and algorithms (except for ES512). When generating or verifying a token, the page supports signed tokens only.  For details on algorithms, see <a href='https://tools.ietf.org/html/rfc7518'>the JWA specification</a>.</li>
           <li>To verify a JWT: paste in the signed JWT, and your <a href='https://tools.ietf.org/html/rfc7468#section-13'>PEM-formatted public key</a>, and click the verify button.</li>
           <li>To create a JWT: set the payload and the header, and paste in your <a href='https://tools.ietf.org/html/rfc7468#section-10'>PEM-formatted (PKCS#8) private key</a>, and click the encode button.</li>
-          <li>On initial page load, the browser will generate a new keypair and insert it into the approprite boxes. You can replace either or both with your own values.</li>
-          <li>This page supports RSA keys only. When generating or verifying a token, the page supports signed tokens only, and only these algorithms: RS256, RS384, RS512, PS256, PS384, or PS512. For details on these algorithms, see <a href='https://tools.ietf.org/html/rfc7518'>the JWA specification</a>.</li>
+          <li>On initial page load, the browser will generate a new RSA keypair and insert it into the appropriate boxes. You can replace either or both with your own values.</li>
+          <li>You can generate a new keypair by clicking the appropriate button.</li>
           <li>Information that you paste here, including Encoded JWT and keys, either private or public, never leaves your browser.</li>
-          <li>The decoded header and payload shown here are pretty-printed. The actual header and payload in a JWT do not have newlines.</li>
+          <li>Ths page shows the decoded header and payload pretty-printed. The actual header and payload in a JWT do not have newlines.</li>
         </ol>
       </div>
-      
+
       <div class='footer'>
         <div>Credits</div>
         <p>
@@ -118,7 +125,7 @@
         <p>The code for this page is <a href='https://github.com/DinoChiesa/DinoChiesa.github.io/tree/master/jwt'>here</a>.</p>
 
       </div>
-      
+
     </div>
   </body>
 

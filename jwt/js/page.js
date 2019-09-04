@@ -49,14 +49,12 @@ function getPublicKey() {
   return keyvalue;
 }
 
-function createJwt(header, payload) {
-  if (!header.typ) { header.typ = "JWT"; }
-  if (!header.alg) { header.alg = "RS256"; }
-  let privateKeyPEM = getPrivateKey(),
-      rsaKey = KEYUTIL.getKeyFromPlainPrivatePKCS8PEM(privateKeyPEM),
-      signed = KJUR.jws.JWS.sign(null, header, payload, rsaKey);
-  return signed;
+function currentKid() {
+  let s = (new Date()).toISOString(); // 2019-09-04T21:29:23.428Z
+  let re = new RegExp('[-:TZ\\.]', 'g');
+  return s.replace(re, '');
 }
+
 
 function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -80,6 +78,46 @@ function copyToClipboard(event) {
   $temp.val(textToCopy).select();
   document.execCommand("copy");
   $temp.remove();
+}
+
+function isAppropriateAlg(alg, signingKey) {
+  if (signingKey.type == 'RSA') return rsaAlgs.indexOf(alg)>=0;
+  if (signingKey.type == 'EC') {
+    if (signingKey.curveName == 'secp256r1')
+      return alg =='ES256';
+    if (signingKey.curveName == 'secp384r1')
+      return alg =='ES384';
+    if (signingKey.curveName == 'secp521r1')
+      return alg =='ES512';
+  }
+}
+
+function getAppropriateAlg(signingKey) {
+  let keytype = signingKey.type;
+  if (keytype == 'RSA') return chooseRandom(rsaAlgs);
+  if (keytype == 'EC') {
+    // NO return chooseRandom(['ES256', 'ES384', 'ES512']);
+    if (signingKey.curveName == 'secp256r1')
+      return 'ES256';
+    if (signingKey.curveName == 'secp384r1')
+      return 'ES384';
+    if (signingKey.curveName == 'secp521r1')
+      return 'ES512';
+  }
+  return "NONE";
+}
+
+function createJwt(header, payload) {
+  if (!header.typ) { header.typ = "JWT"; }
+  //if (!header.kid) { header.kid = currentKid(); }
+  let privateKeyPEM = getPrivateKey(),
+  signingKey = KEYUTIL.getKeyFromPlainPrivatePKCS8PEM(privateKeyPEM);
+
+  if (!header.alg) { header.alg = getAppropriateAlg(signingKey); }
+  if ( ! isAppropriateAlg(header.alg, signingKey)) throw "inappropriate algorithm for the given key. Try: " + getAppropriateAlg(signingKey);
+
+  let signed = KJUR.jws.JWS.sign(null, header, payload, signingKey);
+  return signed;
 }
 
 function encodeJwt(event) {
@@ -218,15 +256,22 @@ function updateKeyValue(flavor /* public || private */, keyvalue) {
   }
 }
 
-function newKeyPair(event) {
-  let keypair = KEYUTIL.generateKeypair('RSA', 2048),
-      pem1 = KEYUTIL.getPEM(keypair.prvKeyObj, 'PKCS8PRV').trim(),
-      pem2 = KEYUTIL.getPEM(keypair.pubKeyObj).trim();
-  updateKeyValue('private', pem1);
-  updateKeyValue('public', pem2);
-  //encodeJwt(event); // re-sign same content
-  //$('#mainalert').hide();
-  $('#mainalert').removeClass('show').addClass('fade');
+function newKeyPair(flavor){
+  function strength(flavor) {
+    // secp521r1 is not supported by KJUR at this time
+    if (flavor == 'EC') return chooseRandom(['secp256r1', 'secp384r1']);
+    if (flavor == 'RSA') return 2048;
+  }
+  return function (event) {
+    let keypair = KEYUTIL.generateKeypair(flavor, strength(flavor)),
+        pem1 = KEYUTIL.getPEM(keypair.prvKeyObj, 'PKCS8PRV').trim(),
+        pem2 = KEYUTIL.getPEM(keypair.pubKeyObj).trim();
+    updateKeyValue('private', pem1);
+    updateKeyValue('public', pem2);
+    //encodeJwt(event); // re-sign same content
+    //$('#mainalert').hide();
+    $('#mainalert').removeClass('show').addClass('fade');
+  };
 }
 
 function showDecoded() {
@@ -251,6 +296,11 @@ function showDecoded() {
   }
 }
 
+function chooseRandom(a) {
+  let ix = Math.floor(Math.random() * a.length);
+  return a[ix];
+}
+
 function contriveJwt(event) {
     let now = Math.floor((new Date()).valueOf() / 1000),
         sub = selectRandomValue(sampledata.names),
@@ -262,7 +312,7 @@ function contriveJwt(event) {
           iat: now,
           exp: now + tenMinutes
         },
-        header = {};
+        header = { /* will be filled in later */ };
 
   editors['token-decoded-header'].setValue(JSON.stringify(header));
   editors['token-decoded-payload'].setValue(JSON.stringify(payload));
@@ -274,7 +324,8 @@ $(document).ready(function() {
   $( '.btn-encode' ).on('click', encodeJwt);
   $( '.btn-decode' ).on('click', decodeJwt);
   $( '.btn-verify' ).on('click', verifyJwt);
-  $( '.btn-newkeypair' ).on('click', newKeyPair);
+  $( '.btn-newkeypair_rsa' ).on('click', newKeyPair('RSA'));
+  $( '.btn-newkeypair_ec' ).on('click', newKeyPair('EC'));
   $( '.btn-regen' ).on('click', contriveJwt);
 
   //$('#mainalert').hide();
@@ -323,7 +374,7 @@ $(document).ready(function() {
     });
   });
 
-  newKeyPair();
+  (newKeyPair('RSA'))();
   contriveJwt();
 
 });

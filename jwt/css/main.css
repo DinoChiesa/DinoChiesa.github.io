@@ -37,22 +37,26 @@ textarea {
 }
 .panel-center {
   float: left;
-  width: 80px;
+  width: 88px;
   margin: 2px 0;
 }
 .panel-right {
-  min-width: 480px;
-  margin-left: 590px;
+  min-width: 472px;
+  margin-left: 604px;
 }
 
-.cm-jwt-header {
-  color: #fa003a; 
+#panel_buttons {
+  border-width: 0; 
 }
-.cm-jwt-payload {
-  color: #b100ff;
+
+#panel_buttons > button {
+  margin-top: 20px;
+  width:4.2rem;
 }
-.cm-jwt-signature {
-  color: #3184fb;
+
+div.CodeMirror {
+  border: 1px dotted #ccc;
+  height: auto;
 }
 
 pre.CodeMirror-line > span {
@@ -66,7 +70,6 @@ pre.CodeMirror-line > span {
   word-break: break-all;
   /* white-space: normal; */
 }
-
 
 .rawvalue {
   max-width: 1024px;
@@ -88,17 +91,14 @@ pre.CodeMirror-line > span {
   white-space: normal;
 }
 
-div.CodeMirror {
-  border: 1px dotted #ccc;
-  height: auto;
+.cm-jwt-header {
+  color: #fa003a; 
 }
-
-#panel_buttons {
-  border-width: 0; 
+.cm-jwt-payload {
+  color: #b100ff;
 }
-
-#panel_buttons > button {
-  margin-top: 20px;
+.cm-jwt-signature {
+  color: #3184fb;
 }
 
 #privatekey, #publickey {
