@@ -319,6 +319,20 @@ function contriveJwt(event) {
   encodeJwt(event);
 }
 
+function decoratePayloadLine(instance, handle, lineElement) {
+  let lastComma = new RegExp(',\s*$');
+  $(lineElement).find('span.cm-property').each( (ix, element) => {
+    let $this = $(element), text = $this.text();
+    if (['"exp"', '"iat"', '"nbf"'].indexOf(text) >= 0) {
+      let $valueSpan = $this.nextAll('span').first(),
+          text = $valueSpan.text().replace(lastComma, ''),
+          time = new Date(Number(text) * 1000),
+          stringRep = time.toISOString();
+      $valueSpan.attr('title', stringRep);
+    }
+  });
+}
+
 $(document).ready(function() {
   $( '.btn-copy' ).on('click', copyToClipboard);
   $( '.btn-encode' ).on('click', encodeJwt);
@@ -373,6 +387,8 @@ $(document).ready(function() {
       }
     });
   });
+
+  editors['token-decoded-payload'].on('renderLine', decoratePayloadLine);
 
   (newKeyPair('RSA'))();
   contriveJwt();

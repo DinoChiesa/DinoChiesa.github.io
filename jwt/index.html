@@ -108,7 +108,7 @@
       <div class='footer'>
         <div>Notes</div>
         <ol>
-          <li>This page supports RSA or ECDSA keys and algorithms (except for ES512). When generating or verifying a token, the page supports signed tokens only.  For details on algorithms, see <a href='https://tools.ietf.org/html/rfc7518'>the JWA specification</a>.</li>
+          <li>This page supports RSA or ECDSA keys and algorithms (except for ES512, not supported by KJUR at this time). When generating or verifying a token, the page supports signed tokens only.  For details on algorithms, see <a href='https://tools.ietf.org/html/rfc7518'>the JWA specification</a>.</li>
           <li>To verify a JWT: paste in the signed JWT, and your <a href='https://tools.ietf.org/html/rfc7468#section-13'>PEM-formatted public key</a>, and click the verify button.</li>
           <li>To create a JWT: set the payload and the header, and paste in your <a href='https://tools.ietf.org/html/rfc7468#section-10'>PEM-formatted (PKCS#8) private key</a>, and click the encode button.</li>
           <li>On initial page load, the browser will generate a new RSA keypair and insert it into the appropriate boxes. You can replace either or both with your own values.</li>
