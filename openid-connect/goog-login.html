@@ -4,15 +4,15 @@
     <title>goog-login.html</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" >
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/chosen-bootstrap.css">
 
-    <script type='text/javascript' src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script type='text/javascript' src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type='text/javascript' src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js'></script>
-    <script type='text/javascript' src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
     <script type='text/javascript' src='js/goog-login-page.js'></script>
 
   </head>
@@ -98,13 +98,13 @@
     <div id='output'>
       <a href='' id='authzlink'></a>
       <div id='authzRedemption'>
-        <div id='redeemCode'></div>
-        <button class="btn btn-default clipboard-btn" data-clipboard-target="#redeemCode"
+        <div id='preBox'></div>
+        <button class="btn btn-outline-secondary btn-md" id='btn-copy' data-target="preBox"
                 title="Copy the curl command to the clipboard">Copy</button>
-        <button class="btn btn-default" id="invokeRedemption"
+        <button class="btn btn-outline-secondary btn-md" id="btn-redeem"
                 title="invoke the code redemption from the browser">Redeem</button>
-        <button class="btn btn-default" id="resetRedemption">Reset</button>
-        <div id='redeemResult'></div>
+        <button class="btn btn-outline-secondary btn-md" id="btn-reset">Reset</button>
+
       </div>
     </div>
     </div>

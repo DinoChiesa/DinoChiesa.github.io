@@ -1,14 +1,17 @@
 // goog-login-page.js
 // ------------------------------------------------------------------
 //
-// page logic for goog-login.html and oidc-login.html
-//
-// created: Thu Oct  1 13:37:31 2015
-// last saved: <2018-March-15 16:32:21>
+/* jshint esversion: 9 */
+/* global $ */
 
 (function (){
-  'use strict';
-  var model = {
+
+  const googleTokenUrl = 'https://www.googleapis.com/oauth2/v4/token',
+        extraneousDoubleSlashFinder = new RegExp('^(https?://[^/]+)//(.+)$');
+
+  var html5AppId = html5AppId || "B673CC48-1927-46CB-827A-E6E9D7D5103D",
+      linkTemplate = linkTemplate || "${baseloginurl}?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}&nonce=${nonce}";
+  let model = {
         baseloginurl : '',
         clientid : '',
         clientsecret : '',
@@ -20,10 +23,24 @@
         scope : [],
         aud : ''
       };
-  var extraneousDoubleSlashFinder = new RegExp('^(https?://[^/]+)//(.+)$');
-  var googleTokenUrl = 'https://www.googleapis.com/oauth2/v4/token';
-  var html5AppId = html5AppId || "B673CC48-1927-46CB-827A-E6E9D7D5103D";
-  var linkTemplate = linkTemplate || "${baseloginurl}?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}&nonce=${nonce}";
+
+function copyToClipboard(event) {
+  let $elt = $(this),
+      sourceElement = $elt.data('target'),
+      // grab the element to copy
+      $source = $('#' + sourceElement),
+      // Create a temporary hidden textarea.
+      $temp = $("<textarea>");
+
+
+  let textToCopy = ($source[0].tagName == 'TEXTAREA') ? $source.val() : $source.text();
+
+  $("body").append($temp);
+  $temp.val(textToCopy).select();
+  document.execCommand("copy");
+  $temp.remove();
+}
+
 
   function copyHash(obj) {
     var copy = {};
@@ -52,35 +69,37 @@
   }
 
   function updateLink() {
-    var link = linkTemplate;
-    var copyModel = copyHash(model);
+    let link = linkTemplate,
+        copyModel = copyHash(model);
     if (copyModel.aud && copyModel.scope) {
       copyModel.scope.push('audience:server:client_id:' + copyModel.aud);
       delete copyModel.aud;
     }
     Object.keys(copyModel).forEach(function(key) {
-      var pattern = "${" + key + "}", value = '';
-      value = (typeof copyModel[key] != 'string') ? copyModel[key].join('+') : copyModel[key];
-      if ((copyModel[key] !== null) && (key !== 'state' && key !== 'nonce') && (value !== null) && (typeof value !== 'undefined')) {
-        window.localStorage.setItem(html5AppId + '.model.' + key, value);
+      let pattern = "${" + key + "}", value = '';
+      if (copyModel[key] !== null) {
+        value = (typeof copyModel[key] != 'string') ? copyModel[key].join('+') : copyModel[key];
+        if ((key !== 'state' && key !== 'nonce') && (value !== null) && (typeof value !== 'undefined')) {
+          window.localStorage.setItem(html5AppId + '.model.' + key, value);
+        }
       }
       link = link.replace(pattern,value);
     });
-    var m = extraneousDoubleSlashFinder.exec(link);
+    let m = extraneousDoubleSlashFinder.exec(link);
     if (m) { link = m[1] + '/' + m[2]; }
     $('#authzlink').text(link);
     $('#authzlink').attr('href', link);
 
     if (model.code) {
-      var payload = {
+      let payload = {
             grant_type: 'authorization_code',
             client_secret : model.clientsecret,
             client_id : model.clientid,
             redirect_uri : model.cburi,
             code : model.code
           };
-      $('#redeemCode').text('curl -X POST -H content-type:application/x-www-form-urlencoded ' +
-                            wrapInSingleQuote(googleTokenUrl) + ' -d ' + wrapInSingleQuote($.param(payload)));
+      $('#preBox').html('<pre>curl -X POST -H content-type:application/x-www-form-urlencoded ' +
+                            wrapInSingleQuote(googleTokenUrl) + ' -d ' + wrapInSingleQuote($.param(payload)) + '</pre>');
       $('#authzRedemption').show();
     }
     else {
@@ -146,8 +165,7 @@
   }
 
   function resetRedemption(event) {
-    $('#redeemResult').html('');
-    $('#redeemCode').text('');
+    $('#preBox').html('');
     $('#code').val('');
     updateModel();
     if (event)
@@ -169,14 +187,14 @@
       type: "POST",
       data : payload,
       success: function(data, textStatus, jqXHR) {
-        $('#redeemResult')
+        $('#preBox')
           .removeClass('error')
           .html('<pre class="access-token-response">' +
                 JSON.stringify(data, null, 2) +
                 '</pre>');
       },
       error: function (jqXHR, textStatus, errorThrown) {
-        $('#redeemResult')
+        $('#preBox')
           .addClass('error')
           .html('<pre class="access-token-response">' +
                 JSON.stringify(jqXHR.responseJSON, null, 2) +
@@ -200,8 +218,9 @@
       allow_single_deselect: true
     });
 
-    $( "#invokeRedemption" ).click(invokeRedemption);
-    $( "#resetRedemption" ).click(resetRedemption);
+    $( "#btn-redeem" ).on('click', invokeRedemption);
+    $( "#btn-reset" ).on('click', resetRedemption);
+    $( '#btn-copy' ).on('click', copyToClipboard);
 
     populateFormFields();
 
@@ -209,10 +228,6 @@
     $( "form select" ).change(onSelectChanged);
     $( "form button" ).submit(updateModel);
 
-    if (typeof Clipboard != 'undefined') {
-      // attach clipboard things
-      new Clipboard('.clipboard-btn');
-    }
 
     updateModel();
 

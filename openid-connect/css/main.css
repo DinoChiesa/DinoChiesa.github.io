@@ -123,3 +123,7 @@ body {
   top: 6px;
   position: relative;  
 }
+
+#preBox pre {
+white-space: pre-wrap;  
+}
