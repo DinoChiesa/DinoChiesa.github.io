@@ -24,23 +24,21 @@
         aud : ''
       };
 
-function copyToClipboard(event) {
-  let $elt = $(this),
-      sourceElement = $elt.data('target'),
-      // grab the element to copy
-      $source = $('#' + sourceElement),
-      // Create a temporary hidden textarea.
-      $temp = $("<textarea>");
+  function copyToClipboard(event) {
+    let $elt = $(this),
+        sourceElement = $elt.data('target'),
+        // grab the element to copy
+        $source = $('#' + sourceElement),
+        // Create a temporary hidden textarea.
+        $temp = $("<textarea>");
 
+    let textToCopy = ($source[0].tagName == 'TEXTAREA') ? $source.val() : $source.text();
 
-  let textToCopy = ($source[0].tagName == 'TEXTAREA') ? $source.val() : $source.text();
-
-  $("body").append($temp);
-  $temp.val(textToCopy).select();
-  document.execCommand("copy");
-  $temp.remove();
-}
-
+    $("body").append($temp);
+    $temp.val(textToCopy).select();
+    document.execCommand("copy");
+    $temp.remove();
+  }
 
   function copyHash(obj) {
     var copy = {};
