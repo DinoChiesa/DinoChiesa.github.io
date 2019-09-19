@@ -5,7 +5,9 @@ const tenMinutes = 10 * 60;
 const reSignedJwt2 = new RegExp('^([^\\.]+)(\\.)([^\\.]+)(\\.)([^\\.]+)$');
 const reSignedJwt = new RegExp('^([^\\.]+)\\.([^\\.]+)\\.([^\\.]+)$');
 const sampledata = {
-        names : ['audrey', 'olaf', 'vinit', 'alma', 'ming', 'naimish', 'anna', ]
+        names : ['audrey', 'olaf', 'vinit', 'antonio', 'alma', 'ming', 'naimish', 'anna', 'sheniqua', 'tamara', 'kina', 'maxine' ],
+        props : ['propX', 'propY', 'aaa', 'version', 'entitlement', 'alpha', 'classid'],
+        types : ['number', 'string', 'object', 'array', 'boolean']
       };
 
 const rsaAlgs = ['RS','PS'].reduce( (a, v) =>
@@ -23,11 +25,68 @@ CodeMirror.defineSimpleMode("encodedjwt", {
   ]
 });
 
-function selectRandomValueExcept (a, b) {
+function randomString(){
+  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+}
+function randomNumber() {
+  return Math.floor(Math.random() * 1000) + 10;
+}
+
+function randomBoolean() {
+  return Math.floor(Math.random() * 2) == 1;
+}
+
+function randomArray() {
+  let n = Math.floor(Math.random() * 4) + 1,
+      a = [],
+      type = selectRandomValueExcept(sampledata.types, ['array', 'object']);
+  for(var i = 0; i < n; i++){
+    a[i] = generateRandomValue(type);
+  }
+  return a;
+}
+
+function randomObject(depth, exclusion) {
+  let n = Math.floor(Math.random() * 4) + 1,
+      obj = {}, propname, type;
+  for(var i = 0; i < n; i++) {
+    propname = selectRandomValueExcept(sampledata.props, exclusion);
+    // limit complexity
+    type = (depth >1) ?
+      selectRandomValueExcept(sampledata.types, ['array', 'object']) :
+      selectRandomValue(sampledata.types);
+    obj[propname] = generateRandomValue(type, depth, propname);
+  }
+  return obj;
+}
+
+function generateRandomValue (type, depth, parentName) {
+  type = type || selectRandomValue(sampledata.types);
+  depth = (typeof depth == 'number')? depth + 1 : 1;
+  switch(type) {
+  case 'number' :
+    return randomNumber();
+  case 'string' :
+    return randomString();
+  case 'array' :
+    return randomArray();
+  case 'object' :
+    return randomObject(depth, parentName);
+  case 'boolean' :
+    return randomBoolean();
+  }
+  return null;
+}
+
+function selectRandomValueExcept (a, exclusion) {
   let v = null;
+  if ( ! exclusion) { exclusion = []; }
+  if ( ! Array.isArray(exclusion)) {
+    exclusion = [exclusion];
+  }
   do {
     v = selectRandomValue (a);
-  } while(v == b);
+  } while(exclusion.indexOf(v) >= 0);
   return v;
 }
 
@@ -94,7 +153,7 @@ function isAppropriateAlg(alg, signingKey) {
 
 function getAppropriateAlg(signingKey) {
   let keytype = signingKey.type;
-  if (keytype == 'RSA') return chooseRandom(rsaAlgs);
+  if (keytype == 'RSA') return selectRandomValue(rsaAlgs);
   if (keytype == 'EC') {
     // NO return chooseRandom(['ES256', 'ES384', 'ES512']);
     if (signingKey.curveName == 'secp256r1')
@@ -259,7 +318,7 @@ function updateKeyValue(flavor /* public || private */, keyvalue) {
 function newKeyPair(flavor){
   function strength(flavor) {
     // secp521r1 is not supported by KJUR at this time
-    if (flavor == 'EC') return chooseRandom(['secp256r1', 'secp384r1']);
+    if (flavor == 'EC') return selectRandomValue(['secp256r1', 'secp384r1']);
     if (flavor == 'RSA') return 2048;
   }
   return function (event) {
@@ -296,11 +355,6 @@ function showDecoded() {
   }
 }
 
-function chooseRandom(a) {
-  let ix = Math.floor(Math.random() * a.length);
-  return a[ix];
-}
-
 function contriveJwt(event) {
     let now = Math.floor((new Date()).valueOf() / 1000),
         sub = selectRandomValue(sampledata.names),
@@ -310,10 +364,14 @@ function contriveJwt(event) {
           sub,
           aud,
           iat: now,
-          exp: now + tenMinutes
+          exp: now + tenMinutes // always
         },
         header = { /* will be filled in later */ };
 
+  if (randomBoolean()) {
+    let propname = selectRandomValue(sampledata.props);
+    payload[propname] = generateRandomValue(null, null, propname);
+  }
   editors['token-decoded-header'].setValue(JSON.stringify(header));
   editors['token-decoded-payload'].setValue(JSON.stringify(payload));
   encodeJwt(event);
