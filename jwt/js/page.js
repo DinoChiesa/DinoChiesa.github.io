@@ -28,8 +28,11 @@ CodeMirror.defineSimpleMode("encodedjwt", {
 function randomString(){
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 }
+
 function randomNumber() {
-  return Math.floor(Math.random() * 1000) + 10;
+  let min = (randomBoolean())? 10: 100,
+      max = (randomBoolean())? 10000: 1000;
+  return Math.floor(Math.random() * (max - min)) + min;
 }
 
 function randomBoolean() {
@@ -37,10 +40,10 @@ function randomBoolean() {
 }
 
 function randomArray() {
-  let n = Math.floor(Math.random() * 4) + 1,
-      a = [],
-      type = selectRandomValueExcept(sampledata.types, ['array', 'object']);
+  let n = Math.floor(Math.random() * 4) + 1, // at least 1 element
+      a = [], type;
   for(var i = 0; i < n; i++){
+    type = selectRandomValueExcept(sampledata.types, ['array', 'object']);
     a[i] = generateRandomValue(type);
   }
   return a;
