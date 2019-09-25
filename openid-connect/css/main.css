@@ -31,11 +31,11 @@ form > div.form-group {
 div.divider {
   border-top: 1px solid Black;
 }
-#output { 
+#output {
   margin-top: 28px;
   font-size: 160%;
 }
-#output .error { 
+#output .error {
   color: Red;
 }
 #output > div {
@@ -64,17 +64,17 @@ body {
   display:block;
 }
 
-.cb-element:after { 
+.cb-element:after {
   /* clearfix */
-   content: " ";
-   display: block; 
-   height: 0; 
-   clear: both;
+  content: " ";
+  display: block;
+  height: 0;
+  clear: both;
 }
 
 .cb-element .cb-label {
   float: left;
-  width: 180px;
+  width: 234px;
 }
 
 .cb-element .cb-value  {
@@ -94,9 +94,20 @@ body {
 }
 .cb-element .jwt-decoded {
   float: left;
-  margin-left:14px;
-  max-width: 660px;
+  margin-left: 14px;
+  max-width: 720px;
+  font-size: 80%;
 }
+
+.jwt-decoded > div {
+  position:relative;
+}
+.jwt-decoded .btn-copy {
+  position: absolute;
+  top: 4px;
+  left: 680px;
+}
+
 
 .cb-element .jwt-decoded pre {
     white-space: pre-wrap;       /* Since CSS 2.1 */
@@ -104,13 +115,15 @@ body {
     white-space: -pre-wrap;      /* Opera 4-6 */
     white-space: -o-pre-wrap;    /* Opera 7 */
     word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    border: 1px dotted lightblue;
+    padding: 2px 4px;
 }
 
 .jwt-header {
-  color: #fa003a; 
+  color: #fa003a;
 }
 .jwt-payload {
-  color: #b100ff; 
+  color: #b100ff;
 }
 .jwt-signature {
   color: #3184fb;
@@ -120,10 +133,10 @@ body {
   padding: 2px 6px;
   margin: 0 4px;
   float: right;
-  top: 6px;
-  position: relative;  
+  top: 12px;
+  position: relative;
 }
 
 #preBox pre {
-white-space: pre-wrap;  
+white-space: pre-wrap;
 }

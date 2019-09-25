@@ -4,21 +4,34 @@
 // for callback-handler.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2019-August-29 17:37:10>
+// last saved: <2019-September-24 18:05:32>
 /* jshint esversion: 9 */
 /* global $, atob */
+
+function randomId() {
+  return Math.random().toString(36).substring(2, 15);
+}
 
 function decodeToken(matches) {
   if (matches.length == 4) {
     var styles = ['header','payload','signature'];
     var $decodeddiv = $('#id_token-decoded');
+    // skip header and signature
     matches.slice(1,-1).forEach(function(item,index){
-      var json = atob(item);
-      var obj = JSON.parse(json);
-      $decodeddiv.append('<pre class="jwt-'+ styles[index] +'">' +
+      let json = atob(item),
+          obj = JSON.parse(json),
+          id = 'pre-' + randomId();
+      $decodeddiv.append('<div><pre id="'+id+'" class="jwt-'+ styles[index] +'">' +
                          JSON.stringify(obj,null,2) +
-                         '</pre>');
+                         '</pre>' +
+                         copyButtonHtml(id) +
+                         '</div>'
+                        );
     });
+
+    // re-add click handlers to all btn-copy
+    $( '.btn-copy' ).off('click').on('click', copyToClipboard);
+
   }
 }
 
@@ -34,9 +47,9 @@ function formatIdToken() {
 }
 
 function copyButtonHtml(targetElementId) {
-  let html = '<button type="button" title="copy to clipboard" class="btn btn-default btn-md btn-copy" ' +
+  let html = '<button type="button" title="copy to clipboard" class="btn btn-outline-secondary btn-sm btn-copy" ' +
     'data-target="'+targetElementId+'" title="copy to clipboard">\n' +
-    '  <span class="glyphicon glyphicon-copy"></span>\n' +
+    '  <span class="oi oi-clipboard"></span>' +
     '</button>\n';
   return html;
 }
@@ -83,9 +96,9 @@ $(document).ready(function() {
   Object.keys(hash).forEach(function(key){
     if (key) {
       let $newdiv = $("<div id='"+ key +"-value' class='cb-element cb-clearfix'/>"),
-          valueId = 'val-' + Math.random().toString(36).substring(2, 15),
+          valueId = 'val-' + randomId(),
           html = {
-            label : '<div class="cb-label">' + key + ':' + copyButtonHtml(valueId) +'</div>',
+            label : '<div class="cb-label">' + key + copyButtonHtml(valueId) +'</div>',
             value : '<div id="' + valueId + '"class="cb-value">' + hash[key] + '</div>'
           };
       $newdiv.html(html.label + html.value);
