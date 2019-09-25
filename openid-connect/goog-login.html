@@ -19,42 +19,63 @@
   <body>
     <!-- ======================================================= -->
     <div style='margin: 10px;'>
-      <h3>Login link builder for Google Sign-in</h3>
+      <h3>OpenID Connect login link builder for Google Sign-in</h3>
     <form role="form">
       <div class="form-group">
-        <label for="baseloginurl">Base URL:</label>
+        <div>
+          <label for="baseloginurl">Base URL</label>
+        </div>
         <input type="text" class="form-control" id="baseloginurl" value='https://accounts.google.com/o/oauth2/v2/auth' title='eg, https://accounts.google.com/o/oauth2/v2/auth'>
       </div>
-      
+
       <div class="form-group">
-        <label for="clientid">client id:</label>
-        <!-- find this id in the Google API console: https://console.developers.google.com/apis/credentials?project=dpc-signin-3  -->
-        <input type="text" class="form-control" id="clientid" value='96134933903-v3m16mg3qer4a4etkg0t7vuij1bj3na8.apps.googleusercontent.com'>
+        <div>
+          <label for="clientid">client id</label>
+        </div>
+        <!-- find this id in the Google API console: https://console.developers.google.com/apis/credentials -->
+        <input type="text" class="form-control" id="clientid" value='671646694294-2e6h95mkgafps8b5qh1us2hajlptqj8q.apps.googleusercontent.com'>
       </div>
+
       <div class="form-group">
-        <label for="clientsecret">client secret:</label>
-        <!-- find this id in the Google API console: https://console.developers.google.com/apis/credentials?project=dpc-signin-3  -->
-        <input type="text" class="form-control" id="clientsecret" value='cVUmGrjsU7syoMsyjXJYPRqe'>
+        <div>
+          <label for="clientsecret">client secret</label>
+        </div>
+        <!-- find this id in the Google API console: https://console.developers.google.com/apis/credentials  -->
+        <input type="text" class="form-control" id="clientsecret" value='c3NPLQnwJlN1D891-N4yKg8R'>
       </div>
-      
+
       <div class="form-group">
-        <label for="state">state:</label>
+        <div>
+          <label for="state">state</label>
+          <button type="button" class="btn btn-outline-secondary btn-sm btn-reload" data-target="state" title='refresh'>
+            <span class="oi oi-reload"></span>
+          </button>
+        </div>
         <input type="text" class="form-control" id="state" title='required, can be any string'>
       </div>
-      
+
       <div class="form-group">
-        <label for="nonce">nonce:</label>
+        <div>
+          <label for="nonce">nonce</label>
+          <button type="button" class="btn btn-outline-secondary btn-sm btn-reload" data-target="nonce" title='refresh'>
+            <span class="oi oi-reload"></span>
+          </button>
+        </div>
         <input type="text" class="form-control" id="nonce" title='required, can be any string, cannot re-use values'>
       </div>
-      
+
       <div class="form-group">
-        <label for="cburi">callback URI:</label>
+        <div>
+          <label for="cburi">callback URI</label>
+        </div>
         <input type="text" class="form-control" id="cburi" value='http://dinochiesa.github.io/openid-connect/goog-reply.html'>
       </div>
-      
+
       <div class="form-group">
-        <label for="rtype">response type:</label>
-        <select name="rtype" id="rtype" multiple class="form-control chosen rtype-chosen" 
+        <div>
+          <label for="rtype">response type</label>
+        </div>
+        <select name="rtype" id="rtype" multiple class="form-control chosen rtype-chosen"
                 data-placeholder="response type" required>
           <option value=""></option>
           <option value="code" >code</option>
@@ -65,8 +86,10 @@
       </div>
 
       <div class="form-group">
-        <label for="scope">scope:</label>
-        <select name="scope" id="scope" multiple class="form-control chosen scope-chosen" 
+        <div>
+          <label for="scope">scope</label>
+        </div>
+        <select name="scope" id="scope" multiple class="form-control chosen scope-chosen"
                 data-placeholder="scope" required>
           <option value=""></option>
           <option value="openid" >openid</option>
@@ -76,20 +99,24 @@
           <option value="invalid_option" >invalid_option</option>
         </select>
       </div>
-      
+
       <div class="form-group" style='display:none;'>
-        <label for="aud">Audience:</label>
+        <div>
+          <label for="aud">Audience</label>
+        </div>
         <input type="text" class="form-control" id="aud" value=''>
       </div>
-        
+
       <div class="divider"></div>
-        
+
       <div class="form-group">
-        <label for="code">code:</label>
+        <div>
+          <label for="code">code</label>
+        </div>
         <input type="text" title='use this only if the response_type includes "code"'
                class="form-control" id="code">
       </div>
-      
+
       <div>
         <button type="submit" class="btn btn-default" style='display:none'>Submit</button>
       </div>

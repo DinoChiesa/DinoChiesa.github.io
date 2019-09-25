@@ -140,3 +140,14 @@ body {
 #preBox pre {
 white-space: pre-wrap;
 }
+
+.form-group > div {
+  position: relative;
+  float:left;
+  width:192px;
+}
+.form-group > div .btn-reload {
+  top:4px;
+  position:relative;
+  margin-right: 6px;
+}

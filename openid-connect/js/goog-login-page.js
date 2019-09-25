@@ -24,6 +24,19 @@
         aud : ''
       };
 
+  function randomValue(len) {
+    return Math.random().toString(36).substring(2, len? (len + 2): 8);
+  }
+
+  function reloadRandomValue(event) {
+    let $elt = $(this),
+        sourceElement = $elt.data('target'),
+        // grab the element to copy
+        $source = $('#' + sourceElement),
+        newValue = randomValue();
+    $source.val(newValue);
+  }
+
   function copyToClipboard(event) {
     let $elt = $(this),
         sourceElement = $elt.data('target'),
@@ -51,20 +64,6 @@
   }
 
   function wrapInSingleQuote(s) {return "'" + s + "'";}
-
-  function generateRandomAlphaString(L) {
-    function c() {
-      return (Math.floor(Math.random() * 5)<1) ?
-        (Math.floor(Math.random() * 10) + 48) :
-        String.fromCharCode(65 + Math.floor(Math.random() * 26) + (Math.floor(Math.random() * 2) * 32));
-    }
-    var i, s = '';
-    L = L || (Math.floor(Math.random() * 7) + 8);
-    for (i=0; i<L; i++) {
-      s += c();
-    }
-    return s;
-  }
 
   function updateLink() {
     let link = linkTemplate,
@@ -143,7 +142,7 @@
         var value = window.localStorage.getItem(html5AppId + '.model.' + key);
         var $item = $('#' + key);
         if (key === 'state' || key === 'nonce') {
-          $item.val(generateRandomAlphaString(6));
+          $item.val(randomValue(6));
         }
         else if (value && value !== '') {
           if (typeof model[key] !== 'string') {
@@ -219,13 +218,13 @@
     $( "#btn-redeem" ).on('click', invokeRedemption);
     $( "#btn-reset" ).on('click', resetRedemption);
     $( '#btn-copy' ).on('click', copyToClipboard);
+    $( '.btn-reload' ).on('click', reloadRandomValue);
 
     populateFormFields();
 
     $( "form input[type='text']" ).change(onInputChanged);
     $( "form select" ).change(onSelectChanged);
     $( "form button" ).submit(updateModel);
-
 
     updateModel();
 
