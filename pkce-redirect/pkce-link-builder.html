@@ -4,25 +4,16 @@
     <title>PKCE OAuthV2 Link Builder</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" 
-          href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <script type='text/javascript'
-            src='https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js'></script>
-    <script type='text/javascript'
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script type='text/javascript'
-            src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" >
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
 
-    <link rel="stylesheet" type="text/css" 
-          href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js'></script>
+    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js'></script>
+    <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js'></script>
+    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-    <script type='text/javascript' 
-             src='//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js'>
-    </script>
-    <script type='text/javascript' 
-            src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js">
-    </script>
-    
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/chosen-bootstrap.css">
 
@@ -31,43 +22,48 @@
   <body>
     <!-- ======================================================= -->
     <div style='margin: 10px;'>
-      <h3>Build an /authorize URL for the OAuthV2 PKCE Sample in Edge</h3>
+      <h3>Build an /authorize URL for the OAuthV2 PKCE Sample in Apigee</h3>
     <form role="form">
       <div class="form-group">
-        <label for="edgeorg">Edge org:</label>
-        <input type="text" class="form-control" id="edgeorg">
+        <label for="edgeorg">Apigee org</label>
+        <input type="text" spellcheck='false' class="form-control" id="edgeorg">
       </div>
       <div class="form-group">
-        <label for="edgeenv">Edge env:</label>
-        <input type="text" class="form-control" id="edgeenv">
+        <label for="edgeenv">Apigee env</label>
+        <input type="text" spellcheck='false' class="form-control" id="edgeenv">
       </div>
       <div class="form-group">
-        <label for="basepath">proxy basepath:</label>
-        <input type="text" class="form-control" id="basepath">
+        <label for="basepath">proxy basepath</label>
+        <input type="text" spellcheck='false' class="form-control" id="basepath">
       </div>
       <div class="form-group">
-        <label for="clientid">client_id:</label>
-        <input type="text" class="form-control" id="clientid">
+        <label for="clientid">client_id</label>
+        <input type="text" spellcheck='false' class="form-control" id="clientid">
       </div>
       <div class="form-group">
-        <label for="clientsecret">client_secret:</label>
-        <input type="text" class="form-control" id="clientsecret">
+        <label for="clientsecret">client_secret</label>
+        <input type="text" spellcheck='false' class="form-control" id="clientsecret">
       </div>
       <div class="form-group">
-        <label for="cburi">callback URI:</label>
-        <input type="text" class="form-control" id="cburi">
+        <label for="cburi">callback URI</label>
+        <input type="text" data-bootstrap-ui='tooltip' title="callback URI" class="form-control" id="cburi">
       </div>
       <div class="form-group">
-        <label for="code_verifier">verifier:</label>
-        <input type="text" class="form-control" id="code_verifier">
+        <div>
+          <label for="code_verifier">verifier</label>
+          <button type="button" class="btn btn-outline-secondary btn-sm btn-reload" data-target="state" data-bootstrap-ui='tooltip' title='click to generate a new verifier and challenge'>
+            <span class="oi oi-reload"></span>
+          </button>
+        </div>
+        <input type="text" spellcheck='false' data-bootstrap-ui='tooltip' title='the code verifier, defined to be a string of between 43 and 128 characters' class="form-control" id="code_verifier">
       </div>
       <div class="form-group">
-        <label for="code_challenge">challenge:</label>
-        <input type="text" class="form-control" id="code_challenge">
+        <label for="code_challenge">challenge</label>
+        <input type="text" spellcheck='false' data-bootstrap-ui='tooltip' title='This value is auto-populated to be base64url(sha256(verifier)). If you change it, the code redemption will fail.' class="form-control" id="code_challenge">
       </div>
       <div class="form-group">
-        <label for="scope">scope:</label>
-        <select name="scope" id="scope" multiple class="form-control chosen scope-chosen" 
+        <label for="scope">scope</label>
+        <select name="scope" id="scope" multiple class="form-control chosen scope-chosen"
                 data-placeholder="scope" required>
           <option value=""></option>
           <option value="A" >A</option>
@@ -76,29 +72,29 @@
           <option value="invalid_option" >invalid_option</option>
         </select>
       </div>
-        
+
       <div class="divider"></div>
-        
+
       <div class="form-group">
-        <label for="code">code:</label>
-        <input type="text" title='use this only if the response_type includes "code"'
+        <label for="code">code</label>
+        <input type="text" spellcheck='false' data-bootstrap-ui='tooltip' title='use this only if the response_type includes "code"'
                class="form-control" id="code">
       </div>
 
       <div>
-        <button type="submit" class="btn btn-default" style='display:none'>Submit</button>
+        <button type="submit" class="btn btn-outline-secondary btn-md" style='display:none'>Submit</button>
       </div>
     </form>
 
     <div id='output'>
       <div><a href='' id='authzlink'></a></div>
       <div id='authzRedemption'>
-        <div id='redeemCode'></div>
-        <button class="btn btn-default clipboard-btn" data-clipboard-target="#redeemCode"
-                title="Copy the curl command to the clipboard">Copy</button>
-        <button class="btn btn-default" id="invokeRedemption"
-                title="invoke the code redemption from the browser">Redeem</button>
-        <button class="btn btn-default" id="resetRedemption">Reset</button>
+        <div id='redeemCode' style="overflow-wrap: break-word;"></div>
+        <button class="btn btn-outline-secondary btn-copy" data-target="redeemCode"
+                data-bootstrap-ui='tooltip' title="Copy the curl command to the clipboard">Copy</button>
+        <button class="btn btn-outline-secondary" id="invokeRedemption"
+                data-bootstrap-ui='tooltip' title="invoke the code redemption from the browser">Redeem</button>
+        <button class="btn btn-outline-secondary" id="resetRedemption">Reset</button>
         <div id='redeemResult'></div>
       </div>
     </div>

@@ -4,13 +4,13 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2018-November-27 13:48:12>
+// last saved: <2019-September-27 14:01:44>
 
-/* global $, CryptoJS, Clipboard */
+/* jshint esversion:9, strict:implied */
+/* global $, CryptoJS, document, window, btoa */
 
 (function (){
-  'use strict';
-     var model = {
+     let model = {
        edgeorg : '',
        edgeenv : '',
        basepath : '',
@@ -21,12 +21,33 @@
        code_challenge : '',
        code : '',
        scope : []
-     };
+         };
+  const defaults = {
+          basepath : '/20181127/oauth2-ac-pkce',
+          cburi: 'https://dinochiesa.github.io/pkce-redirect/callback-handler.html',
+          scope : 'A'
+      };
   // for localstorage
-  var html5AppId = '07c2a3c2-b9dc-4ee3-882e-b5f8a40f2ad4';
-  var linkTemplate = "https://${edgeorg}-${edgeenv}.apigee.net/${basepath}/authorize?client_id=${clientid}&redirect_uri=${cburi}&response_type=code&scope=${scope}&code_challenge_method=S256&code_challenge=${code_challenge}";
+  const html5AppId = '07c2a3c2-b9dc-4ee3-882e-b5f8a40f2ad4';
+  const linkTemplate = "https://${edgeorg}-${edgeenv}.apigee.net/${basepath}/authorize?client_id=${clientid}&redirect_uri=${cburi}&response_type=code&scope=${scope}&code_challenge_method=S256&code_challenge=${code_challenge}";
 
-  var extraneousDoubleSlashFinder = new RegExp('^(https?://[^/]+)//(.+)$');
+  const extraneousDoubleSlashFinder = new RegExp('^(https?://[^/]+)//(.+)$');
+
+  function copyToClipboard(event) {
+    let $elt = $(this),
+        sourceElement = $elt.data('target'),
+        // grab the element to copy
+        $source = $('#' + sourceElement),
+        // Create a temporary hidden textarea.
+        $temp = $("<textarea>");
+
+    let textToCopy = ($source[0].tagName == 'TEXTAREA') ? $source.val() : $source.text();
+
+    $("body").append($temp);
+    $temp.val(textToCopy).select();
+    document.execCommand("copy");
+    $temp.remove();
+  }
 
   function wrapInSingleQuote(s) {return "'" + s + "'";}
 
@@ -61,13 +82,13 @@
   }
 
   function onInputChanged() {
-    var $$ = $(this), name = $$.attr('id'), value = $$.val();
+    let $$ = $(this), name = $$.attr('id'), value = $$.val();
     model[name] = value;
     updateLink();
   }
 
   function onSelectChanged() {
-    var $$ = $(this), name = $$.attr('name'), values = [];
+    let $$ = $(this), name = $$.attr('name'), values = [];
     $$.find("option:selected" ).each(function() {
       values.push($( this ).text());
     });
@@ -100,7 +121,8 @@
     var newUrl = linkUrl.replace(re1, '/token');
     var payload = {
           grant_type: 'authorization_code',
-          code: model.code
+          code: model.code,
+          code_verifier : $('#code_verifier').val()
         };
 
     // NB: This call will fail if the server does not include CORS headers in the response
@@ -157,6 +179,20 @@
     return encodedSource;
   }
 
+  function applyValue($item, key, value) {
+    if (typeof model[key] !== 'string') {
+      // the value is a set of values concatenated by +
+      // and the type of form field is select.
+      value.split('+').forEach(function(part){
+        $item.find("option[value='"+part+"']").prop("selected", "selected");
+      });
+      $item.trigger("chosen:updated");
+    }
+    else {
+      $item.val(value);
+    }
+  }
+
   function populateFormFields() {
     // get values from local storage, and place into the form
     Object.keys(model)
@@ -168,26 +204,25 @@
           // no-op. should never happen
         }
         else if (value && value !== '') {
-          if (typeof model[key] !== 'string') {
-            // the value is a set of values concatenated by +
-            // and the type of form field is select.
-            value.split('+').forEach(function(part){
-              $item.find("option[value='"+part+"']").prop("selected", "selected");
-            });
-            $item.trigger("chosen:updated");
-          }
-          else {
-            // value is a simple string, form field type is input.
-            $item.val(value);
-          }
+          applyValue($item, key, value);
+        }
+        else if (defaults[key]) {
+          // this probably happens on first page load
+          applyValue($item, key, defaults[key]);
         }
       });
 
+    newPkceVerifier();
+  }
+
+  function newPkceVerifier(event) {
     // RFC 7636 says "a random string of length between 43 and 128 chars"
     var chosenLength = (Math.floor(Math.random() * (128 - 43)) + 43);
     var code_verifier = generateRandomAlphaNumericString(chosenLength);
-    $('#code_verifier').val(code_verifier);
-    $('#code_challenge').val(base64url(CryptoJS.SHA256(code_verifier)));
+    $('#code_verifier').val(code_verifier)
+      .trigger('change');
+    $('#code_challenge').val(base64url(CryptoJS.SHA256(code_verifier)))
+      .trigger('change');
   }
 
 
@@ -197,6 +232,8 @@
       allow_single_deselect: true
     });
 
+    populateFormFields();
+
     $( "form input[type='text']" ).change(onInputChanged);
     $( "form select" ).change(onSelectChanged);
     $( "form button" ).submit(updateModel);
@@ -204,12 +241,10 @@
     $( "#invokeRedemption" ).click(invokeRedemption);
     $( "#resetRedemption" ).click(resetRedemption);
 
-    populateFormFields();
+    $( '.btn-copy' ).on('click', copyToClipboard);
+    $( '.btn-reload' ).on('click', newPkceVerifier);
 
-    if (typeof Clipboard != 'undefined') {
-      // attach clipboard things
-      new Clipboard('.clipboard-btn');
-    }
+    $( '[data-bootstrap-ui="tooltip"]').tooltip();
 
     updateModel();
 

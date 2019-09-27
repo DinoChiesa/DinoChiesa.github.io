@@ -1,8 +1,19 @@
-form div label {
+
+form > div {
+  position:relative;
+}
+form > div > div,
+form > div > label {
   float: left;
   width: 148px;
   margin: 8px 0;
 }
+
+form > div > div  >button {
+  float:right;
+  margin-right:8px;
+}
+
 form > div > select,
 form > div > div ul, /* chosen */
 form > div > input {
@@ -31,11 +42,11 @@ form > div.form-group {
 div.divider {
   border-top: 1px solid Black;
 }
-#output { 
+#output {
   margin-top: 28px;
   font-size: 160%;
 }
-#output .error { 
+#output .error {
   color: Red;
 }
 #output > div {
@@ -45,7 +56,6 @@ div.divider {
   overflow-wrap: break-word;
 }
 #authzRedemption {
-  border: 1px dotted Grey;
   padding: 4px 12px;
 }
 #authzRedemption > button {
@@ -53,7 +63,10 @@ div.divider {
 }
 #redeemCode, #redeemResult {
   font-family: "Lucida Console", Monaco, monospace;
-  font-size: 80%;
+  font-size: 72%;
+  padding: 2px 4px;
+  border: 1px dotted Grey;
+  border-radius: 2px;
 }
 body {
   font-size: 132%;
@@ -64,11 +77,11 @@ body {
   display:block;
 }
 
-.cb-element:after { 
+.cb-element:after {
   /* clearfix */
    content: " ";
-   display: block; 
-   height: 0; 
+   display: block;
+   height: 0;
    clear: both;
 }
 
@@ -105,11 +118,15 @@ body {
 }
 
 .jwt-header {
-  color: #fa003a; 
+  color: #fa003a;
 }
 .jwt-payload {
-  color: #b100ff; 
+  color: #b100ff;
 }
 .jwt-signature {
   color: #3184fb;
+}
+
+.tooltip .tooltip-inner {
+  max-width: 400px !important;
 }
