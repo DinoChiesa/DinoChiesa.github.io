@@ -6,42 +6,92 @@
 (function (){
   'use strict';
   const jwtRe = new RegExp('^([^\\.]+)\\.([^\\.]+)\\.([^\\.]+)$');
+  const copyReceiverId = '_copy-receiver-' + randomString();
+
+function randomString(){
+  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+}
 
   function oneDiv(label, value) {
     let isToken = label.match(/token/i),
-        valueClasses = ['value'];
+        isImage = label.match(/Image/),
+        valueClasses = ['value'],
+        copySpan = '',
+        elementId = randomString();
     if (isToken) {
       valueClasses.push('token');
     }
+    valueClasses = valueClasses.join(' ');
+
+    if ( ! isImage) {
+      copySpan =
+        '  <span class="icon icon-copy" data-target="'+elementId+'">' +
+        '     <img src="http://clipground.com/images/copy-4.png" title="Click to Copy">' +
+        '  </span>';
+    }
+
     return '<div class="item">'+
-      '  <div class="label">'+ label +'</div>' +
-      '  <div class="'+ valueClasses.join(' ') + '">' + value + '</div>'+
-      '  <span class="icon right">' +
-      '     <img src="http://clipground.com/images/copy-4.png" title="Click to Copy">' +
-      ' </span>' +
+      '  <div class="label">'+ label + copySpan +
+      '  </div>' +
+      '  <div id="'+elementId+'" class="'+ valueClasses + '">' + value + '</div>'+
       '</div>';
   }
 
-  function copyToClipboard(event) {
+  function copyToClipboard(elem) {
+    // create hidden text element, if it doesn't already exist
+    let sourceId = elem.getAttribute('data-target'),
+        source = document.getElementById(sourceId),
+        isInput = source.tagName === "INPUT" || source.tagName === "TEXTAREA";
+
+    let origSelectionStart, origSelectionEnd, receiverElement;
+    if (isInput) {
+      // can just use the original source element for the selection and copy
+      receiverElement = source;
+      origSelectionStart = source.selectionStart;
+      origSelectionEnd = source.selectionEnd;
+    }
+    else {
+      // must use a temporary form element for the selection and copy
+      receiverElement = document.getElementById(copyReceiverId);
+      if (!receiverElement) {
+        receiverElement = document.createElement("textarea");
+
+        receiverElement.style.position = "absolute";
+        receiverElement.style.left = "-9999px";
+        receiverElement.style.top = "0";
+        receiverElement.id = copyReceiverId;
+        document.body.appendChild(receiverElement);
+      }
+      receiverElement.textContent = source.textContent;
+    }
+
+    // select the content
+    var currentFocus = document.activeElement;
+    receiverElement.focus();
+    receiverElement.setSelectionRange(0, receiverElement.value.length);
+
+    // copy the selection
+    var succeed;
     try {
-  let $elt = $(this),
-      sourceElement = $elt.data('target'),
-      // grab the element to copy
-      $source = $('#' + sourceElement),
-      // Create a temporary hidden textarea.
-      $temp = $("<textarea>");
-
-  let textToCopy = ($source[0].tagName == 'TEXTAREA') ? $source.val() : $source.text();
-
-  $("body").append($temp);
-  $temp.val(textToCopy).select();
-  document.execCommand("copy");
-      $temp.remove();
+      succeed = document.execCommand("copy");
+    } catch(e) {
+      succeed = false;
     }
-    catch(e) {
-      // gulp
+    // restore original focus
+    if (currentFocus && typeof currentFocus.focus === "function") {
+      currentFocus.focus();
     }
-}
+
+    if (isInput) {
+      // restore prior selection
+      elem.setSelectionRange(origSelectionStart, origSelectionEnd);
+    } else {
+      // clear temporary content
+      receiverElement.textContent = "";
+    }
+    return succeed;
+  }
+
 
   function renderIdToken(token) {
     let matches = jwtRe.exec(token);
@@ -76,6 +126,16 @@
     });
   }
 
+  function getElementsByTagAndClass(root, tag, clazz) {
+    var nodes = root.getElementsByClassName(clazz);
+    if (tag) {
+        var tagUpper = tag.toUpperCase();
+        nodes = Array.prototype.filter.call(nodes,
+                                          testElement => testElement.nodeName.toUpperCase() === tagUpper );
+    }
+    return nodes;
+  }
+
   function onSignIn(googleUser) {
     let elt = document.getElementById("output"),
         profile = googleUser.getBasicProfile(),
@@ -91,6 +151,13 @@
     //html += oneDiv("ID Token", id_token);
     html += renderIdToken(id_token);
     elt.innerHTML = html;
+
+    let nodes = getElementsByTagAndClass(document, 'span', 'icon-copy');
+
+    Array.prototype.forEach.call(nodes, span => {
+     span.addEventListener("click", _ => copyToClipboard(span) );
+    });
+
     showSignout(true);
   }
 
@@ -117,5 +184,6 @@
   window.onSignIn = onSignIn;
   window.signOut = signOut;
   window.gapiPostInit = gapiPostInit;
+
 
 }());
