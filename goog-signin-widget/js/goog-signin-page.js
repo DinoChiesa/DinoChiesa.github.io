@@ -26,7 +26,7 @@ function randomString(){
     if ( ! isImage) {
       copySpan =
         '  <span class="icon icon-copy" data-target="'+elementId+'">' +
-        '     <img src="http://clipground.com/images/copy-4.png" title="Click to Copy">' +
+        '     <img src="./img/copyicon.png" title="Click to Copy">' +
         '  </span>';
     }
 

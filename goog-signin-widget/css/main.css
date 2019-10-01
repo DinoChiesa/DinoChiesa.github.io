@@ -92,10 +92,11 @@ div.divider {
 }
 
 .item .icon {
-    display: block;
-    max-width: 25px;
-    cursor: pointer;
-    float: right;
+  display: block;
+  max-width: 25px;
+  cursor: pointer;
+  float: right;
+  margin-right: 10px;
 }
 
 .item .icon img {
