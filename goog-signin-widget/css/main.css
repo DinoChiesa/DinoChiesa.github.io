@@ -87,7 +87,7 @@ div.divider {
   color: #3184fb;
 }
 
-.value .jwt-header, .value .jwt-payload {
+.value pre.jwt-header, .value pre.jwt-payload {
   font-size:80%;
 }
 
