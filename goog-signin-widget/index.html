@@ -4,10 +4,13 @@
     <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="671646694294-2e6h95mkgafps8b5qh1us2hajlptqj8q.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js?onload=gapiPostInit" async defer></script>
-    <script type='text/javascript' src='js/goog-signin-page.js'></script>    
+    <script type='text/javascript' src='js/goog-signin-page.js'></script>
     <link rel="stylesheet" type="text/css" href="css/main.css">
   </head>
   <body>
+    <h2>This page allows a user to Sign-in with Google</h2>
+    <p>Clicking the button kicks off the Google-provided user experience.
+      The return value provides a JWT containing user information.</p>
     <!-- this will display the button -->
     <div id='signin' class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
     <a id='signout' class='hidden' href="#" onclick="signOut();">Sign out</a>

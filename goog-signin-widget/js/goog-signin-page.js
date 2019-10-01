@@ -1,11 +1,11 @@
 // goog-signin-page.js
 // ------------------------------------------------------------------
-/* jshint esversion: 8, node: false */
+/* jshint esversion: 9, node: false */
 /* global console, Buffer, window, gapi, atob */
 
 (function (){
   'use strict';
-  var jwtRe = new RegExp('^([^\\.]+)\\.([^\\.]+)\\.([^\\.]+)$');
+  const jwtRe = new RegExp('^([^\\.]+)\\.([^\\.]+)\\.([^\\.]+)$');
 
   function renderIdToken(token) {
     let matches = jwtRe.exec(token);
@@ -15,9 +15,9 @@
                     token.replace(jwtRe, '<span class="jwt-header">$1</span>.<span class="jwt-payload">$2</span>.<span class="jwt-signature">$3</span>'));
 
       let styles = ['header','payload'];
-      matches.slice(1,-1).forEach(function(item,index){
-        var json = atob(item);
-        var obj = JSON.parse(json);
+      matches.slice(1,-1).forEach((item,index) => {
+        let json = atob(item),
+            obj = JSON.parse(json);
         html += oneDiv(styles[index], '<pre class="jwt-'+ styles[index] +'">' +
                        JSON.stringify(obj,null,2) +
                        '</pre>');
@@ -32,8 +32,8 @@
   }
 
   function oneDiv(label, value) {
-    var isToken = label.match(/token/i);
-    var valueClasses = ['value'];
+    let isToken = label.match(/token/i),
+        valueClasses = ['value'];
     if (isToken) {
       valueClasses.push('token');
     }
@@ -44,9 +44,8 @@
   }
 
   function signOut() {
-
-    g().signOut().then(function () {
-      var elt = document.getElementById('output');
+    g().signOut().then( _ => {
+      let elt = document.getElementById('output');
       elt.innerHTML = '';
       console.log('User signed out.');
       showSignout(false);
@@ -54,9 +53,9 @@
   }
 
   function onSignIn(googleUser) {
-    var elt = document.getElementById("output");
-    var profile = googleUser.getBasicProfile();
-    var html = oneDiv('ID',  profile.getId()) +
+    let elt = document.getElementById("output"),
+        profile = googleUser.getBasicProfile(),
+        html = oneDiv('ID',  profile.getId()) +
       oneDiv('Full Name', profile.getName()) +
       //oneDiv('Given Name',  profile.getGivenName()) +
       //oneDiv('Family Name', profile.getFamilyName()) +
@@ -64,7 +63,7 @@
       oneDiv('Image', '<img src="' + profile.getImageUrl() + '">');
 
     // The ID token you need to pass to your backend:
-    var id_token = googleUser.getAuthResponse().id_token;
+    let id_token = googleUser.getAuthResponse().id_token;
     //html += oneDiv("ID Token", id_token);
     html += renderIdToken(id_token);
     elt.innerHTML = html;
@@ -72,7 +71,7 @@
   }
 
   function showSignout(visible) {
-    var signout = document.getElementById('signout');
+    let signout = document.getElementById('signout');
     if (signout) {
       signout.classList.add(visible?'visible':'hidden');
       signout.classList.remove(visible?'hidden':'visible');
@@ -80,7 +79,7 @@
   }
 
   function gapiPostInit() {
-    gapi.load('auth2', function() {
+    gapi.load('auth2', _ => {
       // Ready.
       if (g().isSignedIn.get()) {
         showSignout(true);
