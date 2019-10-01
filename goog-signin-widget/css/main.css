@@ -22,11 +22,11 @@ form > div.form-group {
 div.divider {
   border-top: 1px solid Black;
 }
-#output { 
+#output {
   margin-top: 28px;
   font-size: 160%;
 }
-#output .error { 
+#output .error {
   color: Red;
 }
 #output > div {
@@ -54,11 +54,11 @@ div.divider {
   white-space: normal;
 }
 
-#output > .item:after { 
+#output > .item:after {
   /* clearfix */
    content: " ";
-   display: block; 
-   height: 0; 
+   display: block;
+   height: 0;
    clear: both;
 }
 
@@ -70,22 +70,34 @@ div.divider {
 }
 
 #output .value.token {
-  font-size: 52%;
+  font-size: 48%;
 }
 
 .jwt-header {
   color: #fa003a;
   margin: 0px;
-  font-size:80%;
 }
 
 .jwt-payload {
-  color: #b100ff; 
+  color: #b100ff;
   margin: 0px;
-  font-size:80%;
 }
 
 .jwt-signature {
   color: #3184fb;
 }
 
+.value .jwt-header, .value .jwt-payload {
+  font-size:80%;
+}
+
+.item .icon {
+    display: block;
+    max-width: 25px;
+    cursor: pointer;
+    float: right;
+}
+
+.item .icon img {
+  max-width: 25px;
+}

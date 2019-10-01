@@ -7,6 +7,42 @@
   'use strict';
   const jwtRe = new RegExp('^([^\\.]+)\\.([^\\.]+)\\.([^\\.]+)$');
 
+  function oneDiv(label, value) {
+    let isToken = label.match(/token/i),
+        valueClasses = ['value'];
+    if (isToken) {
+      valueClasses.push('token');
+    }
+    return '<div class="item">'+
+      '  <div class="label">'+ label +'</div>' +
+      '  <div class="'+ valueClasses.join(' ') + '">' + value + '</div>'+
+      '  <span class="icon right">' +
+      '     <img src="http://clipground.com/images/copy-4.png" title="Click to Copy">' +
+      ' </span>' +
+      '</div>';
+  }
+
+  function copyToClipboard(event) {
+    try {
+  let $elt = $(this),
+      sourceElement = $elt.data('target'),
+      // grab the element to copy
+      $source = $('#' + sourceElement),
+      // Create a temporary hidden textarea.
+      $temp = $("<textarea>");
+
+  let textToCopy = ($source[0].tagName == 'TEXTAREA') ? $source.val() : $source.text();
+
+  $("body").append($temp);
+  $temp.val(textToCopy).select();
+  document.execCommand("copy");
+      $temp.remove();
+    }
+    catch(e) {
+      // gulp
+    }
+}
+
   function renderIdToken(token) {
     let matches = jwtRe.exec(token);
     if (matches && matches.length == 4) {
@@ -31,18 +67,6 @@
     return gapi.auth2.getAuthInstance();
   }
 
-  function oneDiv(label, value) {
-    let isToken = label.match(/token/i),
-        valueClasses = ['value'];
-    if (isToken) {
-      valueClasses.push('token');
-    }
-    return '<div class="item">'+
-      '  <div class="label">'+ label +'</div>' +
-      '  <div class="'+ valueClasses.join(' ') + '">' + value + '</div>'+
-      '</div>';
-  }
-
   function signOut() {
     g().signOut().then( _ => {
       let elt = document.getElementById('output');
@@ -55,7 +79,7 @@
   function onSignIn(googleUser) {
     let elt = document.getElementById("output"),
         profile = googleUser.getBasicProfile(),
-        html = oneDiv('ID',  profile.getId()) +
+        html = oneDiv('ID', profile.getId()) +
       oneDiv('Full Name', profile.getName()) +
       //oneDiv('Given Name',  profile.getGivenName()) +
       //oneDiv('Family Name', profile.getFamilyName()) +
