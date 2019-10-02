@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------
 //
 // created: Tue Oct  1 16:53:51 2019
-// last saved: <2019-October-01 17:10:19>
+// last saved: <2019-October-01 17:16:38>
 
 /* jshint esversion:9, node:false, strict:implied */
 /* global window, document, setTimeout */
@@ -15,7 +15,7 @@
   }
 
   function copyToClipboard(event) {
-    let elem = event.target,
+    let elem = event.currentTarget, // or this?
         sourceId = elem.getAttribute('data-target'),
         source = document.getElementById(sourceId),
         isInput = source.tagName === "INPUT" || source.tagName === "TEXTAREA";
