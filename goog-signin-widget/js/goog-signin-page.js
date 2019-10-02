@@ -35,6 +35,15 @@
       '</div>';
   }
 
+  function getJwtPayload(jwtString) {
+    let matches = jwtRe.exec(jwtString);
+    if (matches && matches.length == 4) {
+      let payload = JSON.parse(atob(matches[2]));
+      return payload;
+    }
+    return null;
+  }
+
   function renderIdToken(token) {
     let matches = jwtRe.exec(token);
     if (matches && matches.length == 4) {
@@ -80,7 +89,8 @@
   function onSignIn(googleUser) {
     let elt = document.getElementById("output"),
         profile = googleUser.getBasicProfile(),
-        id_token = googleUser.getAuthResponse().id_token;
+        id_token = googleUser.getAuthResponse().id_token,
+        jwtPayload = getJwtPayload(id_token);
 
     elt.innerHTML =
       oneDiv('ID', profile.getId()) +
@@ -89,7 +99,10 @@
       //oneDiv('Family Name', profile.getFamilyName()) +
       oneDiv("Email", profile.getEmail()) +
       oneDiv('Image', '<img src="' + profile.getImageUrl() + '">') +
-      renderIdToken(id_token);
+      renderIdToken(id_token) +
+      oneDiv("issued", (new Date(jwtPayload.iat)).toISOString()) +
+      oneDiv("expires", (new Date(jwtPayload.exp)).toISOString());
+
 
     // click listeners
     let nodes = getElementsByTagAndClass(document, 'span', 'icon-copy');
