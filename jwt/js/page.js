@@ -138,8 +138,18 @@ function copyToClipboard(event) {
 
   $("body").append($temp);
   $temp.val(textToCopy).select();
-  document.execCommand("copy");
+  let success;
+  try {
+    success = document.execCommand("copy");
+    $source.addClass('copy-to-clipboard-flash-bg')
+      .delay('1000')
+      .queue( _ => $source.removeClass('copy-to-clipboard-flash-bg').dequeue() );
+  }
+  catch (e) {
+    success = false;
+  }
   $temp.remove();
+  return success;
 }
 
 function isAppropriateAlg(alg, signingKey) {

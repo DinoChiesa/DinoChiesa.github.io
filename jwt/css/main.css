@@ -46,7 +46,7 @@ textarea {
 }
 
 #panel_buttons {
-  border-width: 0; 
+  border-width: 0;
 }
 
 #panel_buttons > button {
@@ -79,7 +79,7 @@ pre.CodeMirror-line > span {
   margin: 0 0 8px 0;
   font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
   font-size: 2rem;
-  
+
   /* all below, to handle really long JWTs */
   white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
   white-space: -pre-wrap;      /* Opera 4-6 */
@@ -92,7 +92,7 @@ pre.CodeMirror-line > span {
 }
 
 .cm-jwt-header {
-  color: #fa003a; 
+  color: #fa003a;
 }
 .cm-jwt-payload {
   color: #b100ff;
@@ -131,7 +131,7 @@ pre.CodeMirror-line > span {
   margin: 0 4px;
   float: right;
   top: 8px;
-  position: relative;  
+  position: relative;
 }
 
 .banner, .footer {
@@ -140,7 +140,7 @@ pre.CodeMirror-line > span {
 
 .banner {
   margin-bottom:24px;
-  background-color: #DFDDDD;  
+  background-color: #DFDDDD;
   height: 120px;
 }
 
@@ -156,7 +156,7 @@ pre.CodeMirror-line > span {
   position: absolute;
   left: 50%;
   margin-right: -50%;
-  transform: translate(-50%, -50%)   
+  transform: translate(-50%, -50%)
 }
 .banner > h2, .footer > h2 {
   top: 46px;
@@ -168,4 +168,19 @@ pre.CodeMirror-line > span {
 .alert.fade {
   opacity: 0;
   transition: opacity .85s linear;
+}
+
+.copy-to-clipboard-flash-bg {
+    animation-name: flashbg;
+    animation-timing-function: ease-out;
+    animation-duration: 1s;
+}
+
+@keyframes flashbg {
+    0% {
+        background: #539EDB;
+    }
+    100% {
+        background: transparent;
+    }
 }
