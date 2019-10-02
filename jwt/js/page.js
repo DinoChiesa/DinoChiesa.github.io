@@ -141,9 +141,17 @@ function copyToClipboard(event) {
   let success;
   try {
     success = document.execCommand("copy");
-    $source.addClass('copy-to-clipboard-flash-bg')
-      .delay('1000')
-      .queue( _ => $source.removeClass('copy-to-clipboard-flash-bg').dequeue() );
+    if (success) {
+      // Animation to indicate copy.
+      // CodeMirror obscures the original textarea, and appends a div as next sibling.
+      // We want to flash THAT.
+      let $cmdiv = $source.next();
+      if ($cmdiv.prop('tagName').toLowerCase() == 'div' && $cmdiv.hasClass('CodeMirror')) {
+        $cmdiv.addClass('copy-to-clipboard-flash-bg')
+          .delay('1000')
+          .queue( _ => $cmdiv.removeClass('copy-to-clipboard-flash-bg').dequeue() );
+      }
+    }
   }
   catch (e) {
     success = false;
