@@ -4,7 +4,8 @@
 // for callback-handler.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2019-September-24 18:05:32>
+// last saved: <2019-October-01 17:59:14>
+
 /* jshint esversion: 9 */
 /* global $, atob */
 
@@ -14,8 +15,8 @@ function randomId() {
 
 function decodeToken(matches) {
   if (matches.length == 4) {
-    var styles = ['header','payload','signature'];
-    var $decodeddiv = $('#id_token-decoded');
+    let styles = ['header','payload','signature'],
+        $decodeddiv = $('#id_token-decoded');
     // skip header and signature
     matches.slice(1,-1).forEach(function(item,index){
       let json = atob(item),
@@ -65,8 +66,22 @@ function copyToClipboard(event) {
 
   $("body").append($temp);
   $temp.val(textToCopy).select();
-  document.execCommand("copy");
+
+  let success;
+  try {
+    success = document.execCommand("copy");
+    if (success) {
+      $source.addClass('copy-to-clipboard-flash-bg')
+        .delay('1000')
+        .queue( _ => $source.removeClass('copy-to-clipboard-flash-bg').dequeue() );
+    }
+  }
+  catch(e) {
+    success = false;
+  }
+
   $temp.remove();
+  return success;
 }
 
 $(document).ready(function() {
@@ -90,7 +105,7 @@ $(document).ready(function() {
   });
 
   // emit that information into fields in the output:
-  var $$ = $('#output');
+  let $$ = $('#output');
   $$.empty();
 
   Object.keys(hash).forEach(function(key){

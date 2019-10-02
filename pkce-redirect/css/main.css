@@ -130,3 +130,18 @@ body {
 .tooltip .tooltip-inner {
   max-width: 400px !important;
 }
+
+.copy-to-clipboard-flash-bg {
+    animation-name: flashbg;
+    animation-timing-function: ease-out;
+    animation-duration: 1s;
+}
+
+@keyframes flashbg {
+    0% {
+        background: #539EDB;
+    }
+    100% {
+        background: transparent;
+    }
+}
