@@ -2,10 +2,10 @@
 // ------------------------------------------------------------------
 //
 // created: Tue Oct  1 16:53:51 2019
-// last saved: <2019-October-01 16:56:23>
+// last saved: <2019-October-01 17:03:29>
 
 /* jshint esversion:9, node:false, strict:implied */
-/* global window, document */
+/* global window, document, setTimeout */
 
 (function () {
   const copyReceiverId = '_copy-receiver-' + randomString();
@@ -51,10 +51,17 @@
     let success;
     try {
       success = document.execCommand("copy");
+      if (success) {
+        source.classList.add('.copy-to-clipboard-flash-bg');
+        setTimeout( () => {
+          source.classList.remove('.copy-to-clipboard-flash-bg');
+        }, 1000);
+      }
     }
     catch(e) {
       success = false;
     }
+
     // restore original focus
     if (currentFocus && typeof currentFocus.focus === "function") {
       currentFocus.focus();
@@ -71,6 +78,6 @@
     return success;
   }
 
-  window.gapiPostInit = copyToClipboard;
+  window.copyToClipboard = copyToClipboard;
 
 }());
