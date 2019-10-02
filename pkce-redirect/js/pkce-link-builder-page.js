@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2019-September-27 14:01:44>
+// last saved: <2019-October-01 17:51:30>
 
 /* jshint esversion:9, strict:implied */
 /* global $, CryptoJS, document, window, btoa */
@@ -45,8 +45,20 @@
 
     $("body").append($temp);
     $temp.val(textToCopy).select();
-    document.execCommand("copy");
+    let success;
+    try {
+      success = document.execCommand("copy");
+      if (success) {
+        $source.addClass('copy-to-clipboard-flash-bg')
+          .delay('1000')
+          .queue( _ => $source.removeClass('copy-to-clipboard-flash-bg').dequeue() );
+      }
+    }
+    catch(e) {
+      success = false;
+    }
     $temp.remove();
+    return success;
   }
 
   function wrapInSingleQuote(s) {return "'" + s + "'";}
