@@ -1,31 +1,222 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" 
-          href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <script type='text/javascript'
-            src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
- 
-    <script type='text/javascript'
-            src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <title>OAuth v1.0a request builder</title>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
 
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <style>
-     body { margin: 4px 8px; }
-     li a { font-size: 140%; }
-    </style>
+    <link rel='stylesheet' type='text/css' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+    <link rel='stylesheet' type='text/css' href='//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css'>
+
+    <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
+    <script type='text/javascript' src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
+    <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/core-min.js'></script>
+    <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/enc-base64-min.js'></script>
+    <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/hmac-sha1.js'></script>
+    <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js'></script>
+    <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js'></script>
+
+    <link rel='stylesheet' type='text/css' href='css/main.css'>
+    <link rel='stylesheet' type='text/css' href='css/chosen-bootstrap.css'>
+
+    <script type='text/javascript' src='js/request-builder-page.js'></script>
+
   </head>
-
-  <!-- ======================================================= -->
-
   <body>
+    <!-- ======================================================= -->
+    <div style='margin: 10px;'>
+      <h3>Compute an OAuth v1.0a signature</h3>
+      <p>Doing OAuth v1.0a? This web form can help you check your signatures. </p>
+      <p>This should work with any OAuth v1.0a -enabled endpoint.  The standard is
+        pretty clear. It's not <em>simple</em>, but it's clear. </p>
+      <p>If you are using OAuthv2.0, then you are in the wrong place.</p>
+      <p>To use this form, fill in the correct parameters, and
+        click "Sign". It works for generating the signature for a
+        request-for-temporary-request-token, or a sig for the request-for-access-token,
+        or a signed request for any service. If you don't understand the distinction
+        between these things, I suggest you consult <a href='//oauth.net/core/1.0a/'>the
+        OAuth v1.0 spec</a>. Pay no attention to the statement that OAuthv1.0a has been superceded;
+        that's not really true. OAuth v2.0 is different. </p>
 
-    <h2>OAuth v1.0a things</h2>
-    <ul>
-      <li><a href='request-builder.html'>Request Builder /Signature computation</a></li>
-    </ul>
+      <p>When you click "Sign", divs at the bottom will appear showing
+        intermediate results. If you're having trouble generating signatures from
+        your own code, examine the intermediate results shown here to see how the
+        encoding and sorting is done, and compare with the intermediate results
+        you are generating. I've tested this, it works in all cases I've tried.</p>
+
+      <p>This table lists the parameters you must send for the various messages in an OAuthv1.0a sequence.</p>
+
+      <table class="table table-striped table-bordered table-condensed" style='font-size: 80%; width:auto;'>
+        <tbody>
+          <tr>
+            <th>request type</th>
+            <th>callback</th>
+            <th>consumer_key</th>
+            <th>nonce</th>
+            <th>signature</th>
+            <th>signature_method</th>
+            <th>timestamp</th>
+            <th>token</th>
+            <th>verifier</th>
+            <th>version</th>
+          </tr>
+          <tr>
+            <th>request for temporary request token</th>
+            <td>Y</td>
+            <td>Y</td>
+            <td>Y</td>
+            <td>Y</td>
+            <td>Y</td>
+            <td>Y</td>
+            <td></td>
+            <td></td>
+            <td>Y</td>
+          </tr>
+          <tr>
+            <th>request for access token</th>
+            <td></td>
+            <td>Y</td>
+            <td>Y</td>
+            <td>Y</td>
+            <td>Y</td>
+            <td>Y</td>
+            <td>Y</td>
+            <td>Y</td>
+            <td>Y</td>
+          </tr>
+          <tr>
+            <th>any other signed request</td>
+              <td>--</td>
+              <td>Y</td>
+              <td>Y</td>
+              <td>Y</td>
+              <td>Y</td>
+              <td>Y</td>
+              <td>Y</td>
+              <td></td>
+              <td>Y</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>Remember, the URL will be different for each one of those requests.</p>
+
+      <p>Use this form to generate requests.</p>
+
+      <form role="form" style='max-width:960px;'>
+        <div class="form-group">
+          <label for="reqmethod">HTTP Method:</label>
+          <select name="reqmethod" id="reqmethod" class="form-control chosen reqmethod-chosen"
+                  data-placeholder="request method" required>
+            <option value=""></option>
+            <option value="GET">GET</option>
+            <option value="PUT">PUT</option>
+            <option value="POST">POST</option>
+            <option value="PATCH">PATCH</option>
+            <option value="DELETE">DELETE</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="targurl">URL:</label>
+          <input type="text" class="form-control" id="targurl"
+                 title='Typically ends with /request-token for request for temporary token, /access-token for getting the request token'>
+        </div>
+
+        <div class="form-group">
+          <label for="realm">realm:</label>
+          <input type="text" class="form-control" id="realm"
+                 title='optional. Leave blank for no specific realm.'>
+        </div>
+
+        <div class="form-group">
+          <label for="callback">OAuth Callback:</label>
+          <input type="text" class="form-control" title='probably "oob". Needed only for request for request-token' id="callback">
+        </div>
+
+        <div class="form-group">
+          <label for="verifier">OAuth Verifier:</label>
+          <input type="text" class="form-control" title='Needed only for request for access-token' id="verifier">
+        </div>
+
+        <div class="form-group">
+          <label for="qparams" title='Query params (any order)'>Query Params:
+            <button id='btn-add-qparam' type='button' class="btn btn-default no-padding">+</button>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="fparams" title='Form params (any order)'>Form Params:
+            <button id='btn-add-fparam' type='button' class="btn btn-default no-padding">+</button>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="consumerkey">consumer key:
+            <input class="form-check-input position-static" type="checkbox" id="chk-key" value="on" title="hex decode">
+          </label>
+          <input type="text" class="form-control" id="consumerkey">
+        </div>
+        <div class="form-group">
+          <label for="consumersecret">consumer secret:
+            <input class="form-check-input position-static" type="checkbox" id="chk-secret" value="on" title="hex decode">
+          </label>
+          <input type="text" class="form-control" id="consumersecret"
+                 title='Never sent. Used only for generating signatures. Never stored by this webpage.'>
+        </div>
+
+        <div class="form-group">
+          <label for="version">version:</label>
+          <input type="text" class="form-control" id="version"
+                 title='usually 1.0 or 1.0A.'>
+        </div>
+
+        <div class="form-group">
+          <label for="token">token:</label>
+          <input type="text" class="form-control"
+                 title='leave blank for request for temporary request-token'
+                 id="token">
+        </div>
+
+        <div class="form-group">
+          <label for="tokensecret">token secret:</label>
+          <input type="text" class="form-control"
+                 title='Never sent. Used only for generating signatures. Never stored by this webpage. Leave blank for request for request-token.'
+                 id="tokensecret">
+        </div>
+
+        <div class="form-group">
+          <label for="timestamp">timestamp:
+            <button id='btn-timestamp' type='button' class="btn btn-default no-padding">
+              <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+            </button>
+            <input class="form-check-input position-static" type="checkbox" id="chk-timestamp" value="on" title="autogenerate">
+          </label>
+          <input type="text" class="form-control" id="timestamp">
+
+        </div>
+
+        <div class="form-group">
+          <label for="nonce">nonce:
+            <button id='btn-nonce' type='button' class="btn btn-default no-padding">
+              <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+            </button>
+            <input class="form-check-input position-static" type="checkbox" id="chk-nonce" value="on" title="autogenerate">
+          </label>
+          <input type="text" class="form-control" id="nonce">
+        </div>
+
+        <div>
+          <button type="button" id='btn-sign' title='using HMAC-SHA1' class="btn btn-default">Sign</button>
+          <button type="button" id='btn-reset' class="btn btn-default">Reset</button>
+        </div>
+
+      </form>
+
+      <div id='output'>
+      </div>
+
+    </div>
 
   </body>
 
