@@ -94,7 +94,7 @@
     // click listeners
     let nodes = getElementsByTagAndClass(document, 'span', 'icon-copy');
     Array.prototype.forEach.call(nodes, span => {
-      span.addEventListener("click", _ => copyToClipboard(span) );
+      span.addEventListener("click", copyToClipboard );
     });
 
     showSignout(true);

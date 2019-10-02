@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------
 //
 // created: Tue Oct  1 16:53:51 2019
-// last saved: <2019-October-01 17:03:29>
+// last saved: <2019-October-01 17:10:19>
 
 /* jshint esversion:9, node:false, strict:implied */
 /* global window, document, setTimeout */
@@ -14,9 +14,9 @@
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   }
 
-  function copyToClipboard(elem) {
-    // create hidden text element, if it doesn't already exist
-    let sourceId = elem.getAttribute('data-target'),
+  function copyToClipboard(event) {
+    let elem = event.target,
+        sourceId = elem.getAttribute('data-target'),
         source = document.getElementById(sourceId),
         isInput = source.tagName === "INPUT" || source.tagName === "TEXTAREA";
 
@@ -31,8 +31,8 @@
       // must use a temporary form element for the selection and copy
       receiverElement = document.getElementById(copyReceiverId);
       if (!receiverElement) {
+        // create hidden text element, if it doesn't already exist
         receiverElement = document.createElement("textarea");
-
         receiverElement.style.position = "absolute";
         receiverElement.style.left = "-9999px";
         receiverElement.style.top = "0";
@@ -43,7 +43,7 @@
     }
 
     // select the content
-    var currentFocus = document.activeElement;
+    let currentFocus = document.activeElement;
     receiverElement.focus();
     receiverElement.setSelectionRange(0, receiverElement.value.length);
 
