@@ -100,11 +100,10 @@
       oneDiv("Email", profile.getEmail()) +
       oneDiv('Image', '<img src="' + profile.getImageUrl() + '">') +
       renderIdToken(id_token) +
-      oneDiv("issued", (new Date(jwtPayload.iat)).toISOString()) +
-      oneDiv("expires", (new Date(jwtPayload.exp)).toISOString());
+      oneDiv("issued", (new Date(jwtPayload.iat * 1000)).toISOString()) +
+      oneDiv("expires", (new Date(jwtPayload.exp * 1000)).toISOString());
 
-
-    // click listeners
+    // attach click listeners for all the copy buttons
     let nodes = getElementsByTagAndClass(document, 'span', 'icon-copy');
     Array.prototype.forEach.call(nodes, span => {
       span.addEventListener("click", copyToClipboard );
