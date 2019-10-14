@@ -215,6 +215,9 @@ function encodeJwt(event) {
   try {
     let jwt = createJwt(values.header, values.payload);
     editors.encodedjwt.setValue(jwt);
+    $('#panel_encoded > p > span.length').text('(' + jwt.length + ' bytes)');
+    editors.encodedjwt.setValue(jwt);
+
     editors.encodedjwt.save();
     showDecoded(); // why? to re-format JSON
   }
@@ -367,8 +370,10 @@ function showDecoded() {
           obj = JSON.parse(json),
           flavor = flavors[index],
           prettyPrintedJson = JSON.stringify(obj,null,2),
+          flatJson = JSON.stringify(obj),
           elementId = 'token-decoded-' + flavor;
       editors[elementId].setValue(prettyPrintedJson);
+      $('#' + flavor + ' > p > .length').text('(' + flatJson.length + ' bytes)');
     });
   }
   else {

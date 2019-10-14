@@ -29,6 +29,12 @@ textarea {
   color: #BDBDBD;
 }
 
+#panel_encoded > p > .length,
+#header > p > .length,
+#payload > p > .length {
+  font-size:60%;
+}
+
 .panel-left {
   float: left;
   width: 520px;
@@ -184,3 +190,4 @@ pre.CodeMirror-line > span {
         background: transparent;
     }
 }
+
