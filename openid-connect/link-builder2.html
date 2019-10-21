@@ -4,26 +4,16 @@
     <title>OIDC Link Builder2</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" 
-          href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <script type='text/javascript'
-            src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
- 
-    <script type='text/javascript'
-            src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-    <link rel="stylesheet" type="text/css" 
-          href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
-
-    <script type='text/javascript' 
-             src='//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js'>
-    </script>
-    <script type='text/javascript' 
-            src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js">
-    </script>
-    
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" >
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/chosen-bootstrap.css">
+
+    <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type='text/javascript' src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js'></script>
 
     <script type='text/javascript'>
      var model = {
@@ -70,65 +60,76 @@
           <input type="text" class="form-control" id="clientsecret">
         </div>
         <div class="form-group">
-          <label for="nonce">nonce:</label>
-          <input type="text" class="form-control" id="nonce">
+        <div>
+          <label for="nonce">nonce</label>
+          <button type="button" class="btn btn-outline-secondary btn-sm btn-reload" data-target="nonce" title='refresh'>
+            <span class="oi oi-reload"></span>
+          </button>
+        </div>
+        <input type="text" spellcheck="false" class="form-control" id="nonce" title='required, can be any string, cannot re-use values'>
         </div>
         <div class="form-group">
-          <label for="state">state:</label>
-          <input type="text" class="form-control" id="state">
+        <div>
+          <label for="state">state</label>
+          <button type="button" class="btn btn-outline-secondary btn-sm btn-reload" data-target="state" title='refresh'>
+            <span class="oi oi-reload"></span>
+          </button>
         </div>
-        <div class="form-group">
-          <label for="cburi">callback URI:</label>
-          <input type="text" class="form-control" id="cburi">
+        <input type="text" spellcheck="false" class="form-control" id="state" title='required, can be any string'>
         </div>
-        <div class="form-group">
-          <label for="rtype">response type:</label>
-          <select name="rtype" id="rtype" multiple class="form-control chosen rtype-chosen" 
-                  data-placeholder="response type" required>
-            <option value=""></option>
-            <option value="code" >code</option>
-            <option value="token" >token</option>
-            <option value="id_token" >id_token</option>
-            <option value="invalid_option" >invalid_option</option>
+        <div class='form-group'>
+          <label for='cburi'>callback URI:</label>
+          <input type='text' class='form-control' id='cburi' value='http://dinochiesa.github.io/openid-connect/goog-reply.html'>
+        </div>
+        <div class='form-group'>
+          <label for='rtype'>response type:</label>
+          <select name='rtype' id='rtype' multiple class='form-control chosen rtype-chosen' 
+                  data-placeholder='response type' required>
+            <option value=''></option>
+            <option value='code' >code</option>
+            <option value='token' >token</option>
+            <option value='id_token' >id_token</option>
+            <option value='invalid_option' >invalid_option</option>
           </select>
 
         </div>
 
-        <div class="form-group">
-          <label for="scope">scope:</label>
-          <select name="scope" id="scope" multiple class="form-control chosen scope-chosen" 
-                  data-placeholder="scope" required>
-            <option value=""></option>
-            <option value="openid" >openid</option>
-            <option value="profile" >profile</option>
-            <option value="email" >email</option>
-            <option value="invalid_option" >invalid_option</option>
+        <div class='form-group'>
+          <label for='scope'>scope:</label>
+          <select name='scope' id='scope' multiple class='form-control chosen scope-chosen' 
+                  data-placeholder='scope' required>
+            <option value=''></option>
+            <option value='openid' >openid</option>
+            <option value='profile' >profile</option>
+            <option value='email' >email</option>
+            <option value='invalid_option' >invalid_option</option>
           </select>
         </div>
         
-        <div class="divider"></div>
+        <div class='divider'></div>
         
-        <div class="form-group">
-          <label for="code">code:</label>
-          <input type="text" title='use this only if the response_type includes "code"'
-                 class="form-control" id="code">
+        <div class='form-group'>
+        <div>
+          <label for="code">code</label>
+        </div>
+        <input type="text" title='use this only if the response_type includes "code"'
+                 class='form-control' id='code'>
         </div>
 
         <div>
-          <button type="submit" class="btn btn-default" style='display:none'>Submit</button>
+          <button type='submit' class='btn btn-secondary' style='display:none'>Submit</button>
         </div>
       </form>
 
       <div id='output'>
         <div><a href='' id='authzlink'></a></div>
         <div id='authzRedemption'>
-          <div id='redeemCode'></div>
-          <button class="btn btn-default clipboard-btn" data-clipboard-target="#redeemCode"
-                  title="Copy the curl command to the clipboard">Copy</button>
-          <button class="btn btn-default" id="invokeRedemption"
-                  title="invoke the code redemption from the browser">Redeem</button>
-          <button class="btn btn-default" id="resetRedemption">Reset</button>
-          <div id='redeemResult'></div>
+        <div id='preBox'></div>
+        <button class='btn btn-outline-secondary btn-md' id='btn-copy' data-target='preBox'
+                title='Copy the curl command to the clipboard'>Copy</button>
+        <button class='btn btn-outline-secondary btn-md' id='btn-redeem'
+                title='invoke the code redemption from the browser'>Redeem</button>
+        <button class='btn btn-outline-secondary btn-md' id='btn-reset'>Reset</button>
         </div>
       </div>
     </div>
