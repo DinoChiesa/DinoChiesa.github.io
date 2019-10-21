@@ -35,6 +35,8 @@
         $source = $('#' + sourceElement),
         newValue = randomValue();
     $source.val(newValue);
+    model[sourceElement] = newValue;
+    updateLink();
   }
 
   function copyToClipboard(event) {
@@ -43,19 +45,19 @@
         // grab the element to copy
         $source = $('#' + sourceElement),
         // Create a temporary hidden textarea.
-        $temp = $("<textarea>");
+        $temp = $('<textarea>');
 
     let textToCopy = ($source[0].tagName == 'TEXTAREA') ? $source.val() : $source.text();
 
-    $("body").append($temp);
+    $('body').append($temp);
     $temp.val(textToCopy).select();
-    document.execCommand("copy");
+    document.execCommand('copy');
     $temp.remove();
   }
 
   function copyHash(obj) {
     var copy = {};
-    if (null !== obj && typeof obj == "object") {
+    if (null !== obj && typeof obj == 'object') {
       Object.keys(obj).forEach(function(attr){
         copy[attr] = (Array.isArray(obj[attr])) ? obj[attr].slice() : obj[attr];
       });
@@ -73,7 +75,7 @@
       delete copyModel.aud;
     }
     Object.keys(copyModel).forEach(function(key) {
-      let pattern = "${" + key + "}", value = '';
+      let pattern = '${' + key + '}', value = '';
       if (copyModel[key] !== null) {
         value = (typeof copyModel[key] != 'string') ? copyModel[key].join('+') : copyModel[key];
         if ((key !== 'state' && key !== 'nonce') && (value !== null) && (typeof value !== 'undefined')) {
@@ -112,7 +114,7 @@
 
   function onSelectChanged() {
     var $$ = $(this), name = $$.attr('name'), values = [];
-    $$.find("option:selected" ).each(function() {
+    $$.find('option:selected' ).each(function() {
       values.push($( this ).text());
     });
     model[name] = values;
@@ -149,9 +151,9 @@
             // the value is a set of values concatenated by +
             // and the type of form field is select.
             value.split('+').forEach(function(part){
-              $item.find("option[value='"+part+"']").prop("selected", "selected");
+              $item.find("option[value='" + part + "']").prop('selected', 'selected');
             });
-            $item.trigger("chosen:updated");
+            $item.trigger('chosen:updated');
           }
           else {
             // value is a simple string, form field type is input.
@@ -181,7 +183,7 @@
     // NB: This call will fail if the server does not include CORS headers in the response
     $.ajax({
       url : googleTokenUrl,
-      type: "POST",
+      type: 'POST',
       data : payload,
       success: function(data, textStatus, jqXHR) {
         $('#preBox')
@@ -207,24 +209,24 @@
 
   $(document).ready(function() {
     $('.rtype-chosen').chosen({
-      no_results_text: "No matching response types...",
+      no_results_text: 'No matching response types...',
       allow_single_deselect: true
     });
     $('.scope-chosen').chosen({
-      no_results_text: "No matching scopes...",
+      no_results_text: 'No matching scopes...',
       allow_single_deselect: true
     });
 
-    $( "#btn-redeem" ).on('click', invokeRedemption);
-    $( "#btn-reset" ).on('click', resetRedemption);
+    $( '#btn-redeem' ).on('click', invokeRedemption);
+    $( '#btn-reset' ).on('click', resetRedemption);
     $( '#btn-copy' ).on('click', copyToClipboard);
     $( '.btn-reload' ).on('click', reloadRandomValue);
 
     populateFormFields();
 
     $( "form input[type='text']" ).change(onInputChanged);
-    $( "form select" ).change(onSelectChanged);
-    $( "form button" ).submit(updateModel);
+    $( 'form select' ).change(onSelectChanged);
+    $( 'form button' ).submit(updateModel);
 
     updateModel();
 
