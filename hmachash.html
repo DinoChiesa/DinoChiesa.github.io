@@ -6,13 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/base-min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
-    <link rel="stylesheet" type="text/css"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
     <script type='text/javascript'
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script type='text/javascript'
-            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
+    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script type='text/javascript'
             src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/hmac-md5.js"></script>
     <script type='text/javascript'
@@ -20,7 +17,6 @@
     <script type='text/javascript'
             src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/hmac-sha224.js"></script>
     <script type='text/javascript'
-
             src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/hmac-sha256.js"></script>
     <script type='text/javascript'
             src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/hmac-sha384.js"></script>
@@ -250,14 +246,14 @@
        var message = $('#text').val();
        //var re1 = new RegExp('(\r\n|\n)', 'g');
        //alert('message:\n' + message.replace(re1,'\\n\n'));
-       if (message) {
+       //if (message) {
          if ($('#hmac').is(':checked')) {
            calcHmac();
          }
          else {
            calcSha();
          }
-       }
+     //}
      }
 
      function changeText(event) {
@@ -376,7 +372,7 @@
           <label for='text'>text or message:</label>
         <!-- input type='textarea' id='text' class='form-control'  -->
           <textarea class="form-control" rows="5" id='text'
-                 placeholder="-insert your message here-"
+                 placeholder="-currently blank; insert your message here-"
                     title='The message to use in the function. This data never leaves your browser.'></textarea>
         </div>
 
@@ -413,15 +409,24 @@
               </thead>
               <tbody>
 
-                <tr><td>SHA-1</td><td>abc</td><td>--</td><td>
+                <tr><td rowspan='2'>SHA-1</td><td><span style='color:#DCDCDC;font-style:italic'>-blank-</span></td><td>--</td><td>
+                  (b16) <span class='code'>da39a3ee5e6b4b0d3255bfef95601890afd80709</span><br/>
+                  (b64) <span class='code'>2jmj7l5rSw0yVb/vlWAYkK/YBwk=</span></td></tr>
+                <tr><td>abc</td><td>--</td><td>
                   (b16) <span class='code'>a9993e364706816aba3e25717850c26c9cd0d89d</span><br/>
                   (b64) <span class='code'>qZk+NkcGgWq6PiVxeFDCbJzQ2J0=</span></td></tr>
-                <tr><td>SHA-256</td><td>abc</td><td>--</td><td>
+                <tr><td rowspan='2'>SHA-256</td><td><span style='color:#DCDCDC;font-style:italic'>-blank-</span></td><td>--</td><td>
+                  (b16) <span class='code'>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</span><br/>
+                  (b64) <span class='code'>47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=</span></td></tr>
+                <tr><td>abc</td><td>--</td><td>
                   (b16) <span class='code'>ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad</span><br/>
                   (b64) <span class='code'>ungWv48Bz+pBQUDeXa4iI7ADYaOWF3qctBD/YfIAFa0=</span></td></tr>
-              <tr><td>HMAC-sha256 </td><td>abc</td><td>secret</td><td>
+              <tr><td rowspan='2'>HMAC-sha256</td><td><span style='color:#DCDCDC;font-style:italic'>-blank-</span></td><td>secret</td><td>
                 (b16) <span class='code'>9946dad4e00e913fc8be8e5d3f7e110a4a9e832f83fb09c345285d78638d8a0e</span><br/>
                 (b64) <span class='code'>mUba1OAOkT/Ivo5dP34RCkqegy+D+wnDRShdeGONig4=</span></td></tr>
+                <tr><td>abc</td><td>secret</td><td>
+                  (b16) <span class='code'>f9e66e179b6747ae54108f82f8ade8b3c25d76fd30afde6c395822c530196169</span><br/>
+                  (b64) <span class='code'>+eZuF5tnR65UEI+C+K3os8Jddv0wr95sOVgixTAZYWk=</span></td></tr>
               </tbody>
             </table>
           </li>
