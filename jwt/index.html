@@ -1,28 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>JWT Encoder/Decoder</title>
+    <title>Online JWT tool</title>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="css/main.css">
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="An online tool to perform JWT verification, decoding, or generation. RSA keys and algorithms only." />
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <link rel="stylesheet" type="text/css" href="css/codemirror-5.48.4.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" >
-    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/8.0.12/jsrsasign-all-min.js'></script>
-    <script type='text/javascript' src='js/codemirror-5.48.4/codemirror.js'></script>
-    <script type='text/javascript' src='js/codemirror-5.48.4/addon/mode/simple.js'></script>
-    <script type='text/javascript' src='js/codemirror-5.48.4/mode/javascript/javascript.js'></script>
-    <script type='text/javascript' src='js/page.js'></script>
   </head>
 
   <!-- ======================================================= -->
   <body>
     <div class='container'>
       <div class='banner'>
-        <h2>JWT Decoder, Verifier, Generator</h2>
+        <h2>JWT Decoder, Verifier, Generator, Decryptor</h2>
         <div>For information on JWT see <a href='https://tools.ietf.org/html/rfc7519'>IETF RFC 7519</a>.</div>
         <div class="alert alert-warning alert-dismissible fade" role="alert" id="mainalert"></div>
       </div>
@@ -60,7 +51,7 @@
           </button>
         </div>
 
-        <div class='panel panel-right' id='panel_decoded'>
+        <div class='panel panel-right clearfix' id='panel_decoded'>
           <div id='header'>
             <p>Header <span class='length'></span>
               <button type="button" title="copy to clipboard" class="btn btn-outline-secondary btn-md btn-copy"
@@ -103,25 +94,38 @@
       <div class='footer'>
         <div>Notes</div>
         <ol>
-          <li>This page supports RSA or ECDSA keys and algorithms (except for ES512, not supported by KJUR at this time). When generating or verifying a token, the page supports signed tokens only.  For details on algorithms, see <a href='https://tools.ietf.org/html/rfc7518'>the JWA specification</a>.</li>
-          <li>To verify a JWT: paste in the signed JWT, and your <a href='https://tools.ietf.org/html/rfc7468#section-13'>PEM-formatted public key</a>, and click the verify button.</li>
-          <li>To create a JWT: set the payload and the header, and paste in your <a href='https://tools.ietf.org/html/rfc7468#section-10'>PEM-formatted (PKCS#8) private key</a>, and click the encode button.</li>
-          <li>On initial page load, the browser will generate a new RSA keypair and insert it into the appropriate boxes. You can replace either or both with your own values.</li>
-          <li>You can generate a new keypair by clicking the appropriate button.</li>
-          <li>Information that you paste here, including Encoded JWT and keys, either private or public, never leaves your browser.</li>
-          <li>Ths page shows the decoded header and payload pretty-printed. The actual header and payload in a JWT do not have newlines.</li>
+          <li>This page supports RSA or ECDSA keys and algorithms, for generating and verifying signed JWT. It supports RSA keys and RSA-OAEp-256 for generating or verifying encrypted JWT.  For details on algorithms, see <a href='https://tools.ietf.org/html/rfc7518'>the JWA specification</a>.</li>
+          <li><p style='margin-bottom:0;'>Signed JWT</p>
+            <ol type='a'>
+              <li>decode: paste in the signed JWT in the box on the left-hand side. The header and payload will automatically be decoded and displayed in the appropriate boxes. </li>
+              <li>verify: after pasting in the signed JWT, also paste in your <a href='https://tools.ietf.org/html/rfc7468#section-13'>PEM-formatted public key</a>, and click the verify button (with a checkmark icon).</li>
+              <li>create: set the payload and the header in the boxes on the right hand side, and paste in your <a href='https://tools.ietf.org/html/rfc7468#section-10'>PEM-formatted (PKCS#8) private key</a>, and click the encode button (leftward pointing arrow).</li>
+            </ol>
+          </li>
+          <li><p style='margin-bottom:0;'>Encrypted JWT</p>
+            <ol type='a'>
+              <li>decode: paste in the encrypted JWT in the box on the left-hand side. The header will be decoded and displayed in the appropriate box. The payload is encrypted, so it cannot be decoded without the private key.</li>
+              <li>decrypt and verify: after pasting in the encrypted JWT, paste in your <a href='https://tools.ietf.org/html/rfc7468#section-10'>PEM-formatted (PKCS#8) private key</a>, and click the verify button (the button with the checkmark icon).</li>
+          <li>create: set the payload and the header in the boxes on the right hand side, and paste in your <a href='https://tools.ietf.org/html/rfc7468#section-13'>PEM-formatted public key</a>. Then, click the encode button (with the left-pointing arrow).</li>
+            </ol>
+          <li>On initial page load, the browser will generate a new RSA keypair and insert it into the appropriate boxes, and then generate a contrived JWT. You can replace either or both with your own values.</li>
+          <li>You can generate a new keypair by clicking the appropriate RSA or EC button.</li>
+          <li>Information that you paste here, including JWT and keys, either private or public, never leaves your browser. Information from the decoding or decrypting also stays in the browser. Nothing gets posted to a server.</li>
+          <li>Ths page shows the header and payload "pretty-printed". The actual header and payload in a JWT do not have newlines.</li>
         </ol>
       </div>
 
       <div class='footer'>
         <div>Credits</div>
         <p>
-          This page uses the KJUR library (<a href='https://kjur.github.io/jsrsasign'>jsrsasign</a>) for JWT decoding, verification, and generation, online, in the browser page. It also uses <a href='https://codemirror.net/doc/manual.html'>CodeMirror</a> for the interactive editors, <a href='https://getbootstrap.com/docs/4.0'>Bootstrap 4.0</a> for styling, the <a href='https://useiconic.com/open/'>Open Iconic fonts</a> for button symbols, and <a href='https://jquery.com/'>jQuery</a> for interactivity. </p>
-        <p>The code for this page is <a href='https://github.com/DinoChiesa/DinoChiesa.github.io/tree/master/jwt'>here</a>.</p>
+          This page uses the <a href='https://github.com/cisco/node-jose'>node-jose</a> library for JWT decoding, verification, and generation, online, in the browser page. It also uses <a href='https://codemirror.net/doc/manual.html'>CodeMirror</a> for the interactive editors, <a href='https://getbootstrap.com/docs/4.0'>Bootstrap 4.0</a> for styling, the <a href='https://useiconic.com/open/'>Open Iconic fonts</a> for button symbols, and <a href='https://jquery.com/'>jQuery</a> for interactivity. </p>
+
+        <p>TODO: The code for this page is <a href='https://github.com/DinoChiesa/DinoChiesa.github.io/tree/master/jwt'>here</a>.</p>
 
       </div>
 
     </div>
+    <script src="js/main.js" charset="utf-8"></script>
   </body>
 
 </html>
