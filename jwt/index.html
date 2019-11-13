@@ -94,7 +94,8 @@
       <div class='footer'>
         <div>Notes</div>
         <ol>
-          <li>This page supports RSA or ECDSA keys and algorithms, for generating and verifying signed JWT. It supports RSA keys and RSA-OAEp-256 for generating or verifying encrypted JWT.  For details on algorithms, see <a href='https://tools.ietf.org/html/rfc7518'>the JWA specification</a>.</li>
+          <li>This tool uses EcmaScript v9, and webcrypto, which means it will run only on modern, current browsers.</li>
+          <li>This page supports RSA or ECDSA keys and algorithms, for generating and verifying signed JWT. It supports RSA keys and RSA-OAEP-256 for generating or verifying encrypted JWT.  For details on algorithms, see <a href='https://tools.ietf.org/html/rfc7518'>the JWA specification</a>.</li>
           <li><p style='margin-bottom:0;'>Signed JWT</p>
             <ol type='a'>
               <li>decode: paste in the signed JWT in the box on the left-hand side. The header and payload will automatically be decoded and displayed in the appropriate boxes. </li>
@@ -112,6 +113,7 @@
           <li>You can generate a new keypair by clicking the appropriate RSA or EC button.</li>
           <li>Information that you paste here, including JWT and keys, either private or public, never leaves your browser. Information from the decoding or decrypting also stays in the browser. Nothing gets posted to a server.</li>
           <li>Ths page shows the header and payload "pretty-printed". The actual header and payload in a JWT do not have newlines.</li>
+
         </ol>
       </div>
 
@@ -120,7 +122,7 @@
         <p>
           This page uses the <a href='https://github.com/cisco/node-jose'>node-jose</a> library for JWT decoding, verification, and generation, online, in the browser page. It also uses <a href='https://codemirror.net/doc/manual.html'>CodeMirror</a> for the interactive editors, <a href='https://getbootstrap.com/docs/4.0'>Bootstrap 4.0</a> for styling, the <a href='https://useiconic.com/open/'>Open Iconic fonts</a> for button symbols, and <a href='https://jquery.com/'>jQuery</a> for interactivity. </p>
 
-        <p>TODO: The code for this page is <a href='https://github.com/DinoChiesa/DinoChiesa.github.io/tree/master/jwt'>here</a>.</p>
+        <p>The code for this page is <a href='https://github.com/DinoChiesa/jwt-webtool'>here</a>.</p>
 
       </div>
 
