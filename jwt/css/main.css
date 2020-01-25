@@ -8339,10 +8339,10 @@ pre.CodeMirror-line > span {
   top: 96px; }
 
 .banner > div#buildversion {
-  top: 112px;
-  /* left: 90%; */
+  top: 100px;
+  left: 0%;
+  position: relative;
   margin-right: 6px;
-  right: 38px;
   transform: none;
   text-align: right;
   font-size: 75%;
