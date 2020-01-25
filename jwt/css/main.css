@@ -8370,8 +8370,9 @@ span.cm-jwt-signature + div {
   font-family: Roboto, sans-serif;
   font-size: 12pt;
   padding:0 6px;
-} 
+}
 */
+#symmetrickey input[disabled] {
+  color: #636C77;
+  background-color: #E9ECEF; }
 
-
-/*# sourceMappingURL=main.css.map*/
