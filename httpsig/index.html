@@ -22,18 +22,18 @@
       <div class='panel-group'>
         <div class='panel panel-left' id='panel_left'>
           <div id='headers'>
-          <p>Headers to sign<span class='length'></span>
-            <button type="button" class="btn btn-outline-secondary btn-md btn-copy" data-target="encodedjwt" title='copy to clipboard'>
-              <span class="oi oi-clipboard"></span>
-            </button>
-          </p>
-          <textarea rows=12 cols=34 id='ta_headerlist' spellcheck='false' class='plaintextvalue'>
-x-request-id: 00000000-0000-0000-0000-000000000004
-tpp-redirect-uri: https://www.sometpp.com/redirect/
-digest: SHA-256=TGGHcPGLechhcNo4gndoKUvCBhWaQOPgtoVDIpxc6J4=
-psu-id: 1337
-          </textarea>
-        </div>
+            <p>Headers to sign
+              <button type="button" class="btn btn-outline-secondary btn-md btn-copy" data-target="ta_headerlist" title='copy to clipboard'>
+                <span class="oi oi-clipboard"></span>
+              </button>
+            </p>
+            <textarea rows=12 cols=34 id='ta_headerlist' spellcheck='false' class='plaintextvalue'>
+              x-request-id: 00000000-0000-0000-0000-000000000004
+              tpp-redirect-uri: https://www.sometpp.com/redirect/
+              digest: SHA-256=TGGHcPGLechhcNo4gndoKUvCBhWaQOPgtoVDIpxc6J4=
+              psu-id: 1337
+            </textarea>
+          </div>
           <div id='privatekey' title='paste in your private key, it does not leave your browser'>
             <p>Private Key
               <button type="button" title="copy to clipboard" class="btn btn-outline-secondary btn-md btn-copy"
@@ -53,7 +53,7 @@ psu-id: 1337
             <textarea rows=12 cols=34 id='ta_publickey' spellcheck='false' class='plaintextvalue'></textarea>
           </div>
           <div id='symmetrickey'>
-            <p>Symmetric Key <span class='length'></span>
+            <p>Symmetric Key
               <button type="button" title="copy to clipboard" class="btn btn-outline-secondary btn-md btn-copy"
                       data-target="ta_symmetrickey" title="copy to clipboard">
                 <span class="oi oi-clipboard"></span>
@@ -111,9 +111,9 @@ psu-id: 1337
 
         <div class='panel panel-right clearfix' id='panel_right'>
           <div id='signature'>
-            <p>Signature <span class='length'></span>
+            <p>Signature
               <button type="button" title="copy to clipboard" class="btn btn-outline-secondary btn-md btn-copy"
-                      data-target="token-decoded-header" title="copy to clipboard">
+                      data-target="ta_signature" title="copy to clipboard">
                 <span class="oi oi-clipboard"></span>
               </button>
             </p>
@@ -121,9 +121,9 @@ psu-id: 1337
           </div>
 
           <div id='httpsigheader'>
-            <p>Header <span class='length'></span>
+            <p>Header
               <button type="button" title="copy to clipboard" class="btn btn-outline-secondary btn-md btn-copy"
-                      data-target="token-decoded-header" title="copy to clipboard">
+                      data-target="ta_httpsigheader" title="copy to clipboard">
                 <span class="oi oi-clipboard"></span>
               </button>
             </p>
