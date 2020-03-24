@@ -138,7 +138,7 @@
         <ol>
           <li>This tool uses EcmaScript v9, and webcrypto; it will run only on modern, current browsers.</li>
           <li>For generating and verifying HTTP Signature, this page supports rsa-sha256 or hmac-sha256.</li>
-          <li>to generate:
+          <li>To generate:
           <ol>
             <li>paste in the headers in the upper left textarea. </li>
             <li>select an algorithm in the dropdown</li>
@@ -146,7 +146,7 @@
             <li>click the right arrow</li>
           </ol></li>
           
-          <li>On initial page load, the browser will generate a new RSA keypair and insert it into the appropriate boxes, and then generate a contrived JWT. You can replace either or both with your own values.</li>
+          <li>On initial page load, the browser will generate a new RSA keypair and insert it into the appropriate boxes. It also loads some fixed headers. You can replace either or both with your own values.</li>
           <li>You can generate a new asymmetric keypair by clicking the key button.</li>
           <li>When specifying the symmetric key, you need at least 32 bytes of key material for hmac-sha256, whether signing or verifying. The <a href='https://en.wikipedia.org/wiki/PBKDF2'>PBKDF2</a> will generate keys of the appropriate size. If you choose a different coding system, you need to ensure minimum key size yourself. </li>
           <li>Information that you paste here, including signatures and keys, whether secret, private or public, never leaves your browser. Information from the decoding also stays in the browser. Nothing gets posted to a server. Still, you should take care not to use this site for private information. </li>
