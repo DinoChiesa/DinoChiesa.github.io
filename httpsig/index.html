@@ -157,11 +157,13 @@
           <li>You can generate a new asymmetric keypair by clicking the key button.</li>
           <li>When specifying the symmetric key, you need at least 32 bytes of key material for hmac-sha256, whether signing or verifying. The <a href='https://en.wikipedia.org/wiki/PBKDF2'>PBKDF2</a> will generate keys of the appropriate size. If you choose a different coding system, you need to ensure minimum key size yourself. </li>
           <li>Information that you paste here, including signatures and keys, whether secret, private or public, never leaves your browser. Information from the decoding also stays in the browser. Nothing gets posted to a server. Still, you should take care not to use this site for private information. </li>
+          <li>This page does not explicitly handle the special values like (target-request), (created), or (expires). I may extend the page in the future to support some or all of those.</li>
         </ol>
       </div>
 
       <div class='footer'>
         <div>Credits</div>
+        <p><a href='https://github.com/DinoChiesa'>DinoChiesa</a> wrote this. </p>
         <p>
           This page uses the <a href='https://github.com/cisco/node-jose'>node-jose</a> library for PBKDF2, and webcrypto for signing and verification. It also uses  <a href='https://getbootstrap.com/docs/4.0'>Bootstrap 4.0</a> for styling, the <a href='https://useiconic.com/open/'>Open Iconic fonts</a> for button symbols, and <a href='https://jquery.com/'>jQuery</a> for interactivity. </p>
 
