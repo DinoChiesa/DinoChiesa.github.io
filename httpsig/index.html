@@ -109,6 +109,16 @@
           <button type="button" class="btn btn-outline-secondary btn-lg btn-newkeypair" title='generate a new keypair'>
             <span class="oi oi-key"></span>
           </button>
+          <div style='font-size:60%; margin-top:20px;' id='hs2019-settings'>
+            <span style='font-size:60%; margin-right:6px;'>created:</span>
+            <input id='chk-created' type='checkbox' />
+            <div style='font-size:60%; margin-bottom:6px;'>expires:</div>
+            <select class="form-control form-control-sm sel-expiry" title='specify expiry.' style='margin-top:6px;'>
+              <option value='no expiry'>no expiry</option>
+              <option value='5mins'>5mins</option>
+              <option value='30mins'>30mins</option>
+            </select>
+          </div>
         </div>
 
         <div class='panel panel-right clearfix' id='panel_right'>
