@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Webpage key gen and download</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/main.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A webpage to generate an RSA keypair via webcrypto and allow download." />
+  </head>
+
+  <!-- ======================================================= -->
+  <body>
+    <div class='container'>
+      <div class='banner'>
+        <h2>RSA Keypair Generator</h2>
+        <div>Generate and download!</div>
+        <div class="alert alert-warning alert-dismissible fade" role="alert" id="mainalert"></div>
+        <div id='buildversion'>version <span id='version_id'>??</span></div>
+      </div>
+
+      <div class='panel-group'>
+        <div class='panel panel-left' id='panel_left'>
+          <div id='privatekey' title='paste in your private key, it does not leave your browser'>
+            <p>Private Key
+              <button type="button" title="copy to clipboard" class="btn btn-outline-secondary btn-md btn-copy"
+                      data-target="ta_privatekey" title="copy to clipboard">
+                <span class="oi oi-clipboard"></span>
+              </button>
+            </p>
+            <textarea rows=12 cols=34 id='ta_privatekey' spellcheck='false' class='plaintextvalue'></textarea>
+          </div>
+          <div id='publickey'>
+            <p>Public Key
+              <button type="button" title="copy to clipboard" class="btn btn-outline-secondary btn-md btn-copy"
+                      data-target="ta_publickey" title="copy to clipboard">
+                <span class="oi oi-clipboard"></span>
+              </button>
+            </p>
+            <textarea rows=12 cols=34 id='ta_publickey' spellcheck='false' class='plaintextvalue'></textarea>
+          </div>
+
+        </div>
+
+        <div class='panel panel-center' id='panel_buttons'>
+          <button type="button" class="btn btn-outline-secondary btn-lg btn-newkeypair" title='generate a new keypair and download the private key'>
+            <span class="oi oi-key"></span>
+          </button>
+        </div>
+
+        <div class='panel panel-right clearfix' id='panel_right'>
+          <div class='footer'>
+            <div>Notes</div>
+
+            <ol>
+            <li><p>This tool uses EcmaScript v9 for promises and other features, and
+              <a href='https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API'>webcrypto</a>
+              for key derivation, generation, signing and verification.</p>
+
+              <p>It will run only on modern, current browsers.</p></li>
+
+            <li><p>
+              The page also uses <a href='https://getbootstrap.com/docs/4.0'>Bootstrap 4.0</a>
+              for styling, the <a href='https://useiconic.com/open/'>Open Iconic fonts</a>
+              for button symbols, and <a href='https://jquery.com/'>jQuery</a> for
+              interactivity.</p></li>
+
+          </div>
+
+        </div>
+      </div>
+
+
+
+    </div>
+    <script src="js/main.js" charset="utf-8"></script>
+  </body>
+
+</html>
