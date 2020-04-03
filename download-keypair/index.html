@@ -43,9 +43,17 @@
         </div>
 
         <div class='panel panel-center' id='panel_buttons'>
-          <button type="button" class="btn btn-outline-secondary btn-lg btn-newkeypair" title='generate a new keypair and download the private key'>
-            <span style="display:block;">Click here</span>
-            <span class="oi oi-key"></span>
+          <button type="button" class="btn btn-outline-secondary btn-lg btn-newkeypair" title='generate a new keypair'>
+            <span style="display:block;">New</span>
+            <span class="oi oi-reload"></span>
+          </button>
+          <button type="button" class="btn btn-outline-secondary btn-lg btn-download-pem" title='download the private key as PEM'>
+            <span style="display:block;">PEM</span>
+            <span class="oi oi-data-transfer-download"></span>
+          </button>
+          <button type="button" class="btn btn-outline-secondary btn-lg btn-download-json" title='download the private key as JSON'>
+            <span style="display:block;">JSON</span>
+            <span class="oi oi-data-transfer-download"></span>
           </button>
         </div>
 
@@ -69,11 +77,6 @@
               for button symbols, and <a href='https://jquery.com/'>jQuery</a> for
               interactivity.</p></li>
 
-            <li><p>
-              Currently it downloads just the privatekey PEM, but... we
-              could easily modify it to download a JSON file containing
-              the pem string as well as metadata about the key: when it
-              was generated, the app name, and maybe other information.</p></li>
           </div>
         </div>
       </div>
