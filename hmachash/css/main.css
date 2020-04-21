@@ -113,3 +113,8 @@ form > div > select {max-width:120px;}
     }
 }
 
+
+::placeholder {
+  color: #539EDB;
+  font-style: italic;
+}
