@@ -1,0 +1,115 @@
+body {
+  font-size: 180%;
+}
+body > div {
+  display: flex;
+  height: auto;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+form div label {
+  float: left;
+  width: 148px;
+  margin: 8px 0;
+}
+form > div > select,
+form > div > textarea,
+form > div > input {
+  float: left;
+  max-width: 860px;
+  margin: 2px 0;
+}
+form > div,
+form > div.form-group {
+  display:block;
+  clear:both;
+}
+#output, #notes {
+  display:block;
+  border-color: White;
+  border-style: solid;
+  border-width: 1px;
+  margin-top: 54px;
+}
+#notes {
+  border-top:  thick double #32a1ce;
+}
+#notes {
+  font-size:80%;
+  color: #565656;
+}
+#output > div {
+  margin-top: 16px;
+}
+#output > div > span {
+  display:block;
+  width: 628px;
+}
+#output > div > div:last-of-type {
+  border: 1px dotted Grey;
+  max-width: 1248px;
+  width: 1248px;
+  margin: 2px 0;
+  padding: 4px 10px;
+  font-size: 75%;
+  float: left;
+}
+.code {
+  font-family: "Consolas", "Courier New", Courier, monospace;
+}
+#key.notshown,
+#keylabel.notshown,
+#output.notshown > div > div {
+  display: none;
+}
+#key.shown,
+#keylabel.shown,
+#output.shown > div > div {
+  display: block;
+}
+#output > div > .copyIconHolder {
+  /* https://material.io/icons/#ic_content_copy */
+  content: url('images/ic_content_copy_black_24dp_1x.png');
+  padding-right: 5px;
+  float: left;
+  margin-top: 4px;
+}
+#output > div:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.disabled {
+  color:  #F1F1f1;
+  background: none repeat scroll 0 0 #DCDCDC;
+  cursor: default !important;
+}
+input[type="radio"] {
+  vertical-align: middle;
+  margin-top: 8px;
+}
+input[type="radio"] + div {
+  display:block;
+  margin-left:166px;
+}
+input[type="checkbox"] {
+  vertical-align: middle;
+  margin-top: 14px;
+}
+form > div > select {max-width:120px;}
+
+.copy-to-clipboard-flash-bg {
+    animation-name: flashbg;
+    animation-timing-function: ease-out;
+    animation-duration: 1s;
+}
+
+@keyframes flashbg {
+    0% {
+        background: #539EDB;
+    }
+    100% {
+        background: transparent;
+    }
+}
+
