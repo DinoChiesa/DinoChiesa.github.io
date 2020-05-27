@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Base64 encoder/decoder</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/base-min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+    <script type='text/javascript'
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+    <script type='text/javascript' src='js/page.js'></script>
+  </head>
+
+  <!-- ======================================================= -->
+
+  <body>
+
+    <div>
+    <div style='margin: 10px;'>
+      <h3>Encode or decode base64</h3>
+
+      <form role='form' id='form1' accept-charset='UTF-8'>
+        <div class="form-group">
+          <label for="operation">operation:</label>
+          <select name="operation" id="operation" class="form-control">
+            <option value="encode" >encode</option>
+            <option value="decode" >decode</option>
+          </select>
+        </div>
+
+        <div class='form-group'>
+          <label for='text'>text:</label>
+          <textarea class="form-control" rows="5" id='text' spellcheck="false"
+                 placeholder="-currently blank; insert your message here-"
+                    title='The message to encode or decode. This data never leaves your browser.'></textarea>
+        </div>
+
+        <div class='form-group'>
+          <div style='color:#DCDCDC;font-size:80%;'>(Computation is automatic)</div>
+        </div>
+      </form>
+
+      <div id='output_encoded' class='output notshown'>
+        Encoded results:
+        <div>
+          <span>Base64:</span>
+          <div class='copyIconHolder' title='click to copy'></div>
+          <div id='resultB64' class='code' title='base64 encoding is case-sensitive'></div>
+        </div>
+        <div>
+          <span>Base64Url:</span>
+          <div class='copyIconHolder' title='click to copy'></div>
+          <div id='resultB64url' class='code' title='base64url encoding is case-sensitive'></div>
+        </div>
+      </div>
+      <div id='output_decoded' class='output notshown'>
+        Decoded results:
+        <div>
+          <div class='copyIconHolder' title='click to copy'></div>
+          <div id='resultPlain' class='code' title='base64 decoding does not always produce a string'></div>
+        </div>
+      </div>
+
+      <div class='notes'>
+        Notes:
+        <ol>
+          <li>The page decodes or encodes in your browser.
+            Any data you enter on this page stays in the browser, and is never sent back to a server site, nor
+            to any third-party site.
+            </li>
+          <li>Here are a few test cases:
+            <table class='testcases pure-table pure-table-bordered'>
+              <thead>
+                <tr><th>Op</th><th>message</th><th>result</th></tr>
+              </thead>
+              <tbody>
+
+                <tr>
+                  <td rowspan='2'>Encode</td>
+                  <td>abc</td>
+                  <td>
+                  (b64) <span class='code'>YWJj</span><br/>
+                    (b64url) <span class='code'>YWJj</span></td></tr>
+
+                <tr>
+                  <td>{"kid":"cb24a396-4414-4793-b4ce","typ":"JWT","alg":"HS256"}</td>
+                  <td>
+                  (b64) <span class='code'>eyJraWQiOiJjYjI0YTM5Ni00NDE0LTQ3OTMtYjRjZSIsInR5cCI6IkpXVCIsImFsZyI6IkhTMjU2In0=</span><br/>
+                  (b64url) <span class='code'>eyJraWQiOiJjYjI0YTM5Ni00NDE0LTQ3OTMtYjRjZSIsInR5cCI6IkpXVCIsImFsZyI6IkhTMjU2In0</span></td></tr>
+
+              </tbody>
+            </table>
+          </li>
+          <li>Just a reminder, base64-encoded values are case sensitive. This is characteristic of the encodings, not special to this page.</li>
+          <li>For message content, whitespace in the content is significant. This page converts line-breaks to newline (\n). It's not possible to include a carriage-return (CR) in the text value, because the logic on this page strips them. The page does not strip trailing newlines. Also good to remember: the encoding for 'abc\n' is different from the encoding for 'abc'. </li>
+          <li>Unicode is ok. </li>
+        </ol>
+      </div>
+    </div>
+    </div>
+  </body>
+
+</html>
