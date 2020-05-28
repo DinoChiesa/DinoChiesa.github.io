@@ -15,7 +15,8 @@ var model = {
 var html5AppId = '5FADBB91-0C35-49F6-BE3F-220B632874C3'; // for localstorage
 
 var linkTemplate = "${baseurl}?chs=${bcsize}&chld=M%7C0&cht=qr&chl=@@CHL@@";
-var chlTemplate = "otpauth://totp/${label}?secret=${base32secret}&issuer=${issuer}";
+//var chlTemplate = "otpauth://totp/${label}?secret=${base32secret}&issuer=${issuer}";
+var chlTemplate = "otpauth://totp/${label}?secret=${base32secret}";
 
 function wrapInSingleQuote(s) {return "'" + s + "'";}
 
