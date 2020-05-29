@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Online apigeelint tool</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="An online tool to perform apigeelint analyis." />
+  </head>
+
+  <!-- ======================================================= -->
+  <body>
+    <div class='container'>
+      <div class='banner'>
+        <h2>Apigeelint tool</h2>
+        <div>For information on apigeelint, see <a href='https://github.com/apigee/apigeelint'>the github repo</a>.</div>
+        <div class="alert alert-warning alert-dismissible fade" role="alert" id="mainalert"></div>
+        <div id='buildversion'>version <span id='version_id'>??</span></div>
+      </div>
+
+      <div class='panel-group'>
+        <div class='panel panel-left' id='panel_left'>
+          <label class='filechooser'>
+            <input type='file' id='file' name='file' />
+            <span>Choose an API proxy bundle</span>
+          </label>
+
+          <div id='result_block' class='hidden'>
+            <div id='result'></div>
+          </div>
+        </div>
+        <!-- 
+        <div class='panel panel-center'>        </div>
+        -->
+        <div class='panel panel-right clearfix' id='panel_right'></div>        
+      </div>
+
+      <div class='footer'>
+        <div>Notes</div>
+        <ol>
+          <li>This tool uses EcmaScript v9; it will run only on modern, current browsers.</li>
+          <li>Bundle files that you analyze here, including all policies and endpoints and resources,
+            never leaves your browser. </li>
+        </ol>
+      </div>
+
+      <div class='footer'>
+        <div>Credits</div>
+        <p>
+          This page uses <a href='https://stuk.github.io/jszip/'>jszip</a> for reading zip files, and <a href='https://github.com/apigee/apigeelint'>apigeelint</a> for analysis of the bundle. It also uses <a href='https://getbootstrap.com/docs/4.0'>Bootstrap 4.0</a> for styling, the <a href='https://useiconic.com/open/'>Open Iconic fonts</a> for button symbols, and <a href='https://jquery.com/'>jQuery 3.4.1</a> for interactivity. </p>
+
+        <!--
+        <p>The code for this page is <a href='https://github.com/DinoChiesa/httpsig-webtool'>here</a>. You can download it, fork it, or submit issues via that link.</p>
+        -->
+      </div>
+
+    </div>
+    <script src='js/main.js' charset='utf-8'></script>
+  </body>
+
+</html>
