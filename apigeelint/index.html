@@ -14,7 +14,7 @@
       <div class='banner'>
         <h2>Apigeelint tool</h2>
         <div>For information on apigeelint, see <a href='https://github.com/apigee/apigeelint'>the github repo</a>.</div>
-        <div class="alert alert-warning alert-dismissible fade" role="alert" id="mainalert"></div>
+        <div class='alert alert-warning alert-dismissible fade' role='alert' id='mainalert'></div>
         <div id='buildversion'>version <span id='version_id'>??</span></div>
       </div>
 
@@ -22,8 +22,19 @@
         <div class='panel panel-left' id='panel_left'>
           <label class='filechooser'>
             <input type='file' id='file' name='file' />
-            <span>Choose an API proxy bundle</span>
           </label>
+
+          <div id='chooser'>
+            <button type='button' class='btn btn-outline-secondary btn-md' title='upload'>
+              <span class='oi oi-data-transfer-upload'></span>
+            </button>
+          </div>
+
+          <div id='reset' class='hidden'>
+            <button type='button' class='btn btn-outline-secondary btn-md' title='reset'>
+              <span class='oi oi-reload'></span>
+            </button>
+          </div>
 
           <div id='result_block' class='hidden'>
             <div id='result'></div>
