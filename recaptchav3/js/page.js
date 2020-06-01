@@ -2,10 +2,10 @@
 // ------------------------------------------------------------------
 //
 // created: Mon Jun  1 13:00:26 2020
-// last saved: <2020-June-01 13:24:06>
+// last saved: <2020-June-01 13:43:19>
 
 /* jshint esversion:9, node:true, strict:implied */
-/* global process, console, Buffer */
+/* global $, console, Buffer */
 
      var reCAPTCHA_site_key = '6LeEA3gUAAAAAPRenCnqy8K4IuLepRPAPLNIKOY_';
      var postbackEndpoint = 'https://gaccelerate3-test.apigee.net/recaptcha-v3/compute';
@@ -193,8 +193,9 @@
        // get new token for this click
        try {
 
-         // There will be a promise error in this method if this page is hosted
-         // on a domain which does not match the domain set for the site_key.
+         // The browser will show an opaque promise error in this method if this
+         // page is hosted on a domain which does not match the domain set for
+         // the given site_key.
 
          grecaptcha.execute(reCAPTCHA_site_key, {action: 'homepage'})
            .then(function(recaptchaToken) {
@@ -206,8 +207,9 @@
              var jqxhr = $.ajax({
                    url: postbackEndpoint,
                    method: "POST",
-                   data: { recaptcha_token: recaptchaToken },
-                   dataType : 'json'
+                   data: JSON.stringify({ recaptcha_token: recaptchaToken }),
+                   contentType: 'application/json',
+                   dataType : 'json' // response
                  })
                .done(function(responseData) {
                  alert( "success: " + JSON.stringify(responseData));
