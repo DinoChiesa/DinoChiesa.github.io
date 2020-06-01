@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------
 //
 // created: Mon Jun  1 13:00:26 2020
-// last saved: <2020-June-01 13:43:19>
+// last saved: <2020-June-01 13:51:36>
 
 /* jshint esversion:9, node:true, strict:implied */
 /* global $, console, Buffer */
@@ -214,8 +214,8 @@
                .done(function(responseData) {
                  alert( "success: " + JSON.stringify(responseData));
                })
-               .fail(function() {
-                 alert( "error" );
+               .fail(function(response, error, exc) {
+                 alert( "error: " + exc);
                })
                .always(function() {
                  //alert( "complete" );
