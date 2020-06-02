@@ -7,41 +7,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/base-min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
     <link rel="stylesheet" type="text/css"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
     <script src='https://www.google.com/recaptcha/api.js?render=6LeEA3gUAAAAAPRenCnqy8K4IuLepRPAPLNIKOY_'></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"</script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-    <script type='text/javascript'
-            src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/hmac-md5.js"></script>
-    <script type='text/javascript'
-            src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/hmac-sha1.js"></script>
-    <script type='text/javascript'
-            src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/hmac-sha224.js"></script>
-    <script type='text/javascript'
-
-            src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/hmac-sha256.js"></script>
-    <script type='text/javascript'
-            src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/hmac-sha384.js"></script>
-
-    <script type='text/javascript'
-            src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/hmac-sha512.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/md5.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/sha1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/sha224.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/sha256.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/sha384.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/sha512.js"></script>
-
-    <script type='text/javascript'
-            src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/core-min.js"></script>
-    <script type='text/javascript'
-            src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/enc-utf16-min.js"></script>
-    <script type='text/javascript'
-            src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/enc-base64-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0jquery.min.js"</script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="css/main.css">
     <script src='js/page.js'></script>
@@ -57,55 +28,12 @@
       <h3>reCAPTCHA v3</h3>
 
       <form role='form' id='form1' accept-charset='UTF-8'>
-        <div class="form-group">
-          <label for="function">hash function:</label>
-          <select name="function" id="function" class="form-control">
-            <option value="" selected></option>
-            <option value="md-5" >md-5</option>
-            <option value="sha-1" >sha-1</option>
-            <option value="sha-224" >sha-224</option>
-            <option value="sha-256" >sha-256</option>
-            <option value="sha-384" >sha-384</option>
-            <option value="sha-512" >sha-512</option>
-          </select>
-        </div>
-
-        <div class='form-group'>
-          <label for='hmac'>hmac?:</label>
-          <input type="checkbox" name="hmac" id='hmac'/>
-        </div>
-
-        <div class='form-group'>
-          <label for='key' id='keylabel'>secret key:</label>
-          <input type='text' id='key' class='form-control disabled' disabled
-                 placeholder="secret key"
-                 title='The key or password for the HMAC. This data never leaves your browser.'/>
-        </div>
-
-        <div class='form-group'>
-          <label for='text'>text or message:</label>
-        <!-- input type='textarea' id='text' class='form-control'  -->
-          <textarea class="form-control" rows="5" id='text'
-                 placeholder="-insert your message here-"
-                    title='The message to use in the function. This data never leaves your browser.'></textarea>
-        </div>
-
         <div class='form-group'>
           <input type='submit' value='compute' class='button' id='go'/>
         </div>
       </form>
 
       <div id='output' class='notshown'>
-        <div>
-          <span>HEX-encoded result:</span>
-          <div class='copyIconHolder' title='click to copy'></div>
-          <div id='resultB16' class='code' title='hex encoding is case-insensitive'></div>
-        </div>
-        <div>
-          <span>Base64-encoded result:</span>
-          <div class='copyIconHolder' title='click to copy'></div>
-          <div id='resultB64' class='code' title='base64 encoding is case-sensitive'></div>
-        </div>
       </div>
 
     </div>
