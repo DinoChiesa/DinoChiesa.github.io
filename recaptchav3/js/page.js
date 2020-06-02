@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------
 //
 // created: Mon Jun  1 13:00:26 2020
-// last saved: <2020-June-02 10:14:38>
+// last saved: <2020-June-02 10:29:40>
 
 /* jshint esversion:9, node:false, strict:implied */
 /* global jQuery, document, window, console, Buffer, grecaptcha */
@@ -12,6 +12,11 @@
   const reCAPTCHA_site_key = '6LeEA3gUAAAAAPRenCnqy8K4IuLepRPAPLNIKOY_',
         postbackEndpoint = 'https://gaccelerate3-test.apigee.net/recaptcha-v3/compute',
         $ = jQuery;
+
+  function clearOutput(event) {
+    $('#output').addClass('notshown').empty();
+    $('#clear').parent().addClass('notshown');
+  }
 
   function applyRecaptchaAndSubmit(event) {
     // prevent form submit
@@ -43,7 +48,8 @@
               $ta.attr('spellcheck','false');
               $ta.attr('disabled','true');
               $ta.text(JSON.stringify(responseData, null, 2));
-              $('#output').empty().append($ta);
+              $('#output').empty().removeClass('notshown').append($ta);
+              $('#clear').parent().removeClass('notshown');
             })
             .fail(function(response, error, exc) {
               window.alert( "error: " + exc);
@@ -67,6 +73,7 @@
   grecaptcha.ready(function() {
     $(document).ready(function() {
       $('#check').on('click', applyRecaptchaAndSubmit);
+      $('#clear').on('click', clearOutput);
     });
 
   });

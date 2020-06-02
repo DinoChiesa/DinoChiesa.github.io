@@ -17,11 +17,21 @@ form > div > textarea,
 form > div > input {
   margin: 2px 0;
 }
-form > div,
-form > div.form-group {
-  display:block;
+.form-group {
+  display:inline-block;
+  float:left;
+  margin-right:8px;
+}
+
+form > div.last {
+}
+
+form > div.last:after {
+  content:"";
+  display:table;
   clear:both;
 }
+
 #output {
   display:block;
   border-color: Grey;
@@ -30,6 +40,9 @@ form > div.form-group {
   min-width: 680px;
   height: 540px;
   padding: 4px 8px;
+}
+body .notshown {
+  display:none;
 }
 .results {
   border:none;
