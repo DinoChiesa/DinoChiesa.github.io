@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------
 //
 // created: Mon Jun  1 13:00:26 2020
-// last saved: <2020-June-02 09:50:47>
+// last saved: <2020-June-02 10:14:38>
 
 /* jshint esversion:9, node:false, strict:implied */
 /* global jQuery, document, window, console, Buffer, grecaptcha */
@@ -12,56 +12,6 @@
   const reCAPTCHA_site_key = '6LeEA3gUAAAAAPRenCnqy8K4IuLepRPAPLNIKOY_',
         postbackEndpoint = 'https://gaccelerate3-test.apigee.net/recaptcha-v3/compute',
         $ = jQuery;
-
-  // function eraseResults() {
-  //   $('#output').addClass('notshown').removeClass('shown');
-  // }
-  //
-  // function publishResults(arg1, arg2) {
-  //   $('#output').addClass('shown').removeClass('notshown');
-  // }
-
-  function copyToClipboard(event) {
-    let $elt = $(this),
-        sourceElement = $elt.data('target'),
-        // grab the element to copy
-        $source = $('#' + sourceElement),
-        // Create a temporary hidden textarea.
-        $temp = $("<textarea>");
-
-    //let textToCopy = $source.val();
-    // in which case do I need text() ?
-    let textToCopy = ($source[0].tagName == 'TEXTAREA' || $source[0].tagName == 'INPUT') ? $source.val() : $source.text();
-
-    $("body").append($temp);
-    $temp.val(textToCopy).select();
-    let success;
-    try {
-      success = document.execCommand("copy");
-      if (success) {
-        // Animation to indicate copy.
-        // CodeMirror obscures the original textarea, and appends a div as the next sibling.
-        // We want to flash THAT.
-        let $cmdiv = $source.next();
-        if ($cmdiv.length>0 && $cmdiv.prop('tagName').toLowerCase() == 'div' && $cmdiv.hasClass('CodeMirror')) {
-          $cmdiv.addClass('copy-to-clipboard-flash-bg')
-            .delay('1000')
-            .queue( _ => $cmdiv.removeClass('copy-to-clipboard-flash-bg').dequeue() );
-        }
-        else {
-          // no codemirror (probably the secretkey field, which is just an input)
-          $source.addClass('copy-to-clipboard-flash-bg')
-            .delay('1000')
-            .queue( _ => $source.removeClass('copy-to-clipboard-flash-bg').dequeue() );
-        }
-      }
-    }
-    catch (e) {
-      success = false;
-    }
-    $temp.remove();
-    return success;
-  }
 
   function applyRecaptchaAndSubmit(event) {
     // prevent form submit
@@ -89,7 +39,9 @@
               })
             .done(function(responseData) {
               let $ta = $('<textarea>');
-              $ta.attr('class', 'results');
+              $ta.attr('class', 'results code');
+              $ta.attr('spellcheck','false');
+              $ta.attr('disabled','true');
               $ta.text(JSON.stringify(responseData, null, 2));
               $('#output').empty().append($ta);
             })
@@ -114,8 +66,7 @@
 
   grecaptcha.ready(function() {
     $(document).ready(function() {
-      $('#go').on('click', applyRecaptchaAndSubmit);
-      $('.copyIconHolder').on('click', copyToClipboard);
+      $('#check').on('click', applyRecaptchaAndSubmit);
     });
 
   });
