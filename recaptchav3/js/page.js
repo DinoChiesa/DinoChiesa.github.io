@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------
 //
 // created: Mon Jun  1 13:00:26 2020
-// last saved: <2020-June-02 10:29:40>
+// last saved: <2020-June-02 10:37:10>
 
 /* jshint esversion:9, node:false, strict:implied */
 /* global jQuery, document, window, console, Buffer, grecaptcha */
@@ -10,7 +10,7 @@
 
 (function (){
   const reCAPTCHA_site_key = '6LeEA3gUAAAAAPRenCnqy8K4IuLepRPAPLNIKOY_',
-        postbackEndpoint = 'https://gaccelerate3-test.apigee.net/recaptcha-v3/compute',
+        postbackEndpoint = 'https://gaccelerate3-test.apigee.net/recaptcha-v3/check',
         $ = jQuery;
 
   function clearOutput(event) {
