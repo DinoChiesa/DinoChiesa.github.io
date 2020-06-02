@@ -15,8 +15,6 @@
      form > div > select,
      form > div > textarea,
      form > div > input {
-       float: left;
-       max-width: 860px;
        margin: 2px 0;
      }
      form > div,
@@ -26,13 +24,18 @@
      }
      #output, #notes {
        display:block;
-       border-color: White;
+       border-color: Grey;
        border-style: solid;
        border-width: 1px;
-       margin-top: 54px;
+       min-width: 680px;
+     }
+     .results {
+       border:none;
+       height:100%;
+       width:100%;
      }
      #notes {
-       border-top:  thick double #32a1ce;
+       border-top: thick double #32a1ce;
      }
      #notes {
        font-size:80%;

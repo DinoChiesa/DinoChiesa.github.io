@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------
 //
 // created: Mon Jun  1 13:00:26 2020
-// last saved: <2020-June-02 09:42:30>
+// last saved: <2020-June-02 09:50:47>
 
 /* jshint esversion:9, node:false, strict:implied */
 /* global jQuery, document, window, console, Buffer, grecaptcha */
@@ -89,8 +89,8 @@
               })
             .done(function(responseData) {
               let $ta = $('<textarea>');
-              $ta.attr('style', 'border:none;height:100%;');
-              $ta.text("success:\n" + JSON.stringify(responseData));
+              $ta.attr('class', 'results');
+              $ta.text(JSON.stringify(responseData, null, 2));
               $('#output').empty().append($ta);
             })
             .fail(function(response, error, exc) {
