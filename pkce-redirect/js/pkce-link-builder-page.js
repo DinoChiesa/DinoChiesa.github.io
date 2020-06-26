@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2019-October-01 17:51:30>
+// last saved: <2020-June-26 09:52:53>
 
 /* jshint esversion:9, strict:implied */
 /* global $, CryptoJS, document, window, btoa */
@@ -80,11 +80,16 @@
     $('#authzlink').attr('href', link);
 
     if (model.code) {
-      var re1 = new RegExp('/authorize.+');
-      var newUrl = link.replace(re1, '/token');
-      var payload = 'grant_type=authorization_code&code=' + model.code + '&code_verifier=' + model.code_verifier;
-      $('#redeemCode').text('curl -X POST -H content-type:application/x-www-form-urlencoded -u ' +
-                            model.clientid + ':' + model.clientsecret + ' ' +
+      let re1 = new RegExp('/authorize.+'),
+          newUrl = link.replace(re1, '/token'),
+          payloadParams = {
+            grant_type : 'authorization_code',
+            code: model.code,
+            code_verifier: model.code_verifier,
+            client_id : model.clientid
+          },
+          payload = new URLSearchParams(payloadParams).toString();
+      $('#redeemCode').text('curl -X POST -H content-type:application/x-www-form-urlencoded ' +
                             wrapInSingleQuote(newUrl) + ' -d ' + wrapInSingleQuote(payload));
       $('#authzRedemption').show();
     }
