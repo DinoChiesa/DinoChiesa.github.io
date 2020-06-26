@@ -4,10 +4,10 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2020-June-26 09:52:53>
+// last saved: <2020-June-26 09:58:45>
 
 /* jshint esversion:9, strict:implied */
-/* global $, CryptoJS, document, window, btoa */
+/* global $, CryptoJS, document, window, btoa, URLSearchParams */
 
 (function (){
      let model = {
@@ -139,14 +139,15 @@
     var payload = {
           grant_type: 'authorization_code',
           code: model.code,
-          code_verifier : $('#code_verifier').val()
+          code_verifier : $('#code_verifier').val(),
+          client_id : model.clientid
         };
 
     // NB: This call will fail if the server does not include CORS headers in the response
     $.ajax({
       url : newUrl,
       type: "POST",
-      headers: { 'Authorization': 'Basic ' + btoa( model.clientid + ':' + model.clientsecret ) },
+      //headers: { 'Authorization': 'Basic ' + btoa( model.clientid + ':' + model.clientsecret ) },
       data : payload,
       success: function(data, textStatus, jqXHR) {
         //data - response from server
