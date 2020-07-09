@@ -56,6 +56,10 @@ div.divider {
 #redeemCode, #redeemResult {
   font-family: "Lucida Console", Monaco, monospace;
   font-size: 80%;
+  padding: 2px 4px;
+  border: 1px dotted Grey;
+  border-radius: 2px;
+  background-color: aliceblue;
 }
 body {
   font-size: 132%;
