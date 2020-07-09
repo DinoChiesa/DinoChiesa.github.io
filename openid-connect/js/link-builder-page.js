@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2020-July-09 12:15:54>
+// last saved: <2020-July-09 12:26:17>
 
 /* jshint esversion:9, strict:implied */
 /* global $, window, document, model, btoa */
@@ -135,9 +135,7 @@
   function updateModel(event) {
     Object.keys(model).forEach(function(key) {
       let $item = $('#' + key), value = getFormItemValue($item);
-      if (value) {
-        model[key] = value;
-      }
+      model[key] = value;
     });
     updateLink();
     if (event)
