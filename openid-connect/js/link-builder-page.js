@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2020-July-09 08:18:21>
+// last saved: <2020-July-09 09:25:12>
 
 /* jshint esversion:9, strict:implied */
 /* global $, window, document, model, btoa */
@@ -64,8 +64,12 @@
     Object.keys(model)
       .filter(excludeTransientFields)
       .forEach(function(key) {
-        var pattern = '${' + key + '}', value = model[key];
+        let pattern = '${' + key + '}', value = model[key];
         if ((model[key]) && (value !== null) && (typeof value !== 'undefined')) {
+          if (typeof model[key] !== 'string') {
+            // coerce arrays to a + separated string
+            value = value.join('+');
+          }
           window.localStorage.setItem(html5AppId + '.model.' + key, value);
         }
         s = s.replace(pattern,value);
@@ -74,17 +78,17 @@
   }
 
   function updateLink() {
-    var link = evalTemplate(linkTemplate, model);
-    var extraneousDoubleSlashFinder = new RegExp('^(https?://[^/]+)//(.+)$');
-    var m = extraneousDoubleSlashFinder.exec(link);
+    let link = evalTemplate(linkTemplate, model),
+        extraneousDoubleSlashFinder = new RegExp('^(https?://[^/]+)//(.+)$'),
+        m = extraneousDoubleSlashFinder.exec(link);
     if (m) { link = m[1] + '/' + m[2]; }
     $('#authzlink').text(link);
     $('#authzlink').attr('href', link);
 
     if (model.code) {
-      var re1 = new RegExp('/authorize.+');
-      var newUrl = link.replace(re1, '/token');
-      var payload = 'grant_type=authorization_code&code=' + model.code + '&redirect_uri=' + model.cburi;
+      let re1 = new RegExp('/authorize.+'),
+          newUrl = link.replace(re1, '/token'),
+          payload = 'grant_type=authorization_code&code=' + model.code + '&redirect_uri=' + model.cburi;
       $('#preBox').text('curl -X POST -H content-type:application/x-www-form-urlencoded -u ' +
                             model.clientid + ':' + model.clientsecret + ' ' +
                             wrapInSingleQuote(newUrl) + ' -d ' + wrapInSingleQuote(payload));
@@ -105,7 +109,7 @@
   }
 
   function onSelectChanged() {
-    var $$ = $(this), name = $$.attr('name'), values = [];
+    let $$ = $(this), name = $$.attr('name'), values = [];
     $$.find('option:selected' ).each(function() {
       values.push($( this ).text());
     });
@@ -115,7 +119,7 @@
 
   function updateModel(event) {
     Object.keys(model).forEach(function(key) {
-      var $item = $('#' + key), value = $item.val();
+      let $item = $('#' + key), value = $item.val();
       model[key] = value;
     });
     updateLink();
@@ -133,10 +137,10 @@
   }
 
   function invokeRedemption(event) {
-    var linkUrl = $('#authzlink').text();
-    var re1 = new RegExp('/authorize.+');
-    var newUrl = linkUrl.replace(re1, '/token');
-    var payload = {
+    let linkUrl = $('#authzlink').text(),
+        re1 = new RegExp('/authorize.+'),
+        newUrl = linkUrl.replace(re1, '/token'),
+        payload = {
           grant_type: 'authorization_code',
           code: model.code
         };
@@ -177,8 +181,8 @@
     Object.keys(model)
       .filter(excludeTransientFields)
       .forEach(function(key) {
-        var value = window.localStorage.getItem(html5AppId + '.model.' + key);
-        var $item = $('#' + key);
+        let value = window.localStorage.getItem(html5AppId + '.model.' + key),
+            $item = $('#' + key);
         if (key === 'state' || key === 'nonce') {
           $item.val(randomValue(6));
         }
