@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2020-July-09 09:25:12>
+// last saved: <2020-July-09 09:36:30>
 
 /* jshint esversion:9, strict:implied */
 /* global $, window, document, model, btoa */
@@ -113,14 +113,21 @@
     $$.find('option:selected' ).each(function() {
       values.push($( this ).text());
     });
-    model[name] = values.join(' ');
+    model[name] = values; // values.join(' ');
     updateLink();
   }
 
   function updateModel(event) {
     Object.keys(model).forEach(function(key) {
       let $item = $('#' + key), value = $item.val();
-      model[key] = value;
+      if (value) {
+        // unsure if necessary
+        if (typeof model[key] !== 'string') {
+          // coerce to array
+          value = value.split(' ');
+        }
+        model[key] = value;
+      }
     });
     updateLink();
     if (event)
