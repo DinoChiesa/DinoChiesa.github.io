@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2020-July-09 11:42:19>
+// last saved: <2020-July-09 12:15:54>
 
 /* jshint esversion:9, strict:implied */
 /* global $, window, document, model, btoa */
@@ -159,7 +159,8 @@
         newUrl = linkUrl.replace(re1, '/token'),
         payload = {
           grant_type: 'authorization_code',
-          code: model.code
+          code: model.code,
+          redirect_uri : model.cburi
         };
 
     // NB: This call will fail if the server does not include CORS headers in the response
