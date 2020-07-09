@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2020-July-09 09:36:30>
+// last saved: <2020-July-09 09:43:58>
 
 /* jshint esversion:9, strict:implied */
 /* global $, window, document, model, btoa */
@@ -109,23 +109,28 @@
   }
 
   function onSelectChanged() {
-    let $$ = $(this), name = $$.attr('name'), values = [];
-    $$.find('option:selected' ).each(function() {
-      values.push($( this ).text());
-    });
-    model[name] = values; // values.join(' ');
+    let $$ = $(this), name = $$.attr('name'),
+        value = getFormSelectItemValue($$);
+    model[name] = value;
     updateLink();
+  }
+
+  function getFormSelectItemValue($item) {
+    let value = [];
+      $item.find('option:selected' ).each(function() {
+        value.push($( this ).text());
+      });
+    return value;
+  }
+
+  function getFormItemValue($item) {
+    return $item.val() || getFormSelectItemValue($item);
   }
 
   function updateModel(event) {
     Object.keys(model).forEach(function(key) {
-      let $item = $('#' + key), value = $item.val();
+      let $item = $('#' + key), value = getFormItemValue($item);
       if (value) {
-        // unsure if necessary
-        if (typeof model[key] !== 'string') {
-          // coerce to array
-          value = value.split(' ');
-        }
         model[key] = value;
       }
     });
