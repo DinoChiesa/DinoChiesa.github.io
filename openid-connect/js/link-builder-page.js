@@ -4,10 +4,10 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2019-October-21 12:05:03>
+// last saved: <2020-July-09 08:18:21>
 
 /* jshint esversion:9, strict:implied */
-/* global $, window, document, model */
+/* global $, window, document, model, btoa */
 
 (function (){
   let model = window.model || {
@@ -214,9 +214,7 @@
     $( 'form select' ).change(onSelectChanged);
     $( 'form button' ).submit(updateModel);
     $( '.btn-reload' ).on('click', reloadRandomValue);
-
     $( '#btn-copy' ).on('click', copyToClipboard);
-
     $( '#btn-redeem' ).on('click', invokeRedemption);
     $( '#btn-reset' ).on('click', resetRedemption);
 
