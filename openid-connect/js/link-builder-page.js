@@ -4,7 +4,7 @@
 // page logic for link-builder.html and link-builder2.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2020-July-09 11:38:35>
+// last saved: <2020-July-09 11:42:19>
 
 /* jshint esversion:9, strict:implied */
 /* global $, window, document, model, btoa */
@@ -126,8 +126,8 @@
   function getFormItemValue($item) {
     let eltType = $item.prop('nodeName');
     switch(eltType) {
-    case 'input' : return $item.val();
-    case 'select' : return getFormSelectItemValue($item);
+    case 'INPUT' : return $item.val();
+    case 'SELECT' : return getFormSelectItemValue($item);
     }
     return null;
   }
