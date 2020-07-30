@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>MD5, SHA, and HMAC calculator</title>
+    <title>Hash and HMAC calculator</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/base-min.css">
@@ -24,7 +24,7 @@
 
     <div>
     <div style='margin: 10px;'>
-      <h3>Calculate a SHA or MD5, or an HMAC with SHA or MD5</h3>
+      <h3 id='pageHead'>Calculate a SHA or MD5, or an HMAC with SHA or MD5</h3>
 
       <form role='form' id='form1' accept-charset='UTF-8'>
         <div class="form-group">
@@ -40,7 +40,7 @@
 
         <div class='form-group'>
           <label for='hmac'>hmac?:</label>
-          <input type="checkbox" name="hmac" id='hmac'/>
+          <input type="checkbox" name="hmac" id='hmac' checked/>
         </div>
 
         <div class='form-group'>
@@ -53,14 +53,14 @@
         <div class='form-group'>
           <label for='text'>text or message:</label>
         <!-- input type='textarea' id='text' class='form-control'  -->
-          <textarea class="form-control" rows="5" id='text' spellcheck="false"
+          <textarea class="form-control" rows="7" id='text' spellcheck="false"
                  placeholder="-currently blank; insert your message here-"
                     title='The message to use in the function. This data never leaves your browser.'></textarea>
         </div>
 
         <div class='form-group'>
           <div style='color:#DCDCDC;font-size:80%;'>(Computation is automatic)</div>
-          <!-- 
+          <!--
           <input type='submit' value='compute' class='button disabled' id='submit' disabled/>
            -->
         </div>
@@ -89,7 +89,7 @@
         Notes:
         <ol>
           <li>This page uses <a href='https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API'>the WebCrypto library</a>, for the hash and HMACs computation.</li>
-          <li>Any data you enter on this page stays in the browser, and is never sent to any third-party site. The hash computation is performed in your browser. If you specify a key for HMAC, the key is used only for HMAC calculation, and never leaves your browser. </li>
+          <li>Any data you enter on this page stays in the browser, and is never sent to any third-party site. The hash computation is performed in your browser. If you specify a key for HMAC, the key is used only for HMAC calculation, and never leaves your browser. Data does get stored in localStorage.</li>
           <li>The results shown by this page are different encodings that represent the same value.</li>
           <li>Base16 encoding is sometimes called "Hex encoding". </li>
           <li>Here are a few test cases:
@@ -111,12 +111,12 @@
                 <tr><td>abc</td><td>--</td><td>
                   (b16) <span class='code'>ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad</span><br/>
                   (b64) <span class='code'>ungWv48Bz+pBQUDeXa4iI7ADYaOWF3qctBD/YfIAFa0=</span></td></tr>
-                
+
                 <tr><td rowspan='2'>HMAC-sha256</td>
                   <td><span style='color:#DCDCDC;font-style:italic'>-blank-</span></td><td>secret</td><td>
                   (b16) <span class='code'>f9e66e179b6747ae54108f82f8ade8b3c25d76fd30afde6c395822c530196169</span><br/>
                   (b64) <span class='code'>+eZuF5tnR65UEI+C+K3os8Jddv0wr95sOVgixTAZYWk=</span></td></tr>
-                
+
                 <tr>
                   <td>abc</td><td>secret</td><td>
                   (b16) <span class='code'>9946dad4e00e913fc8be8e5d3f7e110a4a9e832f83fb09c345285d78638d8a0e</span><br/>

@@ -1,17 +1,13 @@
 // page.js
 // ------------------------------------------------------------------
-//
-// created: Tue Apr 21 12:25:22 2020
-// last saved: <2020-April-21 13:49:51>
 
 /* jshint esversion:9, node:false, strict:implied */
 /* global md5, console, Blob, $, jQuery, TextEncoder, crypto, window, Buffer */
 
-
 (function () {
-  'use strict';
   const newlineRegex = new RegExp('(\r\n|\n)', 'g');
-  var utf8Encoder = new TextEncoder("utf-8");
+  let utf8Encoder = new TextEncoder("utf-8");
+  let appId = '63894937-8A1F-40F0-8C4C-6656B3B9C056';
 
   function getHashName() {
     var hashName = $('#function option:selected').val();
@@ -23,7 +19,6 @@
       bytes.push(parseInt(hex.substr(c, 2), 16));
     return new Uint8Array(bytes).buffer;
   }
-
 
   function getHash(message) {
     let algo = getHashName();
@@ -139,12 +134,16 @@
   }
 
   function changeText(event) {
+    let message = $('#text').val();
+    window.localStorage.setItem(appId + '.model.text', message );
     if (getHashName()) {
       return calcResult(event);
     }
   }
 
   function changeKey(event) {
+    let key = $('#key').val();
+    window.localStorage.setItem(appId + '.model.key', key );
     if (getHashName()) {
       calcResult(event);
     }
@@ -152,6 +151,7 @@
 
   function changeFunction(event) {
     if (event) { event.preventDefault(); }
+    window.localStorage.setItem(appId + '.model.function', getHashName() );
     // enable the compute button
     // $( "#submit" ).removeClass('disabled').prop("disabled", false);
     //eraseResults();
@@ -160,19 +160,42 @@
 
   function changeHmac(event) {
     if (event) { event.preventDefault(); }
+
+    let isChecked = $('#hmac').is(':checked');
+    window.localStorage.setItem(appId + '.model.hmac', '' + isChecked );
     // display or hide the key as appropriate
-    if ($('#hmac').is(':checked')) {
+    if (isChecked) {
+      $('#pageHead').text('Calculate an HMAC with SHA or MD5');
       $('#key').addClass('shown') .removeClass('notshown');
       $('#keylabel').addClass('shown') .removeClass('notshown');
       $( "#key" ).removeClass('disabled') .prop("disabled", false);
     }
     else {
+      $('#pageHead').text('Calculate a SHA or MD5');
       $('#key').addClass('notshown') .removeClass('shown');
       $('#keylabel').addClass('notshown') .removeClass('shown');
       $( "#key" ).addClass('disabled') .prop("disabled", true);
     }
     //eraseResults();
     calcResult(event);
+  }
+
+  function applySettings() {
+    let propNames = ['key', 'text', 'hmac', 'function'];
+    propNames.forEach( name => {
+      let value = window.localStorage.getItem(appId + '.model.' + name );
+      if (value) {
+        if (name == 'hmac') {
+          $("#hmac"). prop("checked", value.toLowerCase() == "true");
+        }
+        else if (name == 'function') {
+          $('#function option[value='+ value.toLowerCase() +']').prop('selected', true);
+        }
+        else {
+          $('#' + name).val(value);
+        }
+      }
+    });
   }
 
   function copyToClipboard(event) {
@@ -211,6 +234,7 @@
     $('#text').bind('input propertychange', changeText);
     $('#key').bind('input propertychange', changeKey);
     $('.copyIconHolder').on('click', copyToClipboard);
+    applySettings();
     changeHmac();
   });
 
