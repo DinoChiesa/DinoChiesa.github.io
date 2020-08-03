@@ -1,7 +1,7 @@
 // token_page.js
 // ------------------------------------------------------------------
 //
-// last saved: <2020-August-02 21:32:07>
+// last saved: <2020-August-02 21:46:11>
 
 /* jshint esversion:9, node:false, strict:implied */
 /* global jQuery, document, window, console, Buffer, grecaptcha, btoa */
@@ -38,7 +38,8 @@
                 url: postbackEndpoint,
                 method: "POST",
                 headers: {
-                  "Authorization": "Basic " + btoa(client_id + ":" + client_secret)
+                  "Authorization": "Basic " + btoa(client_id + ":" + client_secret),
+                  "recaptcha-token": recaptchaToken
                 },
                 data: 'grant_type=client_credentials',
                 contentType: 'application/x-www-form-urlencoded',
