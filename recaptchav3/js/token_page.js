@@ -1,7 +1,5 @@
 // token_page.js
 // ------------------------------------------------------------------
-//
-// last saved: <2020-August-02 21:46:11>
 
 /* jshint esversion:9, node:false, strict:implied */
 /* global jQuery, document, window, console, Buffer, grecaptcha, btoa */
@@ -19,21 +17,13 @@
   }
 
   function applyRecaptchaAndSubmit(event) {
-    // prevent form submit
     if (event) { event.preventDefault(); }
-
     try {
-
-      // The browser will show an opaque promise error in this method if this
-      // page is hosted on a domain which does not match the domain set for
-      // the given site_key. The little recaptcha badge will show a warning
-      // message.
-
       grecaptcha.execute(reCAPTCHA_site_key, {action: 'token'})
         .then(function(recaptchaToken) {
 
-          // post back to an API endpoint. The thing on the other end must call to
-          // google using the site key secret, to ask for the 'score' for this token.
+          // post back to an API endpoint. The other end must call to google
+          // using the site key secret, to ask for the 'score' for this token.
           var jqxhr = $.ajax({
                 url: postbackEndpoint,
                 method: "POST",
@@ -43,10 +33,10 @@
                 },
                 data: 'grant_type=client_credentials',
                 contentType: 'application/x-www-form-urlencoded',
-                dataType : 'json' // response
+                dataType : 'json'
               })
             .done(function(responseData) {
-              // The Apigee endpoint just returns what recaptcha said.
+              // The Apigee endpoint returns a token payload.
               // Display it on the page.
               let $ta = $('<textarea>');
               $ta.attr('class', 'results code');
