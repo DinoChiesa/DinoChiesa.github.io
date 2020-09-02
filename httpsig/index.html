@@ -159,6 +159,7 @@
       <div class='footer'>
         <div>Notes</div>
         <ol>
+          <li>Information that you paste here, including signatures and keys, whether secret, private or public, never leaves your browser. Information from the decoding also stays in the browser. Nothing gets posted to a server. Still, you should take care. It's good hygiene to never send private information, production private keys, or provate credentials to a site you do not own and manage.</li>
           <li>This tool uses EcmaScript v9, and webcrypto; it will run only on modern, current browsers.</li>
           <li>For generating and verifying HTTP Signature, this page supports rsa-sha256, hmac-sha256, or hs2019 with rsa or hmac variants.</li>
           <li>To generate:
@@ -181,7 +182,6 @@
           <li>On initial page load, the browser will generate a new RSA keypair and insert it into the appropriate boxes. It also loads some contrived fixed headers. You can replace either or both with your own values.</li>
           <li>You can generate a new asymmetric keypair by clicking the key button.</li>
           <li>When specifying the symmetric key, you need at least 32 bytes of key material for hmac-sha256, whether signing or verifying. The <a href='https://en.wikipedia.org/wiki/PBKDF2'>PBKDF2</a> will generate keys of the appropriate size. If you choose a different coding system, you need to ensure minimum key size yourself. </li>
-          <li>Information that you paste here, including signatures and keys, whether secret, private or public, never leaves your browser. Information from the decoding also stays in the browser. Nothing gets posted to a server. Still, you should take care not to use this site for private information.</li>
           <li>This page does not explicitly handle the special values like (target-request), (created), or (expires). I may extend the page in the future to support some or all of those.</li>
           <li>When using hs2019 with RSA, this page uses a salt length of 64 bytes.  The specification doesn't mention the salt length, and the Signature header doesn't provide a way to specify that, so we use the convention of a salt of the same length as the output hash. This convention is explicitly specified by RFC 7518 (JWS) but is not specified by HTTP Signature.</li>
         </ol>
