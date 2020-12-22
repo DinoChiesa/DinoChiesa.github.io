@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------
 //
 // created: Tue Apr 21 12:25:22 2020
-// last saved: <2020-May-27 16:31:19>
+// last saved: <2020-December-22 15:46:03>
 
 /* jshint esversion:9, node:false, strict:implied */
 /* global atob, btoa, console, Blob, $, jQuery,  window, Buffer */
@@ -70,11 +70,11 @@
     }
     else {
       // blank
-        $('#resultB64').text("");
-        $('#resultB64url').text("");
+      $('#resultB64').text("");
+      $('#resultB64url').text("");
       $('#resultPlain').text("");
-        $('#output_encoded').addClass('notshown').removeClass('shown');
-        $('#output_decoded').addClass('notshown').removeClass('shown');
+      $('#output_encoded').addClass('notshown').removeClass('shown');
+      $('#output_decoded').addClass('notshown').removeClass('shown');
     }
   }
 
@@ -83,6 +83,19 @@
   }
 
   function changeOperation(event) {
+    let message = $('#text').val();
+    if (message) {
+      var op = getOperation();
+      if (op == 'ENCODE') {
+        let plain = $('#resultPlain').text();
+        $('#text').val(plain);
+      }
+      else if (op === 'DECODE') {
+        let encoded = $('#resultB64').text();
+        $('#text').val(encoded);
+      }
+    }
+
     return calcResult(event);
   }
 
