@@ -49,6 +49,10 @@
                       data-target="ta_privatekey" title="copy to clipboard">
                 <span class="oi oi-clipboard"></span>
               </button>
+              <button type="button" class="btn btn-outline-secondary btn-md btn-newkey"
+                      title='generate a new keypair'>
+                <span class="oi oi-reload"></span>
+              </button>
             </p>
             <textarea rows=12 cols=34 id='ta_privatekey' spellcheck='false' class='plaintextvalue'></textarea>
           </div>
@@ -67,11 +71,17 @@
                       data-target="ta_symmetrickey" title="copy to clipboard">
                 <span class="oi oi-clipboard"></span>
               </button>
+              <button type="button" class="btn btn-outline-secondary btn-md btn-newkey"
+                      title='generate a new key'>
+                <span class="oi oi-reload"></span>
+              </button>
             </p>
-            <input type='text' id='ta_symmetrickey' value='Secret1234567890ABCDEFGHIJKLMNOP'>
+            <input type='text' id='ta_symmetrickey' class='form-control'
+                   value='Secret1234567890ABCDEFGHIJKLMNOP'
+                   spellcheck='false'>
             <div>
               <span>Key Encoding:</span>
-              <select class="form-control form-control-sm sel-symkey-coding">
+              <select class="form-control form-control-sm sel-symkey-coding" id='sel-symkey-coding'>
                 <option value='UTF-8'>UTF-8</option>
                 <option value='Hex'>Hex</option>
                 <option value='Base64'>Base64</option>
@@ -89,7 +99,8 @@
               </div>
               <div>
                 <span>salt encoding:</span>
-                <select class="form-control form-control-sm sel-symkey-pbkdf2-salt-coding">
+                <select class="form-control form-control-sm sel-symkey-pbkdf2-salt-coding"
+                        id='sel-symkey-pbkdf2-salt-coding'>
                   <option value='UTF-8'>UTF-8</option>
                   <option value='Hex'>Hex</option>
                   <option value='Base64'>Base64</option>
@@ -114,9 +125,6 @@
 
           <button type="button" class="btn btn-outline-secondary btn-lg btn-verify" title='verify a signature'>
             <span class="oi oi-check"></span>
-          </button>
-          <button type="button" class="btn btn-outline-secondary btn-lg btn-newkeypair" title='generate a new keypair'>
-            <span class="oi oi-key"></span>
           </button>
           <div style='font-size:60%; margin-top:20px;' id='hs2019-settings'>
             <span style='font-size:60%; margin-right:6px;'>created:</span>

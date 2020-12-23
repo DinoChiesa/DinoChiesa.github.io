@@ -7972,7 +7972,7 @@ textarea {
   margin: 0;
   z-index: 10; }
 
-.btn-copy {
+.btn-copy, .btn-newkey {
   padding: 2px 6px;
   margin: 0 4px;
   float: right;
