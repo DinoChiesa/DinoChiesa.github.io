@@ -7937,6 +7937,11 @@ textarea {
     width: 118px; }
   .panel-center > select {
     width: 118px; }
+  .panel-center > div {
+    font-size: 60%;
+    margin-top: 16px; }
+    .panel-center > div input {
+      width: 118px; }
   .panel-center > select:not(:first-child) {
     margin-top: 14px; }
 
