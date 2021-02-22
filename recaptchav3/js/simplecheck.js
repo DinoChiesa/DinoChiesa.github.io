@@ -2,14 +2,14 @@
 // ------------------------------------------------------------------
 //
 // created: Mon Jun  1 13:00:26 2020
-// last saved: <2020-August-02 18:28:38>
+// last saved: <2021-February-22 09:51:52>
 
 /* jshint esversion:9, node:false, strict:implied */
-/* global jQuery, document, window, console, Buffer, grecaptcha */
+/* global jQuery, document, window, console, Buffer, grecaptcha  */
 
 (function (){
-  const reCAPTCHA_site_key = '6LeEA3gUAAAAAPRenCnqy8K4IuLepRPAPLNIKOY_',
-        postbackEndpoint = 'https://gaccelerate3-test.apigee.net/recaptcha-v3/check',
+  const reCAPTCHA_site_key = '6LeEA3gUAAAAAPRenCnqy8K4IuLepRPAPLNIKOY_';
+  const postbackEndpoint = 'https://gaccelerate3-test.apigee.net/recaptcha-v3/check',
         $ = jQuery;
 
   function clearOutput(event) {
