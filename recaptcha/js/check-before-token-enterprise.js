@@ -86,7 +86,7 @@
     value = $this.val(),
     key = $this.attr('id');
     saveSetting(key, value);
-    if (event) event.preventDefault();
+    //if (event) event.preventDefault();
   }
 
   function applyRecaptchaAndSubmit(event) {
