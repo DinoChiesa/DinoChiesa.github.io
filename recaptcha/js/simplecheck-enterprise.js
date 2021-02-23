@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------
 //
 // created: Mon Jun  1 13:00:26 2020
-// last saved: <2021-February-22 13:17:35>
+// last saved: <2021-February-22 19:25:43>
 
 /* jshint esversion:9, node:false, strict:implied */
 /* global jQuery, document, window, console, Buffer, grecaptcha  */
@@ -29,7 +29,7 @@
       // message.
 
       grecaptcha.enterprise.execute(reCAPTCHA_site_key, {action: 'homepage'})
-        .then(function(recaptchaToken) {
+        .then(recaptchaToken => {
 
           // post back to an API endpoint. The thing on the other end must call to
           // google using the site key secret, to ask for the 'score' for this token.
@@ -40,7 +40,7 @@
                 contentType: 'application/json',
                 dataType : 'json' // response
               })
-            .done(function(responseData) {
+            .done(responseData => {
               // The Apigee endpoint just returns what recaptcha said.
               // Display it on the page.
               let $ta = $('<textarea>');
@@ -51,7 +51,7 @@
               $('#output').empty().removeClass('notshown').append($ta);
               $('#clear').parent().removeClass('notshown');
             })
-            .fail(function(response, error, exc) {
+            .fail((response, error, exc) => {
               window.alert( "error: " + exc);
             });
         });
@@ -62,11 +62,10 @@
     return false;
   }
 
-  grecaptcha.enterprise.ready(function() {
-    $(document).ready(function() {
-      $('#check').on('click', applyRecaptchaAndSubmit);
-      $('#clear').on('click', clearOutput);
-    });
-
-  });
+  grecaptcha.enterprise.ready(() =>
+                              $(document).ready(() => {
+                                $('#check').on('click', applyRecaptchaAndSubmit);
+                                $('#clear').on('click', clearOutput);
+                              })
+                             );
 }());

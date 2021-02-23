@@ -1,4 +1,4 @@
-// token_page.js
+// check-before-token.js
 // ------------------------------------------------------------------
 
 /* jshint esversion:9, node:false, strict:implied */
