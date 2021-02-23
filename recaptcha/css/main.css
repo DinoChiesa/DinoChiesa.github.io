@@ -43,7 +43,8 @@ form > div.last:after {
 }
 
 .txt {
-  width: 480px;
+  width: 880px;
+  font-size: 80%;
 }
 
 #output {
