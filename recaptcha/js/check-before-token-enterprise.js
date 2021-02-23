@@ -92,8 +92,8 @@
     try {
       grecaptcha.enterprise.execute(reCAPTCHA_site_key, {action: 'token'})
         .then(recaptchaToken => {
-          let clientId = $('#clientid').val(),
-              clientSecret = $('#clientsecret').val();
+          let clientId = $('#txt-clientid').val(),
+              clientSecret = $('#txt-clientsecret').val();
           // post back to an API endpoint. The other end must call to google
           // using the site key secret, to ask for the 'score' for this token.
           let jqxhr = $.ajax({
