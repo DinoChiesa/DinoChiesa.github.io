@@ -4,6 +4,7 @@ body {
 body > div {
   display: flex;
   height: auto;
+  width: 1440px;
   max-width: 1440px;
   margin: 0 auto;
 }
@@ -16,6 +17,10 @@ form > div > select,
 form > div > textarea,
 form > div > input {
   margin: 2px 0;
+}
+body > div > div {
+  width: 960px;
+  margin: 10px;
 }
 .form-group {
   display:inline-block;
@@ -62,4 +67,3 @@ body .notshown {
   background: none repeat scroll 0 0 #DCDCDC;
   cursor: default !important;
 }
-
