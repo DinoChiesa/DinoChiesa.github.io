@@ -134,8 +134,8 @@
   grecaptcha.enterprise.ready(() =>
                    $(document).ready(() => {
                      resetState();
-                     $('#clientid').on('change keyup paste', storeSetting);
-                     $('#clientsecret').on('change keyup paste', storeSetting);
+                     $('#txt-clientid').on('change keyup paste', storeSetting);
+                     $('#txt-clientsecret').on('change keyup paste', storeSetting);
                      $('#check').on('click', applyRecaptchaAndSubmit);
                      $('#clear').on('click', clearOutput);
                    })
