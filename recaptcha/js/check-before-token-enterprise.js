@@ -38,7 +38,9 @@
         'txt-clientid': '',
         'txt-clientsecret': ''
       };
+
   function clearOutput(event) {
+    if (event) event.preventDefault();
     $('#output').addClass('notshown').empty();
     $('#clear').parent().addClass('notshown');
   }
@@ -84,7 +86,7 @@
     value = $this.val(),
     key = $this.attr('id');
     saveSetting(key, value);
-    event.preventDefault();
+    if (event) event.preventDefault();
   }
 
   function applyRecaptchaAndSubmit(event) {
