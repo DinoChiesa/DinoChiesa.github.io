@@ -129,7 +129,7 @@
     return false;
   }
 
-  grecaptcha.ready(() =>
+  grecaptcha.enterprise.ready(() =>
                    $(document).ready(() => {
                      resetState();
                      $('#clientid').on('change keyup paste', storeSetting);
