@@ -8,8 +8,6 @@
   const appId = 'FAE20A3D-ADD0-4F96-8BE9-394C317F5E77';
   const reCAPTCHA_site_key = '6LdxvGIaAAAAAKGfmqySabPwwKzTLxoxtTaIwFhi';
   const postbackEndpoint = 'https://5g-dev.dinochiesa.net/oauth2-cc-recaptcha/token',
-        client_id = 'V0YrtyrC0gXEtmFc98BigDy5EGaRoMb42EKqyeraOu',
-        client_secret = 'VNtGqla90DaiZFKhojSTpsGXLWnO9SNkuhVBK2ZGudsL5UTG',
         $ = jQuery;
 
   const LocalStorage = (function () {
@@ -94,14 +92,15 @@
     try {
       grecaptcha.enterprise.execute(reCAPTCHA_site_key, {action: 'token'})
         .then(recaptchaToken => {
-
+          let clientId = $('#clientid').val(),
+              clientSecret = $('#clientsecret').val();
           // post back to an API endpoint. The other end must call to google
           // using the site key secret, to ask for the 'score' for this token.
-          var jqxhr = $.ajax({
+          let jqxhr = $.ajax({
                 url: postbackEndpoint,
                 method: "POST",
                 headers: {
-                  "Authorization": "Basic " + btoa(client_id + ":" + client_secret),
+                  "Authorization": "Basic " + btoa(clientId + ":" + clientSecret),
                   "recaptcha-token": recaptchaToken
                 },
                 data: 'grant_type=client_credentials',

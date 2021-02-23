@@ -27,6 +27,11 @@ body > div > div {
   float:left;
   margin-right:8px;
 }
+.form-group.blocks {
+  display:block;
+  float:none;
+  margin-right:8px;
+}
 
 form > div.last {
 }
@@ -35,6 +40,10 @@ form > div.last:after {
   content:"";
   display:table;
   clear:both;
+}
+
+.txt {
+  width: 480px;
 }
 
 #output {
