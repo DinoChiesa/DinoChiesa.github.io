@@ -39,22 +39,21 @@ form > div.last:after {
 
 #output {
   display:block;
-  border-color: Grey;
-  border-style: solid;
-  border-width: 1px;
+  border: none;
   min-width: 680px;
-  height: 540px;
-  padding: 4px 8px;
+  height: 744px;
+  padding: 0px 0px;
 }
 body .notshown {
   display:none;
 }
 .results {
-  border:none;
+  border:1px solid #a6a6a6;
   height:100%;
   width:100%;
   font-size:75%;
-  resize: none;
+  resize: vertical;
+
 }
 #output > div {
   margin-top: 16px;
