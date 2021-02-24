@@ -2,19 +2,91 @@
 // ------------------------------------------------------------------
 //
 // created: Mon Jun  1 13:00:26 2020
-// last saved: <2021-February-22 19:25:43>
+// last saved: <2021-February-24 14:58:11>
 
 /* jshint esversion:9, node:false, strict:implied */
 /* global jQuery, document, window, console, Buffer, grecaptcha  */
 
 (function (){
-  const reCAPTCHA_site_key = '6LdxvGIaAAAAAKGfmqySabPwwKzTLxoxtTaIwFhi';
-  const postbackEndpoint = 'https://5g-dev.dinochiesa.net/recaptcha-enterprise/assess',
-        $ = jQuery;
+  const appId = '64B04680-2834-4651-BFCB-B6E105CB0774';
+  const $ = jQuery;
+
+  const LocalStorage = (function () {
+          function AppScopedStoreManager(appid) {
+            this.appid = appid;
+          }
+
+          AppScopedStoreManager.prototype.get = function(key) {
+            return window.localStorage.getItem(this.appid + '.datamodel.' + key);
+          };
+
+          AppScopedStoreManager.prototype.remove = function(key) {
+            return window.localStorage.removeItem(this.appid + '.datamodel.' + key);
+          };
+
+          AppScopedStoreManager.prototype.store = function(key, value) {
+            return window.localStorage.setItem(this.appid + '.datamodel.' + key, value);
+          };
+
+          const init = function(id) {
+                  return new AppScopedStoreManager(id);
+                };
+          return {init};
+        }());
+
+  const storage = LocalStorage.init(appId);
+  let datamodel = {
+        'txt-sitekey': '',
+        'txt-baseurl': ''
+      };
 
   function clearOutput(event) {
     $('#output').addClass('notshown').empty();
     $('#clear').parent().addClass('notshown');
+  }
+
+  function retrieveLocalState() {
+    Object.keys(datamodel)
+      .forEach(key => {
+        var value = storage.get(key);
+        if (key.startsWith('chk-')) {
+          datamodel[key] = Boolean(value);
+        }
+        else {
+          datamodel[key] = value;
+        }
+      });
+  }
+
+  function applyState() {
+    Object.keys(datamodel)
+      .forEach(key => {
+        var value = datamodel[key];
+        if (value) {
+          var $item = $('#' + key);
+          if (key.startsWith('txt-')) {
+            $item.val(value);
+          }
+        }
+      });
+  }
+
+  function resetState() {
+    retrieveLocalState();
+    applyState();
+  }
+
+  function saveSetting(key, value) {
+    datamodel[key] = value;
+    storage.store(key, value);
+  }
+
+  function storeSetting(event) {
+    let $this = $(this),
+    value = $this.val(),
+    key = $this.attr('id');
+    saveSetting(key, value);
+    //if (event) event.preventDefault();
   }
 
   function applyRecaptchaAndSubmit(event) {
@@ -22,6 +94,7 @@
     if (event) { event.preventDefault(); }
 
     try {
+      let reCAPTCHA_site_key = $('#txt-sitekey').val();
 
       // The browser will show an opaque promise error in this method if this
       // page is hosted on a domain which does not match the domain set for
@@ -30,6 +103,9 @@
 
       grecaptcha.enterprise.execute(reCAPTCHA_site_key, {action: 'homepage'})
         .then(recaptchaToken => {
+
+          let baseurl = $('#txt-baseurl').val(),
+              postbackEndpoint = `${baseurl}/recaptcha-enterprise/assess`;
 
           // post back to an API endpoint. The thing on the other end must call to
           // google using the site key secret, to ask for the 'score' for this token.
@@ -64,6 +140,9 @@
 
   grecaptcha.enterprise.ready(() =>
                               $(document).ready(() => {
+                                resetState();
+                                $('#txt-baseurl').on('change keyup paste', storeSetting);
+                                $('#txt-sitekey').on('change keyup paste', storeSetting);
                                 $('#check').on('click', applyRecaptchaAndSubmit);
                                 $('#clear').on('click', clearOutput);
                               })

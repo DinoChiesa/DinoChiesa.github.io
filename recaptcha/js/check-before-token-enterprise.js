@@ -6,7 +6,6 @@
 
 (function (){
   const appId = 'FAE20A3D-ADD0-4F96-8BE9-394C317F5E77';
-  //const reCAPTCHA_site_key = '6LdxvGIaAAAAAKGfmqySabPwwKzTLxoxtTaIwFhi';
   const $ = jQuery;
 
   const LocalStorage = (function () {
