@@ -1,12 +1,13 @@
 // check-before-token-enterprise.js
 // ------------------------------------------------------------------
 
-/* jshint esversion:9, node:false, strict:implied */
+/* jshint esversion:9, node:false, strict:implied, browser:true */
 /* global jQuery, document, window, console, Buffer, grecaptcha, btoa */
 
 (function (){
   const appId = 'FAE20A3D-ADD0-4F96-8BE9-394C317F5E77';
   const $ = jQuery;
+  var reCAPTCHA_site_key = null;
 
   const LocalStorage = (function () {
           function AppScopedStoreManager(appid) {
@@ -89,11 +90,40 @@
     //if (event) event.preventDefault();
   }
 
+  function injectRecaptchaScript() {
+    let head = document.getElementsByTagName('head')[0],
+        script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.onload =
+      () => grecaptcha.enterprise.ready(() => setTimeout(submitRequest, 100));
+    script.src = `https://www.google.com/recaptcha/enterprise.js?render=${reCAPTCHA_site_key}`;
+    head.appendChild(script);
+  }
+
   function applyRecaptchaAndSubmit(event) {
     if (event) { event.preventDefault(); }
     try {
-      let reCAPTCHA_site_key = $('#txt-sitekey').val();
+      if (reCAPTCHA_site_key) {
+        return submitRequest();
+      }
+      reCAPTCHA_site_key = $('#txt-sitekey').val();
+      if (reCAPTCHA_site_key) {
+        setTimeout(injectRecaptchaScript, 2);
+      }
+      else {
+        window.alert( "specify a site key");
+      }
+    }
+    catch (e) {
+      window.alert( "exception: " + e);
+    }
+    return false;
+  }
 
+
+  function submitRequest() {
+    try {
+      //let reCAPTCHA_site_key = $('#txt-sitekey').val();
       grecaptcha.enterprise.execute(reCAPTCHA_site_key, {action: 'token'})
         .then(recaptchaToken => {
           let clientId = $('#txt-clientid').val(),
@@ -136,8 +166,7 @@
     return false;
   }
 
-  grecaptcha.enterprise.ready(() =>
-                   $(document).ready(() => {
+  $(document).ready(() => {
                      resetState();
                      $('#txt-clientid').on('change keyup paste', storeSetting);
                      $('#txt-clientsecret').on('change keyup paste', storeSetting);
@@ -145,6 +174,5 @@
                      $('#txt-sitekey').on('change keyup paste', storeSetting);
                      $('#check').on('click', applyRecaptchaAndSubmit);
                      $('#clear').on('click', clearOutput);
-                   })
-                  );
+                   });
 }());
