@@ -10,7 +10,7 @@ body > div {
 }
 form div label {
   float: left;
-  width: 148px;
+  width: 178px;
   margin: 8px 0;
 }
 form > div > select,
@@ -43,7 +43,7 @@ form > div.last:after {
 }
 
 .txt {
-  width: 880px;
+  width: 720px;
   font-size: 80%;
 }
 
