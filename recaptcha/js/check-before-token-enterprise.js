@@ -95,7 +95,7 @@
         script = document.createElement('script');
     script.type = 'text/javascript';
     script.onload =
-      () => eval('grecaptcha.enterprise.ready(() => setTimeout(submitRequest, 100));');
+      () => eval('grecaptcha.enterprise.ready(() => setTimeout(submitRequest, 50));');
     script.src = `https://www.google.com/recaptcha/enterprise.js?render=${reCAPTCHA_site_key}`;
     head.appendChild(script);
   }
