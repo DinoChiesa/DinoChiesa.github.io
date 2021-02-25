@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------
 //
 // created: Mon Jun  1 13:00:26 2020
-// last saved: <2021-February-24 18:37:57>
+// last saved: <2021-February-24 18:42:43>
 
 /* jshint esversion:9, node:false, strict:implied, browser:true */
 /* global jQuery, document, window, console, Buffer, grecaptcha  */
@@ -165,13 +165,12 @@
     return false;
   }
 
-  grecaptcha.enterprise.ready(() =>
-                              $(document).ready(() => {
-                                resetState();
-                                $('#txt-baseurl').on('change keyup paste', storeSetting);
-                                $('#txt-sitekey').on('change keyup paste', storeSetting);
-                                $('#check').on('click', applyRecaptchaAndSubmit);
-                                $('#clear').on('click', clearOutput);
-                              })
-                             );
+  $(document).ready(() => {
+    resetState();
+    $('#txt-baseurl').on('change keyup paste', storeSetting);
+    $('#txt-sitekey').on('change keyup paste', storeSetting);
+    $('#check').on('click', applyRecaptchaAndSubmit);
+    $('#clear').on('click', clearOutput);
+  });
+
 }());
