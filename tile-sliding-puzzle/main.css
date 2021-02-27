@@ -1,0 +1,46 @@
+body, html {
+  margin-left:10px;
+  height: 100%;
+  display: grid;
+}
+
+h2 {
+  color: #004D7A;
+}
+
+h1 {
+  color: #017FC8;
+}
+
+body > div,
+body > button {
+  margin: auto;
+  font-size:32px;
+}
+
+.cell {
+  border: 1px dotted gray;
+  display: inline-block;
+  width: 180px;
+  line-height: 180px;
+  height: 180px;
+  font-size:48px;
+}
+.data {
+  margin: auto;
+  text-align: center;
+}
+.row {
+  height: 180px;
+}
+
+#solveit {
+  max-width:280px;
+  max-height:48px;
+}
+
+/*
+.hidden {
+  color:#DCDCDC;
+}
+*/
