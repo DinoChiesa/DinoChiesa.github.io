@@ -1,11 +1,17 @@
-body {
+body, html {
   font-size: 180%;
+  margin-left:10px;
+  height: 100%;
+  display: grid;
 }
+
 body > div {
-  display: flex;
   height: auto;
-  width: 1440px;
-  max-width: 1440px;
+  width: auto;
+  /* width: 1440px; */
+  /* max-width: 1440px; */
+  /* margin: auto; */
+  font-size: 32px;
   margin: 0 auto;
 }
 form div label {
