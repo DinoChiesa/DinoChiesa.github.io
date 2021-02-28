@@ -20,7 +20,7 @@
 //
 
 // created: Fri Feb 26 15:54:58 2021
-// last saved: <2021-February-27 13:59:22>
+// last saved: <2021-February-28 11:15:23>
 
 /* jshint esversion:9, node:false, browser:true, strict:implied */
 /* global console, jQuery */
@@ -307,13 +307,13 @@ function doReset() {
 
 function animateSolution(indexes) {
   $('#notes')
-    .html(`solution steps: ${indexes.length}`);
+    .html(`solution steps: ${indexes.length-1}`);
   let p = delay(1800);
-  for (let i = 0; i < indexes.length - 1; i++) {
+  for (let i = 1; i < indexes.length; i++) {
     p = p
       .then(_ => delay(180))
-      .then(_ => move(indexes[i]))
-      .then(_ => $('#notes').html(`solution steps: ${i}/${indexes.length}`));
+      .then(_ => move(indexes[i - 1]))
+      .then(_ => $('#notes').html(`solution steps: ${i}/${indexes.length-1}`));
   }
   return p.then(doReset);
 }
