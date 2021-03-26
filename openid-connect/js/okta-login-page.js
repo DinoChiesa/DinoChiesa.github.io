@@ -22,8 +22,7 @@
 
 (function (){
 
-  const oktaTokenUrl = 'https://www.googleapis.com/oauth2/v4/token',
-        extraneousDoubleSlashFinder = new RegExp('^(https?://[^/]+)//(.+)$');
+  const extraneousDoubleSlashFinder = new RegExp('^(https?://[^/]+)//(.+)$');
 
   var html5AppId = html5AppId || "32649BAF-6FA5-4725-B992-5E48CDD37AE2",
       linkTemplate = linkTemplate || "https://${oktadomain}/oauth2/${authzserver}/v1/authorize?max_age=${maxage}&client_id=${clientid}&response_type=${rtype}&scope=${scope}&state=${state}&redirect_uri=${cburi}&code_challenge_method=S256&code_challenge=${pkce_challenge}";
@@ -41,6 +40,22 @@
         rtype : [],
         scope : []
       };
+
+  const applyTemplate = (template, model) => {
+          let link = template;
+          Object.keys(model).forEach(key => {
+            let pattern = '${' + key + '}', value = '';
+            if (model[key] !== null) {
+              value = (typeof model[key] != 'string') ? model[key].join('+') : model[key];
+            }
+            link = link.replace(pattern,value);
+          });
+          return link;
+        };
+
+  const tokenUrl = () =>
+          applyTemplate('https://${oktadomain}/oauth2/${authzserver}/v1/token', model);
+
 
   function randomValue(len) {
     let v = '';
@@ -113,6 +128,7 @@ const sha256base64 = async msg => {
 
   const wrapInSingleQuote = s => `'${s}'`;
 
+
   async function updateLink() {
     let link = linkTemplate,
         copyModel = copyHash(model);
@@ -137,13 +153,14 @@ const sha256base64 = async msg => {
     if (model.code) {
       let payload = {
             grant_type: 'authorization_code',
-            client_secret : model.clientsecret,
             client_id : model.clientid,
+            client_secret : model.clientsecret,
+            code_verifier : model.verifier,
             redirect_uri : model.cburi,
             code : model.code
           };
       $('#preBox').html('<pre>curl -X POST -H content-type:application/x-www-form-urlencoded ' +
-                            wrapInSingleQuote(oktaTokenUrl) + ' -d ' + wrapInSingleQuote($.param(payload)) + '</pre>');
+                        wrapInSingleQuote(tokenUrl()) + ' -d ' + wrapInSingleQuote($.param(payload)) + '</pre>');
       $('#authzRedemption').show();
     }
     else {
@@ -219,16 +236,17 @@ const sha256base64 = async msg => {
 
   function invokeRedemption(event) {
     var payload = {
+          grant_type: 'authorization_code',
           client_id : model.clientid,
           client_secret : model.clientsecret,
+          code_verifier : model.verifier,
           redirect_uri : model.cburi,
-          grant_type: 'authorization_code',
           code: model.code
         };
 
     // NB: This call will fail if the server does not include CORS headers in the response
     $.ajax({
-      url : oktaTokenUrl,
+      url : tokenUrl(),
       type: 'POST',
       data : payload,
       success: function(data, textStatus, jqXHR) {
