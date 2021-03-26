@@ -24,16 +24,21 @@
         aud : ''
       };
 
-  function randomValue(len) {
-    return Math.random().toString(36).substring(2, len? (len + 2): 8);
-  }
+const randomValue = (len) => {
+          let v = '';
+          do {
+            v += Math.random().toString(36).substring(2, 8);
+          } while (v.length<len);
+          return v.substring(0, len);
+        };
 
   function reloadRandomValue(event) {
     let $elt = $(this),
         sourceElement = $elt.data('target'),
         // grab the element to copy
         $source = $('#' + sourceElement),
-        newValue = randomValue();
+        desiredLength = Number($source.data('desired-length')) || 8,
+        newValue = randomValue(desiredLength);
     $source.val(newValue);
     model[sourceElement] = newValue;
     updateLink();
@@ -51,8 +56,20 @@
 
     $('body').append($temp);
     $temp.val(textToCopy).select();
-    document.execCommand('copy');
+    let success;
+    try {
+      success = document.execCommand('copy');
+      if (success) {
+        $source.addClass('copy-to-clipboard-flash-bg')
+          .delay('1000')
+          .queue( _ => $source.removeClass('copy-to-clipboard-flash-bg').dequeue() );
+      }
+    }
+    catch(e) {
+      success = false;
+    }
     $temp.remove();
+    return success;
   }
 
   function copyHash(obj) {
@@ -65,7 +82,7 @@
     return copy;
   }
 
-  function wrapInSingleQuote(s) {return "'" + s + "'";}
+  const wrapInSingleQuote = s => `'${s}'`;
 
   function updateLink() {
     let link = linkTemplate,
@@ -122,35 +139,30 @@
   }
 
   function updateModel(event) {
-    Object.keys(model).forEach(function(key) {
-      var $item = $('#' + key), value = $item.val();
-      model[key] = value;
-    });
+    Object.keys(model).forEach(key => model[key] = $('#' + key).val());
     updateLink();
     if (event)
       event.preventDefault();
   }
 
-
-  function excludeTransientFields(key) {
-    return key != 'code'; // the only transient field, currently
-  }
+  const excludeTransientFields = key => key != 'code';
 
   function populateFormFields() {
     // get values from local storage, and place into the form
     Object.keys(model)
       .filter(excludeTransientFields)
-      .forEach(function(key) {
-        var value = window.localStorage.getItem(html5AppId + '.model.' + key);
-        var $item = $('#' + key);
+      .forEach(key => {
+        let value = window.localStorage.getItem(html5AppId + '.model.' + key),
+            $item = $('#' + key);
         if (key === 'state' || key === 'nonce') {
-          $item.val(randomValue(6));
+          let desiredLength = Number($item.data('desired-length')) || 6;
+          $item.val(desiredLength);
         }
         else if (value && value !== '') {
           if (typeof model[key] !== 'string') {
             // the value is a set of values concatenated by +
             // and the type of form field is select.
-            value.split('+').forEach(function(part){
+            value.split('+').forEach(part => {
               $item.find("option[value='" + part + "']").prop('selected', 'selected');
             });
             $item.trigger('chosen:updated');
@@ -172,7 +184,7 @@
   }
 
   function invokeRedemption(event) {
-    var payload = {
+    let payload = {
           client_id : model.clientid,
           client_secret : model.clientsecret,
           redirect_uri : model.cburi,
@@ -207,7 +219,7 @@
   }
 
 
-  $(document).ready(function() {
+  $(document).ready(() => {
     $('.rtype-chosen').chosen({
       no_results_text: 'No matching response types...',
       allow_single_deselect: true
