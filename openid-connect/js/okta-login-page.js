@@ -57,13 +57,13 @@
 
   const oktaAuthz = () => applyTemplate(endpointTemplate, model);
 
-  function randomValue(len) {
-    let v = '';
-    do {
-      v += Math.random().toString(36).substring(2, 8);
-    } while (v.length<len);
-    return v.substring(0, len);
-  }
+  const randomValue = (len) => {
+          let v = '';
+          do {
+            v += Math.random().toString(36).substring(2, 8);
+          } while (v.length<len);
+          return v.substring(0, len);
+        };
 
   function reloadRandomValue(event) {
     let $elt = $(this),
@@ -83,21 +83,21 @@
           return window.crypto.subtle.digest('SHA-256', data);
         };
 
-const bufferToBase64UrlEncoded = (input) => {
-  const bytes = new Uint8Array(input);
-  return urlEncodeBase64(window.btoa(String.fromCharCode(...bytes)));
-      };
+  const bufferToBase64UrlEncoded = (input) => {
+          const bytes = new Uint8Array(input);
+          return urlEncodeBase64(window.btoa(String.fromCharCode(...bytes)));
+        };
 
-const urlEncodeBase64 = (input) => {
-  const chars = {'+': '-', '/': '_', '=': ''};
-  return input.replace(/[\+\/=]/g, m => chars[m]);
-      };
+  const urlEncodeBase64 = (input) => {
+          const chars = {'+': '-', '/': '_', '=': ''};
+          return input.replace(/[\+\/=]/g, m => chars[m]);
+        };
 
-const sha256base64 = async msg => {
-  const shaBuffer = await sha256(msg);
-        const encoded = bufferToBase64UrlEncoded(shaBuffer);
-        return encoded;
-      };
+  const sha256base64 = async msg => {
+          const shaBuffer = await sha256(msg);
+          const encoded = bufferToBase64UrlEncoded(shaBuffer);
+          return encoded;
+        };
 
   function copyToClipboard(event) {
     let $elt = $(this),
@@ -130,15 +130,15 @@ const sha256base64 = async msg => {
   function copyHash(obj) {
     var copy = {};
     if (null !== obj && typeof obj == 'object') {
-      Object.keys(obj).forEach(function(attr){
-        copy[attr] = (Array.isArray(obj[attr])) ? obj[attr].slice() : obj[attr];
-      });
+      Object.keys(obj)
+        .forEach(attr =>
+                 copy[attr] = (Array.isArray(obj[attr])) ? obj[attr].slice() : obj[attr] );
+
     }
     return copy;
   }
 
   const wrapInSingleQuote = s => `'${s}'`;
-
 
   async function updateLink() {
     let baselink = oktaAuthz() + '/v1/authorize',
@@ -172,8 +172,8 @@ const sha256base64 = async msg => {
   }
 
   function onInputChanged() {
-    var $$ = $(this), name = $$.attr('id'), value = $$.val();
-    model[name] = value;
+    var $this = $(this);
+    model[$this.attr('id')] = $this.val();
     updateLink();
   }
 
@@ -187,10 +187,7 @@ const sha256base64 = async msg => {
   }
 
   function updateModel(event) {
-    Object.keys(model).forEach(function(key) {
-      var $item = $('#' + key), value = $item.val();
-      model[key] = value;
-    });
+    Object.keys(model).forEach(key => model[key] = $('#' + key).val());
     updateLink();
     if (event)
       event.preventDefault();
@@ -202,7 +199,7 @@ const sha256base64 = async msg => {
     // get values from local storage, and place into the form
     Object.keys(model)
       //.filter(excludeTransientFields)
-      .forEach(function(key) {
+      .forEach( key => {
         var value = window.localStorage.getItem(html5AppId + '.model.' + key);
         var $item = $('#' + key);
         if (key === 'state' || key === 'verifier') {
@@ -216,7 +213,7 @@ const sha256base64 = async msg => {
           if (typeof model[key] !== 'string') {
             // the value is a set of values concatenated by +
             // and the type of form field is select.
-            value.split('+').forEach(function(part){
+            value.split('+').forEach(part => {
               $item.find("option[value='" + part + "']").prop('selected', 'selected');
             });
             $item.trigger('chosen:updated');
