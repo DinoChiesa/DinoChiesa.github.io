@@ -1,10 +1,10 @@
 // link-builder-page.js
 // ------------------------------------------------------------------
 //
-// page logic for link-builder.html and link-builder2.html
+// page logic for link-builder{1,2,3}.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2020-July-09 12:26:17>
+// last saved: <2021-March-11 16:38:35>
 
 /* jshint esversion:9, strict:implied */
 /* global $, window, document, model, btoa */
@@ -196,7 +196,7 @@
     // get values from local storage, and place into the form
     Object.keys(model)
       .filter(excludeTransientFields)
-      .forEach(function(key) {
+      .forEach(key => {
         let value = window.localStorage.getItem(html5AppId + '.model.' + key),
             $item = $('#' + key);
         if (key === 'state' || key === 'nonce') {
@@ -220,7 +220,7 @@
   }
 
 
-  $(document).ready(function() {
+  $(document).ready(() => {
     $('.rtype-chosen').chosen({
       no_results_text: 'No matching response types...',
       allow_single_deselect: true
@@ -230,13 +230,13 @@
       allow_single_deselect: true
     });
 
-    $( "form input[type='text']" ).change(onInputChanged);
+    $( `form input[type='text']` ).change(onInputChanged);
     $( 'form select' ).change(onSelectChanged);
     $( 'form button' ).submit(updateModel);
-    $( '.btn-reload' ).on('click', reloadRandomValue);
-    $( '#btn-copy' ).on('click', copyToClipboard);
-    $( '#btn-redeem' ).on('click', invokeRedemption);
-    $( '#btn-reset' ).on('click', resetRedemption);
+    $( '.btn-reload' ).on( 'click', reloadRandomValue);
+    $( '#btn-copy' ).on( 'click', copyToClipboard);
+    $( '#btn-redeem' ).on( 'click', invokeRedemption);
+    $( '#btn-reset' ).on( 'click', resetRedemption);
 
     populateFormFields();
 
