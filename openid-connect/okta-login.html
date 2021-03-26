@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>okta-login.html</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" >
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/chosen-bootstrap.css">
+
+    <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js'></script>
+    <script type='text/javascript' src='js/okta-login-page.js'></script>
+  </head>
+
+  <body>
+    <!-- ======================================================= -->
+    <div style='margin: 10px;'>
+      <h3>OpenID Connect login link builder for Okta Sign-in</h3>
+    <form role="form">
+      <div class="form-group">
+        <div>
+          <label for="oktadomain">Okta domain</label>
+        </div>
+        <input type="text" class="form-control" id="oktadomain" value='dev-329615.okta.com' title='eg, dev-329615.okta.com'>
+      </div>
+
+      <div class="form-group">
+        <div>
+          <label for="authzserver">authz server</label>
+        </div>
+        <input type="text" spellcheck="false" class="form-control" id="authzserver" value='xxyyshs'>
+      </div>
+
+      <div class="form-group">
+        <div>
+          <label for="clientid">client ID</label>
+        </div>
+        <input type="text" spellcheck="false" class="form-control" id="clientid" value='xxyyzz'>
+      </div>
+      
+      <div class="form-group">
+        <div>
+          <label for="clientsecret">client secret</label>
+        </div>
+        <input type="text" spellcheck="false" class="form-control" id="clientsecret" value='xyzxyz'>
+      </div>
+
+      <div class="form-group">
+        <div>
+          <label for="state">state</label>
+          <button type="button" class="btn btn-outline-secondary btn-sm btn-reload" data-target="state" title='refresh'>
+            <span class="oi oi-reload"></span>
+          </button>
+        </div>
+        <input type="text" spellcheck="false" class="form-control" id="state" title='required, can be any string'>
+      </div>
+
+      <div class="form-group">
+        <div>
+          <label for="maxage">max age</label>
+        </div>
+        <input type="text" spellcheck="false" class="form-control" id="maxage" value='300'>
+      </div>
+      
+      <div class="form-group">
+        <div>
+          <label for="cburi">redirect URI</label>
+        </div>
+        <input type="text" class="form-control" id="cburi" value='https://dinochiesa.github.io/openid-connect/okta-reply.html'
+               title='this redirect URI must be registered for the okta app'>
+      </div>
+
+      <div class="form-group">
+        <div>
+          <label for="rtype">response type</label>
+        </div>
+        <select name="rtype" id="rtype" multiple class="form-control chosen rtype-chosen"
+                data-placeholder="response type" required>
+          <option value=""></option>
+          <option value="code" >code</option>
+          <option value="token" >token</option>
+          <option value="id_token" >id_token</option>
+          <option value="invalid_option" >invalid_option</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <div>
+          <label for="scope">scope</label>
+        </div>
+        <select name="scope" id="scope" multiple class="form-control chosen scope-chosen"
+                data-placeholder="scope" required>
+          <option value=""></option>
+          <option value="openid" >openid</option>
+          <option value="profile" >profile</option>
+          <option value="email" >email</option>
+          <option value="offline_access" >offline_access</option>
+          <option value="invalid_option" >invalid_option</option>
+        </select>
+      </div>
+
+
+      <div class="form-group">
+        <div>
+          <label for="verifier">verifier</label>
+          <button type="button" class="btn btn-outline-secondary btn-sm btn-reload" data-target="verifier" title='refresh'>
+            <span class="oi oi-reload"></span>
+          </button>
+        </div>
+        <input type="text" spellcheck="false" class="form-control" id="verifier"
+               data-desired-length="32" title='required, can be any 32-byte sequence'>
+      </div>
+      
+      <div class="divider"></div>
+
+      <div class="form-group">
+        <div>
+          <label for="code">code</label>
+        </div>
+        <input type="text" title='use this only if the response_type includes "code"'
+               class="form-control" id="code">
+      </div>
+
+      <div>
+        <button type="submit" class="btn btn-default" style='display:none'>Submit</button>
+      </div>
+    </form>
+
+    <div id='output'>
+      <a href='' id='authzlink'></a>
+      <div id='authzRedemption'>
+        <div id='preBox'></div>
+        <button class="btn btn-outline-secondary btn-md" id='btn-copy' data-target="preBox"
+                title="Copy the curl command to the clipboard">Copy</button>
+        <button class="btn btn-outline-secondary btn-md" id="btn-redeem"
+                title="invoke the code redemption from the browser">Redeem</button>
+        <button class="btn btn-outline-secondary btn-md" id="btn-reset">Reset</button>
+
+      </div>
+    </div>
+    </div>
+
+  </body>
+
+</html>
