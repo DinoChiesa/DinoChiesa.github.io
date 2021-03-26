@@ -3,29 +3,26 @@
 //
 // This demonstrates a signin with a PKCE challenge and verifier.
 //
-//
-// https://dev-329615.okta.com/oauth2/aus3nfybl0MgXSZtd357/v1/authorize?
-// max_age=300&
-// client_id=0oa3nwjx7q2Gbh0Df357&
-// response_type=code&
-// scope=openid%20offline_access&
-// state=b3f8fcc4d1cb3a3180900648e23adae5ab66ae06974fba7fe6a1a31af0918170&
-// redirect_uri=https://5g-dev.dinochiesa.net/oidc-1/callback&
-// code_challenge_method=S256&
-// code_challenge=BfrnJew_mGg-h4ztHpVlgP1O65HjOZEdT0uVdebiV6c
-//
 /* jshint esversion: 9, browser:true, strict:implied */
 /* global $, TextEncoder */
-
-
 
 
 (function (){
 
   const extraneousDoubleSlashFinder = new RegExp('^(https?://[^/]+)//(.+)$');
 
-  var html5AppId = html5AppId || "32649BAF-6FA5-4725-B992-5E48CDD37AE2",
-      linkTemplate = linkTemplate || "https://${oktadomain}/oauth2/${authzserver}/v1/authorize?max_age=${maxage}&client_id=${clientid}&response_type=${rtype}&scope=${scope}&state=${state}&redirect_uri=${cburi}&code_challenge_method=S256&code_challenge=${pkce_challenge}";
+  const html5AppId = "32649BAF-6FA5-4725-B992-5E48CDD37AE2",
+        endpointTemplate = 'https://${oktadomain}/oauth2/${authzserver}',
+        linkParams = [
+          "max_age=${maxage}",
+          "client_id=${clientid}",
+          "response_type=${rtype}",
+          "scope=${scope}",
+          "state=${state}",
+          "redirect_uri=${cburi}",
+          "code_challenge_method=S256",
+          "code_challenge=${pkce_challenge}"
+        ];
 
   let model = {
         oktadomain : '',
@@ -41,21 +38,24 @@
         scope : []
       };
 
-  const applyTemplate = (template, model) => {
-          let link = template;
+  const applyTemplate = (template, model, wantStore) => {
+          let t = template;
           Object.keys(model).forEach(key => {
             let pattern = '${' + key + '}', value = '';
             if (model[key] !== null) {
               value = (typeof model[key] != 'string') ? model[key].join('+') : model[key];
+              if (wantStore) {
+                if ((key !== 'state' && key !== 'nonce') && (value !== null) && (typeof value !== 'undefined')) {
+                  window.localStorage.setItem(html5AppId + '.model.' + key, value);
+                }
+              }
             }
-            link = link.replace(pattern,value);
+            t = t.replace(pattern,value);
           });
-          return link;
+          return t;
         };
 
-  const tokenUrl = () =>
-          applyTemplate('https://${oktadomain}/oauth2/${authzserver}/v1/token', model);
-
+  const oktaAuthz = () => applyTemplate(endpointTemplate, model);
 
   function randomValue(len) {
     let v = '';
@@ -99,7 +99,6 @@ const sha256base64 = async msg => {
         return encoded;
       };
 
-
   function copyToClipboard(event) {
     let $elt = $(this),
         sourceElement = $elt.data('target'),
@@ -112,8 +111,20 @@ const sha256base64 = async msg => {
 
     $('body').append($temp);
     $temp.val(textToCopy).select();
-    document.execCommand('copy');
+    let success;
+    try {
+      success = document.execCommand('copy');
+      if (success) {
+        $source.addClass('copy-to-clipboard-flash-bg')
+          .delay('1000')
+          .queue( _ => $source.removeClass('copy-to-clipboard-flash-bg').dequeue() );
+      }
+    }
+    catch(e) {
+      success = false;
+    }
     $temp.remove();
+    return success;
   }
 
   function copyHash(obj) {
@@ -130,18 +141,10 @@ const sha256base64 = async msg => {
 
 
   async function updateLink() {
-    let link = linkTemplate,
-        copyModel = copyHash(model);
-    Object.keys(copyModel).forEach(function(key) {
-      let pattern = '${' + key + '}', value = '';
-      if (copyModel[key] !== null) {
-        value = (typeof copyModel[key] != 'string') ? copyModel[key].join('+') : copyModel[key];
-        if ((key !== 'state' && key !== 'nonce') && (value !== null) && (typeof value !== 'undefined')) {
-          window.localStorage.setItem(html5AppId + '.model.' + key, value);
-        }
-      }
-      link = link.replace(pattern,value);
-    });
+    let baselink = oktaAuthz() + '/v1/authorize',
+        copyModel = copyHash(model),  // not sure why i need to copy this?
+        params = linkParams.join('&'),
+        link = baselink + '?' + applyTemplate(params, copyModel, true);
 
     link = link.replace('${pkce_challenge}', await sha256base64(copyModel.verifier));
 
@@ -160,7 +163,7 @@ const sha256base64 = async msg => {
             code : model.code
           };
       $('#preBox').html('<pre>curl -X POST -H content-type:application/x-www-form-urlencoded ' +
-                        wrapInSingleQuote(tokenUrl()) + ' -d ' + wrapInSingleQuote($.param(payload)) + '</pre>');
+                        wrapInSingleQuote(oktaAuthz() + '/v1/token') + ' -d ' + wrapInSingleQuote($.param(payload)) + '</pre>');
       $('#authzRedemption').show();
     }
     else {
@@ -235,7 +238,7 @@ const sha256base64 = async msg => {
   }
 
   function invokeRedemption(event) {
-    var payload = {
+    let payload = {
           grant_type: 'authorization_code',
           client_id : model.clientid,
           client_secret : model.clientsecret,
@@ -246,7 +249,7 @@ const sha256base64 = async msg => {
 
     // NB: This call will fail if the server does not include CORS headers in the response
     $.ajax({
-      url : tokenUrl(),
+      url : oktaAuthz() + '/v1/token',
       type: 'POST',
       data : payload,
       success: function(data, textStatus, jqXHR) {
