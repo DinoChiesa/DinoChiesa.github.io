@@ -57,6 +57,9 @@ form > div.form-group {
 .code {
   font-family: "Consolas", "Courier New", Courier, monospace;
 }
+.encodedresults {
+  overflow-x: hidden;
+}
 #key.notshown,
 #keylabel.notshown,
 #output.notshown > div > div {

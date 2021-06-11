@@ -11,7 +11,7 @@
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-        <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/main.css">
 
     <script type='text/javascript' src='js/MD5.js'></script>
     <script type='text/javascript' src='js/page.js'></script>
@@ -52,10 +52,10 @@
 
         <div class='form-group'>
           <label for='text'>text or message:</label>
-        <!-- input type='textarea' id='text' class='form-control'  -->
+          <!-- input type='textarea' id='text' class='form-control'  -->
           <textarea class="form-control" rows="7" id='text' spellcheck="false"
                  placeholder="-currently blank; insert your message here-"
-                    title='The message to use in the function. This data never leaves your browser.'></textarea>
+                 title='The message to use in the function. This data never leaves your browser.'></textarea>
         </div>
 
         <div class='form-group'>
@@ -69,29 +69,38 @@
       <div id='output' class='notshown'>
         Encoded results:
         <div>
-          <span>HEX:</span>
+          <span>Base16:</span>
           <div class='copyIconHolder' title='click to copy'></div>
-          <div id='resultB16' class='code' title='hex encoding is case-insensitive'></div>
+          <div id='resultB16' class='code encodedresults' title='hex encoding is case-insensitive'></div>
         </div>
         <div>
           <span>Base64:</span>
           <div class='copyIconHolder' title='click to copy'></div>
-          <div id='resultB64' class='code' title='base64 encoding is case-sensitive'></div>
+          <div id='resultB64' class='code encodedresults' title='base64 encoding is case-sensitive'></div>
         </div>
         <div>
           <span>Base64Url:</span>
           <div class='copyIconHolder' title='click to copy'></div>
-          <div id='resultB64url' class='code' title='base64url encoding is case-sensitive'></div>
+          <div id='resultB64url' class='code encodedresults' title='base64url encoding is case-sensitive'></div>
         </div>
       </div>
 
       <div id='notes'>
         Notes:
         <ol>
-          <li>This page uses <a href='https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API'>the WebCrypto library</a>, for the hash and HMACs computation.</li>
-          <li>Any data you enter on this page stays in the browser, and is never sent to any third-party site. The hash computation is performed in your browser. If you specify a key for HMAC, the key is used only for HMAC calculation, and never leaves your browser. Data does get stored in localStorage.</li>
-          <li>The results shown by this page are different encodings that represent the same value.</li>
-          <li>Base16 encoding is sometimes called "Hex encoding". </li>
+          <li>This page uses <a href='https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API'>the
+            WebCrypto library</a>, for the hash and HMACs computation.</li>
+
+          <li>Any data you enter on this page stays in the browser, and is never
+            sent to any third-party site. The hash computation is performed in
+            your browser. If you specify a key for HMAC, the key is used only
+            for HMAC calculation, and never leaves your browser. Data does get
+            stored in localStorage. Having said that, you should take care to
+            not provide sensitive information or keys into untrusted web pages.</li>
+
+          <li>The results shown by this page are different encodings that represent the same value. And, 
+            Base16 encoding is sometimes called "Hex encoding". </li>
+
           <li>Here are a few test cases:
             <table class='testcases pure-table pure-table-bordered'>
               <thead>
