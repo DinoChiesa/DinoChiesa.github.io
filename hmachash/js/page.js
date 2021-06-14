@@ -2,42 +2,143 @@
 // ------------------------------------------------------------------
 
 /* jshint esversion:9, node:false, strict:implied */
-/* global md5, console, Blob, $, jQuery, TextEncoder, crypto, window, Buffer */
+/* global window, console, Blob, $, jQuery, TextEncoder, TextDecoder, crypto, md5 */
 
 (function () {
-  const newlineRegex = new RegExp('(\r\n|\n)', 'g');
-  let utf8Encoder = new TextEncoder("utf-8");
-  let appId = '63894937-8A1F-40F0-8C4C-6656B3B9C056';
+  const newlineRegex = new RegExp('(\r\n|\n)', 'g'),
+        utf8Encoder = new TextEncoder(),
+        appId = '63894937-8A1F-40F0-8C4C-6656B3B9C056';
+  let settingUp = true;
 
   function getHashName() {
-    var hashName = $('#function option:selected').val();
+    var hashName = $('#sel-function option:selected').val();
     return hashName.toUpperCase();
   }
 
-  function hexToByteArrayBuffer(hex) {
+  function hexStringToArray(hex) {
+    // convert hex string to bytes
     for (var bytes = [], c = 0; c < hex.length; c += 2)
       bytes.push(parseInt(hex.substr(c, 2), 16));
     return new Uint8Array(bytes).buffer;
   }
 
+  // function arrayToHexString_FOR_SOME_REASON_THIS_FAILS_AT_INDEX_9_IN_SOME_CASES(hashArray) {
+  //   // convert bytes to hex string
+  //   const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  //   return hashHex;
+  // }
+
+  function arrayToHexString(hashArray) {
+    // convert bytes to hex string
+    let r = [];
+    for (let i = 0; i< hashArray.length; i++) {
+      r.push(hashArray[i].toString(16).padStart(2, '0'));
+    }
+    return r.join('');
+  }
+
+  function arrayToB64String(u8) {
+    return window.btoa(String.fromCharCode.apply(null, u8));
+  }
+  function b64StringToArray(str) {
+    return window.atob(str).split('').map(function (c) { return c.charCodeAt(0); });
+  }
+
+  function arrayToStr(value, coding) {
+    if (coding == 'utf-8') {
+      return (new TextDecoder("utf-8", {fatal: true})).decode(value);
+    }
+    if (coding == 'hex') {
+      return arrayToHexString(value);
+    }
+    if (coding == 'base64') {
+      return arrayToB64String(value);
+    }
+    throw new Error('unsupported key encoding: ' + coding);
+  }
+
+  function strToArray(value, coding) {
+     if (coding == 'utf-8') {
+      return utf8Encoder.encode(value);
+    }
+    if (coding == 'hex') {
+      return hexStringToArray(value);
+    }
+    if (coding == 'base64') {
+      return b64StringToArray(value);
+    }
+    throw new Error('unsupported key encoding: ' + coding);
+  }
+
+  function getSaltArray() {
+    let saltText = $('#pbkdf2-salt').val();
+    return strToArray(saltText, getSaltEncoding());
+  }
+
+  function getKeyArray(options) {
+    // returns a Promise which will be fulfilled with a Uint8Array containing the key.
+    const knownCodecs = ['utf-8', 'base64', 'hex'];
+
+    if (knownCodecs.indexOf(options.coding)>=0) {
+      let b = null;
+      try {
+        b = strToArray(options.keyvalue, options.coding);
+      }
+      catch (e) {
+        // bad coding: either bad length, invalid chars for the given coding, etc.
+        b = [];
+      }
+      return Promise.resolve(new Uint8Array(b));
+    }
+
+    if (options.coding == 'pbkdf2') {
+      const extractable = true,
+            keyUsages = ['deriveBits', 'deriveKey'];
+      return window.crypto.subtle
+        .importKey(
+          'raw',
+          utf8Encoder.encode(options.keyvalue),
+          {name: 'PBKDF2'},
+          false, // extractable,
+          keyUsages
+        )
+        .then( keyMaterial =>
+               window.crypto.subtle.deriveKey(
+                 {
+                   name: "PBKDF2",
+                   salt: getSaltArray(),
+                   iterations: Number($('#pbkdf2-iterations').val()),
+                   hash: "SHA-256"
+                 },
+                 keyMaterial,
+                 { name: "AES-GCM", length: 256},
+                 true,
+                 [ 'encrypt', 'decrypt' ]
+               ) )
+        .then( key => window.crypto.subtle.exportKey( "raw", key  ))
+        .then( a => new Uint8Array(a))
+        .then( u8 =>  {
+          $('#pbkdf2-derived-key').val(arrayToHexString(u8));
+          return u8;
+        });
+    }
+
+    throw new Error('unknown key encoding: ' + options.coding);  // will not happen
+  }
+
+
   function getHash(message) {
     let algo = getHashName();
     if (algo == 'MD-5') {
       let r = md5(message); // md5('abc') = 900150983cd24fb0d6963f7d28e17f72
-      return Promise.resolve(hexToByteArrayBuffer(r));
+      return Promise.resolve(hexStringToArray(r));
     }
 
-    const encoder = new TextEncoder();
-    const data = encoder.encode(message);
+    const data = utf8Encoder.encode(message);
     return crypto.subtle.digest(algo, data);
     // The result is a Promise that  returns an ArrayBuffer
   }
 
-  function hexEncode(hashArray) {
-    // convert bytes to hex string
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    return hashHex;
-  }
   function eraseResults() {
     $('#resultB16').text('');
     $('#resultB64').text('');
@@ -60,7 +161,6 @@
       .replace(new RegExp('=+$'), '');
   }
 
-
   function publishResults(resultBuffer, errorMessage) {
     if (errorMessage) {
       $('#resultB16').text(errorMessage);
@@ -70,7 +170,7 @@
     else if (resultBuffer) {
       // convert buffer to byte array
       const hashArray = Array.from(new Uint8Array(resultBuffer));
-      const hashInBase16 = hexEncode(hashArray);
+      const hashInBase16 = arrayToHexString(hashArray);
       $('#resultB16').text(hashInBase16);
       var hashInBase64 = arrayToBase64(hashArray);
       $('#resultB64').text(hashInBase64);
@@ -79,10 +179,26 @@
     $('#output').addClass('shown').removeClass('notshown');
   }
 
-  function convertKeyForHmac(key) {
+  function getKeyEncoding() {
+    let label = 'sel-key-coding',
+        coding = $(`#${label} option:selected`).text().toLowerCase();
+    return coding;
+  }
+
+  function getSaltEncoding() {
+    let label = 'sel-pbkdf2-salt-coding',
+        coding = $(`#${label} option:selected`).text().toLowerCase();
+    return coding;
+  }
+
+  async function convertKeyForHmac(key) {
+    let keyArray = await getKeyArray({
+            keyvalue : $('#key').val(),
+            coding: $('#sel-key-coding option:selected').text().toLowerCase()
+        });
     return window.crypto.subtle.importKey(
       "raw", // raw format of the key - should be Uint8Array
-      utf8Encoder.encode(key),
+      keyArray,
       { // algorithm details
         name: "HMAC",
         hash: { name: getHashName() }
@@ -96,7 +212,7 @@
     let message = $('#text').val();
     let key = $('#key').val();
     if (message!=null && key) {
-      message = (new TextEncoder()).encode(message.replace(newlineRegex,'\n'));
+      message = utf8Encoder.encode(message.replace(newlineRegex,'\n'));
       return convertKeyForHmac(key)
         .then(key => crypto.subtle.sign("HMAC", key, message))
         .then(arrayBuffer => publishResults(arrayBuffer))
@@ -118,26 +234,22 @@
     }
   }
 
-  function calcResult(event) {
-    if (event) { event.preventDefault(); }
+  function calcResult() {
+    if (settingUp) return;
     var message = $('#text').val();
-    //var re1 = new RegExp('(\r\n|\n)', 'g');
-    //alert('message:\n' + message.replace(re1,'\\n\n'));
-    //if (message) {
     if ($('#hmac').is(':checked')) {
       return calcHmac();
     }
     else {
       return calcHash();
     }
-    //}
   }
 
   function changeText(event) {
     let message = $('#text').val();
     window.localStorage.setItem(appId + '.model.text', message );
     if (getHashName()) {
-      return calcResult(event);
+      return calcResult();
     }
   }
 
@@ -145,17 +257,14 @@
     let key = $('#key').val();
     window.localStorage.setItem(appId + '.model.key', key );
     if (getHashName()) {
-      calcResult(event);
+      calcResult();
     }
   }
 
   function changeFunction(event) {
     if (event) { event.preventDefault(); }
-    window.localStorage.setItem(appId + '.model.function', getHashName() );
-    // enable the compute button
-    // $( "#submit" ).removeClass('disabled').prop("disabled", false);
-    //eraseResults();
-    calcResult(event);
+    window.localStorage.setItem(appId + '.model.sel-function', getHashName() );
+    calcResult();
   }
 
   function changeHmac(event) {
@@ -164,38 +273,123 @@
     let isChecked = $('#hmac').is(':checked');
     window.localStorage.setItem(appId + '.model.hmac', '' + isChecked );
     // display or hide the key as appropriate
+    $('.hmac').toggle(isChecked);
+    $('.not-hmac').toggle( ! isChecked);
     if (isChecked) {
-      $('#pageHead').text('Calculate an HMAC with SHA or MD5');
-      $('#key').addClass('shown') .removeClass('notshown');
-      $('#keylabel').addClass('shown') .removeClass('notshown');
-      $( "#key" ).removeClass('disabled') .prop("disabled", false);
+      changeKeyEncoding();
     }
-    else {
-      $('#pageHead').text('Calculate a SHA or MD5');
-      $('#key').addClass('notshown') .removeClass('shown');
-      $('#keylabel').addClass('notshown') .removeClass('shown');
-      $( "#key" ).addClass('disabled') .prop("disabled", true);
+    calcResult();
+  }
+
+  async function changeInputCoding($elt, $target, newCoding, previousCoding) {
+    if (newCoding != previousCoding) {
+      // When the coding changes, try to re-encode the existing key.
+      // This will not always work nicely when switching to UTF-8.
+      // It may result in a utf-8 string with unicode escape sequences, eg \u000b.
+      if (newCoding == 'utf-8' && previousCoding == 'pbkdf2') {
+        // do nothing - just keep the existing text key
+      }
+      else {
+        let existingKey = await getKeyArray({
+              keyvalue : $target.val(),
+              coding: previousCoding
+            });
+        if (newCoding == 'pbkdf2') {
+          $target.val(arrayToStr(existingKey, 'utf-8'));
+        }
+        else {
+          try {
+            let value = arrayToStr(existingKey, newCoding);
+            $target.val(value);
+          }
+          catch(exc1) {
+            // Not possible to convert all hex-encoded keys to UTF-8.
+            // do nothing
+          }
+        }
+      }
+      return $target.val();
     }
-    //eraseResults();
-    calcResult(event);
+  }
+
+  async function changeKeyEncoding(event) {
+    if (event) { event.preventDefault(); }
+    // handle coding switch to keep the key the same
+    let $elt = $('#sel-key-coding'),
+        newCoding = $elt.find('option:selected').text().toLowerCase(),
+        previousCoding = $elt.data('prev');
+
+    window.localStorage.setItem(`${appId}.model.sel-key-coding`, newCoding);
+    $('.pbkdf2').toggle(newCoding == 'pbkdf2');
+
+    let newKeyValue = await changeInputCoding($elt, $('#key'), newCoding, previousCoding);
+    if (newKeyValue){
+      window.localStorage.setItem(appId + '.model.key', newKeyValue);
+    }
+    $elt.data('prev', newCoding);
+    // In the ideal case, the hmac result does not change with a key coding change,
+    // but in some cases a coding change is not possible and the key changes.
+    // So update the result.
+    calcResult();
+  }
+
+  function changeIterations(event) {
+    let label = 'pbkdf2-iterations',
+        iterations = $(`#${label}`).val();
+    window.localStorage.setItem(`${appId}.model.${label}`, iterations );
+    calcResult();
+  }
+
+  function changeSalt(event) {
+    let label = 'pbkdf2-salt',
+        salt = $(`#${label}`).val();
+    window.localStorage.setItem(`${appId}.model.${label}`, salt);
+    calcResult();
+  }
+
+  async function changeSaltEncoding(event) {
+    if (event) { event.preventDefault(); }
+    let $elt = $(this),
+        id = $elt.attr('id'),
+        newCoding = $elt.find('option:selected').text().toLowerCase(),
+        previousCoding = $elt.data('prev');
+
+    window.localStorage.setItem(`${appId}.model.${id}`, newCoding);
+    // await getKeyArray({
+    //   keyvalue : $('#key').val(),
+    //   coding: $('#sel-key-coding option:selected').text().toLowerCase()
+    // });
+    let label = 'pbkdf2-salt';
+    let newSaltValue = await changeInputCoding($elt, $(`#${label}`), newCoding, previousCoding);
+    if (newSaltValue) {
+      window.localStorage.setItem(`${appId}.model.${label}`, newSaltValue);
+    }
+    $elt.data('prev', newCoding);
   }
 
   function applySettings() {
-    let propNames = ['key', 'text', 'hmac', 'function'];
+    let propNames = ['key', 'text', 'hmac', 'sel-function', 'sel-key-coding', 'pbkdf2-iterations', 'pbkdf2-salt', 'sel-pbkdf2-salt-coding'];
     propNames.forEach( name => {
       let value = window.localStorage.getItem(appId + '.model.' + name );
       if (value) {
         if (name == 'hmac') {
           $("#hmac"). prop("checked", value.toLowerCase() == "true");
         }
-        else if (name == 'function') {
-          $('#function option[value='+ value.toLowerCase() +']').prop('selected', true);
+        else if (name.startsWith('sel-')) {
+          $(`#${name} option[value=${value.toLowerCase()}]`).prop('selected', true);
         }
         else {
-          $('#' + name).val(value);
+          $(`#${name}`).val(value);
         }
       }
     });
+
+    // record previous
+    ['sel-key-coding', 'sel-pbkdf2-salt-coding'].forEach( name => {
+      let $elt = $(`#${name}`);
+      $elt.data('prev', $elt.find('option:selected').text().toLowerCase());
+    });
+
   }
 
   function copyToClipboard(event) {
@@ -226,16 +420,21 @@
   }
 
   $(window.document).ready(function() {
-    $('#function').val('');
-    $('#function').change(changeFunction);
-    $('#function').val('sha-256');
+    $('#sel-function').change(changeFunction);
+    $('#sel-function').val('sha-256');
     $('#hmac').change(changeHmac);
-    $('#submit').on('click', calcResult);
+    $('#sel-key-coding').change(changeKeyEncoding);
+    $('#sel-pbkdf2-salt-coding').change(changeSaltEncoding);
     $('#text').bind('input propertychange', changeText);
     $('#key').bind('input propertychange', changeKey);
+    $('#pbkdf2-iterations').bind('input propertychange', changeIterations);
+    $('#pbkdf2-salt').bind('input propertychange', changeSalt);
     $('.copyIconHolder').on('click', copyToClipboard);
     applySettings();
     changeHmac();
+    //changeKeyEncoding();
+    settingUp = false;
+    calcResult();
   });
 
 }());

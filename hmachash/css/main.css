@@ -10,7 +10,7 @@ body > div {
 form div label {
   float: left;
   width: 148px;
-  margin: 8px 0;
+  margin: 0px 0;
 }
 form > div > select,
 form > div > textarea,
@@ -19,10 +19,20 @@ form > div > input {
   max-width: 860px;
   margin: 2px 0;
 }
+form > div.pbkdf2 > .form-control {
+  max-width: calc(860px - 148px);
+}
+form > div.pbkdf2 > label {
+  font-size: 74%;
+}
 form > div,
 form > div.form-group {
   display:block;
   clear:both;
+  /* border-bottom: 1px grey dotted; */
+}
+.pbkdf2 {
+  margin-left: 148px;
 }
 #output, #notes {
   display:block;

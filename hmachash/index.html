@@ -24,12 +24,13 @@
 
     <div>
     <div style='margin: 10px;'>
-      <h3 id='pageHead'>Calculate a SHA or MD5, or an HMAC with SHA or MD5</h3>
+      <h3 id='pageHead' class='not-hmac'>Calculate a SHA or MD5</h3>
+      <h3 id='pageHead' class='hmac'>Calculate an HMAC with SHA or MD5</h3>
 
       <form role='form' id='form1' accept-charset='UTF-8'>
         <div class="form-group">
-          <label for="function">hash function:</label>
-          <select name="function" id="function" class="form-control">
+          <label for="sel-function">function:</label>
+          <select name="function" id="sel-function" class="form-control">
             <option value="md-5" >md-5</option>
             <option value="sha-1" >sha-1</option>
             <option value="sha-256" >sha-256</option>
@@ -43,15 +44,58 @@
           <input type="checkbox" name="hmac" id='hmac' checked/>
         </div>
 
-        <div class='form-group'>
-          <label for='key' id='keylabel'>secret key:</label>
-          <input type='text' id='key' class='form-control disabled' disabled
+        <div class='form-group hmac'>
+          <label for='key'>secret key:</label>
+          <input type='text' id='key' class='form-control'
                  placeholder="-insert your secret key-"
+                 spellcheck="false"
                  title='The key or password for the HMAC. This data never leaves your browser.'/>
         </div>
 
+        <div class='form-group hmac'>
+          <label for='sel-key-coding'>key coding:</label>
+          <select id='sel-key-coding' data-target='ta_symmetrickey' class="form-control">
+            <option value='utf-8'>UTF-8</option>
+            <option value='hex'>Hex</option>
+            <option value='base64'>Base64</option>
+            <option value='pbkdf2'>PBKDF2</option>
+          </select>
+        </div>
+
+        <div class='form-group pbkdf2 hmac'>
+          <label for='pbkdf2-iterations'>iterations:</label>
+          <input type='number'
+                 id='pbkdf2-iterations'
+          class='form-control'
+                 value='10000'>
+        </div>
+        <div class='form-group pbkdf2 hmac'>
+          <label for='pbkdf2-salt'>salt:</label>
+          <input type='text'
+                 id='pbkdf2-salt'
+                 class='form-control'
+                 value='abcdefghijkl'>
+        </div>
+        <div class='form-group pbkdf2 hmac'>
+          <label for='sel-pbkdf2-salt-coding'>salt coding:</label>
+          <select id='sel-pbkdf2-salt-coding' class="form-control">
+            <option value='utf-8'>UTF-8</option>
+            <option value='hex'>Hex</option>
+            <option value='base64'>Base64</option>
+          </select>
+        </div>
+
+        <div class='form-group pbkdf2 hmac'>
+          <label for='pbkdf2-derived-key'>derived key:</label>
+          <input type='text'
+                 id='pbkdf2-derived-key'
+                 placeholder="-the derived secret key-"
+                 spellcheck='false'
+                 class='form-control' disabled>
+        </div>
+
         <div class='form-group'>
-          <label for='text'>text or message:</label>
+          <label for='text'>message:</label>
           <!-- input type='textarea' id='text' class='form-control'  -->
           <textarea class="form-control" rows="7" id='text' spellcheck="false"
                  placeholder="-currently blank; insert your message here-"
@@ -59,15 +103,12 @@
         </div>
 
         <div class='form-group'>
-          <div style='color:#DCDCDC;font-size:80%;'>(Computation is automatic)</div>
-          <!--
-          <input type='submit' value='compute' class='button disabled' id='submit' disabled/>
-           -->
         </div>
       </form>
 
-      <div id='output' class='notshown'>
-        Encoded results:
+      <div id='output' >
+        Encoded result:          <span style='color:#DCDCDC;font-size:80%;'>(Computation is automatic)</span>
+
         <div>
           <span>Base16:</span>
           <div class='copyIconHolder' title='click to copy'></div>
@@ -98,8 +139,24 @@
             stored in localStorage. Having said that, you should take care to
             not provide sensitive information or keys into untrusted web pages.</li>
 
-          <li>The results shown by this page are different encodings that represent the same value. And, 
-            Base16 encoding is sometimes called "Hex encoding". </li>
+          <li>The results shown by this page are different encodings that
+            represent the same value. And, Base16 encoding is sometimes called
+            "Hex encoding". Just a reminder, base64-encoded values are case
+            sensitive, base16-encoded results are not. This is characteristic of
+            the encodings, not special to this page, or to hash functions or
+            HMACs.</li>
+
+          <li>For message content, whitespace in the content is
+            significant. This page converts line-breaks to newline (\n). It's
+            not possible to include a carriage-return (CR) in the text value,
+            because the logic on this page strips them. This page does not strip
+            trailing newlines. Also good to remember: the hash for 'abc\n' is
+            completely different from the hash for 'abc'. The hash for 'abc\r\n'
+            is completely different from the hash for 'abc\n'.</li>
+
+          <li>Unicode is ok. The calculator will encode the string as UTF-8
+            bytes before computing the checksum. UTF-8 ought to be good enough for
+            anybody. :)</li>
 
           <li>Here are a few test cases:
             <table class='testcases pure-table pure-table-bordered'>
@@ -134,9 +191,6 @@
               </tbody>
             </table>
           </li>
-          <li>Just a reminder, base64-encoded values are case sensitive, base16-encoded results are not. This is characteristic of the encodings, not special to this page, or to hash functions or HMACs.</li>
-          <li>For message content, whitespace in the content is significant. This page converts line-breaks to newline (\n). It's not possible to include a carriage-return (CR) in the text value, because the logic on this page strips them. Trailing newlines will not be stripped. Also good to remember: the hash for 'abc\n' is completely different from the hash for 'abc'. The hash for 'abc\r\n' is completely different from the hash for 'abc\n'. </li>
-          <li>Unicode is ok. The calculator will encode the string as UTF-8 bytes before computing the checksum. UTF-8 ought to be good enough for anybody. :) </li>
         </ol>
       </div>
     </div>
