@@ -1,0 +1,86 @@
+body, html {
+  font-size: 180%;
+  margin-left:10px;
+  height: 100%;
+  display: grid;
+}
+
+body > div {
+  height: auto;
+  width: auto;
+  font-size: 32px;
+  margin: 0 auto;
+}
+form div label {
+  float: left;
+  width: 178px;
+  margin: 8px 0;
+}
+form > div > select,
+form > div > textarea,
+form > div > input {
+  margin: 2px 0;
+}
+body > div > div {
+  width: 960px;
+  margin: 10px;
+}
+form .form-group {
+  display:inline-block;
+  float:left;
+  margin-right:8px;
+  margin-bottom:1px;
+}
+.form-group.blocks {
+  display:block;
+  float:none;
+  margin-right:8px;
+  overflow:auto;
+}
+
+form > div.last:after {
+  content:"";
+  display:table;
+  clear:both;
+}
+
+form > div.form-group > select.form-control {
+  width: 720px;
+}
+
+.txt {
+  width: 720px;
+  font-size: 80%;
+}
+
+#output {
+  display:block;
+  border: none;
+  min-width: 680px;
+  height: 744px;
+  padding: 0px 0px;
+}
+
+body .notshown,
+body .form-group.blocks.notshown {
+  display:none;
+}
+.results {
+  border:1px solid #a6a6a6;
+  height:100%;
+  width:100%;
+  font-size:75%;
+  resize: vertical;
+
+}
+#output > div {
+  margin-top: 16px;
+}
+.code {
+  font-family: "Consolas", "Courier New", Courier, monospace;
+}
+.disabled {
+  color:  #010101;
+  background: none repeat scroll 0 0 #DCDCDC;
+  cursor: default !important;
+}

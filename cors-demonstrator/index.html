@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CORS demonstration</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+    <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type='text/javascript' src='js/page.js'></script>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <style>
+     body { margin: 18px 24px; }
+    </style>
+  </head>
+
+  <!-- ======================================================= -->
+
+  <body>
+
+    <div id='main'>
+      <div style='margin: 10px;'>
+        <h3>CORS Demonstrator</h3>
+
+        <form role='form' id='form1' accept-charset='UTF-8'>
+
+          <div class='form-group blocks'>
+            <label for='txt-baseurl'>Base URL</label>
+            <input id='txt-baseurl' name='txt-baseurl' class='txt'
+                   spellcheck="false" title='eg, https://my-apigee.example.com'/>
+          </div>
+
+          <div class='form-group blocks'>
+            <label for='txt-urlpath'>URL Path</label>
+            <input id='txt-urlpath' name='txt-urlpath' class='txt' spellcheck="false"/>
+          </div>
+
+          <div class='form-group blocks'>
+            <label for='ta-addlheaderlist'>Additional Headers</label>
+            <textarea rows=4 cols=44 id='ta-addlheaderlist' class='txt' spellcheck='false' class='plaintextvalue'></textarea>
+          </div>
+
+          <div class='form-group blocks'>
+            <label for='sel-verb'>Verb</label>
+              <select class="form-control form-control-sm sel-verb" id='sel-verb'>
+                <option value='GET'>GET</option>
+                <option value='POST'>POST</option>
+                <option value='PUT'>PUT</option>
+                <option value='DELETE'>DELETE</option>
+              </select>
+          </div>
+
+          <div class='form-group blocks for-payload'>
+            <label for='sel-contenttype'>Content-Type</label>
+              <select class="form-control form-control-sm sel-contenttype" id='sel-contenttype'>
+                <option value='text/plain'>text/plain</option>
+                <option value='application/x-www-form-urlencoded'>application/x-www-form-urlencoded</option>
+                <option value='application/json'>application/json</option>
+              </select>
+          </div>
+
+          <div class='form-group blocks for-payload'>
+            <label for='ta-body'>Body</label>
+            <textarea rows=3 cols=44 id='ta-body' class='txt' spellcheck='false' class='plaintextvalue'></textarea>
+          </div>
+
+          <div class='form-group'>
+            <input type='submit' value='send' class='button' id='btn-send'/>
+          </div>
+          <div class='form-group notshown'>
+            <input type='submit' value='clear' class='button' id='btn-clear'/>
+          </div>
+          <div class='last'></div>
+        </form>
+
+        <div id='output' class='notshown'>
+        </div>
+
+      </div>
+    </div>
+  </body>
+</html>
