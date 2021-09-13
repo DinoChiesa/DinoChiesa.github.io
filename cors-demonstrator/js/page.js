@@ -188,6 +188,11 @@
     $( 'form .txt' ).on('change keyup input', debounce(450, onInputChanged));
     $( 'form select' ).change(onSelectChanged);
     $( 'form textarea').on('paste', handlePaste);
+
+    $( 'form select' ).each( function(ix) {
+      onSelectChanged.call(this, null);
+    });
+
   });
 
 }());
