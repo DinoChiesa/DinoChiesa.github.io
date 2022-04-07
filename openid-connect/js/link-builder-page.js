@@ -4,7 +4,7 @@
 // page logic for link-builder{1,2,3}.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2021-March-11 16:38:35>
+// last saved: <2022-April-07 10:40:04>
 
 /* jshint esversion:9, strict:implied */
 /* global $, window, document, model, btoa */
@@ -146,6 +146,10 @@
     //$('#redeemResult').html('');
     $('#preBox').text('');
     $('#code').val('');
+    $('#redeemResult')
+      .hide()
+      .removeClass('error')
+      .html('');
     updateModel();
     if (event)
       event.preventDefault();
@@ -170,6 +174,7 @@
       success: function(data, textStatus, jqXHR) {
         //data - response from server
         $('#redeemResult')
+          .show()
           .removeClass('error')
           .html('<pre class="access-token-response">' +
                 JSON.stringify(data, null, 2) +
@@ -177,6 +182,7 @@
       },
       error: function (jqXHR, textStatus, errorThrown) {
         $('#redeemResult')
+          .show()
           .addClass('error')
           .html('<pre class="access-token-response">' +
                 JSON.stringify(jqXHR.responseJSON || 'error', null, 2) +
