@@ -14,7 +14,7 @@
     <div class='container'>
       <div class='banner'>
         <h2>RSA Keypair Generator</h2>
-        <div>Generate and download!</div>
+        <div>Generate and download</div>
         <div class="alert alert-warning alert-dismissible fade" role="alert" id="mainalert"></div>
         <div id='buildversion'>version <span id='version_id'>??</span></div>
       </div>
@@ -47,12 +47,17 @@
             <span style="display:block;">New</span>
             <span class="oi oi-reload"></span>
           </button>
-          <button type="button" class="btn btn-outline-secondary btn-lg btn-download-pem" title='download the private key as PEM'>
-            <span style="display:block;">PEM</span>
+          <button type="button" class="btn btn-outline-secondary btn-lg btn-download-json" title='download a JSON representation of the keypair'>
+            <span style="display:block;">JSON keypair</span>
             <span class="oi oi-data-transfer-download"></span>
           </button>
-          <button type="button" class="btn btn-outline-secondary btn-lg btn-download-json" title='download the private key as JSON'>
-            <span style="display:block;">JSON</span>
+
+          <button type="button" class="btn btn-outline-secondary btn-lg btn-download-pem" data-flavor='private' title='download the private key as PEM'>
+            <span style="display:block;">Private PEM</span>
+            <span class="oi oi-data-transfer-download"></span>
+          </button>
+          <button type="button" class="btn btn-outline-secondary btn-lg btn-download-pem" data-flavor='public' title='download the public key as PEM'>
+            <span style="display:block;">Public PEM</span>
             <span class="oi oi-data-transfer-download"></span>
           </button>
         </div>
@@ -69,14 +74,25 @@
               for key derivation, generation, signing and verification, and
                 <a href='https://developer.mozilla.org/en-US/docs/Web/API/Blob'>Blob</a> for file download.</p>
 
-              <p>It will run only on modern, current browsers.</p></li>
+                <p>It will run only on modern, current browsers.</p></li>
 
-            <li><p>
-              The page also uses <a href='https://getbootstrap.com/docs/4.0'>Bootstrap 4.0</a>
-              for styling, the <a href='https://useiconic.com/open/'>Open Iconic fonts</a>
-              for button symbols, and <a href='https://jquery.com/'>jQuery</a> for
-              interactivity.</p></li>
+              <li>
+                <p>The keys are generated in your browser and are downloaded locally.
+                  Even so, take care when using websites out of your control for key generation.</p></li>
 
+              <li><p>
+                The page also uses <a href='https://getbootstrap.com/docs/4.0'>Bootstrap 4.0</a>
+                for styling, the <a href='https://useiconic.com/open/'>Open Iconic fonts</a>
+                for button symbols, and <a href='https://jquery.com/'>jQuery</a> for
+                interactivity.</p></li>
+
+            <li>
+        <p>
+          Written by <A href='https://github.com/DinoChiesa/'>DinoChiesa</a>. Contact me with questions, suggestions, or kudos via <a href="https://twitter.com/intent/tweet?screen_name=dpchiesa&ref_src=twsrc%5Etfw&text=regarding%20RSA%20keypair%20generator%20tool"
+                                                                                                                                      class="twitter-share-button" data-show-count="false">Twitter</a>.
+          <!-- script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script -->
+        </p>
+                    </li>
           </div>
         </div>
       </div>
