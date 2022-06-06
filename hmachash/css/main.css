@@ -41,11 +41,9 @@ form > div.form-group {
   border-width: 1px;
   margin-top: 24px;
 }
-#notes {
+.notes {
   border-top:  thick double #32a1ce;
-}
-#notes {
-  font-size:80%;
+  font-size:50%;
   color: #565656;
 }
 #output > div {
@@ -81,7 +79,7 @@ form > div.form-group {
   display: block;
 }
 #output > div > .copyIconHolder {
-  /* https://material.io/icons/#ic_content_copy */
+  /* https://fonts.google.com/icons?selected=Material+Icons */
   content: url('images/ic_content_copy_black_24dp_1x.png');
   padding-right: 5px;
   float: left;
@@ -126,8 +124,22 @@ form > div > select {max-width:120px;}
     }
 }
 
-
 ::placeholder {
   color: #539EDB;
   font-style: italic;
+}
+
+.expand {
+  /* https://fonts.google.com/icons?selected=Material+Icons */
+  content: url('images/baseline_expand_more_black_24dp.png');
+  padding-right: 5px;
+  float: left;
+  margin-top: 4px;
+}
+.collapse {
+  /* https://fonts.google.com/icons?selected=Material+Icons */
+  content: url('images/baseline_expand_less_black_24dp.png');
+  padding-right: 5px;
+  float: left;
+  margin-top: 4px;
 }

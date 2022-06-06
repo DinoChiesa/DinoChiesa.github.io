@@ -107,7 +107,7 @@
       </form>
 
       <div id='output' >
-        Encoded result:          <span style='color:#DCDCDC;font-size:80%;'>(Computation is automatic)</span>
+        Encoded result: <span style='color:#DCDCDC;font-size:60%;'>(Computation is automatic)</span>
 
         <div>
           <span>Base16:</span>
@@ -126,39 +126,9 @@
         </div>
       </div>
 
-      <div id='notes'>
-        Notes:
-        <ol>
-          <li>This page uses <a href='https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API'>the
-            WebCrypto library</a>, for the hash and HMACs computation.</li>
-
-          <li>Any data you enter on this page stays in the browser, and is never
-            sent to any third-party site. The hash computation is performed in
-            your browser. If you specify a key for HMAC, the key is used only
-            for HMAC calculation, and never leaves your browser. Data does get
-            stored in localStorage. Having said that, you should take care to
-            not provide sensitive information or keys into untrusted web pages.</li>
-
-          <li>The results shown by this page are different encodings that
-            represent the same value. And, Base16 encoding is sometimes called
-            "Hex encoding". Just a reminder, base64-encoded values are case
-            sensitive, base16-encoded results are not. This is characteristic of
-            the encodings, not special to this page, or to hash functions or
-            HMACs.</li>
-
-          <li>For message content, whitespace in the content is
-            significant. This page converts line-breaks to newline (\n). It's
-            not possible to include a carriage-return (CR) in the text value,
-            because the logic on this page strips them. This page does not strip
-            trailing newlines. Also good to remember: the hash for 'abc\n' is
-            completely different from the hash for 'abc'. The hash for 'abc\r\n'
-            is completely different from the hash for 'abc\n'.</li>
-
-          <li>Unicode is ok. The calculator will encode the string as UTF-8
-            bytes before computing the checksum. UTF-8 ought to be good enough for
-            anybody. :)</li>
-
-          <li>Here are a few test cases:
+      <div id='testcases' class='notes'>
+        Test cases: <span class="expand" title='expand/collapse'>toggle</span> <span class="collapse" title='expand/collapse'>toggle</span>
+        <div class='testcases'>
             <table class='testcases pure-table pure-table-bordered'>
               <thead>
                 <tr><th>Alg</th><th>message</th><th>key</th><th>result</th></tr>
@@ -190,7 +160,45 @@
 
               </tbody>
             </table>
+        </div>
+      </div>
+      <div id='notes' class='notes'>
+        Notes:
+        <ol>
+          <li>This page uses <a href='https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API'>the
+            WebCrypto library</a>, for the hash and HMACs computation.</li>
+
+          <li>Any data you enter on this page stays in the browser, and is never
+            sent to any third-party site. The hash computation is performed in
+            your browser. If you specify a key for HMAC, the key is used only
+            for HMAC calculation, and never leaves your browser. Data does get
+            stored in localStorage. Having said that, you should take care to
+            not provide sensitive information or keys into untrusted web pages.</li>
+
+          <li>The results shown by this page are different encodings that
+            represent the same value. And, Base16 encoding is sometimes called
+            "Hex encoding". Just a reminder, base64-encoded values are case
+            sensitive, base16-encoded results are not. This is characteristic of
+            the encodings, not special to this page, or to hash functions or
+            HMACs.</li>
+
+          <li>For message content, whitespace in the content is
+            significant. This page converts line-breaks to newline (\n). It's
+            not possible to include a carriage-return (CR) in the text value,
+            because the logic on this page strips them. This page does not strip
+            trailing newlines. Also good to remember: the hash for 'abc\n' is
+            completely different from the hash for 'abc'. The hash for 'abc\r\n'
+            is completely different from the hash for 'abc\n'.</li>
+
+          <li>Unicode is ok. The calculator will encode the string as UTF-8
+            bytes before computing the checksum. UTF-8 ought to be good enough for
+            anybody. :)</li>
+          <li>
+            This was written by <A href='https://github.com/DinoChiesa/'>DinoChiesa</a>. Contact me with questions, suggestions, or kudos via <a href="https://twitter.com/intent/tweet?screen_name=dpchiesa&ref_src=twsrc%5Etfw&text=regarding%20HTTPSIG%20webtool"
+                                                                                                                                                 class="twitter-share-button" data-show-count="false">Twitter</a>.
+
           </li>
+
         </ol>
       </div>
     </div>

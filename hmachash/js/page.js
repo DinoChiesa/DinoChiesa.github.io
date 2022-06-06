@@ -392,6 +392,22 @@
 
   }
 
+  function expandAccordion(event) {
+    let $elt = $(this);
+    //$elt.next('div').slideDown();
+    $('.testcases').slideDown();
+    $elt.next().show();
+    $elt.hide();
+  }
+
+  function collapseAccordion(event) {
+    let $elt = $(this);
+    //$elt.next('div').slideUp();
+    $('.testcases').slideUp();
+    $elt.prev().show();
+    $elt.hide();
+  }
+
   function copyToClipboard(event) {
     let $elt = $(this),
         $textHolder = $elt.next(),
@@ -430,10 +446,15 @@
     $('#pbkdf2-iterations').bind('input propertychange', changeIterations);
     $('#pbkdf2-salt').bind('input propertychange', changeSalt);
     $('.copyIconHolder').on('click', copyToClipboard);
+    $('.expand').on('click', expandAccordion);
+    $('.collapse').on('click', collapseAccordion);
+    $('.collapse').hide();
     applySettings();
     changeHmac();
     //changeKeyEncoding();
+    $('.testcases').slideUp();
     settingUp = false;
+
     calcResult();
   });
 
