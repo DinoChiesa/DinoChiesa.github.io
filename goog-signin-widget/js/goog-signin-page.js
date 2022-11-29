@@ -99,6 +99,14 @@
     let elt = document.getElementById("output");
      elt.innerHTML = renderIdToken(credential);
 
+    elt.innerHTML =
+      oneDiv('Full Name', jwtPayload.given_name + ' ' + jwtPayload.family_name) +
+      oneDiv("Email", jwtPayload.email) +
+      oneDiv('Image', '<img src="' + jwtPayload.picture + '">') +
+      renderIdToken(id_token) +
+      oneDiv("issued", (new Date(jwtPayload.iat * 1000)).toISOString()) +
+      oneDiv("expires", (new Date(jwtPayload.exp * 1000)).toISOString());
+
     //     profile = googleUser.getBasicProfile(),
     //     id_token = googleUser.getAuthResponse().id_token,
     //     jwtPayload = getJwtPayload(id_token);
