@@ -92,9 +92,13 @@
   }
 
   function onSignIn(response) {
+    // fields: response.clientId, response.credential
+    let credential = response.credential,
+        jwtPayload = getJwtPayload(credential);
 
-    console.log(response);
-    // let elt = document.getElementById("output"),
+    let elt = document.getElementById("output");
+     elt.innerHTML = renderIdToken(credential);
+
     //     profile = googleUser.getBasicProfile(),
     //     id_token = googleUser.getAuthResponse().id_token,
     //     jwtPayload = getJwtPayload(id_token);
