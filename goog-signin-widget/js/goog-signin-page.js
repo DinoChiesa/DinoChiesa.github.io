@@ -10,7 +10,6 @@
         };
 
   const jwtRe = new RegExp('^([^\\.]+)\\.([^\\.]+)\\.([^\\.]+)$');
-  const copyReceiverId = '_copy-receiver-' + randomString();
 
   function randomString(){
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
@@ -68,18 +67,6 @@
     return oneDiv("ID Token", token);
   }
 
-  // function g() {
-  //   return gapi.auth2.getAuthInstance();
-  // }
-  //
-  // function signOut() {
-  //   g().signOut().then( _ => {
-  //     let elt = document.getElementById('output');
-  //     elt.innerHTML = '';
-  //     console.log('User signed out.');
-  //     showSignout(false);
-  //   });
-  // }
 
   function getElementsByTagAndClass(root, tag, clazz) {
     var nodes = root.getElementsByClassName(clazz);
@@ -107,22 +94,6 @@
       oneDiv("issued", (new Date(jwtPayload.iat * 1000)).toISOString()) +
       oneDiv("expires", (new Date(jwtPayload.exp * 1000)).toISOString());
 
-    //     profile = googleUser.getBasicProfile(),
-    //     id_token = googleUser.getAuthResponse().id_token,
-    //     jwtPayload = getJwtPayload(id_token);
-    //
-    // elt.innerHTML =
-    //   oneDiv('ID', profile.getId()) +
-    //   oneDiv('Full Name', profile.getName()) +
-    //   //oneDiv('Given Name',  profile.getGivenName()) +
-    //   //oneDiv('Family Name', profile.getFamilyName()) +
-    //   oneDiv("Email", profile.getEmail()) +
-    //   oneDiv('Image', '<img src="' + profile.getImageUrl() + '">') +
-    //   renderIdToken(id_token) +
-    //   oneDiv("issued", (new Date(jwtPayload.iat * 1000)).toISOString()) +
-    //   oneDiv("expires", (new Date(jwtPayload.exp * 1000)).toISOString());
-    //
-
     // attach click listeners for all the copy buttons
     let nodes = getElementsByTagAndClass(document, 'span', 'icon-copy');
     Array.prototype.forEach.call(nodes, span => {
@@ -138,18 +109,6 @@
   //     signout.classList.add(visible?'visible':'hidden');
   //     signout.classList.remove(visible?'hidden':'visible');
   //   }
-  // }
-
-  // function gapiPostInit() {
-  //   gapi.load('auth2', _ => {
-  //     // Ready.
-  //     if (g().isSignedIn.get()) {
-  //       showSignout(true);
-  //     }
-  //     else {
-  //       showSignout(false);
-  //     }
-  //   });
   // }
 
   //window.onSignIn = onSignIn;
