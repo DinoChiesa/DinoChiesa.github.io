@@ -4,6 +4,11 @@
 /* global console, Buffer, window, gapi, document, atob, copyToClipboard */
 
 (function () {
+  const settings = {
+          "google-signin-scope":"profile email",
+          "google-signin-client_id" :"180659577830-hgnshioh9crqlgq1gtch9tbvcd9n02n3.apps.googleusercontent.com"
+        };
+
   const jwtRe = new RegExp('^([^\\.]+)\\.([^\\.]+)\\.([^\\.]+)$');
   const copyReceiverId = '_copy-receiver-' + randomString();
 
@@ -63,18 +68,18 @@
     return oneDiv("ID Token", token);
   }
 
-  function g() {
-    return gapi.auth2.getAuthInstance();
-  }
-
-  function signOut() {
-    g().signOut().then( _ => {
-      let elt = document.getElementById('output');
-      elt.innerHTML = '';
-      console.log('User signed out.');
-      showSignout(false);
-    });
-  }
+  // function g() {
+  //   return gapi.auth2.getAuthInstance();
+  // }
+  //
+  // function signOut() {
+  //   g().signOut().then( _ => {
+  //     let elt = document.getElementById('output');
+  //     elt.innerHTML = '';
+  //     console.log('User signed out.');
+  //     showSignout(false);
+  //   });
+  // }
 
   function getElementsByTagAndClass(root, tag, clazz) {
     var nodes = root.getElementsByClassName(clazz);
@@ -86,54 +91,68 @@
     return nodes;
   }
 
-  function onSignIn(googleUser) {
-    let elt = document.getElementById("output"),
-        profile = googleUser.getBasicProfile(),
-        id_token = googleUser.getAuthResponse().id_token,
-        jwtPayload = getJwtPayload(id_token);
+  function onSignIn(response) {
 
-    elt.innerHTML =
-      oneDiv('ID', profile.getId()) +
-      oneDiv('Full Name', profile.getName()) +
-      //oneDiv('Given Name',  profile.getGivenName()) +
-      //oneDiv('Family Name', profile.getFamilyName()) +
-      oneDiv("Email", profile.getEmail()) +
-      oneDiv('Image', '<img src="' + profile.getImageUrl() + '">') +
-      renderIdToken(id_token) +
-      oneDiv("issued", (new Date(jwtPayload.iat * 1000)).toISOString()) +
-      oneDiv("expires", (new Date(jwtPayload.exp * 1000)).toISOString());
+    console.log(response);
+    // let elt = document.getElementById("output"),
+    //     profile = googleUser.getBasicProfile(),
+    //     id_token = googleUser.getAuthResponse().id_token,
+    //     jwtPayload = getJwtPayload(id_token);
+    //
+    // elt.innerHTML =
+    //   oneDiv('ID', profile.getId()) +
+    //   oneDiv('Full Name', profile.getName()) +
+    //   //oneDiv('Given Name',  profile.getGivenName()) +
+    //   //oneDiv('Family Name', profile.getFamilyName()) +
+    //   oneDiv("Email", profile.getEmail()) +
+    //   oneDiv('Image', '<img src="' + profile.getImageUrl() + '">') +
+    //   renderIdToken(id_token) +
+    //   oneDiv("issued", (new Date(jwtPayload.iat * 1000)).toISOString()) +
+    //   oneDiv("expires", (new Date(jwtPayload.exp * 1000)).toISOString());
+    //
+    // // attach click listeners for all the copy buttons
+    // let nodes = getElementsByTagAndClass(document, 'span', 'icon-copy');
+    // Array.prototype.forEach.call(nodes, span => {
+    //   span.addEventListener("click", copyToClipboard );
+    // });
 
-    // attach click listeners for all the copy buttons
-    let nodes = getElementsByTagAndClass(document, 'span', 'icon-copy');
-    Array.prototype.forEach.call(nodes, span => {
-      span.addEventListener("click", copyToClipboard );
+    //showSignout(true);
+  }
+
+  // function showSignout(visible) {
+  //   let signout = document.getElementById('signout');
+  //   if (signout) {
+  //     signout.classList.add(visible?'visible':'hidden');
+  //     signout.classList.remove(visible?'hidden':'visible');
+  //   }
+  // }
+
+  // function gapiPostInit() {
+  //   gapi.load('auth2', _ => {
+  //     // Ready.
+  //     if (g().isSignedIn.get()) {
+  //       showSignout(true);
+  //     }
+  //     else {
+  //       showSignout(false);
+  //     }
+  //   });
+  // }
+
+  //window.onSignIn = onSignIn;
+  //window.signOut = signOut;
+  //window.gapiPostInit = gapiPostInit;
+
+  window.onload = function () {
+    google.accounts.id.initialize({
+      client_id: settings["google-signin-client_id"],
+      callback: onSignIn
     });
-
-    showSignout(true);
-  }
-
-  function showSignout(visible) {
-    let signout = document.getElementById('signout');
-    if (signout) {
-      signout.classList.add(visible?'visible':'hidden');
-      signout.classList.remove(visible?'hidden':'visible');
-    }
-  }
-
-  function gapiPostInit() {
-    gapi.load('auth2', _ => {
-      // Ready.
-      if (g().isSignedIn.get()) {
-        showSignout(true);
-      }
-      else {
-        showSignout(false);
-      }
-    });
-  }
-
-  window.onSignIn = onSignIn;
-  window.signOut = signOut;
-  window.gapiPostInit = gapiPostInit;
+    google.accounts.id.renderButton(
+      document.getElementById("signin-button"),
+      { theme: "outline", size: "large" }  // customization attributes
+    );
+    google.accounts.id.prompt(); // also display the One Tap dialog
+  };
 
 }());
