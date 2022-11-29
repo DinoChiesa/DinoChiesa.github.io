@@ -2,6 +2,9 @@ body {
   font-size: 100%;
   font-family: Roboto, Arial;
 }
+#signin-button {
+  max-width: 220px;
+}
 form div label {
   float: left;
   width: 148px;
