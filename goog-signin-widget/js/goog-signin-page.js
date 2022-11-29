@@ -103,7 +103,7 @@
       oneDiv('Full Name', jwtPayload.given_name + ' ' + jwtPayload.family_name) +
       oneDiv("Email", jwtPayload.email) +
       oneDiv('Image', '<img src="' + jwtPayload.picture + '">') +
-      renderIdToken(id_token) +
+      renderIdToken(credential) +
       oneDiv("issued", (new Date(jwtPayload.iat * 1000)).toISOString()) +
       oneDiv("expires", (new Date(jwtPayload.exp * 1000)).toISOString());
 
@@ -122,11 +122,12 @@
     //   oneDiv("issued", (new Date(jwtPayload.iat * 1000)).toISOString()) +
     //   oneDiv("expires", (new Date(jwtPayload.exp * 1000)).toISOString());
     //
-    // // attach click listeners for all the copy buttons
-    // let nodes = getElementsByTagAndClass(document, 'span', 'icon-copy');
-    // Array.prototype.forEach.call(nodes, span => {
-    //   span.addEventListener("click", copyToClipboard );
-    // });
+
+    // attach click listeners for all the copy buttons
+    let nodes = getElementsByTagAndClass(document, 'span', 'icon-copy');
+    Array.prototype.forEach.call(nodes, span => {
+      span.addEventListener("click", copyToClipboard );
+    });
 
     //showSignout(true);
   }
