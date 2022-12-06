@@ -13,8 +13,8 @@ h1 {
 }
 
 body > div,
-body > button {
-  margin: auto;
+body button {
+  margin: 4px auto;
   font-size:32px;
 }
 
@@ -34,7 +34,7 @@ body > button {
   height: 180px;
 }
 
-#solveit {
+body button {
   max-width:280px;
   max-height:48px;
 }
@@ -44,3 +44,25 @@ body > button {
   color:#DCDCDC;
 }
 */
+
+.visible {
+  display:block;
+}
+.hidden {
+  display:none;
+}
+
+.overlay {
+  position: fixed; /* Sit on top of the page content */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.80); /* Black background with opacity */
+  z-index: 2;
+  cursor: pointer;
+  padding: 24px;
+  color: #FFF;
+}

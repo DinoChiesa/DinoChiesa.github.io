@@ -1,26 +1,29 @@
 // tile-sliding.js
 // ------------------------------------------------------------------
 //
-// This uses the astar algorithm to solve a tile sliding puzzle.
+// This uses the A* algorithm to solve a tile sliding puzzle.
 //
 // What I found.
 //
-// 1. Using a string representation for the data model results in much better
-//    performance than using an array of integers. Checking for a string to the
-//    "closed" list is much faster than checking for the presence of an array of
-//    integers.
+// 1. For a heuristic, Manhattan distance + linear conflict works better than
+//    simple Manhattan distance.
 //
-// 2. The search takes a while, so we need to unwrap and "asynchronize"" the loop
-//    with setTimeout().
+// 2. The search takes a while, with many iterations. To avoid the "this web
+//    page is hung" message, we need to unwrap and "asynchronize"" the loop with
+//    setTimeout().
 //
-// 3. For a heuristic, Manhattan distance + linear conflict works better than
-//    just Manhattan distance.
+// 3. Using a string representation for the data model results in much better
+//    performance than using an array of integers. In Javascript anyway,
+//    checking for a string in the "closed" list is much faster than checking
+//    for the presence of an integer within an array of integers.
 //
-// 4. Pre-computing the adjacent tiles helps with performance too.
+// 4. Pre-computing the list of adjacent tiles helps with performance too.
+//    No searching necessary at runtime. I could've used a memoize for this as well.
 //
 
+
 // created: Fri Feb 26 15:54:58 2021
-// last saved: <2021-February-28 11:15:23>
+// last saved: <2022-December-06 15:23:34>
 
 /* jshint esversion:9, node:false, browser:true, strict:implied */
 /* global console, jQuery */
@@ -28,6 +31,8 @@
 const $ = jQuery;
 const EMPTY ='&nbsp;';
 let datamodel = '123456789abcdef0';
+
+// the precomputed list of adjacent tiles.
 const adjacentTiles = [
         [1, 4],
         [0, 2, 5],
@@ -83,7 +88,7 @@ function paintGrid() {
   updateDistance();
 }
 
-function adjacent(a, b) {
+function isAdjacent(a, b) {
   return adjacentTiles[a].indexOf(b)>=0;
 }
 
@@ -102,7 +107,7 @@ function getOpenCell(model) {
 
 function findAdjacentOpenCell(reference) {
   let openIndex = datamodel.indexOf('0');
-  if (adjacent(reference, openIndex)) {
+  if (isAdjacent(reference, openIndex)) {
     return openIndex;
   }
 }
@@ -183,7 +188,6 @@ function aggregateManhattanDistance(model) {
       }
     }
   }
-
   return aggregate;
 }
 
@@ -211,9 +215,9 @@ const delay = (interval)  => new Promise(resolve => setTimeout(resolve, interval
 class Node {
   constructor(state) {
     this.state = state;
-    this.g = 0;
-    this.h = 0;
-    this.f = 0;
+    this.g = 0; // cost of moving from first state to current state
+    this.h = 0; // heuristic cost of getting to target state
+    this.f = 0; // sum of the two above
     this.closed = false;
     this.open = false;
     this.parent = null;
@@ -346,6 +350,36 @@ function shuffleGrid() {
   return p.then(_ => $('#notes').html('ready.'));
 }
 
+
+/**
+ * @param {String} url - address for the HTML to fetch
+ * @return {String} the resulting HTML string fragment
+ */
+async function fetchHtmlAsText(url) {
+  return await (await fetch(url)).text();
+}
+
+function dismissExplanation() {
+  const contentDiv = document.getElementById("explanation");
+  contentDiv.innerHTML = '';
+  setElementVisibility(contentDiv, false);
+}
+
+async function showExplanation() {
+  const contentDiv = document.getElementById("explanation");
+  contentDiv.innerHTML = await fetchHtmlAsText("about.htm");
+  //contentDiv.classList.add('overlay');
+  $('#dismiss').on('click', dismissExplanation);
+  setElementVisibility(contentDiv, true);
+}
+
+function setElementVisibility(element, visible) {
+  if (element) {
+    element.classList.add(visible?'visible':'hidden');
+    element.classList.remove(visible?'hidden':'visible');
+  }
+}
+
 $(document).ready(function() {
   initializeGrid();
   paintGrid();
@@ -354,6 +388,8 @@ $(document).ready(function() {
       updateDistance();
       $('.data').on('click', cellClick);
       $('#solveit').on('click', solve);
+      $('#explain').on('click', showExplanation);
       $('#solveit').prop('disabled', false);
+      $('#explain').prop('disabled', false);
     });
 });
