@@ -9,21 +9,22 @@
 //    simple Manhattan distance.
 //
 // 2. The search takes a while, with many iterations. To avoid the "this web
-//    page is hung" message, we need to unwrap and "asynchronize"" the loop with
+//    page is hung" message, we need to unwrap and "asynchronize" the loop with
 //    setTimeout().
 //
-// 3. Using a string representation for the data model results in much better
+// 3. Using a string representation for the "state" results in much better
 //    performance than using an array of integers. In Javascript anyway,
-//    checking for a string in the "closed" list is much faster than checking
-//    for the presence of an integer within an array of integers.
+//    checking for a string match in the "closed" list is much faster than
+//    checking for the match of an array of integers within a 2-D array.
 //
 // 4. Pre-computing the list of adjacent tiles helps with performance too.
-//    No searching necessary at runtime. I could've used a memoize for this as well.
+//    No searching necessary at runtime. I could've used a memoize for this
+//    as well, but didn't.
 //
 
 
 // created: Fri Feb 26 15:54:58 2021
-// last saved: <2022-December-06 15:23:34>
+// last saved: <2022-December-06 15:42:11>
 
 /* jshint esversion:9, node:false, browser:true, strict:implied */
 /* global console, jQuery */
