@@ -16,7 +16,7 @@ var html5AppId = '5FADBB91-0C35-49F6-BE3F-220B632874C3'; // for localstorage
 
 var linkTemplate = "${baseurl}?chs=${bcsize}&chld=M%7C0&cht=qr&chl=@@CHL@@";
 //var chlTemplate = "otpauth://totp/${label}?secret=${base32secret}&issuer=${issuer}";
-var chlTemplate = "otpauth://totp/${label}?secret=${base32secret}";
+var chlTemplate = "otpauth://totp/${label}?secret=${base32secret}&issuer=${issuer}";
 
 function wrapInSingleQuote(s) {return "'" + s + "'";}
 
@@ -110,6 +110,7 @@ function showBarcode(event) {
     event.preventDefault();
 }
 
+
 $(document).ready(function() {
   $('.bcsize-chosen').chosen({
     disable_search: true,
@@ -120,10 +121,9 @@ $(document).ready(function() {
   $( "form input[type='text']" ).change(onInputChanged);
   $( "form select" ).change(onSelectChanged);
   $( "form button" ).submit(updateModel);
-  $( "form button" ).submit(updateModel);
 
-  $( "#showBarcode" ).click(showBarcode);
-  $( "#resetEverything" ).click(resetEverything);
+  $( "#show-barcode" ).click(showBarcode);
+  $( "#reset-everything" ).click(resetEverything);
 
   populateFormFields();
 
