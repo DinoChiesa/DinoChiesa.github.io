@@ -55,8 +55,11 @@ div.divider {
   margin: 4px 12px;
 }
 
-.btn-default {
+#buttons > button.btn-default {
   border: 1px dotted grey;
+}
+#buttons > button.btn-default:hover {
+  background-color: #b0c4de;
 }
 
 .modal-dialog {
