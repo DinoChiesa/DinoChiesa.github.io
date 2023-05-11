@@ -27,16 +27,16 @@
     <div style='margin: 10px;'>
       <h3>Compute an OAuth v1.0a signature</h3>
       <p>Doing OAuth v1.0a? This web form can help you check your signatures. </p>
-      <p>This should work with any OAuth v1.0a -enabled endpoint.  The standard is
-        pretty clear. It's not <em>simple</em>, but it's clear. </p>
       <p>If you are using OAuthv2.0, then you are in the wrong place.</p>
+      <p>This should work with <em>any OAuth v1.0a -enabled endpoint that uses HMAC signing</em>.
+        (The standard is pretty clear. It's not <em>simple</em>, but it's clear.) </p>
       <p>To use this form, fill in the correct parameters, and
         click "Sign". It works for generating the signature for a
         request-for-temporary-request-token, or a sig for the request-for-access-token,
         or a signed request for any service. If you don't understand the distinction
-        between these things, I suggest you consult <a href='//oauth.net/core/1.0a/'>the
-        OAuth v1.0 spec</a>. Pay no attention to the statement that OAuthv1.0a has been superceded;
-        that's not really true. OAuth v2.0 is different. </p>
+        between these three different types of signatures, I suggest you consult <a href='//oauth.net/core/1.0a/'>the
+        OAuth v1.0 spec</a>. Pay no attention to the statement in that document that OAuthv1.0a has been superceded;
+        that's not quite true. OAuth v2.0 is different.</p>
 
       <p>When you click "Sign", divs at the bottom will appear showing
         intermediate results. If you're having trouble generating signatures from
@@ -152,15 +152,11 @@
         </div>
 
         <div class="form-group">
-          <label for="consumerkey">consumer key:
-            <input class="form-check-input position-static" type="checkbox" id="chk-key" value="on" title="hex decode">
-          </label>
+          <label for="consumerkey">consumer key: </label>
           <input type="text" class="form-control" id="consumerkey">
         </div>
         <div class="form-group">
-          <label for="consumersecret">consumer secret:
-            <input class="form-check-input position-static" type="checkbox" id="chk-secret" value="on" title="hex decode">
-          </label>
+          <label for="consumersecret">consumer secret: </label>
           <input type="text" class="form-control" id="consumersecret"
                  title='Never sent. Used only for generating signatures. Never stored by this webpage.'>
         </div>
