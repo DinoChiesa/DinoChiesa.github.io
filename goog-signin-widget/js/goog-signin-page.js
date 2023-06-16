@@ -5,8 +5,8 @@
 
 (function () {
   const settings = {
-          "google-signin-scope":"profile email",
-          "google-signin-client_id" :"180659577830-hgnshioh9crqlgq1gtch9tbvcd9n02n3.apps.googleusercontent.com"
+          "google-signin-scope": "profile email",
+          "google-signin-client_id": "1078192672979-6p4frb4s8sk78lnc79s6e9av37tfd8e1.apps.googleusercontent.com"
         };
 
   const jwtRe = new RegExp('^([^\\.]+)\\.([^\\.]+)\\.([^\\.]+)$');
