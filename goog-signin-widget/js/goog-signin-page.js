@@ -80,9 +80,11 @@
 
   function onSignIn(response) {
     // fields: response.clientId, response.credential
-    let credential = response.credential,
+    let credential = response.credential, // base64-encoded token
         jwtPayload = getJwtPayload(credential);
 
+    // Everything below here is done for demonstration purposes,
+    // to show the decoded token.
     let elt = document.getElementById("output");
      elt.innerHTML = renderIdToken(credential);
 
@@ -99,21 +101,7 @@
     Array.prototype.forEach.call(nodes, span => {
       span.addEventListener("click", copyToClipboard );
     });
-
-    //showSignout(true);
   }
-
-  // function showSignout(visible) {
-  //   let signout = document.getElementById('signout');
-  //   if (signout) {
-  //     signout.classList.add(visible?'visible':'hidden');
-  //     signout.classList.remove(visible?'hidden':'visible');
-  //   }
-  // }
-
-  //window.onSignIn = onSignIn;
-  //window.signOut = signOut;
-  //window.gapiPostInit = gapiPostInit;
 
   window.onload = function () {
     google.accounts.id.initialize({
