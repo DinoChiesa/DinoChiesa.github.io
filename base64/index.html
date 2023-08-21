@@ -83,8 +83,16 @@
                   <td>abc</td>
                   <td>
                   (b64) <span class='code'>YWJj</span><br/>
-                    (b64url) <span class='code'>YWJj</span></td></tr>
-
+                    (b64url) <span class='code'>YWJj</span></td>
+                </tr>
+                <tr>
+                  <td rowspan='2'>Encode</td>
+                  <td>This-is-a-secret</td>
+                  <td>
+                  (b64) <span class='code'>VGhpcy1pcy1hLXNlY3JldA==</span><br/>
+                  (b64url) <span class='code'>VGhpcy1pcy1hLXNlY3JldA</span>
+                  </td>
+                </tr>
                 <tr>
                   <td>{"kid":"cb24a396-4414-4793-b4ce","typ":"JWT","alg":"HS256"}</td>
                   <td>
@@ -94,9 +102,15 @@
               </tbody>
             </table>
           </li>
-          <li>Just a reminder, base64-encoded values are case sensitive. This is characteristic of the encodings, not special to this page.</li>
-          <li>For message content, whitespace in the content is significant. This page converts line-breaks to newline (\n). It's not possible to include a carriage-return (CR) in the text value, because the logic on this page strips them. The page does not strip trailing newlines. Also good to remember: the encoding for 'abc\n' is different from the encoding for 'abc'. </li>
-          <li>Unicode is ok. </li>
+          <li>base64-encoded values are case sensitive. This is characteristic of the encodings, not particular to this page.</li>
+          <li>When encoding message content:
+            <ol><li>Unicode is ok.</li>
+              <li>Whitespace in the content is significant. For example, the encoding for 'abc\n' is different from the encoding for 'abc'.</li>
+              <li>This page does not strip trailing newlines. </li>
+              <li>This page does convert line-breaks in your message to newline (\n). It's not possible to include a carriage-return (CR) in the text value, because the logic on this page strips them.</li>
+            </ol>
+          </li>
+          <li>When decoding, not all values that can be encoded in base64 will result in printable/displayable strings.</li>
         </ol>
       </div>
     </div>

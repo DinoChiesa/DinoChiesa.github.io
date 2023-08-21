@@ -2,21 +2,22 @@
 // ------------------------------------------------------------------
 //
 // created: Tue Apr 21 12:25:22 2020
-// last saved: <2020-December-22 15:46:03>
+// last saved: <2023-August-21 11:13:35>
 
 /* jshint esversion:9, node:false, strict:implied */
-/* global atob, btoa, console, Blob, $, jQuery,  window, Buffer */
+/* global window, console, Blob, $, jQuery, Buffer */
 
 (function () {
-  const newlineRegex = new RegExp('(\r\n|\n)', 'g');
+  //const newlineRegex = new RegExp('(\r\n|\n)', 'g');
 
   function getOperation() {
-    var op = $('#operation option:selected').val();
+    const op = $('#operation option:selected').val();
     return op.toUpperCase();
   }
 
   function hexToByteArrayBuffer(hex) {
-    for (var bytes = [], c = 0; c < hex.length; c += 2)
+    const bytes = [];
+    for (let c = 0; c < hex.length; c += 2)
       bytes.push(parseInt(hex.substr(c, 2), 16));
     return new Uint8Array(bytes).buffer;
   }
@@ -29,8 +30,8 @@
 
   function arrayToBase64( bytes ) {
     let binary = '';
-    var len = bytes.length;
-    for (var i = 0; i < len; i++) {
+    const LEN = bytes.length;
+    for (let i = 0; i < LEN; i++) {
       binary += String.fromCharCode( bytes[ i ] );
     }
     return window.btoa( binary );
@@ -46,11 +47,11 @@
   function calcResult(event) {
     if (event) { event.preventDefault(); }
     //debugger;
-    let message = $('#text').val();
+    const message = $('#text').val();
     if (message) {
-      var op = getOperation();
+      const op = getOperation();
       if (op == 'ENCODE') {
-        let result = btoa(message);
+        const result = window.btoa(message);
         $('#resultB64').text(result);
         $('#resultB64url').text(b64ToB64url(result));
         $('#output_encoded').addClass('shown').removeClass('notshown');
@@ -58,8 +59,14 @@
       }
       else if (op === 'DECODE') {
         try {
-          let result = atob(message);
-          $('#resultPlain').text(result);
+          const result = window.atob(message);
+          const roundtrip = window.btoa(result);
+          if (result == roundtrip) {
+            $('#resultPlain').text(result);
+          }
+          else {
+            // cannot decode into UTF-8 string
+          }
         }
         catch(exc){
           $('#resultPlain').text(exc.message);
@@ -83,15 +90,15 @@
   }
 
   function changeOperation(event) {
-    let message = $('#text').val();
+    const message = $('#text').val();
     if (message) {
-      var op = getOperation();
+      const op = getOperation();
       if (op == 'ENCODE') {
-        let plain = $('#resultPlain').text();
+        const plain = $('#resultPlain').text();
         $('#text').val(plain);
       }
       else if (op === 'DECODE') {
-        let encoded = $('#resultB64').text();
+        const encoded = $('#resultB64').text();
         $('#text').val(encoded);
       }
     }
@@ -99,13 +106,13 @@
     return calcResult(event);
   }
 
-  function copyToClipboard(event) {
-    let $elt = $(this),
-        $textHolder = $elt.next(),
-        // Create a temporary hidden textarea.
-        $temp = $("<textarea>");
+  function copyToClipboard(_event) {
+    const $elt = $(this),
+          $textHolder = $elt.next(),
+          // Create a temporary hidden textarea.
+          $temp = $("<textarea>");
 
-    let textToCopy = ($textHolder.tagName == 'TEXTAREA' || $textHolder.tagName == 'INPUT') ? $textHolder.val() : $textHolder.text();
+    const textToCopy = ($textHolder.tagName == 'TEXTAREA' || $textHolder.tagName == 'INPUT') ? $textHolder.val() : $textHolder.text();
 
     $("body").append($temp);
     $temp.val(textToCopy).select();
@@ -119,7 +126,7 @@
           .queue( _ => $textHolder.removeClass('copy-to-clipboard-flash-bg').dequeue() );
       }
     }
-    catch (e) {
+    catch (_e) {
       success = false;
     }
     $temp.remove();
