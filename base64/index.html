@@ -104,7 +104,8 @@
           </li>
           <li>base64-encoded values are case sensitive. This is characteristic of the encodings, not particular to this page.</li>
           <li>When encoding message content:
-            <ol><li>Unicode is ok.</li>
+            <ol type='a'>
+              <li>Unicode is ok.</li>
               <li>Whitespace in the content is significant. For example, the encoding for 'abc\n' is different from the encoding for 'abc'.</li>
               <li>This page does not strip trailing newlines. </li>
               <li>This page does convert line-breaks in your message to newline (\n). It's not possible to include a carriage-return (CR) in the text value, because the logic on this page strips them.</li>
