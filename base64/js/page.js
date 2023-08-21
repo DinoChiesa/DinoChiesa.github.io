@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------
 //
 // created: Tue Apr 21 12:25:22 2020
-// last saved: <2023-August-21 11:13:35>
+// last saved: <2023-August-21 11:44:16>
 
 /* jshint esversion:9, node:false, strict:implied */
 /* global window, console, Blob, $, jQuery, Buffer */
@@ -13,6 +13,11 @@
   function getOperation() {
     const op = $('#operation option:selected').val();
     return op.toUpperCase();
+  }
+
+  function base64Matches(a, b) {
+    return (a == b) ||
+     (a.replace(/\=+$/, '') == b.replace(/\=+$/, ''));
   }
 
   function hexToByteArrayBuffer(hex) {
@@ -47,11 +52,12 @@
   function calcResult(event) {
     if (event) { event.preventDefault(); }
     //debugger;
-    const message = $('#text').val();
-    if (message) {
+    const originalMessage = $('#text').val();
+    if (originalMessage) {
+      $('#resultPlain').text('');
       const op = getOperation();
       if (op == 'ENCODE') {
-        const result = window.btoa(message);
+        const result = window.btoa(originalMessage);
         $('#resultB64').text(result);
         $('#resultB64url').text(b64ToB64url(result));
         $('#output_encoded').addClass('shown').removeClass('notshown');
@@ -59,13 +65,13 @@
       }
       else if (op === 'DECODE') {
         try {
-          const result = window.atob(message);
+          const result = window.atob(originalMessage.replace(/\=+$/, ''));
           const roundtrip = window.btoa(result);
-          if (result == roundtrip) {
+          if (base64Matches(originalMessage, roundtrip)) {
             $('#resultPlain').text(result);
           }
           else {
-            // cannot decode into UTF-8 string
+            $('#resultPlain').text('cannot decode into a UTF-8 string');
           }
         }
         catch(exc){
