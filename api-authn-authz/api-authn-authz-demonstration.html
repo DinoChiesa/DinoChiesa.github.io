@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>API AuthN/Z demonstration</title>
+
+    <script src="https://www.gstatic.com/firebasejs/8.0/firebase.js"></script>
+    <!-- script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"></script -->
+    <script src="js/multi-provider-page.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+  </head>
+
+  <!-- ======================================================= -->
+
+  <body>
+
+    <h3>API Authentication and Authorization Solution</h3>
+    <div id="message">Loading...</div>
+    <div class='flexboxcontainer'>
+      <div class='leftcolumn'>
+        <form role='form' id='form-signin' accept-charset='UTF-8'>
+
+          <div class='form-group blocks when-no-signedin'>
+            <label for='sel-idp'>ID Provider</label>
+            <select class="form-control form-control-sm sel-idp" id='sel-idp'>
+              <option value='OIDC'>OIDC</option>
+              <option value='emailpw'>email + pw</option>
+            </select>
+          </div>
+
+          <div class="form-group when-emailpw">
+            <label for="username">username:</label>
+            <input type="email" name='inputEmail' id="inputEmail" class="form-control" placeholder="Email address" spellcheck='false' required>
+          </div>
+
+          <div class="form-group when-emailpw">
+            <label for="password">password:</label>
+            <input type="password" name='inputPassword' id="inputPassword" class="form-control" placeholder="Password" required>
+          </div>
+
+          <div class="form-group when-signedin">
+            <label for="txt-useremail">user email:</label>
+            <input type="email" name='txt-useremail' id="txt-useremail" class="form-control" placeholder="user email" spellcheck='false' disabled>
+            <span class="tooltip"></span>
+          </div>
+
+          <div class="form-group when-signedin">
+            <label for="txt-clientid">Apigee Client ID:</label>
+            <input name='txt-clientid' id="txt-clientid" class="form-control" placeholder="Apigee client ID" spellcheck='false' disabled>
+          </div>
+
+          <div class="form-group when-havetoken">
+            <label for="txt-accesstoken">access token:</label>
+            <input name='txt-accesstoken' id="txt-accesstoken" class="form-control" placeholder="Token" spellcheck='false'>
+            <!-- <div id="token" class="form-control like-an-input"></div> -->
+            <span class="tooltip"></span>
+          </div>
+
+          <button class='when-no-signedin' id='btn-signin' type='submit'>Sign In</button>
+          <button class='when-signedin' id='btn-signout' type='submit'>Sign Out</button>
+          <button class='when-signedin' id='btn-showIdToken' type='submit'>Show ID Token</button>
+          <button class='when-signedin' id='btn-newAccessToken' type='submit'>New Access Token</button>
+        </form>
+
+        <form role='form' id='form-send' class='when-havetoken' accept-charset='UTF-8'>
+          <div class='form-group blocks'>
+            <label for='txt-baseurl'>Base URL</label>
+            <div id="txt-baseurl" class="form-control like-an-input"></div>
+          </div>
+
+          <div class='form-group blocks'>
+            <label for='txt-urlpath'>URL Path</label>
+            <input id='txt-urlpath' name='txt-urlpath' class='form-control txt' spellcheck="false" value='/business-ops/flow1'/>
+          </div>
+
+          <div class='form-group blocks'>
+            <label for='sel-verb'>Verb</label>
+            <select class="form-control form-control-sm sel-verb" id='sel-verb'>
+              <option value='GET'>GET</option>
+              <option value='POST'>POST</option>
+              <option value='PUT'>PUT</option>
+              <option value='DELETE'>DELETE</option>
+            </select>
+          </div>
+
+          <div class='form-group blocks when-havepayload'>
+            <label for='sel-contenttype'>Content-Type</label>
+            <select class="form-control form-control-sm sel-contenttype" id='sel-contenttype'>
+              <option value='text/plain'>text/plain</option>
+              <option value='application/x-www-form-urlencoded'>application/x-www-form-urlencoded</option>
+              <option value='application/json'>application/json</option>
+            </select>
+          </div>
+
+          <div class='form-group blocks when-havepayload'>
+            <label for='ta-body'>Body</label>
+            <textarea id='ta-body' class='txt form-control' spellcheck='false' class='plaintextvalue'></textarea>
+          </div>
+
+          <button id='btn-send' type='submit'>send</button>
+          <button id='btn-clear' class='hidden' type='submit'>clear</button>
+
+          <div class='last'></div>
+        </form>
+      </div>
+
+      <div id='output' class='rightcolumn' data-notclass='when-response'>
+        <textarea class='results code' spellcheck='false' disabled='true'></textarea>
+      </div>
+    </div>
+
+  </body>
+
+</html>

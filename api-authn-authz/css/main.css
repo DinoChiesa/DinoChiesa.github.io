@@ -1,0 +1,88 @@
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: auto;
+}
+
+/* body { */
+/*   margin-left:12px; */
+/*   margin-right:12px; */
+/* } */
+
+input.form-control, div.form-control, select.form-control {
+  max-width: 440px;
+}
+
+input.form-control, div.form-control, select.form-control {
+  display: inline-block;
+}
+
+body {
+  max-width: max-content;
+  margin: 32px auto;
+}
+
+.flexboxcontainer {
+  display: flex;
+  width: 1024px;
+}
+
+form {
+  padding: 10px;
+  border: 1px solid #dedede;
+  width: 392px;
+}
+
+#message {
+  margin-bottom: 24px;
+}
+
+.leftcolumn { }
+
+.rightcolumn {
+  margin-left: 12px;
+}
+
+#form-send {
+  margin-top: 42px;
+}
+
+.form-group label {
+  min-width: 120px;
+  margin-left: 2px;
+  margin-bottom: 2px;
+}
+
+#form-send textarea {
+  display: block;
+  width: 100%;
+  min-height: 96px;
+  height: 96px;
+  padding: 6px;
+}
+
+#output textarea {
+  min-width: 620px;
+  min-height: 836px;
+  background: #fff8dc;
+  padding: 6px;
+}
+
+.form-group:hover > .tooltip {
+  display:block;
+}
+
+.tooltip {
+  display: none;
+  color: #00008b;
+  border: 1px dotted #dcdcdc;
+  padding:2px 4px;
+  background: rgba(179, 215, 255, 1);
+  margin-left: 32px; /* moves the tooltip to the right */
+  margin-top: 4px; /* moves it down */
+  position: absolute;
+  z-index: 1000;
+  opacity: 1.0;
+}
