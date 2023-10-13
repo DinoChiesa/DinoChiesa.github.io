@@ -2,10 +2,10 @@
 // ------------------------------------------------------------------
 //
 // created: Thu Oct  5 21:17:16 2023
-// last saved: <2023-October-11 14:33:57>
+// last saved: <2023-October-12 20:40:58>
 
 /* jshint esversion:9, browser:true, strict:implied */
-/* global firebase, Promise, URLSearchParams */
+/* global firebase, Promise, URLSearchParams, JSON_StringifyPrettyCompact, bootstrap */
 
 const identityPlatformConfig = {
   apiKey: "AIzaSyDVl39KBTLNY_wDKVVgpRXz2KDRpiXxFAg",
@@ -14,22 +14,26 @@ const identityPlatformConfig = {
 
 const constants = {
   APIGEE_ENDPOINT: "https://apigee1.dchiesa.demo.altostrat.com",
+  OPA_BASEPATH: "/opa-1",
   TOKEN_PATH: "/oauth2-firebase-id/token",
   GRANT_TYPE: "urn:ietf:params:oauth:grant-type:jwt-bearer",
   APIGEE_CLIENT_ID: "oAv16FqFGObyc555GULTsGAZDhji9uUMmIJi2ya933zzq4As",
-  APP_ID: "03B11656-768B-457B-9CC8-6DC1AFBF7A54",
+  LOCALSTORAGE_APP_ID: "03B11656-768B-457B-9CC8-6DC1AFBF7A54",
   OKTA_ENDPOINT: "https://dev-329615.okta.com",
   OIDC_PROVIDER: "oidc.okta-oidc-provider"
 };
 
 const model = {
+  "active-tab": "",
   "txt-accesstoken": "",
-  "txt-urlpath": "",
-  "ta-addlheaderlist": "",
-  "ta-body": "",
-  "sel-idp": "",
-  "sel-verb": "",
-  "sel-contenttype": ""
+  "txt-api-urlpath": "",
+  "sel-api-contenttype": "",
+  "ta-api-body": "",
+  "sel-api-idp": "",
+  "sel-api-verb": "",
+  "ta-opa-body": "",
+  "sel-opa-action": "",
+  "sel-opa-data": ""
 };
 
 let currentUser = null;
@@ -49,6 +53,13 @@ function debounce(interval, callback) {
     debounceTimeoutId = setTimeout(() => callback.apply(this, args), interval);
   };
 }
+
+const JSON_StringifyCompact = (c) => {
+  const s = Object.keys(c)
+    .map((key) => `  "${key}": ` + JSON.stringify(c[key]))
+    .join(",\n");
+  return `{\n${s}\n}`;
+};
 
 function message(msg) {
   document.getElementById("message").innerHTML = msg;
@@ -88,32 +99,45 @@ function setElementVisibility(discriminator, show) {
   const selectors = [`.when-${discriminator}`, `.when-no-${discriminator}`];
   const [toShow, toHide] = show ? selectors : selectors.reverse();
 
-  [].forEach.call(document.querySelectorAll(toShow), (el) => {
+  [].forEach.call($all(toShow), (el) => {
     el.classList.toggle("hidden", false);
     //el.classList.toggle("visible", true);
   });
-  [].forEach.call(document.querySelectorAll(toHide), (el) => {
+  [].forEach.call($all(toHide), (el) => {
     el.classList.toggle("hidden", true);
     //el.classList.toggle("visible", false);
   });
 }
 
 const storeItem = (key, value) =>
-  window.localStorage.setItem(`${constants.APP_ID}.model.${key}`, value);
+  window.localStorage.setItem(
+    `${constants.LOCALSTORAGE_APP_ID}.model.${key}`,
+    value
+  );
 
 const getItem = (key) =>
-  window.localStorage.getItem(`${constants.APP_ID}.model.${key}`);
+  window.localStorage.getItem(`${constants.LOCALSTORAGE_APP_ID}.model.${key}`);
 
 function populateFormFields() {
   // get values from local storage, and place into the form
   Object.keys(model).forEach((key) => {
-    const storedValue = getItem(key),
-      element = $sel(`#${key}`);
+    const storedValue = getItem(key);
     if (storedValue && storedValue !== "") {
       model[key] = storedValue;
-      element.value = storedValue;
-      if (key.startsWith("sel-")) {
-        onSelectChanged.call(null, { target: element });
+      if (key == "active-tab") {
+        // defer tab selection til later
+        // const el = $sel(`#nav-tabs button[id="${storedValue}"]`);
+        // if (el) {
+        //   bootstrap.Tab.getInstance(el).show();
+        // }
+      } else {
+        const element = $sel(`#${key}`);
+        if (element) {
+          element.value = storedValue;
+          if (key.startsWith("sel-")) {
+            onSelectChanged.call(null, { target: element });
+          }
+        }
       }
     }
   });
@@ -133,7 +157,7 @@ async function showDecodedIdToken(user) {
       `ID token for authenticated user:\n\n` +
       `HEADER: ${JSON.stringify(header, null, 2)}\n\n` +
       `PAYLOAD: ${JSON.stringify(payload, null, 2)}\n\n`;
-    const ta = $sel("#output textarea");
+    const ta = $sel("#api-output textarea");
     ta.value = str;
     return payload;
   }
@@ -165,7 +189,7 @@ function addFirebaseAuthChangeListener() {
       setElementVisibility("emailpw", false);
     } else {
       message("There is no user signed in.");
-      const idp = document.querySelector(`#sel-idp`).value;
+      const idp = document.querySelector(`#sel-api-idp`).value;
       setElementVisibility("emailpw", idp === "emailpw");
       setElementVisibility("signedin", false);
       setElementVisibility("response", false);
@@ -187,12 +211,17 @@ function onSelectChanged(event) {
     model[id] = value;
     storeItem(id, value);
 
-    if (id == "sel-verb") {
+    if (id == "sel-api-verb") {
       setElementVisibility("havepayload", httpMethodHasPayload(value));
     }
 
-    if (id == "sel-idp") {
+    if (id == "sel-api-idp") {
       setElementVisibility("emailpw", value === "emailpw");
+    }
+
+    if (id == "sel-opa-action") {
+      setElementVisibility("readconfig", value == "READCONFIG");
+      setElementVisibility("authzquery", value == "AUTHZQUERY");
     }
   }
 }
@@ -217,7 +246,7 @@ function decodeIdToken(idToken) {
 
 function signin(event) {
   event.preventDefault();
-  const signin_option = $sel(`#sel-idp`).value;
+  const signin_option = $sel(`#sel-api-idp`).value;
 
   let p = null;
   if (signin_option == "OIDC") {
@@ -232,12 +261,20 @@ function signin(event) {
   if (p) {
     p = p
       .then((result) => {
-        console.log("user is logged in...");
+        console.log("user is signed in...");
         showDecodedIdToken(result.user);
       })
       .catch((error) => {
         // Handle error.
-        document.getElementById("message").innerHTML = error.message;
+        document.getElementById("message").innerHTML = "failed to sign in";
+        //document.getElementById("message").innerHTML = error.message;
+        const ta = $sel("#api-output textarea");
+        try {
+          const c = JSON.parse(error.message);
+          ta.value = JSON.stringify(c, null, 2);
+        } catch (e) {
+          ta.value = error.message;
+        }
         console.log("error logging in: " + error.message);
       });
   }
@@ -254,9 +291,9 @@ function signout(event) {
 
   firebase.auth().signOut();
   displayAccessToken();
-  $sel("#output textarea").value = "";
+  $sel("#api-output textarea").value = "";
 
-  const idp = document.querySelector(`#sel-idp`).value;
+  const idp = document.querySelector(`#sel-api-idp`).value;
   if (idp == "OIDC") {
     // extra step for Okta-specific signout. This can be done in GCIP.
     // signout and return to this page
@@ -285,7 +322,7 @@ function newAccessToken(event) {
       .then(async (res) => [res.status, await res.json()])
 
       .then(([status, json]) => {
-        const ta = $sel("#output textarea");
+        const ta = $sel("#api-output textarea");
         ta.value = JSON.stringify(json, null, 2);
 
         if (status == 401) {
@@ -313,40 +350,60 @@ function newAccessToken(event) {
   return Promise.resolve(null);
 }
 
-async function showOutput(res) {
-  const json = await res.text();
-  // const ta = document.createElement("textarea");
-  // ta.setAttribute("class", "results code");
-  // ta.setAttribute("spellcheck", "false");
-  // ta.setAttribute("disabled", "true");
-  const ta = $sel("#output textarea");
-  const h = [];
-  for (const pair of res.headers.entries()) {
-    const lc = pair[0].toLowerCase();
-    if (
-      !lc.startsWith("sec-") &&
-      !lc.startsWith("access-control-") &&
-      !lc.startsWith("alt-svc")
-    ) {
-      h.push(`${pair[0]}: ${pair[1]}`);
+async function showOutput(res, variant, isAuthzCheck) {
+  const json = JSON.parse(await res.text());
+  const ta = $sel(`#${variant}-output textarea`);
+  const label = `status: ${res.status}`;
+  let headers = "";
+  if (variant == "api") {
+    const h = [];
+    for (const pair of res.headers.entries()) {
+      const lc = pair[0].toLowerCase();
+      if (
+        !lc.startsWith("sec-") &&
+        !lc.startsWith("access-control-") &&
+        !lc.startsWith("alt-svc")
+      ) {
+        h.push(`${pair[0]}: ${pair[1]}`);
+      }
     }
+    headers = h.join("\n") + "\n\n";
+    ta.value = label + "\n\n" + headers + JSON.stringify(json, null, 2);
+  } else {
+    ta.value =
+      label +
+      "\n\n" +
+      (isAuthzCheck
+        ? JSON.stringify(json, null, 2)
+        : JSON_StringifyPrettyCompact(json.result));
   }
 
-  const label = `status: ${res.status}`;
-  ta.value = label + "\n\n" + h.join("\n") + "\n\n" + json;
-
-  $sel("#btn-clear").classList.toggle("hidden", false);
+  $sel(`#btn-${variant}-clear`).classList.toggle("hidden", false);
 }
 
-function clearOutput(event) {
+function showApiOutput(res) {
+  showOutput(res, "api");
+}
+
+const showOpaOutput = (isAuthzCheck) => (res) =>
+  showOutput(res, "opa", isAuthzCheck);
+
+function clearOutput(event, variant) {
   if (event) {
     event.preventDefault();
   }
-  $sel("#output textarea").value = "";
-  $sel("#btn-clear").classList.toggle("hidden", true);
+  $sel(`#${variant}-output textarea`).value = "";
+  $sel(`#btn-${variant}-clear`).classList.toggle("hidden", true);
 }
 
-function sendRequest(event) {
+function clearApiOutput(event) {
+  clearOutput(event, "api");
+}
+function clearOpaOutput(event) {
+  clearOutput(event, "opa");
+}
+
+function sendApiRequest(event) {
   event.preventDefault();
   const accessToken = getDisplayedAccessToken();
   if (!accessToken) {
@@ -355,14 +412,14 @@ function sendRequest(event) {
   }
 
   const extraneousDoubleSlashFinder = new RegExp("^(https?://[^/]+)//(.+)$");
-  let url = $sel("#txt-baseurl").innerHTML + $sel("#txt-urlpath").value;
+  let url = $sel("#txt-api-baseurl").innerHTML + $sel("#txt-api-urlpath").value;
 
   for (const m = extraneousDoubleSlashFinder.exec(url); m; ) {
     url = m[1] + "/" + m[2];
   }
 
   // POST to the API endpoint.
-  const method = $sel("#sel-verb").value,
+  const method = $sel("#sel-api-verb").value,
     headers = {};
   let body = null;
 
@@ -370,11 +427,11 @@ function sendRequest(event) {
 
   if (httpMethodHasPayload(method)) {
     headers["content-type"] = $sel("#sel-contenttype").value;
-    body = $sel("#ta-body").value;
+    body = $sel("#ta-api-body").value;
   }
 
   fetch(url, { method, headers, body })
-    .then(showOutput)
+    .then(showApiOutput)
     .catch((e) => {
       console.log(e);
     });
@@ -382,42 +439,92 @@ function sendRequest(event) {
   return false;
 }
 
+function sendOpaRequest(event) {
+  event.preventDefault();
+  const urlBase = `${constants.APIGEE_ENDPOINT}${constants.OPA_BASEPATH}/v1/data`;
+  const action = $sel("#sel-opa-action").value;
+  let method, headers, body, url;
+  if (action == "AUTHZQUERY") {
+    url = `${urlBase}/protected_apis/authz/allowed`;
+    method = "POST";
+    headers = { "content-type": "application/json" };
+    body = $sel("#ta-opa-body").value;
+  } else {
+    const opaData = $sel("#sel-opa-data").value;
+    method = "GET";
+    headers = {};
+    url = `${urlBase}/${opaData}`;
+  }
+
+  fetch(url, { method, headers, body })
+    .then(showOpaOutput(action == "AUTHZQUERY"))
+    .catch((e) => {
+      console.log(e);
+    });
+
+  return false;
+}
+
+function tabChanged(event) {
+  // event.target // newly activated tab
+  // event.relatedTarget // previous active tab
+
+  const source = event.target, // the button that was clicked
+    id = source.getAttribute("id");
+  storeItem("active-tab", id);
+}
+
 document.addEventListener("DOMContentLoaded", (_event) => {
   addFirebaseAuthChangeListener();
-  document.querySelector("#message").innerHTML = ""; // clear message
-  document.querySelector("#btn-signin").addEventListener("click", signin);
-  document.querySelector("#btn-signout").addEventListener("click", signout);
-  document
-    .querySelector("#btn-showIdToken")
-    .addEventListener("click", showIdToken);
-  document
-    .querySelector("#btn-newAccessToken")
-    .addEventListener("click", newAccessToken);
+  $sel("#message").innerHTML = ""; // clear message
+  $sel("#btn-signin").addEventListener("click", signin);
+  $sel("#btn-signout").addEventListener("click", signout);
+  $sel("#btn-showIdToken").addEventListener("click", showIdToken);
+  $sel("#btn-newAccessToken").addEventListener("click", newAccessToken);
 
   populateFormFields();
 
   // preset things based on the select boxes
-  const method = document.querySelector(`#sel-verb`).value;
+  const method = $sel(`#sel-api-verb`).value;
   setElementVisibility("havepayload", httpMethodHasPayload(method));
 
-  const idp = document.querySelector(`#sel-idp`).value;
+  const idp = $sel(`#sel-api-idp`).value;
   setElementVisibility("emailpw", idp === "emailpw");
 
-  [].forEach.call($all("#form-send .txt"), (el) => {
+  const action = $sel(`#sel-opa-action`).value;
+  setElementVisibility("readconfig", action == "READCONFIG");
+  setElementVisibility("authzquery", action == "AUTHZQUERY");
+
+  [].forEach.call($all("form .txt"), (el) => {
     const handler = debounce(450, onInputChanged);
     el.addEventListener("change", handler);
     el.addEventListener("input", handler);
     el.addEventListener("keyup", handler);
   });
 
-  document.getElementById("txt-baseurl").innerHTML = constants.APIGEE_ENDPOINT;
+  document.getElementById("txt-api-baseurl").innerHTML =
+    constants.APIGEE_ENDPOINT;
 
-  $sel("#btn-send").addEventListener("click", sendRequest);
-  $sel("#btn-clear").addEventListener("click", clearOutput);
-  [].forEach.call(document.querySelectorAll("#form-signin select"), (el) => {
+  $sel("#btn-api-send").addEventListener("click", sendApiRequest);
+  $sel("#btn-api-clear").addEventListener("click", clearApiOutput);
+  $sel("#btn-opa-send").addEventListener("click", sendOpaRequest);
+  $sel("#btn-opa-clear").addEventListener("click", clearOpaOutput);
+
+  [].forEach.call($all("form select"), (el) => {
     el.addEventListener("change", onSelectChanged);
   });
-  [].forEach.call(document.querySelectorAll("#form-send select"), (el) => {
-    el.addEventListener("change", onSelectChanged);
-  });
+
+  [].forEach.call($all('button[data-bs-toggle="tab"]'), (el) =>
+    el.addEventListener("shown.bs.tab", tabChanged)
+  );
+
+  const el = $sel(`#nav-tabs button[id="${model["active-tab"]}"]`);
+  if (el) {
+    //bootstrap.Tab.getInstance(el).show();
+    el.click();
+  }
+
+  // [].forEach.call(document.querySelectorAll("#form-send select"), (el) => {
+  //   el.addEventListener("change", onSelectChanged);
+  // });
 });

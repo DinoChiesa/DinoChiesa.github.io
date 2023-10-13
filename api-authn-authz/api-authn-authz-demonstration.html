@@ -3,11 +3,16 @@
   <head>
     <title>API AuthN/Z demonstration</title>
 
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.0/firebase.js"></script>
-    <!-- script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"></script -->
+    <script src="js/json-stringify-pretty-compact.js"></script>
     <script src="js/multi-provider-page.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/tables.css">
+
   </head>
 
   <!-- ======================================================= -->
@@ -16,13 +21,191 @@
 
     <h3>API Authentication and Authorization Solution</h3>
     <div id="message">Loading...</div>
-    <div class='flexboxcontainer'>
+
+    <div class='maincontainer'>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" id="nav-tabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active"
+                    id="instructions-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#instructions"
+                    type="button"
+                    role="tab"
+                    aria-controls="instructions"
+                    aria-selected="false">Instructions</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link"
+                    id="opa-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#opa-ui"
+                    type="button"
+                    role="tab"
+                    aria-controls="opa-ui"
+                    aria-selected="false">OPA</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link"
+                    id="api-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#api-ui"
+                    type="button"
+                    role="tab"
+                    aria-controls="api-ui"
+                    aria-selected="true">APIs</button>
+          </li>
+        </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane" id="instructions"
+             role="tabpanel"
+             aria-labelledby="instructions-tab">
+          <h3>Instructions</h3>
+          <p>This  application demonstrates the use of Google Cloud to provide authentication, and authorization checks, for API access.</p>
+          <p>There are three pieces of Google Cloud participating in this solution:</p>
+          <ul>
+            <li><a href='https://cloud.google.com/identity-platform'>Identity Platform</a> (GCIP) for Authentication</li>
+            <li><a href='https://cloud.google.com/apigee'>Apigee</a> for API Management</li>
+            <li><a href='https://cloud.google.com/run'>Cloud Run</a>, hosting <a href='https://www.openpolicyagent.org'>Open Policy Agent</a> (OPA) running within for authorization decisions.</li>
+          </ul>
+
+
+          <p>Descriptions for the other tabs in the UI follow.</p>
+
+          <h4>The OPA tab</h4>
+
+          <p>... allows you to connect to the OPA service, to read
+            configuration, to read data provisioned to OPA, and to execute
+            authorization checks.</p>
+
+          <p>This tab uses the <a href=''>REST API</a> for OPA to perform these
+            tasks. Though the OPA REST API in general does permit update of the
+            OPA Configuration, that part of the API is restricted here.  It is
+            not possible to update the configuration of the OPA service from
+            this web form.</p>
+
+          <h4>The API Tab</h4>
+
+          <p>...allows you to authenticate against GCIP, then obtain an access
+          token from Apigee, then use the access token in requests for service.
+          Apigee acts as an API Gateway for the requests-for-service. When
+          handling those requests, Apigee connects to OPA to check the
+          authorization for the inbound request.</p>
+
+          <p>To authenticate, you can select a simple email/password authentication, or a
+            delegated authentication. The latter is provided by an Okta tenant in this
+            demonstration, but it could be any Open ID Connect Identity provider.</p>
+
+          <p>The available sample credentials are:</p>
+          <ul class='spaced-sm'>
+            <li>
+              <p>Under the email/pw authentication option:</p>
+              <table class='minimalistBlack'>
+                <thead>
+                  <tr><td>email</td><td>password</td></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>santosh@fake-company.com</td>
+                    <td><tt>Secret123!</tt></td>
+                  </tr>
+                  <tr>
+                    <td>vishal@fake-partner.com</td>
+                    <td><tt>Secret123!</tt></td>
+                  </tr>
+                  <tr>
+                    <td>person@investigators.com</td>
+                    <td><tt>HappyJoy1!</tt></td>
+                  </tr>
+                </tbody>
+              </table>
+            </li>
+            <li>
+              <p>Under the OIDC authentication option:</p>
+              <table class='minimalistBlack'>
+                <thead>
+                  <tr><td>email</td><td>password</td></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>areddy@example.com</td>
+                    <td><tt>HappyJoy1!</tt></td>
+                  </tr>
+                  <tr>
+                    <td>arjunaz@example.com</td>
+                    <td><tt>HappyJoy1!</tt></td>
+                  </tr>
+                </tbody>
+              </table>
+            </li>
+          </ul>
+
+          <p>When you authenticate differently, you will be granted different
+            authorization for the APIs, according to the example policy
+            configured in OPA, based either on the user email, or the domain of
+            the user's email.</p>
+
+        </div>
+        <div class="tab-pane" id="opa-ui"
+             role="tabpanel"
+             aria-labelledby="opa-tab">
+          <div class='flexboxcontainer'>
+            <div class='leftcolumn'>
+              <form role='form' id='form-opa-send' accept-charset='UTF-8'>
+
+          <div class='form-group blocks'>
+            <label for='sel-opa-action'>Action</label>
+            <select class="form-control form-control-sm" id='sel-opa-action'>
+              <option value='READCONFIG'>Read Configuration</option>
+              <option value='AUTHZQUERY'>Check Authorization</option>
+            </select>
+          </div>
+
+          <div class='form-group blocks when-readconfig'>
+            <label for='sel-opa-data'>Data</label>
+            <select class="form-control form-control-sm" id='sel-opa-data'>
+              <option value='users_and_roles'>Roles for Users</option>
+              <option value='domains_and_roles'>Roles for Domains</option>
+              <option value='roles_and_permissions'>Permissions for Roles</option>
+            </select>
+          </div>
+
+          <div class='form-group blocks when-authzquery'>
+            <label for='ta-opa-body'>Body</label>
+            <textarea id='ta-opa-body' class='txt form-control' spellcheck='false' class='plaintextvalue'>{
+  "input" : {
+    "user": "dpchiesa@hotmail.com",
+    "verb": "GET",
+    "resource": "/business-ops/flow1"
+  }
+}</textarea>
+          </div>
+
+
+          <div class='button-group'>
+            <button id='btn-opa-send' class='btn btn-sm btn-outline-primary' type='submit'>send</button>
+            <button id='btn-opa-clear' class='hidden btn btn-sm btn-outline-secondary' type='submit'>clear</button>
+          </div>
+        </form>
+      </div>
+      <div id='opa-output' class='output rightcolumn'>
+        <textarea class='results code' spellcheck='false' disabled='true'></textarea>
+      </div>
+          </div>
+
+        </div>
+        <div class="tab-pane active " id="api-ui"
+             role="tabpanel"
+             aria-labelledby="api-tab">
+
+          <div class='flexboxcontainer'>
       <div class='leftcolumn'>
         <form role='form' id='form-signin' accept-charset='UTF-8'>
 
           <div class='form-group blocks when-no-signedin'>
-            <label for='sel-idp'>ID Provider</label>
-            <select class="form-control form-control-sm sel-idp" id='sel-idp'>
+            <label for='sel-api-idp'>ID Provider</label>
+            <select class="form-control form-control-sm" id='sel-api-idp'>
               <option value='OIDC'>OIDC</option>
               <option value='emailpw'>email + pw</option>
             </select>
@@ -56,26 +239,29 @@
             <span class="tooltip"></span>
           </div>
 
-          <button class='when-no-signedin' id='btn-signin' type='submit'>Sign In</button>
-          <button class='when-signedin' id='btn-signout' type='submit'>Sign Out</button>
-          <button class='when-signedin' id='btn-showIdToken' type='submit'>Show ID Token</button>
-          <button class='when-signedin' id='btn-newAccessToken' type='submit'>New Access Token</button>
+          <div class='button-group'>
+            <button class='when-no-signedin btn btn-sm btn-outline-primary' id='btn-signin' type='submit'>Sign In</button>
+            <button class='when-signedin btn btn-sm btn-outline-primary' id='btn-signout' type='submit'>Sign Out</button>
+            <button class='when-signedin btn btn-sm btn-outline-primary' id='btn-showIdToken' type='submit'>Show ID Token</button>
+            <button class='when-signedin btn btn-sm btn-outline-primary' id='btn-newAccessToken' type='submit'>New Access Token</button>
+          </div>
+
         </form>
 
         <form role='form' id='form-send' class='when-havetoken' accept-charset='UTF-8'>
           <div class='form-group blocks'>
-            <label for='txt-baseurl'>Base URL</label>
-            <div id="txt-baseurl" class="form-control like-an-input"></div>
+            <label for='txt-api-baseurl'>Base URL</label>
+            <div id="txt-api-baseurl" class="form-control like-an-input"></div>
           </div>
 
           <div class='form-group blocks'>
-            <label for='txt-urlpath'>URL Path</label>
-            <input id='txt-urlpath' name='txt-urlpath' class='form-control txt' spellcheck="false" value='/business-ops/flow1'/>
+            <label for='txt-api-urlpath'>URL Path</label>
+            <input id='txt-api-urlpath' name='txt-api-urlpath' class='form-control txt' spellcheck="false" value='/business-ops/flow1'/>
           </div>
 
           <div class='form-group blocks'>
-            <label for='sel-verb'>Verb</label>
-            <select class="form-control form-control-sm sel-verb" id='sel-verb'>
+            <label for='sel-api-verb'>Verb</label>
+            <select class="form-control form-control-sm" id='sel-api-verb'>
               <option value='GET'>GET</option>
               <option value='POST'>POST</option>
               <option value='PUT'>PUT</option>
@@ -84,8 +270,8 @@
           </div>
 
           <div class='form-group blocks when-havepayload'>
-            <label for='sel-contenttype'>Content-Type</label>
-            <select class="form-control form-control-sm sel-contenttype" id='sel-contenttype'>
+            <label for='sel-api-contenttype'>Content-Type</label>
+            <select class="form-control form-control-sm" id='sel-api-contenttype'>
               <option value='text/plain'>text/plain</option>
               <option value='application/x-www-form-urlencoded'>application/x-www-form-urlencoded</option>
               <option value='application/json'>application/json</option>
@@ -93,21 +279,29 @@
           </div>
 
           <div class='form-group blocks when-havepayload'>
-            <label for='ta-body'>Body</label>
-            <textarea id='ta-body' class='txt form-control' spellcheck='false' class='plaintextvalue'></textarea>
+            <label for='ta-api-body'>Body</label>
+            <textarea id='ta-api-body' class='txt form-control' spellcheck='false' class='plaintextvalue'></textarea>
           </div>
 
-          <button id='btn-send' type='submit'>send</button>
-          <button id='btn-clear' class='hidden' type='submit'>clear</button>
+          <div class='button-group'>
+            <button id='btn-api-send' class='btn btn-sm btn-outline-primary' type='submit'>send</button>
+            <button id='btn-api-clear' class='hidden  btn btn-sm btn-outline-secondary' type='submit'>clear</button>
+          </div>
 
           <div class='last'></div>
         </form>
       </div>
 
-      <div id='output' class='rightcolumn' data-notclass='when-response'>
+      <div id='api-output' class='output rightcolumn'>
         <textarea class='results code' spellcheck='false' disabled='true'></textarea>
       </div>
     </div>
+
+        </div> <!-- flexboxcontainer  -->
+
+      </div> <!-- tab-pane -->
+
+    </div> <!-- tab-content -->
 
   </body>
 

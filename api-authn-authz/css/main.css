@@ -1,3 +1,12 @@
+body {
+  max-width: max-content;
+  margin: 32px auto;
+}
+
+.maincontainer {
+  width: 1024px;
+}
+
 .hidden {
   display: none;
 }
@@ -5,11 +14,6 @@
 .visible {
   display: auto;
 }
-
-/* body { */
-/*   margin-left:12px; */
-/*   margin-right:12px; */
-/* } */
 
 input.form-control, div.form-control, select.form-control {
   max-width: 440px;
@@ -19,14 +23,15 @@ input.form-control, div.form-control, select.form-control {
   display: inline-block;
 }
 
-body {
-  max-width: max-content;
-  margin: 32px auto;
-}
-
 .flexboxcontainer {
   display: flex;
-  width: 1024px;
+  width: 100%;
+}
+
+.leftcolumn { }
+
+.rightcolumn {
+  margin-left: 12px;
 }
 
 form {
@@ -39,11 +44,6 @@ form {
   margin-bottom: 24px;
 }
 
-.leftcolumn { }
-
-.rightcolumn {
-  margin-left: 12px;
-}
 
 #form-send {
   margin-top: 42px;
@@ -55,7 +55,7 @@ form {
   margin-bottom: 2px;
 }
 
-#form-send textarea {
+form textarea {
   display: block;
   width: 100%;
   min-height: 96px;
@@ -63,7 +63,12 @@ form {
   padding: 6px;
 }
 
-#output textarea {
+#form-opa-send textarea {
+  min-height: 128px;
+  height: 188px;
+}
+
+.output textarea {
   min-width: 620px;
   min-height: 836px;
   background: #fff8dc;
@@ -85,4 +90,13 @@ form {
   position: absolute;
   z-index: 1000;
   opacity: 1.0;
+}
+
+.button-group {
+  margin-top:12px;
+}
+
+.spaced-sm p {
+  margin-bottom: 2px;
+  margin-top: 12px;
 }
