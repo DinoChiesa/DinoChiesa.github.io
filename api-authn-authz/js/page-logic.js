@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------
 //
 // created: Thu Oct  5 21:17:16 2023
-// last saved: <2023-October-13 09:29:03>
+// last saved: <2023-October-13 14:10:59>
 
 /* jshint esversion:9, browser:true, strict:implied */
 /* global firebase, Promise, URLSearchParams, JSON_StringifyPrettyCompact, bootstrap */
@@ -33,7 +33,8 @@ const model = {
   "sel-api-verb": "",
   "ta-opa-body": "",
   "sel-opa-action": "",
-  "sel-opa-data": ""
+  "sel-opa-data": "",
+  "sel-opa-perms": ""
 };
 
 let currentUser = null;
@@ -221,6 +222,7 @@ function onSelectChanged(event) {
     if (id == "sel-opa-action") {
       setElementVisibility("readconfig", value == "READCONFIG");
       setElementVisibility("authzquery", value == "AUTHZQUERY");
+      setElementVisibility("updateperms", value == "UPDATEPERMS");
     }
   }
 }
@@ -350,7 +352,8 @@ function newAccessToken(event) {
 }
 
 async function showOutput(res, variant, opaOptions) {
-  const json = JSON.parse(await res.text());
+  const txt = await res.text();
+  const json = txt ? JSON.parse(txt) : null;
   const ta = $sel(`#${variant}-output textarea`);
   const label = `status: ${res.status}`;
   let headers = "";
@@ -368,13 +371,20 @@ async function showOutput(res, variant, opaOptions) {
     }
     headers = h.join("\n") + "\n\n";
     ta.value = label + "\n\n" + headers + JSON.stringify(json, null, 2);
-  } else {
-    const textToShow = opaOptions.isAuthzCheck
-      ? JSON.stringify(json, null, 2)
-      : opaOptions.itemType == "data"
-      ? JSON_StringifyPrettyCompact(json.result)
-      : json.result.raw;
-    ta.value = label + "\n\n" + textToShow;
+  } /* opa */ else {
+    const textToShow = () => {
+      if (opaOptions.isAuthzCheck) {
+        return JSON.stringify(json, null, 2);
+      }
+      if (opaOptions.itemType == "data") {
+        return JSON_StringifyPrettyCompact(json.result);
+      }
+      if (opaOptions.itemType == "policies") {
+        return json.result.raw;
+      }
+      return json ? JSON.stringify(json, null, 2) : "";
+    };
+    ta.value = label + "\n\n" + textToShow();
   }
 
   $sel(`#btn-${variant}-clear`).classList.toggle("hidden", false);
@@ -440,30 +450,39 @@ function sendApiRequest(event) {
 
 function sendOpaRequest(event) {
   event.preventDefault();
-  const urlBase = `${constants.APIGEE_ENDPOINT}${constants.OPA_BASEPATH}/v1`;
+  const urlBase = `${constants.APIGEE_ENDPOINT}${constants.OPA_BASEPATH}`;
   const action = $sel("#sel-opa-action").value;
   let method, headers, body, url;
   let cb = null;
   if (action == "AUTHZQUERY") {
-    url = `${urlBase}/data/protected_apis/authz/allowed`;
+    url = `${urlBase}/v1/data/protected_apis/authz/allowed`;
     method = "POST";
     headers = { "content-type": "application/json" };
     body = $sel("#ta-opa-body").value;
     cb = showOpaOutput(true);
-  } else {
+  } else if (action == "READCONFIG") {
     method = "GET";
     headers = {};
-    const opaData = $sel("#sel-opa-data").value,
-      [prefix, id] = opaData.split(":");
-    url = `${urlBase}/${prefix}/${id}`;
+    const dataSelection = $sel("#sel-opa-data").value,
+      [prefix, id] = dataSelection.split(":");
+    url = `${urlBase}/v1/${prefix}/${id}`;
     cb = showOpaOutput(false, prefix);
+  } else if (action == "UPDATEPERMS") {
+    method = "POST";
+    headers = { "content-type": "application/x-www-form-urlencoded" };
+    const permsSelection = $sel("#sel-opa-perms").value,
+      [prefix, id] = permsSelection.split(":");
+    url = `${urlBase}/permissions/${id}`;
+    cb = showOpaOutput(false, prefix);
+    body = "";
   }
-
-  fetch(url, { method, headers, body })
-    .then(cb)
-    .catch((e) => {
-      console.log(e);
-    });
+  if (method) {
+    fetch(url, { method, headers, body })
+      .then(cb)
+      .catch((e) => {
+        console.log(e);
+      });
+  }
 
   return false;
 }
@@ -496,6 +515,7 @@ document.addEventListener("DOMContentLoaded", (_event) => {
   const action = $sel(`#sel-opa-action`).value;
   setElementVisibility("readconfig", action == "READCONFIG");
   setElementVisibility("authzquery", action == "AUTHZQUERY");
+  setElementVisibility("updateperms", action == "UPDATEPERMS");
 
   [].forEach.call($all("form .txt"), (el) => {
     const handler = debounce(450, onInputChanged);
