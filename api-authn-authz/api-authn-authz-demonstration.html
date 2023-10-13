@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.0/firebase.js"></script>
     <script src="js/json-stringify-pretty-compact.js"></script>
-    <script src="js/multi-provider-page.js"></script>
+    <script src="js/page-logic.js"></script>
 
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/tables.css">
@@ -76,7 +76,8 @@
           <h4>The OPA tab</h4>
 
           <p>... allows you to connect to the OPA service, to read
-            configuration, to read data provisioned to OPA, and to execute
+            configuration, to read data provisioned to OPA, to modify that data
+            with one of several pre-canned configurations, and to execute
             authorization checks.</p>
 
           <p>There are data, as well as a policy file. The data describes the
@@ -85,11 +86,11 @@
             and C"). The policy file evaluates the authorization policy using
             that data.</p>
 
-          <p>This tab uses the<a href='https://www.openpolicyagent.org/docs/latest/rest-api'>REST
-            API</a> for OPA to perform these tasks. Though the OPA REST API in
-            general does permit update of the OPA Configuration, that part of
-            the API is restricted here.  It is not possible to update the
-            configuration of the OPA service from this web form.</p>
+          <p>This tab uses the <a href='https://www.openpolicyagent.org/docs/latest/rest-api'>REST
+            API</a> for OPA to perform these tasks. Though the OPA REST API
+            permits arbitrary update of the OPA Configuration, this page
+            permits only update of the permissions data, to one of three different
+            pre-canned settings.</p>
 
           <h4>The API Tab</h4>
 
@@ -110,10 +111,10 @@
               <p>Under the Google authentication option, you can use any Google
                 account to signin.  A gmail account works, but really any
                 account registered with Google will also work. Because this app
-                is published for testing only, you must request that your
-                specific Google account be registered as a test user before
-                signin is possible with your own account.
-              </p>
+                is published for testing only, you must connect with the app
+                author to request that your specific Google account be
+                registered as a test user before you can signin here with your
+                own account.</p>
 
               <table class='minimalistBlack'>
                 <thead>
@@ -186,19 +187,29 @@
 
           <div class='form-group blocks'>
             <label for='sel-opa-action'>Action</label>
-            <select class="form-control form-control-sm" id='sel-opa-action'>
+            <select class="form-control form-control-sm form-select" id='sel-opa-action'>
               <option value='READCONFIG'>Read Configuration</option>
+              <option value='UPDATEPERMS'>Update permissions</option>
               <option value='AUTHZQUERY'>Check Authorization</option>
             </select>
           </div>
 
           <div class='form-group blocks when-readconfig'>
             <label for='sel-opa-data'>Data</label>
-            <select class="form-control form-control-sm" id='sel-opa-data'>
+            <select class="form-control form-control-sm form-select" id='sel-opa-data'>
               <option value='data:users_and_roles'>Roles for Users</option>
               <option value='data:domains_and_roles'>Roles for Domains</option>
               <option value='data:roles_and_permissions'>Permissions for Roles</option>
               <option value='policies:protected_apis/authz'>REGO Policy for Authz</option>
+            </select>
+          </div>
+
+          <div class='form-group blocks when-updateperms'>
+            <label for='sel-opa-perms'>Permissions Setting</label>
+            <select class="form-control form-control-sm form-select" id='sel-opa-perms'>
+              <option value='perms:1'>Default</option>
+              <option value='perms:2'>Relaxed</option>
+              <option value='perms:3'>Locked down</option>
             </select>
           </div>
 
@@ -235,7 +246,7 @@
 
           <div class='form-group blocks when-no-signedin'>
             <label for='sel-api-idp'>ID Provider</label>
-            <select class="form-control form-control-sm" id='sel-api-idp'>
+            <select class="form-control form-control-sm form-select" id='sel-api-idp'>
               <option value='Google'>Google Signin</option>
               <option value='Okta'>Okta OIDC</option>
               <option value='emailpw'>email + pw</option>
@@ -292,7 +303,7 @@
 
           <div class='form-group blocks'>
             <label for='sel-api-verb'>Verb</label>
-            <select class="form-control form-control-sm" id='sel-api-verb'>
+            <select class="form-control form-control-sm form-select" id='sel-api-verb'>
               <option value='GET'>GET</option>
               <option value='POST'>POST</option>
               <option value='PUT'>PUT</option>
@@ -302,7 +313,7 @@
 
           <div class='form-group blocks when-havepayload'>
             <label for='sel-api-contenttype'>Content-Type</label>
-            <select class="form-control form-control-sm" id='sel-api-contenttype'>
+            <select class="form-control form-control-sm form-select" id='sel-api-contenttype'>
               <option value='text/plain'>text/plain</option>
               <option value='application/x-www-form-urlencoded'>application/x-www-form-urlencoded</option>
               <option value='application/json'>application/json</option>
