@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------
 //
 // created: Thu Oct  5 21:17:16 2023
-// last saved: <2023-October-12 20:40:58>
+// last saved: <2023-October-13 08:55:40>
 
 /* jshint esversion:9, browser:true, strict:implied */
 /* global firebase, Promise, URLSearchParams, JSON_StringifyPrettyCompact, bootstrap */
@@ -350,7 +350,7 @@ function newAccessToken(event) {
   return Promise.resolve(null);
 }
 
-async function showOutput(res, variant, isAuthzCheck) {
+async function showOutput(res, variant, opaOptions) {
   const json = JSON.parse(await res.text());
   const ta = $sel(`#${variant}-output textarea`);
   const label = `status: ${res.status}`;
@@ -370,12 +370,12 @@ async function showOutput(res, variant, isAuthzCheck) {
     headers = h.join("\n") + "\n\n";
     ta.value = label + "\n\n" + headers + JSON.stringify(json, null, 2);
   } else {
-    ta.value =
-      label +
-      "\n\n" +
-      (isAuthzCheck
-        ? JSON.stringify(json, null, 2)
-        : JSON_StringifyPrettyCompact(json.result));
+    const textToShow = opaOptions.isAuthzCheck
+      ? JSON.stringify(json, null, 2)
+      : opaOptions.itemType == "data"
+      ? JSON_StringifyPrettyCompact(json.result)
+      : json.result.raw;
+    ta.value = label + "\n\n" + textToShow;
   }
 
   $sel(`#btn-${variant}-clear`).classList.toggle("hidden", false);
@@ -385,8 +385,8 @@ function showApiOutput(res) {
   showOutput(res, "api");
 }
 
-const showOpaOutput = (isAuthzCheck) => (res) =>
-  showOutput(res, "opa", isAuthzCheck);
+const showOpaOutput = (isAuthzCheck, itemType) => (res) =>
+  showOutput(res, "opa", { isAuthzCheck, itemType });
 
 function clearOutput(event, variant) {
   if (event) {
@@ -441,23 +441,27 @@ function sendApiRequest(event) {
 
 function sendOpaRequest(event) {
   event.preventDefault();
-  const urlBase = `${constants.APIGEE_ENDPOINT}${constants.OPA_BASEPATH}/v1/data`;
+  const urlBase = `${constants.APIGEE_ENDPOINT}${constants.OPA_BASEPATH}/v1`;
   const action = $sel("#sel-opa-action").value;
   let method, headers, body, url;
+  let cb = null;
   if (action == "AUTHZQUERY") {
-    url = `${urlBase}/protected_apis/authz/allowed`;
+    url = `${urlBase}/data/protected_apis/authz/allowed`;
     method = "POST";
     headers = { "content-type": "application/json" };
     body = $sel("#ta-opa-body").value;
+    cb = showOpaOutput(true);
   } else {
-    const opaData = $sel("#sel-opa-data").value;
     method = "GET";
     headers = {};
-    url = `${urlBase}/${opaData}`;
+    const opaData = $sel("#sel-opa-data").value,
+      [prefix, id] = opaData.split(":");
+    url = `${urlBase}/${prefix}/${id}`;
+    cb = showOpaOutput(false, prefix);
   }
 
   fetch(url, { method, headers, body })
-    .then(showOpaOutput(action == "AUTHZQUERY"))
+    .then(cb)
     .catch((e) => {
       console.log(e);
     });
@@ -520,11 +524,6 @@ document.addEventListener("DOMContentLoaded", (_event) => {
 
   const el = $sel(`#nav-tabs button[id="${model["active-tab"]}"]`);
   if (el) {
-    //bootstrap.Tab.getInstance(el).show();
     el.click();
   }
-
-  // [].forEach.call(document.querySelectorAll("#form-send select"), (el) => {
-  //   el.addEventListener("change", onSelectChanged);
-  // });
 });

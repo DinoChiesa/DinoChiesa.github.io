@@ -26,7 +26,7 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" id="nav-tabs" role="tablist">
           <li class="nav-item" role="presentation">
-            <button class="nav-link active"
+            <button class="nav-link"
                     id="instructions-tab"
                     data-bs-toggle="tab"
                     data-bs-target="#instructions"
@@ -165,9 +165,10 @@
           <div class='form-group blocks when-readconfig'>
             <label for='sel-opa-data'>Data</label>
             <select class="form-control form-control-sm" id='sel-opa-data'>
-              <option value='users_and_roles'>Roles for Users</option>
-              <option value='domains_and_roles'>Roles for Domains</option>
-              <option value='roles_and_permissions'>Permissions for Roles</option>
+              <option value='data:users_and_roles'>Roles for Users</option>
+              <option value='data:domains_and_roles'>Roles for Domains</option>
+              <option value='data:roles_and_permissions'>Permissions for Roles</option>
+              <option value='policies:protected_apis/authz'>REGO Policy for Authz</option>
             </select>
           </div>
 
@@ -182,7 +183,6 @@
 }</textarea>
           </div>
 
-
           <div class='button-group'>
             <button id='btn-opa-send' class='btn btn-sm btn-outline-primary' type='submit'>send</button>
             <button id='btn-opa-clear' class='hidden btn btn-sm btn-outline-secondary' type='submit'>clear</button>
@@ -195,7 +195,7 @@
           </div>
 
         </div>
-        <div class="tab-pane active " id="api-ui"
+        <div class="tab-pane" id="api-ui"
              role="tabpanel"
              aria-labelledby="api-tab">
 
