@@ -79,11 +79,17 @@
             configuration, to read data provisioned to OPA, and to execute
             authorization checks.</p>
 
-          <p>This tab uses the <a href=''>REST API</a> for OPA to perform these
-            tasks. Though the OPA REST API in general does permit update of the
-            OPA Configuration, that part of the API is restricted here.  It is
-            not possible to update the configuration of the OPA service from
-            this web form.</p>
+          <p>There are data, as well as a policy file. The data describes the
+            mapping of users or domans to roles ("user X has role Y"), and also
+            the mapping of roles to permissions ("role Y has permisions A, B,
+            and C"). The policy file evaluates the authorization policy using
+            that data.</p>
+
+          <p>This tab uses the<a href='https://www.openpolicyagent.org/docs/latest/rest-api'>REST
+            API</a> for OPA to perform these tasks. Though the OPA REST API in
+            general does permit update of the OPA Configuration, that part of
+            the API is restricted here.  It is not possible to update the
+            configuration of the OPA service from this web form.</p>
 
           <h4>The API Tab</h4>
 
