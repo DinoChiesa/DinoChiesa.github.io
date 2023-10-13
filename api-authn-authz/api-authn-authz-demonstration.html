@@ -99,12 +99,54 @@
           handling those requests, Apigee connects to OPA to check the
           authorization for the inbound request.</p>
 
-          <p>To authenticate, you can select a simple email/password authentication, or a
-            delegated authentication. The latter is provided by an Okta tenant in this
-            demonstration, but it could be any Open ID Connect Identity provider.</p>
+          <p>To authenticate, you can select Google Sign-in, signin via Okta, or
+            a simple email/password authentication. This is all coordinated by
+            GCIP.  In GCIP, there are other signins possible, via any SAML or
+            Open ID Connect Identity provider.</p>
 
           <p>The available sample credentials are:</p>
           <ul class='spaced-sm'>
+            <li>
+              <p>Under the Google authentication option, you can use any Google
+                account to signin.  A gmail account works, but really any
+                account registered with Google will also work. Because this app
+                is published for testing only, you must request that your
+                specific Google account be registered as a test user before
+                signin is possible with your own account.
+              </p>
+
+              <table class='minimalistBlack'>
+                <thead>
+                  <tr><td>currently registered accounts:</td></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>dchiesa001@gmail.com</td>
+                  </tr>
+                  <tr>
+                    <td>dpchiesa@hotmail.com</td>
+                  </tr>
+                </tbody>
+              </table>
+            </li>
+            <li>
+              <p>Under the Okta authentication option:</p>
+              <table class='minimalistBlack'>
+                <thead>
+                  <tr><td>email</td><td>password</td></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>areddy@example.com</td>
+                    <td><tt>HappyJoy1!</tt></td>
+                  </tr>
+                  <tr>
+                    <td>arjunaz@example.com</td>
+                    <td><tt>HappyJoy1!</tt></td>
+                  </tr>
+                </tbody>
+              </table>
+            </li>
             <li>
               <p>Under the email/pw authentication option:</p>
               <table class='minimalistBlack'>
@@ -127,30 +169,12 @@
                 </tbody>
               </table>
             </li>
-            <li>
-              <p>Under the OIDC authentication option:</p>
-              <table class='minimalistBlack'>
-                <thead>
-                  <tr><td>email</td><td>password</td></tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>areddy@example.com</td>
-                    <td><tt>HappyJoy1!</tt></td>
-                  </tr>
-                  <tr>
-                    <td>arjunaz@example.com</td>
-                    <td><tt>HappyJoy1!</tt></td>
-                  </tr>
-                </tbody>
-              </table>
-            </li>
           </ul>
 
-          <p>When you authenticate differently, you will be granted different
-            authorization for the APIs, according to the example policy
-            configured in OPA, based either on the user email, or the domain of
-            the user's email.</p>
+          <p>When you authenticate, you will be granted different authorization
+            for the APIs, according to the data and policy configured in OPA,
+            based either on the email address of the authenticated user, or the
+            domain of the user's email.</p>
 
         </div>
         <div class="tab-pane" id="opa-ui"
@@ -212,7 +236,8 @@
           <div class='form-group blocks when-no-signedin'>
             <label for='sel-api-idp'>ID Provider</label>
             <select class="form-control form-control-sm" id='sel-api-idp'>
-              <option value='OIDC'>OIDC</option>
+              <option value='Google'>Google Signin</option>
+              <option value='Okta'>Okta OIDC</option>
               <option value='emailpw'>email + pw</option>
             </select>
           </div>

@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------
 //
 // created: Thu Oct  5 21:17:16 2023
-// last saved: <2023-October-13 08:55:40>
+// last saved: <2023-October-13 09:29:03>
 
 /* jshint esversion:9, browser:true, strict:implied */
 /* global firebase, Promise, URLSearchParams, JSON_StringifyPrettyCompact, bootstrap */
@@ -39,7 +39,16 @@ const model = {
 let currentUser = null;
 
 firebase.initializeApp(identityPlatformConfig);
-const IdProvider = new firebase.auth.OAuthProvider(constants.OIDC_PROVIDER);
+const IdProviders = {
+  Okta: new firebase.auth.OAuthProvider(constants.OIDC_PROVIDER),
+  Google: (() => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({
+      prompt: "select_account"
+    });
+    return provider;
+  })()
+};
 
 const $sel = (query) => document.querySelector(query),
   $all = (query) => document.querySelectorAll(query);
@@ -53,13 +62,6 @@ function debounce(interval, callback) {
     debounceTimeoutId = setTimeout(() => callback.apply(this, args), interval);
   };
 }
-
-const JSON_StringifyCompact = (c) => {
-  const s = Object.keys(c)
-    .map((key) => `  "${key}": ` + JSON.stringify(c[key]))
-    .join(",\n");
-  return `{\n${s}\n}`;
-};
 
 function message(msg) {
   document.getElementById("message").innerHTML = msg;
@@ -84,8 +86,7 @@ function displayAccessToken(json) {
 }
 
 function getDisplayedAccessToken() {
-  // $sel("#token").innerHTML; // if div
-  let value = $sel("#txt-accesstoken").value; // if input
+  let value = $sel("#txt-accesstoken").value;
   if (!value) {
     value = getItem("txt-accesstoken");
     if (value) {
@@ -101,11 +102,9 @@ function setElementVisibility(discriminator, show) {
 
   [].forEach.call($all(toShow), (el) => {
     el.classList.toggle("hidden", false);
-    //el.classList.toggle("visible", true);
   });
   [].forEach.call($all(toHide), (el) => {
     el.classList.toggle("hidden", true);
-    //el.classList.toggle("visible", false);
   });
 }
 
@@ -249,8 +248,8 @@ function signin(event) {
   const signin_option = $sel(`#sel-api-idp`).value;
 
   let p = null;
-  if (signin_option == "OIDC") {
-    p = firebase.auth().signInWithPopup(IdProvider);
+  if (signin_option == "Okta" || signin_option == "Google") {
+    p = firebase.auth().signInWithPopup(IdProviders[signin_option]);
   } else {
     const email = document.getElementById("inputEmail").value.trim();
     const password = document.getElementById("inputPassword").value.trim();
@@ -265,9 +264,7 @@ function signin(event) {
         showDecodedIdToken(result.user);
       })
       .catch((error) => {
-        // Handle error.
         document.getElementById("message").innerHTML = "failed to sign in";
-        //document.getElementById("message").innerHTML = error.message;
         const ta = $sel("#api-output textarea");
         try {
           const c = JSON.parse(error.message);
@@ -283,21 +280,23 @@ function signin(event) {
 
 function signout(event) {
   event.preventDefault();
-  // const currentUser = firebase.auth().currentUser;
-  // const token = currentUser && (await currentUser.getIdToken()); // fbase id token
-  // console.log(`id token: ${token}`);
-  // const tokenResult = currentUser && (await currentUser.getIdTokenResult()); // fbase id token
-  // console.log(`token result: ${tokenResult}`);
-
   firebase.auth().signOut();
   displayAccessToken();
   $sel("#api-output textarea").value = "";
 
   const idp = document.querySelector(`#sel-api-idp`).value;
-  if (idp == "OIDC") {
-    // extra step for Okta-specific signout. This can be done in GCIP.
-    // signout and return to this page
+  if (idp == "Okta") {
+    // An extra step for Okta-specific signout. The goal here is to allow
+    // re-prompt when later signing in with Okta. If this app does not fully
+    // sign-out, the signin experience will be no-touch, based on stored
+    // cookies.
+    //
+    // You wouldn't force the signout in a real app.
     window.location = `${constants.OKTA_ENDPOINT}/login/signout?fromURI=${window.location.href}`;
+  } else if (idp == "Google") {
+    // It is not necesary to signout from Google. The Google auth provider
+    // allows this app to ask that the signin expeprience prompt the user
+    // to select an account.
   }
 
   return false;
@@ -472,7 +471,6 @@ function sendOpaRequest(event) {
 function tabChanged(event) {
   // event.target // newly activated tab
   // event.relatedTarget // previous active tab
-
   const source = event.target, // the button that was clicked
     id = source.getAttribute("id");
   storeItem("active-tab", id);
