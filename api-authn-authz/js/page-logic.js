@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------
 //
 // created: Thu Oct  5 21:17:16 2023
-// last saved: <2023-October-13 14:10:59>
+// last saved: <2023-October-18 10:25:52>
 
 /* jshint esversion:9, browser:true, strict:implied */
 /* global firebase, Promise, URLSearchParams, JSON_StringifyPrettyCompact, bootstrap */
@@ -450,6 +450,7 @@ function sendApiRequest(event) {
 
 function sendOpaRequest(event) {
   event.preventDefault();
+  clearOpaOutput();
   const urlBase = `${constants.APIGEE_ENDPOINT}${constants.OPA_BASEPATH}`;
   const action = $sel("#sel-opa-action").value;
   let method, headers, body, url;
