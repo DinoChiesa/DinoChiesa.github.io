@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------
 //
 // created: Thu Oct  5 21:17:16 2023
-// last saved: <2023-October-18 10:25:52>
+// last saved: <2023-October-18 10:34:58>
 
 /* jshint esversion:9, browser:true, strict:implied */
 /* global firebase, Promise, URLSearchParams, JSON_StringifyPrettyCompact, bootstrap */
@@ -414,6 +414,7 @@ function clearOpaOutput(event) {
 
 function sendApiRequest(event) {
   event.preventDefault();
+  clearApiOutput();
   const accessToken = getDisplayedAccessToken();
   if (!accessToken) {
     message("There is no access token");
