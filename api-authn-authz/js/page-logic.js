@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------
 //
 // created: Thu Oct  5 21:17:16 2023
-// last saved: <2023-October-18 10:34:58>
+// last saved: <2023-November-02 14:42:09>
 
 /* jshint esversion:9, browser:true, strict:implied */
 /* global firebase, Promise, URLSearchParams, JSON_StringifyPrettyCompact, bootstrap */
@@ -145,7 +145,8 @@ function populateFormFields() {
 
 function showIdToken(event) {
   event.preventDefault();
-  showDecodedIdToken(currentUser);
+  clearApiOutput();
+  setTimeout(() => showDecodedIdToken(currentUser), 1);
 }
 
 async function showDecodedIdToken(user) {
@@ -306,6 +307,7 @@ function signout(event) {
 
 function newAccessToken(event) {
   event.preventDefault();
+  clearApiOutput();
   if (currentUser && currentUser.ya) {
     const payload = {
       grant_type: constants.GRANT_TYPE,
@@ -420,7 +422,6 @@ function sendApiRequest(event) {
     message("There is no access token");
     return false;
   }
-
   const extraneousDoubleSlashFinder = new RegExp("^(https?://[^/]+)//(.+)$");
   let url = $sel("#txt-api-baseurl").innerHTML + $sel("#txt-api-urlpath").value;
 
