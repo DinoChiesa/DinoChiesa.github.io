@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------
 //
 // created: Thu Oct  5 21:17:16 2023
-// last saved: <2023-November-02 14:42:09>
+// last saved: <2023-November-02 15:15:13>
 
 /* jshint esversion:9, browser:true, strict:implied */
 /* global firebase, Promise, URLSearchParams, JSON_StringifyPrettyCompact, bootstrap */
@@ -272,7 +272,7 @@ function signin(event) {
         try {
           const c = JSON.parse(error.message);
           ta.value = JSON.stringify(c, null, 2);
-        } catch (e) {
+        } catch (_itsNotJson) {
           ta.value = error.message;
         }
         console.log("error logging in: " + error.message);
