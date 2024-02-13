@@ -6,14 +6,14 @@
     <link rel="stylesheet" href="css/main.css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="A webpage to generate an RSA keypair via webcrypto and allow download." />
+    <meta name="description" content="A webpage to generate keypairs for RSA or Elliptic Curve, via webcrypto, and also allow download." />
   </head>
 
   <!-- ======================================================= -->
   <body>
     <div class='container'>
       <div class='banner'>
-        <h2>RSA Keypair Generator</h2>
+        <h2>Keypair Generator</h2>
         <div>Generate and download</div>
         <div class="alert alert-warning alert-dismissible fade" role="alert" id="mainalert"></div>
         <div id='buildversion'>version <span id='version_id'>??</span></div>
@@ -28,7 +28,7 @@
                 <span class="oi oi-clipboard"></span>
               </button>
             </p>
-            <textarea rows=12 cols=34 id='ta_privatekey' spellcheck='false' class='plaintextvalue'></textarea>
+            <textarea rows=12 cols=34 id='ta_privatekey' spellcheck='false' class='plaintextvalue reform-indent-on-paste'></textarea>
           </div>
           <div id='publickey'>
             <p>Public Key
@@ -37,17 +37,25 @@
                 <span class="oi oi-clipboard"></span>
               </button>
             </p>
-            <textarea rows=12 cols=34 id='ta_publickey' spellcheck='false' class='plaintextvalue'></textarea>
+            <textarea rows=12 cols=34 id='ta_publickey' spellcheck='false' class='plaintextvalue reform-indent-on-paste'></textarea>
           </div>
 
         </div>
 
-        <div class='panel panel-center' id='panel-buttons'>
+        <div class='panel panel-center' id='panel_buttons'>
+          <select class="form-control form-control-sm sel-variant" id='sel-variant'>
+            <option value='RSA'>RSA</option>
+            <option value='EC'>Elliptic Curve</option>
+          </select>
+          <select class="form-control form-control-sm sel-curve" title='curve' id='sel-curve'>
+            <option value='P-256'>P-256</option>
+            <option value='P-384'>P-384</option>
+            <option value='P-521'>P-521</option>
+          </select>
           <button type="button" class="btn btn-outline-secondary btn-lg btn-newkeypair" title='generate a new keypair'>
             <span style="display:block;">New</span>
             <span class="oi oi-reload"></span>
           </button>
-
           <button type="button" class="btn btn-outline-secondary btn-lg btn-download-json" title='download a JSON representation of the keypair'>
             <span style="display:block;">JSON keypair</span>
             <span class="oi oi-data-transfer-download"></span>
@@ -57,80 +65,45 @@
             <span style="display:block;">Private PEM</span>
             <span class="oi oi-data-transfer-download"></span>
           </button>
-
           <button type="button" class="btn btn-outline-secondary btn-lg btn-download-pem" data-flavor='public' title='download the public key as PEM'>
             <span style="display:block;">Public PEM</span>
             <span class="oi oi-data-transfer-download"></span>
           </button>
-
-          <button type="button" class="btn btn-outline-secondary btn-lg btn-see-notes" title='see notes'
-                  data-toggle="modal" data-target='#notesModal'>
-            <!-- title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover -->
-
-
-            <span style="display:block;">About</span>
-            <span class="oi oi-question-mark"></span>
-          </button>
         </div>
 
-        <div class="modal fade" id="notesModal" tabindex="-1" aria-labelledby="notesModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Notes</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
+        <div class='panel panel-right clearfix' id='panel_right'>
+          <div class='footer'>
+            <div>Notes</div>
 
-                <ol>
-                  <li><p>This tool generates <A href='https://en.wikipedia.org/wiki/RSA_(cryptosystem)'>RSA</a>
-                    keypairs, using a modulus length of 2048, a public exponent
-                    of 0x10001 (65537), and a hash of SHA-256. These keys can be
-                    used for signing or encryption in your own applications.</p></li>
+            <ol>
+              <li><p>This tool uses EcmaScript v9 for
+                <a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise'>promises</a>
+                and spread syntax,
+              <a href='https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API'>webcrypto</a>
+              for key derivation, generation, signing and verification, and
+                <a href='https://developer.mozilla.org/en-US/docs/Web/API/Blob'>Blob</a> for file download.</p>
 
-                  <li><p>This tool uses EcmaScript v9 for
-                    <a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise'>promises</a>
-                    and
-                    <a href='https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API'>the webcrypto API</a>
-                    for key derivation, generation, signing and verification, and
-                    <a href='https://developer.mozilla.org/en-US/docs/Web/API/Blob'>Blob</a> for file download.</p>
+                <p>It will run only on modern, current browsers.</p></li>
 
-                    <p>It will run only on modern, current browsers.</p></li>
+              <li>
+                <p>The keys are generated in your browser and are downloaded locally.
+                  Even so, take care when using websites that are not fully in your
+                  control, for key generation.</p></li>
 
-                  <li>
-                    <p>The keys are generated by your browser locally, and if
-                      you download them, are saved locally. The site hosting
-                      this webpage never sees the keys. You can use them for any
-                      crypto purposes. Even considering this written assurance,
-                      it's a good idea to take care when using websites out of
-                      your control for key generation.</p></li>
+              <li><p>
+                The page also uses <a href='https://getbootstrap.com/docs/4.0'>Bootstrap 4.0</a>
+                for styling, and the <a href='https://useiconic.com/open/'>Open Iconic fonts</a>
+                for button symbols. </p></li>
 
-                  <li><p>
-                    The page also uses <a href='https://getbootstrap.com/docs/4.0'>Bootstrap 4</a>
-                    for styling, the <a href='https://useiconic.com/open/'>Open Iconic fonts</a>
-                    for button symbols, and <a href='https://jquery.com/'>jQuery</a> v3.5x for
-                    interactivity.</p></li>
-
-                  <li>
-                    <p>
-                      Written by <A href='https://github.com/DinoChiesa/'>Dino Chiesa</a>. Contact me with questions, suggestions, or kudos via <a href="https://twitter.com/intent/tweet?screen_name=dpchiesa&ref_src=twsrc%5Etfw&text=regarding%20RSA%20keypair%20generator%20tool"
-                                                                                                                                                  class="twitter-share-button" data-show-count="false">Twitter</a>.
-                      <!-- script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script -->
-                    </p>
-                  </li>
-                </ol>
-              </div>
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <!--        <button type="button" class="btn btn-primary">Save changes</button> -->
-              </div>
-            </div>
+            <li>
+        <p>
+          Written by <A href='https://github.com/DinoChiesa/'>DinoChiesa</a>. Contact me with questions, suggestions, or kudos via <a href="https://twitter.com/intent/tweet?screen_name=dpchiesa&ref_src=twsrc%5Etfw&text=regarding%20RSA%20keypair%20generator%20tool"
+                                                                                                                                      class="twitter-share-button" data-show-count="false">Twitter</a>.
+          <!-- script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script -->
+        </p>
+                    </li>
           </div>
         </div>
-
       </div>
 
     </div>
