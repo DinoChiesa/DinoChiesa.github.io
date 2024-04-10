@@ -49,10 +49,7 @@ form > div.form-group {
 #output > div {
   margin-top: 16px;
 }
-#output > div > span {
-  display:block;
-  width: 628px;
-}
+
 #output > div > div:last-of-type {
   border: 1px dotted Grey;
   max-width: 1248px;
@@ -78,11 +75,12 @@ form > div.form-group {
 #output.shown > div > div {
   display: block;
 }
-#output > div > .copyIconHolder {
+#output > div .copyIconHolder {
   /* https://fonts.google.com/icons?selected=Material+Icons */
   content: url('images/ic_content_copy_black_24dp_1x.png');
   padding-right: 5px;
-  float: left;
+  top: 2px;
+  position: relative;
   margin-top: 4px;
 }
 #output > div:after {
