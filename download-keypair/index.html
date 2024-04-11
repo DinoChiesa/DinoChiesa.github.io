@@ -24,20 +24,29 @@
           <div id='privatekey' title='paste in your private key, it does not leave your browser'>
             <p>Private Key
               <button type="button" title="copy to clipboard" class="btn btn-outline-secondary btn-md btn-copy"
-                      data-target="ta_privatekey" title="copy to clipboard">
+                      data-target="ta-privatekey" title="copy to clipboard">
                 <span class="oi oi-clipboard"></span>
               </button>
             </p>
-            <textarea rows=12 cols=34 id='ta_privatekey' spellcheck='false' class='plaintextvalue reform-indent-on-paste'></textarea>
+            <textarea rows=12 cols=34 id='ta-privatekey' spellcheck='false' class='plaintextvalue reform-indent-on-paste'></textarea>
           </div>
           <div id='publickey'>
             <p>Public Key
               <button type="button" title="copy to clipboard" class="btn btn-outline-secondary btn-md btn-copy"
-                      data-target="ta_publickey" title="copy to clipboard">
+                      data-target="ta-publickey" title="copy to clipboard">
                 <span class="oi oi-clipboard"></span>
               </button>
             </p>
-            <textarea rows=12 cols=34 id='ta_publickey' spellcheck='false' class='plaintextvalue reform-indent-on-paste'></textarea>
+            <textarea rows=12 cols=34 id='ta-publickey' spellcheck='false' class='plaintextvalue reform-indent-on-paste'></textarea>
+          </div>
+          <div id='keyid'>
+            <p>Key ID
+              <button type="button" title="copy to clipboard" class="btn btn-outline-secondary btn-md btn-copy"
+                      data-target="ta-keyid" title="copy to clipboard">
+                <span class="oi oi-clipboard"></span>
+              </button>
+            </p>
+            <textarea rows=1 cols=34 id='ta-keyid' spellcheck='false' class='plaintextvalue' disabled></textarea>
           </div>
 
         </div>
@@ -87,8 +96,9 @@
             <ol>
               <li><p>This tool uses
               <a href='https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API'>webcrypto</a>
-              for key generation, and
-                <a href='https://developer.mozilla.org/en-US/docs/Web/API/Blob'>Blob</a> for file download.</p>
+              for key generation,
+              <a href='https://developer.mozilla.org/en-US/docs/Web/API/Blob'>Blob</a> for file download,
+              and <a href='https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage'>localStorage</a> for state.</p>
 
                 <p>It will run only on modern, current browsers.</p></li>
 
@@ -98,7 +108,7 @@
                   control, for key generation.</p></li>
 
               <li><p>
-                The page also uses <a href='https://getbootstrap.com/docs/4.0'>Bootstrap 4.0</a>
+                The page also uses <a href='https://getbootstrap.com/docs/5.0'>Bootstrap 5</a>
                 for styling, and the <a href='https://useiconic.com/open/'>Open Iconic fonts</a>
                 for button symbols. </p></li>
 

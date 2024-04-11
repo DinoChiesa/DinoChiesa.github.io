@@ -4,13 +4,13 @@ body {
 body > div {
   display: flex;
   height: auto;
-  max-width: 1440px;
   margin: 0 auto;
+  max-width: 1440px;
 }
 form div label {
   float: left;
+  margin: 0 0;
   width: 148px;
-  margin: 0px 0;
 }
 form > div > select,
 form > div > textarea,
@@ -27,23 +27,24 @@ form > div.pbkdf2 > label {
 }
 form > div,
 form > div.form-group {
-  display:block;
-  clear:both;
+  display: block;
+  clear: both;
   /* border-bottom: 1px grey dotted; */
 }
 .pbkdf2 {
   margin-left: 148px;
 }
-#output, #notes {
-  display:block;
+#output,
+#notes {
+  display: block;
   border-color: White;
   border-style: solid;
   border-width: 1px;
   margin-top: 24px;
 }
 .notes {
-  border-top:  thick double #32a1ce;
-  font-size:50%;
+  border-top: thick double #32a1ce;
+  font-size: 50%;
   color: #565656;
 }
 #output > div {
@@ -52,12 +53,12 @@ form > div.form-group {
 
 #output > div > div:last-of-type {
   border: 1px dotted Grey;
-  max-width: 1248px;
-  width: 1248px;
-  margin: 2px 0;
-  padding: 4px 10px;
-  font-size: 75%;
   float: left;
+  font-size: 75%;
+  margin: 2px 0;
+  max-width: 1248px;
+  padding: 4px 10px;
+  width: 1248px;
 }
 .code {
   font-family: "Consolas", "Courier New", Courier, monospace;
@@ -77,7 +78,7 @@ form > div.form-group {
 }
 #output > div .copyIconHolder {
   /* https://fonts.google.com/icons?selected=Material+Icons */
-  content: url('images/ic_content_copy_black_24dp_1x.png');
+  content: url("images/ic_content_copy_black_24dp_1x.png");
   padding-right: 5px;
   top: 2px;
   position: relative;
@@ -89,54 +90,56 @@ form > div.form-group {
   clear: both;
 }
 .disabled {
-  color:  #F1F1f1;
-  background: none repeat scroll 0 0 #DCDCDC;
+  background: none repeat scroll 0 0 #dcdcdc;
+  color: #f1f1f1;
   cursor: default !important;
 }
 input[type="radio"] {
-  vertical-align: middle;
   margin-top: 8px;
+  vertical-align: middle;
 }
 input[type="radio"] + div {
-  display:block;
-  margin-left:166px;
+  display: block;
+  margin-left: 166px;
 }
 input[type="checkbox"] {
-  vertical-align: middle;
   margin-top: 14px;
+  vertical-align: middle;
 }
-form > div > select {max-width:120px;}
+form > div > select {
+  max-width: 120px;
+}
 
 .copy-to-clipboard-flash-bg {
-    animation-name: flashbg;
-    animation-timing-function: ease-out;
-    animation-duration: 1s;
+  animation-duration: 1s;
+  animation-name: flashbg;
+  animation-timing-function: ease-out;
 }
 
 @keyframes flashbg {
-    0% {
-        background: #539EDB;
-    }
-    100% {
-        background: transparent;
-    }
+  0% {
+    background: #539edb;
+  }
+  100% {
+    background: transparent;
+  }
 }
 
 ::placeholder {
-  color: #539EDB;
+  color: #539edb;
   font-style: italic;
 }
 
 .expand {
   /* https://fonts.google.com/icons?selected=Material+Icons */
-  content: url('images/baseline_expand_more_black_24dp.png');
+  content: url("images/baseline_expand_more_black_24dp.png");
   padding-right: 5px;
   float: left;
   margin-top: 4px;
 }
 .collapse {
   /* https://fonts.google.com/icons?selected=Material+Icons */
-  content: url('images/baseline_expand_less_black_24dp.png');
+  content: url("images/baseline_expand_less_black_24dp.png");
   padding-right: 5px;
   float: left;
   margin-top: 4px;
