@@ -1,8 +1,8 @@
-form .form-group > label, 
+form .form-group > label,
 form .form-group > div {
   float: left;
-  width: 148px;
-  margin: 8px 0;
+  width: 168px;
+  margin: 2px 0;
 }
 
 form > .form-group > select,
@@ -25,17 +25,24 @@ form > div > div.chosen-container {
   margin: 2px 0;
   max-width: 440px;
 }
+
+form .form-group input::placeholder {
+  opacity: 0.75;
+  color: #a2b5cd;
+  font-style: italic;
+}
+
 form > div,
 form > div.form-group {
-  display:block;
-  clear:both;
+  display: block;
+  clear: both;
 }
 div.divider {
   border-top: 1px solid Black;
 }
 #output {
-  margin-top: 28px;
-  font-size: 160%;
+  margin-top: 20px;
+  font-size: 100%;
 }
 #output .error {
   color: Red;
@@ -49,11 +56,13 @@ div.divider {
 #authzRedemption {
   border: 1px dotted Grey;
   padding: 4px 12px;
+  font-size: 80%;
 }
 #authzRedemption > button {
   margin: 4px 12px;
 }
-#redeemCode, #redeemResult {
+#redeemCode,
+#redeemResult {
   font-family: "Lucida Console", Monaco, monospace;
   font-size: 80%;
   padding: 2px 4px;
@@ -67,7 +76,7 @@ body {
 
 .cb-element {
   /* max-width: 880px;*/
-  display:block;
+  display: block;
 }
 
 .cb-element:after {
@@ -83,17 +92,17 @@ body {
   width: 234px;
 }
 
-.cb-element .cb-value  {
+.cb-element .cb-value {
   float: left;
   max-width: 520px;
   font-family: monospace;
 
   /* all below, to handle really long JWTs */
-  white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
-  white-space: -pre-wrap;      /* Opera 4-6 */
-  white-space: -o-pre-wrap;    /* Opera 7 */
-  white-space: pre-wrap;       /* css-3 */
-  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  white-space: pre-wrap; /* css-3 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
   white-space: -webkit-pre-wrap; /* Newer versions of Chrome/Safari*/
   word-break: break-all;
   white-space: normal;
@@ -106,7 +115,7 @@ body {
 }
 
 .jwt-decoded > div {
-  position:relative;
+  position: relative;
 }
 .jwt-decoded .btn-copy {
   position: absolute;
@@ -114,15 +123,14 @@ body {
   left: 680px;
 }
 
-
 .cb-element .jwt-decoded pre {
-    white-space: pre-wrap;       /* Since CSS 2.1 */
-    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-    white-space: -pre-wrap;      /* Opera 4-6 */
-    white-space: -o-pre-wrap;    /* Opera 7 */
-    word-wrap: break-word;       /* Internet Explorer 5.5+ */
-    border: 1px dotted lightblue;
-    padding: 2px 4px;
+  white-space: pre-wrap; /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
+  border: 1px dotted lightblue;
+  padding: 2px 4px;
 }
 
 .jwt-header {
@@ -144,13 +152,13 @@ body {
 }
 
 #preBox pre {
-white-space: pre-wrap;
+  white-space: pre-wrap;
 }
 
 .form-group > div {
   position: relative;
-  float:left;
-  width:192px;
+  float: left;
+  width: 192px;
 }
 
 form .form-group > div > button {
@@ -158,22 +166,22 @@ form .form-group > div > button {
 }
 
 .form-group > div .btn-reload {
-  top:-2px;
-  position:relative;
+  top: 4px;
+  position: relative;
   margin-right: 6px;
 }
 
 .copy-to-clipboard-flash-bg {
-    animation-name: flashbg;
-    animation-timing-function: ease-out;
-    animation-duration: 1s;
+  animation-name: flashbg;
+  animation-timing-function: ease-out;
+  animation-duration: 1s;
 }
 
 @keyframes flashbg {
-    0% {
-        background: #539EDB;
-    }
-    100% {
-        background: transparent;
-    }
+  0% {
+    background: #539edb;
+  }
+  100% {
+    background: transparent;
+  }
 }

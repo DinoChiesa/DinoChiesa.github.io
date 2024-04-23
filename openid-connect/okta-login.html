@@ -19,20 +19,24 @@
   <body>
     <!-- ======================================================= -->
     <div style='margin: 10px;'>
-      <h3>OpenID Connect login link builder for Okta Sign-in</h3>
+      <h3>Login Link Builder for Okta Sign-in</h3>
+      <h4>(OpenID Connect)</h4>
     <form role="form">
       <div class="form-group">
         <div>
           <label for="oktadomain">Okta domain</label>
         </div>
-        <input type="text" class="form-control" id="oktadomain" value='dev-329615.okta.com' title='eg, dev-329615.okta.com'>
+        <input type="text" class="form-control" id="oktadomain" value='dev-329615.okta.com'
+               placeholder='eg, dev-123456.okta.com'>
       </div>
 
       <div class="form-group">
         <div>
           <label for="authzserver">authz server</label>
         </div>
-        <input type="text" spellcheck="false" class="form-control" id="authzserver" value='xxyyshs'>
+        <input type="text" spellcheck="false" class="form-control" id="authzserver"
+               placeholder="-leave empty to use the default authz server-"
+               value='xxyyshs'>
       </div>
 
       <div class="form-group">
@@ -46,13 +50,15 @@
         <div>
           <label for="clientsecret">client secret</label>
         </div>
-        <input type="text" spellcheck="false" class="form-control" id="clientsecret" value='xyzxyz'>
+        <input type="text" spellcheck="false" class="form-control" id="clientsecret"
+               placeholder="only for app type=Web"
+               value='xyzxyz'>
       </div>
 
       <div class="form-group">
         <div>
           <label for="state">state</label>
-          <button type="button" class="btn btn-outline-secondary btn-sm btn-reload" data-target="state" title='refresh'>
+          <button type="button" class="btn btn-outline-secondary btn-sm btn-reload" data-target="state" title='regenerate random'>
             <span class="oi oi-reload"></span>
           </button>
         </div>
@@ -71,6 +77,7 @@
           <label for="cburi">redirect URI</label>
         </div>
         <input type="text" class="form-control" id="cburi" value='https://dinochiesa.github.io/openid-connect/okta-reply.html'
+               placeholder='this redirect URI must be registered for the okta app'
                title='this redirect URI must be registered for the okta app'>
       </div>
 
@@ -106,8 +113,8 @@
 
       <div class="form-group">
         <div>
-          <label for="verifier">verifier</label>
-          <button type="button" class="btn btn-outline-secondary btn-sm btn-reload" data-target="verifier" title='refresh'>
+          <label for="verifier">PKCE verifier</label>
+          <button type="button" class="btn btn-outline-secondary btn-sm btn-reload" data-target="verifier" title='generate random value'>
             <span class="oi oi-reload"></span>
           </button>
         </div>
@@ -137,9 +144,10 @@
         <button class="btn btn-outline-secondary btn-md" id='btn-copy' data-target="preBox"
                 title="Copy the curl command to the clipboard">Copy</button>
         <!--
+        ¿porque no?
+        -->
         <button class="btn btn-outline-secondary btn-md" id="btn-redeem"
                 title="invoke the code redemption from the browser">Redeem</button>
-        -->
         <button class="btn btn-outline-secondary btn-md" id="btn-reset">Reset</button>
 
       </div>
