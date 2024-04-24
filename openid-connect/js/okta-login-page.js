@@ -68,37 +68,15 @@
     do {
       m = re1.exec(t);
       if (m && m[1] in model) {
-        t =
-          t.slice(0, m.index) +
-          encoder(model[m[1]]) +
-          t.slice(m.index + m[0].length);
+        let v = model[m[1]];
+        if (typeof v == "object") {
+          v = v.join(" ");
+        }
+        t = t.slice(0, m.index) + encoder(v) + t.slice(m.index + m[0].length);
       }
     } while (m && m[1] in model);
     return t;
   };
-
-  //   const m = re1.exec(t);
-  //   Object.keys(model).forEach((key) => {
-  //     const pattern = "${" + key + "}";
-  //     let value = "";
-  //     if (model[key] !== null) {
-  //       value =
-  //         typeof model[key] != "string" ? model[key].join("+") : model[key];
-  //       if (wantStore) {
-  //         if (
-  //           key !== "state" &&
-  //           key !== "nonce" &&
-  //           value !== null &&
-  //           typeof value !== "undefined"
-  //         ) {
-  //           window.localStorage.setItem(html5AppId + ".model." + key, value);
-  //         }
-  //       }
-  //     }
-  //     t = t.replace(pattern, encoder(value));
-  //   });
-  //   return t;
-  // };
 
   const oktaAuthz = () => applyTemplate(endpointTemplate);
 
@@ -111,7 +89,7 @@
   };
 
   function reloadRandomValue(_event) {
-    let $elt = $(this),
+    const $elt = $(this),
       sourceElement = $elt.data("target"),
       // grab the element to copy
       $source = $("#" + sourceElement),
@@ -225,7 +203,7 @@
   }
 
   function onSelectChanged() {
-    let $$ = $(this),
+    const $$ = $(this),
       name = $$.attr("name"),
       values = [];
     $$.find("option:selected").each(function () {
@@ -241,35 +219,31 @@
     if (event) event.preventDefault();
   }
 
-  //const excludeTransientFields = key => key != 'code' && key != 'verifier';
-
   function populateFormFields() {
     // get values from local storage, and place into the form
-    Object.keys(model)
-      //.filter(excludeTransientFields)
-      .forEach((key) => {
-        const value = window.localStorage.getItem(html5AppId + ".model." + key);
-        const $item = $("#" + key);
-        if (key === "state" || key === "verifier") {
-          const desiredLength = Number($item.data("desired-length")) || 8;
-          $item.val(randomValue(desiredLength));
-        } else if (key === "code") {
-          // no-op
-        } else if (typeof model[key] !== "string") {
-          // Kind of an indirect test, but in this case, the value is a set of
-          // values concatenated by + and the type of form field is select.
+    Object.keys(model).forEach((key) => {
+      const value = window.localStorage.getItem(html5AppId + ".model." + key);
+      const $item = $("#" + key);
+      if (key === "state" || key === "verifier") {
+        const desiredLength = Number($item.data("desired-length")) || 8;
+        $item.val(randomValue(desiredLength));
+      } else if (key === "code") {
+        // no-op
+      } else if (typeof model[key] !== "string") {
+        // Kind of an indirect test, but in this case, the value is a set of
+        // values concatenated by + and the type of form field is select.
 
-          value.split("+").forEach((part) => {
-            $item
-              .find("option[value='" + part + "']")
-              .prop("selected", "selected");
-          });
-          $item.trigger("chosen:updated");
-        } else {
-          // value is a simple string, form field type is input.
-          $item.val(value);
-        }
-      });
+        value.split("+").forEach((part) => {
+          $item
+            .find("option[value='" + part + "']")
+            .prop("selected", "selected");
+        });
+        $item.trigger("chosen:updated");
+      } else {
+        // value is a simple string, form field type is input.
+        $item.val(value);
+      }
+    });
   }
 
   function hyperJwt(s) {
@@ -313,8 +287,7 @@
       code: model.code
     };
 
-    // NB: This call will fail if the server does not include CORS headers in the response
-    // Does Okta?
+    // NB: This call will fail if the server does not include CORS headers in the response.
     const url = cleanDoubleSlash(oktaAuthz() + "/v1/token");
     const options = {
       method: "POST",
