@@ -267,6 +267,7 @@
       event.preventDefault();
     }
     $("#preBox").html("");
+    $("#token-decoded").html("");
     $("#code").val("");
     updateModel();
   }
@@ -309,6 +310,39 @@
                 hyperJwt(JSON.stringify(json, null, 2)) +
                 "</pre>"
             );
+
+          const columns = ["access_token", "id_token"].reduce(
+            (a, tokenType) => {
+              if (json[tokenType]) {
+                const parts = json[tokenType].split(".", 3);
+                if (parts.length == 3) {
+                  const header = JSON.parse(atob(parts[0])),
+                    payload = JSON.parse(atob(parts[1]));
+                  return [
+                    ...a,
+                    tokenType +
+                      ":\n" +
+                      JSON.stringify(header, null, 2) +
+                      "\n\n" +
+                      JSON.stringify(payload, null, 2)
+                  ];
+                }
+                return [...a, tokenType + `:\n(not a JWT)`];
+              }
+            },
+            []
+          );
+          $("#token-decoded").html(
+            `
+<div class='row'>
+  <div class='column'>
+  <pre class="access-token-response">${columns[0]}</pre>
+  </div>
+  <div class='column'>
+  <pre class="access-token-response">${columns[1]}</pre>
+  </div>
+</div>`
+          );
         } else {
           $("#preBox")
             .addClass("error")

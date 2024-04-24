@@ -185,3 +185,25 @@ form .form-group > div > button {
     background: transparent;
   }
 }
+
+#token-decoded {
+  font-size: 60%;
+  margin-left: 16px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+  margin-right: 12px;
+  background-color: #ebebeb;
+  padding: 12px;
+}
