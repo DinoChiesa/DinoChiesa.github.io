@@ -14,17 +14,6 @@ const model = {
 
 const html5AppId = "5FADBB91-0C35-49F6-BE3F-220B632874C3"; // for localstorage
 
-function wrapInSingleQuote(s) {
-//     var pattern = "${" + key + "}",
-//       value = model[key];
-//     if (model[key] && value !== null && typeof value !== "undefined") {
-//       window.localStorage.setItem(html5AppId + ".model." + key, value);
-//     }
-//     s = s.replace(pattern, value);
-//   });
-//   return s;
-// }
-
 function updateLink() {
   const baselink = `${model.baseurl}?chs=${model.bcsize}&chld=M%7C0&cht=qr&chl=@@CHL@@`;
   model.base32secret = base32.rfc4648.encode(model.secret);
@@ -66,7 +55,7 @@ function updateModel(event) {
     model[key] = value;
   });
   updateLink();
-  event.preventDefault();
+  if (event) event.preventDefault();
 }
 
 function excludeTransientFields(key) {
@@ -83,9 +72,7 @@ function populateFormFields() {
       if ($item.length > 0) {
         if (value && value !== "") {
           if ($item[0].tagName === "SELECT") {
-            $item
-              .find("option[value='" + value + "']")
-              .prop("selected", "selected");
+            $item.find(`option[value='${value}']`).prop("selected", "selected");
             $item.trigger("chosen:updated");
           } else {
             // value is a simple string, form field type is input.
@@ -99,12 +86,12 @@ function populateFormFields() {
 function resetEverything(event) {
   $("#barcodeResult").html("");
   updateModel();
-  event.preventDefault();
+  if (event) event.preventDefault();
 }
 
 function showBarcode(event) {
   $("#barcodeResult").html(`<img src="${$("#totplink").attr("href")}">`);
-  event.preventDefault();
+  if (event) event.preventDefault();
 }
 
 $(document).ready(function () {
