@@ -15,12 +15,6 @@ const model = {
 const html5AppId = "5FADBB91-0C35-49F6-BE3F-220B632874C3"; // for localstorage
 
 function wrapInSingleQuote(s) {
-  return "'" + s + "'";
-}
-
-// function evalTemplate(template, model) {
-//   let s = template;
-//   Object.keys(model).forEach(function (key) {
 //     var pattern = "${" + key + "}",
 //       value = model[key];
 //     if (model[key] && value !== null && typeof value !== "undefined") {
@@ -72,7 +66,7 @@ function updateModel(event) {
     model[key] = value;
   });
   updateLink();
-  if (event) event.preventDefault();
+  event.preventDefault();
 }
 
 function excludeTransientFields(key) {
@@ -105,12 +99,12 @@ function populateFormFields() {
 function resetEverything(event) {
   $("#barcodeResult").html("");
   updateModel();
-  if (event) event.preventDefault();
+  event.preventDefault();
 }
 
 function showBarcode(event) {
   $("#barcodeResult").html(`<img src="${$("#totplink").attr("href")}">`);
-  if (event) event.preventDefault();
+  event.preventDefault();
 }
 
 $(document).ready(function () {
