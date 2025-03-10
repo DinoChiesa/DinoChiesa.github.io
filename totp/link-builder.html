@@ -36,8 +36,11 @@
       <form role="form">
         <div class="form-group">
           <label for="baseurl">Base URL:</label>
-          <input type="text" class="form-control" id="baseurl" value='https://chart.googleapis.com/chart'
-                 title='try: https://chart.googleapis.com/chart'>
+          <select name="baseurl" id="baseurl" class="form-control chosen"
+                  data-placeholder="baseurl" required>
+            <option value=""></option>
+            <option value="https://quickchart.io/qr" >https://quickchart.io/qr</option>
+          </select>
         </div>
 
         <div class="form-group">
@@ -45,9 +48,9 @@
           <select name="bcsize" id="bcsize" class="form-control chosen bcsize-chosen"
                   data-placeholder="bcsize" required>
             <option value=""></option>
-            <option value="200x200" >200x200</option>
-            <option value="250x250" >250x250</option>
-            <option value="480x480" >480x480</option>
+            <option value="200" >200</option>
+            <option value="320" >320</option>
+            <option value="480" >480</option>
           </select>
         </div>
 
@@ -86,7 +89,7 @@
                 <ol>
                   <li><p>This page generates a QR code (barcode) that can be used for an
                     authenticator app that generates and display Time-based One Time Passwords
-                    (TOTP). Such apps include<a href='https://www.google.com/search?q=google+authenticator'>Google Authenticator</a>,
+                    (TOTP). Such apps include <a href='https://www.google.com/search?q=google+authenticator'>Google Authenticator</a>,
                     <a href='https://www.google.com/search?q=microsoft+authenticator'>Microsoft Authenticator</a>, and
                     numerous others. The basic idea is that you, as a user, visit a website, the website
                     challenges you for the one-time passcode, and you open the authenticator app on your
@@ -106,8 +109,8 @@
                     holder to generate their own QR code, and thus"impersonate you". By
                     using this webpage to generate a barcode, you are sharing
                     your keys with Google. For a more detailed explanation,
-                    see<a href='https://stackoverflow.com/a/56737468/48082'>this
-                    stackoveerflow answer</a>. </p></li>
+                    see <a href='https://stackoverflow.com/a/56737468/48082'>this
+                    stackoverflow answer</a>. </p></li>
 
                   <li><p>This tool uses EcmaScript (JavaScript) and jQuery for interactivity, and
                     <a href='https://getbootstrap.com/docs/4.0'>Bootstrap 4</a>
@@ -117,9 +120,8 @@
                     <p>
                       Written by <A href='https://github.com/DinoChiesa/'>Dino Chiesa</a>. Contact me with questions,
                       suggestions, or kudos via
-                      <a href="https://twitter.com/intent/tweet?screen_name=dpchiesa&ref_src=twsrc%5Etfw&text=regarding%20RSA%20keypair%20generator%20tool"
-                         class="twitter-share-button" data-show-count="false">Twitter</a>.
-                      <!-- script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script -->
+                      <a href="https://bsky.app/profile/ionicshade.bsky.social">
+                         data-show-count="false">Bsky</a>.
                     </p>
                   </li>
                 </ol>

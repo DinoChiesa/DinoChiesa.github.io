@@ -1,6 +1,6 @@
 // link-builder-page.js
 // ------------------------------------------------------------------
-/* jshint esversion: 8 */
+/* jshint esversion: 9 */
 /* global $, base32 */
 
 const model = {
@@ -15,7 +15,7 @@ const model = {
 const html5AppId = "5FADBB91-0C35-49F6-BE3F-220B632874C3"; // for localstorage
 
 function updateLink() {
-  const baselink = `${model.baseurl}?chs=${model.bcsize}&chld=M%7C0&cht=qr&chl=@@CHL@@`;
+  const baselink = `${model.baseurl}?size=${model.bcsize}&Caption=Scan%20Me&cht=qr&text=@@CHL@@`;
   model.base32secret = base32.rfc4648.encode(model.secret);
   const chl = `otpauth://totp/${model.label}?secret=${model.base32secret}&issuer=${model.issuer}`;
   const link = baselink.replace("@@CHL@@", encodeURIComponent(chl));
@@ -29,11 +29,16 @@ function updateLink() {
   $("#totplink").attr("href", link);
 }
 
+function saveSetting(key, value) {
+  window.localStorage.setItem(`${html5AppId}.model.${key}`, value);
+}
+
 function onInputChanged() {
   var $$ = $(this),
     name = $$.attr("id"),
     value = $$.val();
   model[name] = value;
+  saveSetting(name, value);
   updateLink();
 }
 
@@ -45,6 +50,7 @@ function onSelectChanged() {
     values.push($(this).text());
   });
   model[name] = values;
+  saveSetting(name, values[0]);
   updateLink();
 }
 
@@ -95,7 +101,12 @@ function showBarcode(event) {
 }
 
 $(document).ready(function () {
-  $(".bcsize-chosen").chosen({
+  $("#bcsize").chosen({
+    disable_search: true,
+    no_results_text: "No matching size...",
+    allow_single_deselect: true,
+  });
+  $("#baseurl").chosen({
     disable_search: true,
     no_results_text: "No matching size...",
     allow_single_deselect: true,
