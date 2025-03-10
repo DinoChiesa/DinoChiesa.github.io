@@ -105,7 +105,7 @@ function resetEverything(event) {
 }
 
 function showBarcode(event) {
-  $('#barcodeResult').html('<img src="'+$('#totplink').attr('href') + '">');
+  $('#barcodeResult').html(`<img src="${$('#totplink').attr('href')}">`);
   if (event)
     event.preventDefault();
 }
