@@ -69,28 +69,22 @@ function excludeTransientFields(key) {
 }
 
 function populateFormFields() {
-  // get values from local storage, and place into the form
-
-  // AI:  Re-work this section of code, to use modern JavaScript: let/const instead of var,
-  // and string template literals, and anonymous functions with the arrow syntax...
   Object.keys(model)
     .filter(excludeTransientFields)
-    .forEach(function (key) {
-      var value = window.localStorage.getItem(html5AppId + ".model." + key);
-      var $item = $("#" + key);
+    .forEach(key => {
+      const value = window.localStorage.getItem(`${html5AppId}.model.${key}`);
+      const $item = $("#" + key);
       if ($item.length > 0) {
         if (value && value !== "") {
           if ($item[0].tagName === "SELECT") {
             $item.find(`option[value='${value}']`).prop("selected", "selected");
             $item.trigger("chosen:updated");
           } else {
-            // value is a simple string, form field type is input.
             $item.val(value);
           }
         }
       }
     });
-  /// ... end here  AI!
 }
 
 function resetEverything(event) {
