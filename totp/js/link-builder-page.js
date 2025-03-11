@@ -70,6 +70,9 @@ function excludeTransientFields(key) {
 
 function populateFormFields() {
   // get values from local storage, and place into the form
+
+  // AI:  Re-work this section of code, to use modern JavaScript: let/const instead of var,
+  // and string template literals, and anonymous functions with the arrow syntax...
   Object.keys(model)
     .filter(excludeTransientFields)
     .forEach(function (key) {
@@ -87,6 +90,7 @@ function populateFormFields() {
         }
       }
     });
+  /// ... end here  AI!
 }
 
 function resetEverything(event) {
