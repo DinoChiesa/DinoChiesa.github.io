@@ -55,11 +55,13 @@ function onSelectChanged() {
 }
 
 function updateModel(event) {
+  // AI: modernize this section...
   Object.keys(model).forEach(function (key) {
     var $item = $("#" + key),
       value = $item.val();
     model[key] = value;
   });
+  //... down to here AI!
   updateLink();
   if (event) event.preventDefault();
 }
@@ -69,17 +71,20 @@ function excludeTransientFields(key) {
 }
 
 function populateFormFields() {
+  // load from localStorage
   Object.keys(model)
     .filter(excludeTransientFields)
-    .forEach(key => {
+    .forEach((key) => {
       const value = window.localStorage.getItem(`${html5AppId}.model.${key}`);
       const $item = $("#" + key);
       if ($item.length > 0) {
         if (value && value !== "") {
           if ($item[0].tagName === "SELECT") {
+            // it's a select/option
             $item.find(`option[value='${value}']`).prop("selected", "selected");
             $item.trigger("chosen:updated");
           } else {
+            // simple string
             $item.val(value);
           }
         }
