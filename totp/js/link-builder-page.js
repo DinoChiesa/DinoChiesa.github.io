@@ -55,13 +55,11 @@ function onSelectChanged() {
 }
 
 function updateModel(event) {
-  // AI: modernize this section...
-  Object.keys(model).forEach(function (key) {
-    var $item = $("#" + key),
-      value = $item.val();
+  Object.keys(model).forEach(key => {
+    const $item = $("#" + key);
+    const value = $item.val();
     model[key] = value;
   });
-  //... down to here AI!
   updateLink();
   if (event) event.preventDefault();
 }
