@@ -2,7 +2,9 @@
 // ------------------------------------------------------------------
 //
 /* jshint esversion: 9 */
-/* global $ */
+
+// AI! Convert this file from jquery to use plain vanilla Javascript.
+//
 
 (function () {
   const cleanDoubleSlash = (function () {
@@ -48,7 +50,7 @@
     let $elt = $(this),
       sourceElement = $elt.data("target"),
       // grab the element to copy
-      $source = $("#" + sourceElement),
+      $source = $(`#${sourceElement}`),
       desiredLength = Number($source.data("desired-length")) || 8,
       newValue = randomValue(desiredLength);
     $source.val(newValue);
