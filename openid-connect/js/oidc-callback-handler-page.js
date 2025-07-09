@@ -12,17 +12,19 @@
 function randomId() {
   return Math.random().toString(36).substring(2, 15);
 }
-// AI!  Convert this module from jQuery to vanilla JavaScript.
 function decodeToken(matches) {
   if (matches.length == 4) {
-    let styles = ["header", "payload", "signature"],
-      $decodeddiv = $("#id_token-decoded");
+    const styles = ["header", "payload", "signature"],
+      decodeddiv = document.getElementById("id_token-decoded");
+
+    if (!decodeddiv) return;
     // skip header and signature
     matches.slice(1, -1).forEach(function (item, index) {
-      let json = atob(item),
+      const json = atob(item),
         obj = JSON.parse(json),
         id = "pre-" + randomId();
-      $decodeddiv.append(
+      decodeddiv.insertAdjacentHTML(
+        "beforeend",
         '<div><pre id="' +
           id +
           '" class="jwt-' +
@@ -34,23 +36,25 @@ function decodeToken(matches) {
           "</div>",
       );
     });
-
-    // re-add click handlers to all btn-copy
-    $(".btn-copy").off("click").on("click", copyToClipboard);
   }
 }
 
 function formatIdToken() {
-  let $$ = $("#id_token-value div.cb-value"),
-    text = $$.text(),
-    re1 = new RegExp("^([^\\.]+)\\.([^\\.]+)\\.([^\\.]+)$");
-  if (text) {
-    decodeToken(re1.exec(text));
-    text = text.replace(
-      re1,
-      '<span class="jwt-header">$1</span>.<span class="jwt-payload">$2</span>.<span class="jwt-signature">$3</span',
-    );
-    $$.html(text);
+  const valueDiv = document.querySelector("#id_token-value div.cb-value");
+  if (valueDiv) {
+    let text = valueDiv.textContent;
+    const re1 = new RegExp("^([^\\.]+)\\.([^\\.]+)\\.([^\\.]+)$");
+    if (text) {
+      const matches = re1.exec(text);
+      if (matches) {
+        decodeToken(matches);
+        text = text.replace(
+          re1,
+          '<span class="jwt-header">$1</span>.<span class="jwt-payload">$2</span>.<span class="jwt-signature">$3</span>',
+        );
+        valueDiv.innerHTML = text;
+      }
+    }
   }
 }
 
@@ -65,39 +69,40 @@ function copyButtonHtml(targetElementId) {
   return html;
 }
 
-function copyToClipboard(event) {
-  let $elt = $(this),
-    sourceElement = $elt.data("target"),
+function copyToClipboard() {
+  const sourceElementId = this.dataset.target,
     // grab the element to copy
-    $source = $("#" + sourceElement),
-    // Create a temporary hidden textarea.
-    $temp = $("<textarea>"),
-    textToCopy =
-      $source[0].tagName == "TEXTAREA" ? $source.val() : $source.text();
+    source = document.getElementById(sourceElementId);
+  if (!source) return false;
 
-  $("body").append($temp);
-  $temp.val(textToCopy).select();
+  // Create a temporary hidden textarea.
+  const temp = document.createElement("textarea"),
+    textToCopy =
+      source.tagName == "TEXTAREA" ? source.value : source.textContent;
+
+  document.body.appendChild(temp);
+  temp.value = textToCopy;
+  temp.select();
 
   let success;
   try {
     success = document.execCommand("copy");
     if (success) {
-      $source
-        .addClass("copy-to-clipboard-flash-bg")
-        .delay("1000")
-        .queue((_) =>
-          $source.removeClass("copy-to-clipboard-flash-bg").dequeue(),
-        );
+      source.classList.add("copy-to-clipboard-flash-bg");
+      setTimeout(
+        () => source.classList.remove("copy-to-clipboard-flash-bg"),
+        1000,
+      );
     }
   } catch (e) {
     success = false;
   }
 
-  $temp.remove();
+  temp.remove();
   return success;
 }
 
-$(document).ready(function () {
+document.addEventListener("DOMContentLoaded", function () {
   let search = window.location.hash,
     hash = {},
     fnStartsWith = function (s, searchString, position) {
@@ -120,30 +125,41 @@ $(document).ready(function () {
   });
 
   // emit that information into fields in the output:
-  let $$ = $("#output");
-  $$.empty();
+  const outputDiv = document.getElementById("output");
+  if (!outputDiv) return;
+
+  outputDiv.innerHTML = "";
 
   Object.keys(hash).forEach(function (key) {
     if (key) {
-      let $newdiv = $(
-          "<div id='" + key + "-value' class='cb-element cb-clearfix'/>",
-        ),
-        valueId = "val-" + randomId(),
+      const newdiv = document.createElement("div");
+      newdiv.id = key + "-value";
+      newdiv.className = "cb-element cb-clearfix";
+
+      const valueId = "val-" + randomId(),
         html = {
           label:
             '<div class="cb-label">' + key + copyButtonHtml(valueId) + "</div>",
           value:
             '<div id="' + valueId + '"class="cb-value">' + hash[key] + "</div>",
         };
-      $newdiv.html(html.label + html.value);
-      $$.append($newdiv);
+      newdiv.innerHTML = html.label + html.value;
+      outputDiv.appendChild(newdiv);
       if (key == "id_token") {
-        $newdiv.append("<div id='id_token-decoded' class='jwt-decoded'/>");
+        newdiv.insertAdjacentHTML(
+          "beforeend",
+          "<div id='id_token-decoded' class='jwt-decoded'/>",
+        );
       }
     }
   });
 
-  $(".btn-copy").on("click", copyToClipboard);
+  outputDiv.addEventListener("click", function (e) {
+    const copyButton = e.target.closest(".btn-copy");
+    if (copyButton) {
+      copyToClipboard.call(copyButton);
+    }
+  });
 
   setTimeout(formatIdToken, 2100);
 });
