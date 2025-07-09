@@ -13510,7 +13510,7 @@ function BufferBigIntNotDefined () {
   }
 
   // Compute the lines that are visible in a given viewport (defaults
-  // the the current scroll position). viewport may contain top,
+  // the current scroll position). viewport may contain top,
   // height, and ensure (see op.scrollToPos) properties.
   function visibleLines(display, doc, viewport) {
     var top = viewport && viewport.top != null ? Math.max(0, viewport.top) : display.scroller.scrollTop;
@@ -19962,7 +19962,7 @@ function BufferBigIntNotDefined () {
 
   addLegacyProps(CodeMirror);
 
-  CodeMirror.version = "5.65.16";
+  CodeMirror.version = "5.65.18";
 
   return CodeMirror;
 
@@ -78034,7 +78034,7 @@ function resolveLocaleLookup(locale) {
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
 (() => {
 "use strict";
 var __webpack_exports__ = {};
@@ -78075,7 +78075,8 @@ __webpack_require__.r(__webpack_exports__);
 
 javascript_time_ago__WEBPACK_IMPORTED_MODULE_7__["default"].addDefaultLocale(javascript_time_ago_locale_en__WEBPACK_IMPORTED_MODULE_8__["default"]);
 
-const html5AppId = "2084664E-BF2B-4C76-BD5F-1087502F580B";
+//const html5AppId = "2084664E-BF2B-4C76-BD5F-1087502F580B";
+const html5AppId = "41bd71c8-2643-4e17-bc14-c8c48e37eb0f";
 
 const storage = _LocalStorage_js__WEBPACK_IMPORTED_MODULE_5___default().init(html5AppId);
 const datamodel = {
@@ -78149,7 +78150,7 @@ const rsaSigningAlgs = algPermutations(["RS", "PS"]),
     "PBES2-HS384+A192KW",
     "PBES2-HS512+A256KW"
   ],
-  kwKeyEncryptionAlgs = ["A128KW", "A256KW"],
+  kwKeyEncryptionAlgs = ["A128KW", "A256KW", "A128GCMKW", "A256GCMKW"],
   keyEncryptionAlgs = [
     ...rsaKeyEncryptionAlgs,
     ...pbes2KeyEncryptionAlgs,
@@ -78257,6 +78258,10 @@ function requiredKeyBitsForAlg(alg) {
     case "A192KW":
       return 192;
     case "A256KW":
+      return 256;
+    case "A128GCMKW":
+      return 128;
+    case "A256GCMKW":
       return 256;
   }
   return 99999;
@@ -78768,7 +78773,21 @@ function verifyJwt(event) {
   editors.encodedjwt.save();
   editors.publickey.save();
   const tokenString = editors.encodedjwt.getValue();
+  const getValidationOptions = (header) => {
+        // always implicitly handle ("ignore") crit headers
+        let validationOptions = [];
+        if (header.crit && Array.isArray(header.crit)) {
+          validationOptions.handlers = {};
+          let f = (val) => val;
+          // tell node-jose that the crit header is known & handled
+          header.crit.forEach( name => {
+            validationOptions.handlers[name] = f;
+          });
+        }
+        return validationOptions;
+      };
   let matches = re.signed.jwt.exec(tokenString);
+
   // verify a signed JWT
   if (matches && matches.length == 4) {
     $sel("#mainalert").classList.add("fade");
@@ -78792,9 +78811,10 @@ function verifyJwt(event) {
       p = getPublicKey(header);
     }
 
+
     p = p
       .then((key) =>
-        node_jose__WEBPACK_IMPORTED_MODULE_4___default().JWS.createVerify(key)
+        node_jose__WEBPACK_IMPORTED_MODULE_4___default().JWS.createVerify(key, getValidationOptions(header))
           .verify(tokenString)
           .then((result) => {
             // {result} is a Object with:
@@ -78859,7 +78879,7 @@ function verifyJwt(event) {
 
     return retrieveCryptoKey(header, { direction: "decrypt" })
       .then(async (decryptionKey) => {
-        const decrypter = await node_jose__WEBPACK_IMPORTED_MODULE_4___default().JWE.createDecrypt(decryptionKey);
+        const decrypter = await node_jose__WEBPACK_IMPORTED_MODULE_4___default().JWE.createDecrypt(decryptionKey, getValidationOptions(header))
         const result = await decrypter.decrypt(tokenString);
         // {result} is a Object with:
         // *  header: the combined 'protected' and 'unprotected' header members
@@ -79011,7 +79031,12 @@ function getGenKeyParams(alg) {
 }
 
 function maybeNewKey() {
-  const alg = $sel(".sel-alg").selectedOptions[0].text;
+  const sel = $sel(".sel-alg"),
+        options = sel.selectedOptions,
+        options0 = options && options[0],
+        alg = options0 && options0.text;
+
+  if (alg){
   if (alg === "dir") {
     if (!$sel("#ta_directkey").value) {
       return newKey(null);
@@ -79032,6 +79057,7 @@ function maybeNewKey() {
     if (!privatekey || !publickey) {
       return newKey(null);
     }
+  }
   }
   return Promise.resolve({});
 }
@@ -79564,9 +79590,9 @@ function onChangeAlg(event) {
 
 function onChangeVariant(event) {
   // change signed to encrypted or vice versa
-  const target = event.target,
-    newSelection = target.selectedOptions[0].text,
-    previousSelection = target.getAttribute("data-prev"),
+  const target = event && event.target,
+    newSelection = target && target.selectedOptions[0].text,
+    previousSelection = target && target.getAttribute("data-prev"),
     priorAlgSelection = $sel(".sel-alg").getAttribute("data-prev");
 
   editors["token-decoded-header"].save();
@@ -79608,7 +79634,7 @@ function onChangeVariant(event) {
   populateAlgorithmSelectOptions();
 
   // still need this?
-  if (
+  if ( priorAlgSelection &&
     !priorAlgSelection.startsWith("PS") &&
     !priorAlgSelection.startsWith("RS")
   ) {
@@ -79875,7 +79901,7 @@ function changeDarkmode(event) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  $sel("#version_id").textContent = "1.1.1.98\n";
+  $sel("#version_id").textContent = "1.1.4.103\n";
 
   $all(".btn-copy").forEach((btn) =>
     btn.addEventListener("click", copyToClipboard)
@@ -80024,13 +80050,17 @@ document.addEventListener("DOMContentLoaded", function () {
   } else if (datamodel.encodedjwt) {
     maybeNewKey();
   } else {
+    if ($sel('.sel-alg').selectedOptions.length == 0) {
+      // no options, maybe first time, need to trigger event to display the Signed options
+      onChangeVariant.call(document.querySelector("#sel-variant"), null);
+    }
     maybeNewKey().then((_) => contriveJwt());
   }
 });
 
 })();
 
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
 (() => {
 "use strict";
 /*!***************************!*\
@@ -80072,9 +80102,7 @@ var options = {};
 
 options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
 options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-
-      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-    
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
 options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
 options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
 
