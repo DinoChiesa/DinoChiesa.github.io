@@ -22,7 +22,8 @@
     $all = (query) => document.querySelectorAll(query),
     $sel = (query) => document.querySelector(query);
 
-  //let  html5AppId = html5AppId || "3f9af045-c79d-4fe4-b549-655d337a3bca";
+  const choices = {};
+  const APP_ID = "63374296-4829-4aeb-be18-54c5437e6522";
   let linkTemplate =
     "${baseloginurl}?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}&nonce=${nonce}";
   let model = {
@@ -37,6 +38,7 @@
     scope: [],
     aud: "",
   };
+  let initializing = true;
 
   const randomValue = (len) => {
     let v = "";
@@ -54,7 +56,9 @@
       newValue = randomValue(desiredLength);
     source.value = newValue;
     model[sourceElementId] = newValue;
-    updateLink();
+    if (!initializing) {
+      updateLink();
+    }
   }
 
   function copyToClipboard() {
@@ -89,6 +93,12 @@
 
   function copyHash(obj) {
     var copy = {};
+    Object.keys(model).forEach((key) => {
+      const elt = $(key);
+      if (elt) {
+        model[key] = elt.value;
+      }
+    });
     if (null !== obj && typeof obj == "object") {
       Object.keys(obj).forEach(function (attr) {
         copy[attr] = Array.isArray(obj[attr]) ? obj[attr].slice() : obj[attr];
@@ -110,14 +120,6 @@
           typeof copyModel[key] != "string"
             ? copyModel[key].join("+")
             : copyModel[key];
-        if (
-          key !== "state" &&
-          key !== "nonce" &&
-          value !== null &&
-          typeof value !== "undefined"
-        ) {
-          window.localStorage.setItem(html5AppId + ".model." + key, value);
-        }
       }
       link = link.replace(pattern, value);
     });
@@ -155,9 +157,27 @@
     }
   }
 
+  function updateStoredValue(key, value) {
+    if (
+      key !== "state" &&
+      key !== "nonce" &&
+      value !== null &&
+      typeof value !== "undefined"
+    ) {
+      if (typeof value == "string") {
+        window.localStorage.setItem(APP_ID + ".model." + key, value);
+      } else if (value.constructor.name == "Array") {
+        window.localStorage.setItem(APP_ID + ".model." + key, value.join("+"));
+      }
+    }
+  }
+
   function onInputChanged() {
     model[this.id] = this.value;
-    updateLink();
+    updateStoredValue(this.id, this.value);
+    if (!initializing) {
+      updateLink();
+    }
   }
 
   function onSelectChanged() {
@@ -166,18 +186,10 @@
       (opt) => opt.textContent,
     );
     model[selectElt.name] = values;
-    updateLink();
-  }
-
-  function updateModel(event) {
-    Object.keys(model).forEach((key) => {
-      const elt = $(key);
-      if (elt) {
-        model[key] = elt.value;
-      }
-    });
-    updateLink();
-    if (event) event.preventDefault();
+    updateStoredValue(selectElt.name, values);
+    if (!initializing) {
+      updateLink();
+    }
   }
 
   const excludeTransientFields = (key) => key != "code";
@@ -187,24 +199,19 @@
     Object.keys(model)
       .filter(excludeTransientFields)
       .forEach((key) => {
-        let value = window.localStorage.getItem(html5AppId + ".model." + key);
+        let value = window.localStorage.getItem(APP_ID + ".model." + key);
         const item = $(key);
         if (!item) return;
-
         if (key === "state" || key === "nonce") {
           let desiredLength = Number(item.dataset.desiredLength) || 6;
-          item.value = desiredLength;
+          item.value = randomValue(desiredLength);
         } else if (value && value !== "") {
           if (typeof model[key] !== "string") {
-            // the value is a set of values concatenated by +
-            // and the type of form field is select.
-            value.split("+").forEach((part) => {
-              const option = item.querySelector(`option[value='${part}']`);
-              if (option) {
-                option.selected = true;
-              }
-            });
-            // NB: chosen plugin is removed.
+            // The value is a set of values concatenated by +
+            // and the type of form field is Choices.
+            if (choices[key]) {
+              choices[key].setValue(value.split("+"));
+            }
           } else {
             // value is a simple string, form field type is input.
             item.value = value;
@@ -218,7 +225,7 @@
     if (preBox) preBox.innerHTML = "";
     const code = $("code");
     if (code) code.value = "";
-    updateModel();
+    updateStoredValue("code", "");
     if (event) event.preventDefault();
   }
 
@@ -270,8 +277,6 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    // NB: The "chosen" plugin is removed along with jQuery.
-    // The select boxes will be standard browser select boxes.
     const btnRedeem = $("btn-redeem");
     if (btnRedeem) btnRedeem.addEventListener("click", invokeRedemption);
 
@@ -281,8 +286,8 @@
     const btnCopy = $("btn-copy");
     if (btnCopy) btnCopy.addEventListener("click", copyToClipboard);
 
-    $all(".btn-reload").forEach(
-      (elt) => (elt.addEventListener("click", reloadRandomValue), elt.click()),
+    $all(".btn-reload").forEach((elt) =>
+      elt.addEventListener("click", reloadRandomValue),
     );
 
     $all("form input[type='text']").forEach((elt) =>
@@ -292,13 +297,13 @@
     $all("form select").forEach((elt) =>
       elt.addEventListener("change", onSelectChanged),
     );
-    //debugger;
-    const choices1 = new Choices($sel(".multi-choice.rtype"));
-    const choices2 = new Choices($sel(".multi-choice.scope"));
 
-    const form = $sel("form");
-    if (form) form.addEventListener("submit", updateModel);
+    choices.rtype = new Choices($sel(".multi-choice.rtype"));
+    choices.scope = new Choices($sel(".multi-choice.scope"));
 
-    updateModel();
+    populateFormFields();
+
+    initializing = false;
+    updateLink();
   });
 })();

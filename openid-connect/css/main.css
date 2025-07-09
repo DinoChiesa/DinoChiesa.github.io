@@ -12,12 +12,14 @@ form > .form-group > input {
   max-width: 660px;
   margin: 2px 0;
 }
+
 form > div > div.chosen-container-multi > ul.chosen-choices li.search-field {
   margin: 3px 5px 3px 12px;
 }
 form > div > div.chosen-container-multi > ul.chosen-choices li.search-choice {
   margin: 6px 5px 5px 1px;
 }
+
 .form-group {
   margin-bottom: 2px;
 }
@@ -147,7 +149,7 @@ body {
   padding: 2px 6px;
   margin: 0 4px;
   float: right;
-  top: 12px;
+  /* top: 12px; */ /* why? in oidc-callback-handler it wants to be 0 */
   position: relative;
 }
 
