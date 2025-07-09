@@ -234,8 +234,9 @@
       code: model.code,
     };
 
-    // NB: This call will fail if the server does not include CORS headers in the response
-    fetch(googleTokenUrl, {
+    // NB: This call MAY fail if the server does not include CORS headers in the response
+    let tokenUrl = model.baseloginurl.replace("/authorize", "/token");
+    fetch(tokenUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
