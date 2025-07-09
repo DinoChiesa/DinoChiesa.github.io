@@ -3,8 +3,6 @@
 //
 /* jshint esversion: 9 */
 
-// AI! Convert this file from jquery to use plain vanilla Javascript.
-//
 
 (function () {
   const cleanDoubleSlash = (function () {
@@ -46,46 +44,44 @@
     return v.substring(0, len);
   };
 
-  function reloadRandomValue(event) {
-    let $elt = $(this),
-      sourceElement = $elt.data("target"),
+  function reloadRandomValue() {
+    const sourceElementId = this.dataset.target,
       // grab the element to copy
-      $source = $(`#${sourceElement}`),
-      desiredLength = Number($source.data("desired-length")) || 8,
+      source = document.getElementById(sourceElementId),
+      desiredLength = Number(source.dataset.desiredLength) || 8,
       newValue = randomValue(desiredLength);
-    $source.val(newValue);
-    model[sourceElement] = newValue;
+    source.value = newValue;
+    model[sourceElementId] = newValue;
     updateLink();
   }
 
-  function copyToClipboard(event) {
-    let $elt = $(this),
-      sourceElement = $elt.data("target"),
+  function copyToClipboard() {
+    const sourceElementId = this.dataset.target,
       // grab the element to copy
-      $source = $("#" + sourceElement),
+      source = document.getElementById(sourceElementId),
       // Create a temporary hidden textarea.
-      $temp = $("<textarea>");
+      temp = document.createElement("textarea");
 
     let textToCopy =
-      $source[0].tagName == "TEXTAREA" ? $source.val() : $source.text();
+      source.tagName == "TEXTAREA" ? source.value : source.textContent;
 
-    $("body").append($temp);
-    $temp.val(textToCopy).select();
+    document.body.appendChild(temp);
+    temp.value = textToCopy;
+    temp.select();
     let success;
     try {
       success = document.execCommand("copy");
       if (success) {
-        $source
-          .addClass("copy-to-clipboard-flash-bg")
-          .delay("1000")
-          .queue((_) =>
-            $source.removeClass("copy-to-clipboard-flash-bg").dequeue(),
-          );
+        source.classList.add("copy-to-clipboard-flash-bg");
+        setTimeout(
+          () => source.classList.remove("copy-to-clipboard-flash-bg"),
+          1000,
+        );
       }
     } catch (e) {
       success = false;
     }
-    $temp.remove();
+    temp.remove();
     return success;
   }
 
@@ -129,9 +125,12 @@
     });
     link = cleanDoubleSlash(link);
 
-    $("#authzlink").text(link);
-    $("#authzlink").attr("href", link);
-
+    const authzlink = document.getElementById("authzlink");
+    if (authzlink) {
+      authzlink.textContent = link;
+      authzlink.href = link;
+    }
+    const authzRedemption = document.getElementById("authzRedemption");
     if (model.code) {
       let payload = {
         grant_type: "authorization_code",
@@ -140,40 +139,42 @@
         redirect_uri: model.cburi,
         code: model.code,
       };
-      $("#preBox").html(
-        "<pre>curl -X POST -H content-type:application/x-www-form-urlencoded " +
+      const preBox = document.getElementById("preBox");
+      if (preBox) {
+        preBox.innerHTML =
+          "<pre>curl -X POST -H content-type:application/x-www-form-urlencoded " +
           wrapInSingleQuote(googleTokenUrl) +
           " -d " +
-          wrapInSingleQuote($.param(payload)) +
-          "</pre>",
-      );
-      $("#authzRedemption").show();
+          wrapInSingleQuote(new URLSearchParams(payload).toString()) +
+          "</pre>";
+      }
+      if (authzRedemption) authzRedemption.style.display = "block";
     } else {
-      $("#authzRedemption").hide();
+      if (authzRedemption) authzRedemption.style.display = "none";
     }
   }
 
   function onInputChanged() {
-    var $$ = $(this),
-      name = $$.attr("id"),
-      value = $$.val();
-    model[name] = value;
+    model[this.id] = this.value;
     updateLink();
   }
 
   function onSelectChanged() {
-    var $$ = $(this),
-      name = $$.attr("name"),
-      values = [];
-    $$.find("option:selected").each(function () {
-      values.push($(this).text());
-    });
-    model[name] = values;
+    const selectElt = this;
+    const values = Array.from(selectElt.selectedOptions).map(
+      (opt) => opt.textContent,
+    );
+    model[selectElt.name] = values;
     updateLink();
   }
 
   function updateModel(event) {
-    Object.keys(model).forEach((key) => (model[key] = $("#" + key).val()));
+    Object.keys(model).forEach((key) => {
+      const elt = document.getElementById(key);
+      if (elt) {
+        model[key] = elt.value;
+      }
+    });
     updateLink();
     if (event) event.preventDefault();
   }
@@ -185,37 +186,46 @@
     Object.keys(model)
       .filter(excludeTransientFields)
       .forEach((key) => {
-        let value = window.localStorage.getItem(html5AppId + ".model." + key),
-          $item = $("#" + key);
+        let value = window.localStorage.getItem(html5AppId + ".model." + key);
+        const item = document.getElementById(key);
+        if (!item) return;
+
         if (key === "state" || key === "nonce") {
-          let desiredLength = Number($item.data("desired-length")) || 6;
-          $item.val(desiredLength);
+          let desiredLength = Number(item.dataset.desiredLength) || 6;
+          item.value = desiredLength;
         } else if (value && value !== "") {
           if (typeof model[key] !== "string") {
             // the value is a set of values concatenated by +
             // and the type of form field is select.
             value.split("+").forEach((part) => {
-              $item
-                .find("option[value='" + part + "']")
-                .prop("selected", "selected");
+              const option = item.querySelector("option[value='" + part + "']");
+              if (option) {
+                option.selected = true;
+              }
             });
-            $item.trigger("chosen:updated");
+            // NB: chosen plugin is removed.
           } else {
             // value is a simple string, form field type is input.
-            $item.val(value);
+            item.value = value;
           }
         }
       });
   }
 
   function resetRedemption(event) {
-    $("#preBox").html("");
-    $("#code").val("");
+    const preBox = document.getElementById("preBox");
+    if (preBox) preBox.innerHTML = "";
+    const code = document.getElementById("code");
+    if (code) code.value = "";
     updateModel();
     if (event) event.preventDefault();
   }
 
   function invokeRedemption(event) {
+    if (event) event.preventDefault();
+    const preBox = document.getElementById("preBox");
+    if (!preBox) return;
+
     let payload = {
       client_id: model.clientid,
       client_secret: model.clientsecret,
@@ -225,53 +235,66 @@
     };
 
     // NB: This call will fail if the server does not include CORS headers in the response
-    $.ajax({
-      url: googleTokenUrl,
-      type: "POST",
-      data: payload,
-      success: function (data, textStatus, jqXHR) {
-        $("#preBox")
-          .removeClass("error")
-          .html(
-            '<pre class="access-token-response">' +
-              JSON.stringify(data, null, 2) +
-              "</pre>",
-          );
+    fetch(googleTokenUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      error: function (jqXHR, textStatus, errorThrown) {
-        $("#preBox")
-          .addClass("error")
-          .html(
-            '<pre class="access-token-response">' +
-              JSON.stringify(jqXHR.responseJSON, null, 2) +
-              "</pre>",
-          );
-      },
-    });
-
-    if (event) event.preventDefault();
+      body: new URLSearchParams(payload),
+    })
+      .then((response) =>
+        response.json().then((json) => ({
+          ok: response.ok,
+          json,
+        })),
+      )
+      .then(({ ok, json }) => {
+        preBox.classList.remove("error");
+        let content = JSON.stringify(json, null, 2);
+        if (!ok) {
+          preBox.classList.add("error");
+        }
+        preBox.innerHTML =
+          '<pre class="access-token-response">' + content + "</pre>";
+      })
+      .catch((error) => {
+        preBox.classList.add("error");
+        preBox.innerHTML =
+          '<pre class="access-token-response">' +
+          "Error: " +
+          error.message +
+          "</pre>";
+      });
   }
 
-  $(document).ready(() => {
-    $(".rtype-chosen").chosen({
-      no_results_text: "No matching response types...",
-      allow_single_deselect: true,
-    });
-    $(".scope-chosen").chosen({
-      no_results_text: "No matching scopes...",
-      allow_single_deselect: true,
-    });
+  document.addEventListener("DOMContentLoaded", () => {
+    // NB: The "chosen" plugin is removed along with jQuery.
+    // The select boxes will be standard browser select boxes.
+    const btnRedeem = document.getElementById("btn-redeem");
+    if (btnRedeem) btnRedeem.addEventListener("click", invokeRedemption);
 
-    $("#btn-redeem").on("click", invokeRedemption);
-    $("#btn-reset").on("click", resetRedemption);
-    $("#btn-copy").on("click", copyToClipboard);
-    $(".btn-reload").on("click", reloadRandomValue);
+    const btnReset = document.getElementById("btn-reset");
+    if (btnReset) btnReset.addEventListener("click", resetRedemption);
+
+    const btnCopy = document.getElementById("btn-copy");
+    if (btnCopy) btnCopy.addEventListener("click", copyToClipboard);
+
+    document
+      .querySelectorAll(".btn-reload")
+      .forEach((elt) => elt.addEventListener("click", reloadRandomValue));
 
     populateFormFields();
 
-    $("form input[type='text']").change(onInputChanged);
-    $("form select").change(onSelectChanged);
-    $("form button").submit(updateModel);
+    document
+      .querySelectorAll("form input[type='text']")
+      .forEach((elt) => elt.addEventListener("change", onInputChanged));
+
+    document
+      .querySelectorAll("form select")
+      .forEach((elt) => elt.addEventListener("change", onSelectChanged));
+
+    const form = document.querySelector("form");
+    if (form) form.addEventListener("submit", updateModel);
 
     updateModel();
   });
