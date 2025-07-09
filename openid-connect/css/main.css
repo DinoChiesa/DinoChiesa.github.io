@@ -1,7 +1,7 @@
 form .form-group > label,
 form .form-group > div {
   float: left;
-  width: 168px;
+  width: 178px;
   margin: 2px 0;
 }
 
@@ -206,4 +206,13 @@ form .form-group > div > button {
   margin-right: 12px;
   background-color: #ebebeb;
   padding: 12px;
+}
+
+form .form-group > div.choices {
+  width: 448px;
+}
+
+.choices__list--multiple .choices__item {
+  background-color: #305f65;
+  border: 1px solid #325257;
 }

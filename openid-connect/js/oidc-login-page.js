@@ -121,6 +121,7 @@
       }
       link = link.replace(pattern, value);
     });
+
     // I cannot remember why this is here. But it breaks the redirect uri
     //link = cleanDoubleSlash(link);
 
@@ -280,11 +281,9 @@
     const btnCopy = $("btn-copy");
     if (btnCopy) btnCopy.addEventListener("click", copyToClipboard);
 
-    $all(".btn-reload").forEach((elt) =>
-      elt.addEventListener("click", reloadRandomValue),
+    $all(".btn-reload").forEach(
+      (elt) => (elt.addEventListener("click", reloadRandomValue), elt.click()),
     );
-
-    populateFormFields();
 
     $all("form input[type='text']").forEach((elt) =>
       elt.addEventListener("change", onInputChanged),
@@ -293,6 +292,9 @@
     $all("form select").forEach((elt) =>
       elt.addEventListener("change", onSelectChanged),
     );
+    //debugger;
+    const choices1 = new Choices($sel(".multi-choice.rtype"));
+    const choices2 = new Choices($sel(".multi-choice.scope"));
 
     const form = $sel("form");
     if (form) form.addEventListener("submit", updateModel);
