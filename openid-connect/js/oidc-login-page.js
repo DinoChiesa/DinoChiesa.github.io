@@ -3,7 +3,6 @@
 //
 /* jshint esversion: 9 */
 
-
 (function () {
   const cleanDoubleSlash = (function () {
     const re1 = new RegExp("^(https?://)(.+)//(.+)$");
@@ -19,10 +18,13 @@
     };
   })();
 
-  var html5AppId = html5AppId || "3f9af045-c79d-4fe4-b549-655d337a3bca",
-    linkTemplate =
-      linkTemplate ||
-      "${baseloginurl}?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}&nonce=${nonce}";
+  const $ = (id) => document.getElementById(id),
+    $all = (query) => document.querySelectorAll(query),
+    $sel = (query) => document.querySelector(query);
+
+  //let  html5AppId = html5AppId || "3f9af045-c79d-4fe4-b549-655d337a3bca";
+  let linkTemplate =
+    "${baseloginurl}?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}&nonce=${nonce}";
   let model = {
     baseloginurl: "",
     clientid: "",
@@ -47,7 +49,7 @@
   function reloadRandomValue() {
     const sourceElementId = this.dataset.target,
       // grab the element to copy
-      source = document.getElementById(sourceElementId),
+      source = $(sourceElementId),
       desiredLength = Number(source.dataset.desiredLength) || 8,
       newValue = randomValue(desiredLength);
     source.value = newValue;
@@ -58,7 +60,7 @@
   function copyToClipboard() {
     const sourceElementId = this.dataset.target,
       // grab the element to copy
-      source = document.getElementById(sourceElementId),
+      source = $(sourceElementId),
       // Create a temporary hidden textarea.
       temp = document.createElement("textarea");
 
@@ -100,10 +102,6 @@
   function updateLink() {
     let link = linkTemplate,
       copyModel = copyHash(model);
-    if (copyModel.aud && copyModel.scope) {
-      copyModel.scope.push("audience:server:client_id:" + copyModel.aud);
-      delete copyModel.aud;
-    }
     Object.keys(copyModel).forEach(function (key) {
       let pattern = "${" + key + "}",
         value = "";
@@ -123,14 +121,15 @@
       }
       link = link.replace(pattern, value);
     });
-    link = cleanDoubleSlash(link);
+    // I cannot remember why this is here. But it breaks the redirect uri
+    //link = cleanDoubleSlash(link);
 
-    const authzlink = document.getElementById("authzlink");
+    const authzlink = $("authzlink");
     if (authzlink) {
       authzlink.textContent = link;
       authzlink.href = link;
     }
-    const authzRedemption = document.getElementById("authzRedemption");
+    const authzRedemption = $("authzRedemption");
     if (model.code) {
       let payload = {
         grant_type: "authorization_code",
@@ -139,11 +138,12 @@
         redirect_uri: model.cburi,
         code: model.code,
       };
-      const preBox = document.getElementById("preBox");
+      const preBox = $("preBox");
       if (preBox) {
+        let tokenUrl = model.baseloginurl.replace("/authorize", "/token");
         preBox.innerHTML =
           "<pre>curl -X POST -H content-type:application/x-www-form-urlencoded " +
-          wrapInSingleQuote(googleTokenUrl) +
+          wrapInSingleQuote(tokenUrl) +
           " -d " +
           wrapInSingleQuote(new URLSearchParams(payload).toString()) +
           "</pre>";
@@ -170,7 +170,7 @@
 
   function updateModel(event) {
     Object.keys(model).forEach((key) => {
-      const elt = document.getElementById(key);
+      const elt = $(key);
       if (elt) {
         model[key] = elt.value;
       }
@@ -187,7 +187,7 @@
       .filter(excludeTransientFields)
       .forEach((key) => {
         let value = window.localStorage.getItem(html5AppId + ".model." + key);
-        const item = document.getElementById(key);
+        const item = $(key);
         if (!item) return;
 
         if (key === "state" || key === "nonce") {
@@ -198,7 +198,7 @@
             // the value is a set of values concatenated by +
             // and the type of form field is select.
             value.split("+").forEach((part) => {
-              const option = item.querySelector("option[value='" + part + "']");
+              const option = item.querySelector(`option[value='${part}']`);
               if (option) {
                 option.selected = true;
               }
@@ -213,9 +213,9 @@
   }
 
   function resetRedemption(event) {
-    const preBox = document.getElementById("preBox");
+    const preBox = $("preBox");
     if (preBox) preBox.innerHTML = "";
-    const code = document.getElementById("code");
+    const code = $("code");
     if (code) code.value = "";
     updateModel();
     if (event) event.preventDefault();
@@ -223,7 +223,7 @@
 
   function invokeRedemption(event) {
     if (event) event.preventDefault();
-    const preBox = document.getElementById("preBox");
+    const preBox = $("preBox");
     if (!preBox) return;
 
     let payload = {
@@ -270,30 +270,30 @@
   document.addEventListener("DOMContentLoaded", () => {
     // NB: The "chosen" plugin is removed along with jQuery.
     // The select boxes will be standard browser select boxes.
-    const btnRedeem = document.getElementById("btn-redeem");
+    const btnRedeem = $("btn-redeem");
     if (btnRedeem) btnRedeem.addEventListener("click", invokeRedemption);
 
-    const btnReset = document.getElementById("btn-reset");
+    const btnReset = $("btn-reset");
     if (btnReset) btnReset.addEventListener("click", resetRedemption);
 
-    const btnCopy = document.getElementById("btn-copy");
+    const btnCopy = $("btn-copy");
     if (btnCopy) btnCopy.addEventListener("click", copyToClipboard);
 
-    document
-      .querySelectorAll(".btn-reload")
-      .forEach((elt) => elt.addEventListener("click", reloadRandomValue));
+    $all(".btn-reload").forEach((elt) =>
+      elt.addEventListener("click", reloadRandomValue),
+    );
 
     populateFormFields();
 
-    document
-      .querySelectorAll("form input[type='text']")
-      .forEach((elt) => elt.addEventListener("change", onInputChanged));
+    $all("form input[type='text']").forEach((elt) =>
+      elt.addEventListener("change", onInputChanged),
+    );
 
-    document
-      .querySelectorAll("form select")
-      .forEach((elt) => elt.addEventListener("change", onSelectChanged));
+    $all("form select").forEach((elt) =>
+      elt.addEventListener("change", onSelectChanged),
+    );
 
-    const form = document.querySelector("form");
+    const form = $sel("form");
     if (form) form.addEventListener("submit", updateModel);
 
     updateModel();
