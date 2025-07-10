@@ -21,20 +21,6 @@ const $ = (id) => document.getElementById(id),
   $all = (query) => document.querySelectorAll(query),
   $sel = (query) => document.querySelector(query);
 
-// The Choices.js thing, which I included to replace chosen.js, which relied on
-// jQuery, seems to duplicate options - if I select an option programmatically
-// (as when restoring state fro localstorage), that item is not removed from the
-// _available_ options in the dropdown.  So I need to manage the set of choices
-// manually; and THAT means I need to keep track in Javascript what the options
-// are, rather than relying on the HTML select markup. Every time the selection
-// changes I need to reset the available choices. SMH. The documentation on this
-// thng is a vague time-waster.
-//
-
-const choiceOptions = {
-  rtype: ["", "code", "token", "id_token", "invalid_option"],
-  scope: ["", "openid", "email", "profile", "invalid_option"],
-};
 const choices = {};
 const APP_ID = "63374296-4829-4aeb-be18-54c5437e6522";
 let linkTemplate =
@@ -165,28 +151,41 @@ function updateLink() {
   }
 }
 
-function updateStoredValue(key, value) {
-  if (
-    key !== "state" &&
-    key !== "nonce" &&
-    value !== null &&
-    typeof value !== "undefined"
-  ) {
-    if (typeof value == "string") {
-      window.localStorage.setItem(APP_ID + ".model." + key, value);
-    } else if (value.constructor.name == "Array") {
-      window.localStorage.setItem(APP_ID + ".model." + key, value.join("+"));
+function updateStoredValue(key) {
+  if (key !== "state" && key !== "nonce") {
+    let value = model[key];
+    if (value !== null && typeof value !== "undefined") {
+      if (typeof value == "string") {
+        window.localStorage.setItem(APP_ID + ".model." + key, value);
+      } else if (value.constructor.name == "Array") {
+        window.localStorage.setItem(APP_ID + ".model." + key, value.join("+"));
+      }
     }
   }
 }
 
 function onInputChanged() {
   model[this.id] = this.value;
-  updateStoredValue(this.id, this.value);
+  updateStoredValue(this.id);
   if (!initializing) {
     updateLink();
   }
 }
+
+// The Choices.js thing, which I included to replace chosen.js, which relied on
+// jQuery, seems to duplicate options - if I select an option programmatically
+// (as when restoring state fro localstorage), that item is not removed from the
+// _available_ options in the dropdown.  So I need to manage the set of choices
+// manually; and THAT means I need to keep track in Javascript what the options
+// are, rather than relying on the HTML select markup. Every time the selection
+// changes I need to reset the available choices. SMH. The documentation on this
+// thng is a vague time-waster.
+//
+
+const choiceOptions = {
+  rtype: ["", "code", "token", "id_token", "invalid_option"],
+  scope: ["", "openid", "email", "profile", "invalid_option"],
+};
 
 function fixChoices(key) {
   let values = choices[key].getValue(true); // plain array of values
@@ -213,7 +212,7 @@ function onSelectChanged() {
     );
   }
   model[selectElt.name] = values;
-  updateStoredValue(selectElt.name, values);
+  updateStoredValue(selectElt.name);
   if (!initializing) {
     updateLink();
   }
@@ -255,7 +254,7 @@ function resetRedemption(event) {
   if (preBox) preBox.innerHTML = "";
   const code = $("code");
   if (code) code.value = "";
-  updateStoredValue("code", "");
+  updateStoredValue("code");
   if (event) event.preventDefault();
 }
 
@@ -306,6 +305,40 @@ function invokeRedemption(event) {
     });
 }
 
+function debounce(interval, callback) {
+  let debounceTimeoutId;
+  return function (...args) {
+    if (debounceTimeoutId) {
+      clearTimeout(debounceTimeoutId);
+    }
+    debounceTimeoutId = setTimeout(() => callback.apply(this, args), interval);
+  };
+}
+
+function makeScopeSearch() {
+  let lastSearchTerm = "";
+  function scopeSearch(event) {
+    if (event.detail.resultCount == 0) {
+      if (lastSearchTerm == event.detail.value) {
+        // add to the list of choices
+        let values = choices.scope.getValue(true); // plain array of values
+        model.scope = [...values, lastSearchTerm];
+
+        choices.scope.setValue([lastSearchTerm]);
+        choices.scope.clearInput();
+        updateStoredValue("scope");
+        choices.scope.hideDropdown(true);
+        updateLink();
+      }
+      lastSearchTerm = event.detail.value;
+      setTimeout(() => {
+        lastSearchTerm = "";
+      }, 2200);
+    }
+  }
+  return scopeSearch;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const btnRedeem = $("btn-redeem");
   if (btnRedeem) btnRedeem.addEventListener("click", invokeRedemption);
@@ -334,9 +367,29 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   choices.scope = new Choices($sel(".multi-choice.scope"), {
     removeItemButton: true,
+    /* addChoices: true, * // * not supported */
+    addItems: true,
+    editItems: true,
     duplicateItemsAllowed: false,
   });
 
+  choices.scope.passedElement.element.addEventListener(
+    "search",
+    debounce(250, makeScopeSearch()),
+    false,
+  );
+
+  choices.scope.passedElement.element.addEventListener(
+    "addItem",
+    function (event) {
+      console.log(event.detail.id);
+      console.log(event.detail.value);
+      console.log(event.detail.label);
+      console.log(event.detail.customProperties);
+      console.log(event.detail.groupValue);
+    },
+    false,
+  );
   populateFormFields();
   fixChoices("rtype");
   fixChoices("scope");
