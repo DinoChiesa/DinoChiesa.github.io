@@ -23,6 +23,8 @@ const $ = (id) => document.getElementById(id),
 
 const choices = {};
 const APP_ID = "63374296-4829-4aeb-be18-54c5437e6522";
+const CONFIGURATIONS_KEY = APP_ID + ".configurations";
+
 let linkTemplate =
   "${baseloginurl}?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}&nonce=${nonce}";
 let model = {
@@ -39,6 +41,9 @@ let model = {
   audience: "",
   use_audience: false,
 };
+let saveModal;
+let loadModal;
+
 let initializing = true;
 
 const randomValue = (len) => {
@@ -265,6 +270,72 @@ function populateFormFields() {
     });
 }
 
+function getStoredConfigurations() {
+  const configsJson = window.localStorage.getItem(CONFIGURATIONS_KEY);
+  return configsJson ? JSON.parse(configsJson) : [];
+}
+
+function storeConfigurations(configs) {
+  window.localStorage.setItem(CONFIGURATIONS_KEY, JSON.stringify(configs));
+}
+
+function applySettingsToForm(settings) {
+  // update the model and form fields from the loaded configuration
+  Object.keys(model)
+    .filter(excludeTransientFields)
+    .forEach((key) => {
+      const value = settings[key];
+      model[key] = value;
+      const item = $(key);
+      if (!item) return;
+
+      if (item.type === "checkbox") {
+        item.checked = value || false;
+      } else if (choices[key]) {
+        choices[key].setValue(value || []);
+        fixChoices(key);
+      } else {
+        item.value = value || "";
+      }
+    });
+
+  // regenerate transient fields that should not be stored
+  ["state", "nonce"].forEach((id) => {
+    const elt = $(id);
+    if (elt) {
+      let desiredLength = Number(elt.dataset.desiredLength) || 8;
+      const newValue = randomValue(desiredLength);
+      elt.value = newValue;
+      model[id] = newValue;
+    }
+  });
+  const codeElt = $("code");
+  if (codeElt) {
+    codeElt.value = "";
+    model.code = "";
+  }
+
+  handleUseAudienceChange();
+  updateLink();
+}
+
+function handleSaveConfig() {
+  const nameInput = $("config-name");
+  const name = nameInput.value.trim();
+  if (!name) return;
+
+  const settings = freshCopyOfModel();
+  delete settings.state;
+  delete settings.nonce;
+  delete settings.code;
+
+  let configs = getStoredConfigurations();
+  configs = configs.filter(c => c.name !== name); // remove existing
+  configs.unshift({ name, settings }); // add new one to the top
+  storeConfigurations(configs);
+  saveModal.hide();
+}
+
 function resetRedemption(event) {
   const preBox = $("preBox");
   if (preBox) preBox.innerHTML = "";
@@ -356,6 +427,9 @@ function makeScopeSearch() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  saveModal = new bootstrap.Modal($("saveConfigModal"));
+  loadModal = new bootstrap.Modal($("loadConfigModal"));
+
   const btnRedeem = $("btn-redeem");
   if (btnRedeem) btnRedeem.addEventListener("click", invokeRedemption);
 
@@ -364,6 +438,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const btnCopy = $("btn-copy");
   if (btnCopy) btnCopy.addEventListener("click", copyToClipboard);
+
+  $("btn-save-config").addEventListener("click", () => {
+    $("config-name").value = "";
+    saveModal.show();
+  });
+
+  $("btn-do-save-config").addEventListener("click", handleSaveConfig);
+
+  $("btn-load-config").addEventListener("click", () => {
+    const configs = getStoredConfigurations();
+    const select = $("config-select");
+    select.innerHTML = "";
+    if (configs.length === 0) {
+      select.innerHTML = '<option selected>--No configurations saved--</option>';
+    } else {
+      configs.forEach((config, index) => {
+        const option = document.createElement("option");
+        option.value = index;
+        option.textContent = `${config.name} (${config.settings.baseloginurl})`;
+        select.appendChild(option);
+      });
+    }
+    loadModal.show();
+  });
+
+  $("btn-do-load-config").addEventListener("click", () => {
+    const select = $("config-select");
+    const selectedIndex = select.value;
+    if (selectedIndex === null || selectedIndex === "" || selectedIndex.startsWith("-")) return;
+
+    const configs = getStoredConfigurations();
+    const selectedConfig = configs[selectedIndex];
+    applySettingsToForm(selectedConfig.settings);
+    loadModal.hide();
+  });
 
   $all(".btn-reload").forEach((elt) =>
     elt.addEventListener("click", reloadRandomValue),
