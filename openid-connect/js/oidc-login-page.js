@@ -196,16 +196,17 @@ function onInputChanged() {
   }
 }
 
-// The Choices.js thing, which I included to replace chosen.js, which relied on
-// jQuery, seems to duplicate options - if I select an option programmatically
-// (as when restoring state fro localstorage), that item is not removed from the
-// _available_ options in the dropdown.  So I need to manage the set of choices
-// manually; and THAT means I need to keep track in Javascript what the options
-// are, rather than relying on the HTML select markup. Every time the selection
-// changes I need to reset the available choices. SMH. The documentation on this
-// thng is a vague time-waster.
-//
-
+/**
+ *
+ * The Choices.js thing seems to duplicate options - if I select an option programmatically
+ * (as when restoring state from localstorage), that item is not removed from the
+ * _available_ options in the dropdown.  So I need to manage the set of choices
+ * manually; and THAT means I need to keep track in Javascript what the options
+ * are, rather than relying on the HTML select markup. Every time the selection
+ * changes I need to reset the available choices. SMH. The documentation on this
+ * thng is a vague time-waster.
+ *
+ ***/
 const choiceOptions = {
   rtype: ["", "code", "token", "id_token", "invalid_option"],
   scope: ["", "openid", "email", "profile", "invalid_option"],
@@ -330,7 +331,7 @@ function handleSaveConfig() {
   delete settings.code;
 
   let configs = getStoredConfigurations();
-  configs = configs.filter(c => c.name !== name); // remove existing
+  configs = configs.filter((c) => c.name !== name); // remove existing
   configs.unshift({ name, settings }); // add new one to the top
   storeConfigurations(configs);
   saveModal.hide();
@@ -451,7 +452,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const select = $("config-select");
     select.innerHTML = "";
     if (configs.length === 0) {
-      select.innerHTML = '<option selected>--No configurations saved--</option>';
+      select.innerHTML =
+        "<option selected>--No configurations saved--</option>";
     } else {
       configs.forEach((config, index) => {
         const option = document.createElement("option");
@@ -466,7 +468,12 @@ document.addEventListener("DOMContentLoaded", () => {
   $("btn-do-load-config").addEventListener("click", () => {
     const select = $("config-select");
     const selectedIndex = select.value;
-    if (selectedIndex === null || selectedIndex === "" || selectedIndex.startsWith("-")) return;
+    if (
+      selectedIndex === null ||
+      selectedIndex === "" ||
+      selectedIndex.startsWith("-")
+    )
+      return;
 
     const configs = getStoredConfigurations();
     const selectedConfig = configs[selectedIndex];
