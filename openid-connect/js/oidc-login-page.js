@@ -43,6 +43,7 @@ let model = {
 };
 let saveModal;
 let loadModal;
+let lastLoadedConfigName = null;
 
 let initializing = true;
 
@@ -441,7 +442,18 @@ document.addEventListener("DOMContentLoaded", () => {
   if (btnCopy) btnCopy.addEventListener("click", copyToClipboard);
 
   $("btn-save-config").addEventListener("click", () => {
-    $("config-name").value = "";
+    const nameInput = $("config-name");
+    nameInput.value = lastLoadedConfigName || "";
+
+    const datalist = $("config-names-list");
+    datalist.innerHTML = "";
+
+    const configs = getStoredConfigurations();
+    configs.forEach((config) => {
+      const option = document.createElement("option");
+      option.value = config.name;
+      datalist.appendChild(option);
+    });
     saveModal.show();
   });
 
@@ -478,6 +490,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const configs = getStoredConfigurations();
     const selectedConfig = configs[selectedIndex];
     applySettingsToForm(selectedConfig.settings);
+    lastLoadedConfigName = selectedConfig.name;
     loadModal.hide();
   });
 
