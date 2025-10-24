@@ -37,7 +37,7 @@ let model = {
   rtype: [],
   scope: [],
   audience: "",
-  noaudience: false,
+  use_audience: false,
 };
 let initializing = true;
 
@@ -112,7 +112,10 @@ function updateLink() {
   let link = linkTemplate,
     copy = freshCopyOfModel(); // i don't remember why I wanted to copy this
   Object.keys(copy).forEach(function (key) {
-    let pattern = "${" + key + "}",
+    // AI! modify this logic so that it checks to see if the link string
+    // contains the pattern, and only in that case, computes the value, and
+    // performs the link.replace()
+    const pattern = "${" + key + "}",
       value = "";
     if (copy[key] !== null) {
       value = typeof copy[key] != "string" ? copy[key].join("+") : copy[key];
@@ -120,7 +123,7 @@ function updateLink() {
     link = link.replace(pattern, value);
   });
 
-  if (!copy.noaudience && copy.audience) {
+  if (copy.use_audience && copy.audience) {
     link += "&audience=" + encodeURIComponent(copy.audience);
   }
 
@@ -170,19 +173,19 @@ function updateStoredValue(key) {
   }
 }
 
-function handleNoAudienceChange() {
-  const noAudienceCheckbox = $("noaudience"),
+function handleUseAudienceChange() {
+  const useAudienceCheckbox = $("use_audience"),
     audienceInput = $("audience");
-  if (noAudienceCheckbox && audienceInput) {
-    audienceInput.disabled = noAudienceCheckbox.checked;
+  if (useAudienceCheckbox && audienceInput) {
+    audienceInput.disabled = !useAudienceCheckbox.checked;
   }
 }
 
 function onInputChanged() {
   model[this.id] = this.type === "checkbox" ? this.checked : this.value;
   updateStoredValue(this.id);
-  if (this.id === "noaudience") {
-    handleNoAudienceChange();
+  if (this.id === "use_audience") {
+    handleUseAudienceChange();
   }
   if (!initializing) {
     updateLink();
@@ -409,7 +412,7 @@ document.addEventListener("DOMContentLoaded", () => {
     false,
   );
   populateFormFields();
-  handleNoAudienceChange();
+  handleUseAudienceChange();
   fixChoices("rtype");
   fixChoices("scope");
 
