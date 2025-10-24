@@ -283,6 +283,8 @@ function storeConfigurations(configs) {
 
 function applySettingsToForm(settings) {
   // update the model and form fields from the loaded configuration
+  choices.rtype.removeActiveItems();
+  choices.scope.removeActiveItems();
   Object.keys(model)
     .filter(excludeTransientFields)
     .forEach((key) => {
@@ -514,6 +516,7 @@ document.addEventListener("DOMContentLoaded", () => {
     removeItemButton: true,
     duplicateItemsAllowed: false,
   });
+
   choices.scope = new Choices($sel(".multi-choice.scope"), {
     removeItemButton: true,
     /* addChoices: true, * // * not supported */
