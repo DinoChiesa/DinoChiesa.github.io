@@ -30,12 +30,14 @@ let model = {
   clientid: "",
   clientsecret: "",
   cburi: "",
+  tokenurl: "",
   state: "",
   nonce: "",
   code: "",
   rtype: [],
   scope: [],
-  aud: "",
+  audience: "",
+  noaudience: false,
 };
 let initializing = true;
 
@@ -97,7 +99,7 @@ function freshCopyOfModel() {
     if (choices[key]) {
       model[key] = choices[key].getValue(true); // plain array of values
     } else if (elt) {
-      model[key] = elt.value;
+      model[key] = elt.type === "checkbox" ? elt.checked : elt.value;
     }
   });
   // make a copy
@@ -118,6 +120,10 @@ function updateLink() {
     link = link.replace(pattern, value);
   });
 
+  if (!copy.noaudience && copy.audience) {
+    link += "&audience=" + encodeURIComponent(copy.audience);
+  }
+
   // I cannot remember why this is here. But it breaks the redirect uri
   //link = cleanDoubleSlash(link);
 
@@ -137,7 +143,7 @@ function updateLink() {
     };
     const preBox = $("preBox");
     if (preBox) {
-      let tokenUrl = model.baseloginurl.replace("/authorize", "/token");
+      let tokenUrl = model.baseloginurl.replace("/authorize", model.tokenurl);
       preBox.innerHTML =
         "<pre>curl -X POST -H content-type:application/x-www-form-urlencoded " +
         wrapInSingleQuote(tokenUrl) +
@@ -155,7 +161,7 @@ function updateStoredValue(key) {
   if (key !== "state" && key !== "nonce") {
     let value = model[key];
     if (value !== null && typeof value !== "undefined") {
-      if (typeof value == "string") {
+      if (typeof value == "string" || typeof value == "boolean") {
         window.localStorage.setItem(APP_ID + ".model." + key, value);
       } else if (value.constructor.name == "Array") {
         window.localStorage.setItem(APP_ID + ".model." + key, value.join("+"));
@@ -165,7 +171,7 @@ function updateStoredValue(key) {
 }
 
 function onInputChanged() {
-  model[this.id] = this.value;
+  model[this.id] = this.type === "checkbox" ? this.checked : this.value;
   updateStoredValue(this.id);
   if (!initializing) {
     updateLink();
@@ -232,15 +238,12 @@ function populateFormFields() {
         let desiredLength = Number(item.dataset.desiredLength) || 6;
         item.value = randomValue(desiredLength);
       } else if (value && value !== "") {
-        if (typeof model[key] !== "string") {
-          if (choices[key]) {
-            // The value is a set of values concatenated by +
-            // and the type of form field is Choices.
-            choices[key].setValue(value.split("+"));
-          } else {
-            // This would happen if there is a select element added that
-            // is not managed by Choices.js
-          }
+        if (item.type === "checkbox") {
+          item.checked = value === "true";
+        } else if (choices[key]) {
+          // The value is a set of values concatenated by +
+          // and the type of form field is Choices.
+          choices[key].setValue(value.split("+"));
         } else {
           // value is a simple string, form field type is input.
           item.value = value;
@@ -272,7 +275,7 @@ function invokeRedemption(event) {
   };
 
   // NB: This call MAY fail if the server does not include CORS headers in the response
-  let tokenUrl = model.baseloginurl.replace("/authorize", "/token");
+  let tokenUrl = model.baseloginurl.replace("/authorize", model.tokenurl);
   fetch(tokenUrl, {
     method: "POST",
     headers: {
@@ -353,8 +356,12 @@ document.addEventListener("DOMContentLoaded", () => {
     elt.addEventListener("click", reloadRandomValue),
   );
 
-  $all("form input[type='text']").forEach((elt) =>
-    elt.addEventListener("change", onInputChanged),
+  $all("form input[type='text'], form input[type='checkbox']").forEach(
+    (elt) => {
+      if (elt.id) {
+        elt.addEventListener("change", onInputChanged);
+      }
+    },
   );
 
   $all("form select").forEach((elt) =>
