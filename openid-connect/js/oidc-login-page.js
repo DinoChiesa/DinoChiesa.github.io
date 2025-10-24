@@ -112,15 +112,14 @@ function updateLink() {
   let link = linkTemplate,
     copy = freshCopyOfModel(); // i don't remember why I wanted to copy this
   Object.keys(copy).forEach(function (key) {
-    // AI! modify this logic so that it checks to see if the link string
-    // contains the pattern, and only in that case, computes the value, and
-    // performs the link.replace()
-    const pattern = "${" + key + "}",
-      value = "";
-    if (copy[key] !== null) {
-      value = typeof copy[key] != "string" ? copy[key].join("+") : copy[key];
+    const pattern = "${" + key + "}";
+    if (link.includes(pattern)) {
+      let value = "";
+      if (copy[key] !== null) {
+        value = typeof copy[key] != "string" ? copy[key].join("+") : copy[key];
+      }
+      link = link.replace(pattern, value);
     }
-    link = link.replace(pattern, value);
   });
 
   if (copy.use_audience && copy.audience) {
