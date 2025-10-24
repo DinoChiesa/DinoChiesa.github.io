@@ -170,9 +170,20 @@ function updateStoredValue(key) {
   }
 }
 
+function handleNoAudienceChange() {
+  const noAudienceCheckbox = $("noaudience"),
+    audienceInput = $("audience");
+  if (noAudienceCheckbox && audienceInput) {
+    audienceInput.disabled = noAudienceCheckbox.checked;
+  }
+}
+
 function onInputChanged() {
   model[this.id] = this.type === "checkbox" ? this.checked : this.value;
   updateStoredValue(this.id);
+  if (this.id === "noaudience") {
+    handleNoAudienceChange();
+  }
   if (!initializing) {
     updateLink();
   }
@@ -398,6 +409,7 @@ document.addEventListener("DOMContentLoaded", () => {
     false,
   );
   populateFormFields();
+  handleNoAudienceChange();
   fixChoices("rtype");
   fixChoices("scope");
 
