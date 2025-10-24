@@ -163,11 +163,9 @@ body {
   width: 192px;
 }
 
-form .form-group > div > button {
+form .form-group > div > .btn-reload,
+form .form-group > div > .form-check-input {
   float: right;
-}
-
-.form-group > div .btn-reload {
   top: 4px;
   position: relative;
   margin-right: 6px;

@@ -30,7 +30,7 @@ let model = {
   clientid: "",
   clientsecret: "",
   cburi: "",
-  tokenurl: "",
+  tokenpath: "",
   state: "",
   nonce: "",
   code: "",
@@ -145,10 +145,10 @@ function updateLink() {
     };
     const preBox = $("preBox");
     if (preBox) {
-      let tokenUrl = model.baseloginurl.replace("/authorize", model.tokenurl);
+      let tokenPath = model.baseloginurl.replace("/authorize", model.tokenpath);
       preBox.innerHTML =
         "<pre>curl -X POST -H content-type:application/x-www-form-urlencoded " +
-        wrapInSingleQuote(tokenUrl) +
+        wrapInSingleQuote(tokenPath) +
         " -d " +
         wrapInSingleQuote(new URLSearchParams(payload).toString()) +
         "</pre>";
@@ -288,8 +288,8 @@ function invokeRedemption(event) {
   };
 
   // NB: This call MAY fail if the server does not include CORS headers in the response
-  let tokenUrl = model.baseloginurl.replace("/authorize", model.tokenurl);
-  fetch(tokenUrl, {
+  let tokenPath = model.baseloginurl.replace("/authorize", model.tokenpath);
+  fetch(tokenPath, {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
