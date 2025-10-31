@@ -7,7 +7,9 @@ form .form-group > label,
 form .form-group > div {
   float: left;
   width: 212px;
-  margin: 2px 0;
+  margin: 4px 0;
+  position: relative;
+  top: 4px;
 }
 
 form > .form-group > select,
@@ -182,7 +184,7 @@ div.divider {
 form .form-group > div > .btn-reload,
 form .form-group > div > .select-modifier {
   float: right;
-  top: 4px;
+  top: -2px;
   position: relative;
   margin-right: 6px;
 }
@@ -231,4 +233,10 @@ form .form-group > div.choices {
 .choices__list--multiple .choices__item {
   background-color: #305f65;
   border: 1px solid #325257;
+}
+
+#audience-or-resource {
+  font-size: 75%;
+  top: 4px;
+  border-radius: 4px;
 }

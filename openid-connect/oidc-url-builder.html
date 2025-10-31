@@ -62,7 +62,7 @@
       </div>
       <form role="form">
         <div class="form-group">
-          <label for="baseloginurl">Base URL:</label>
+          <label for="baseloginurl">base URL:</label>
           <input
             type="text"
             class="form-control"
@@ -72,7 +72,7 @@
           />
         </div>
         <div class="form-group">
-          <label for="clientid">Client ID:</label>
+          <label for="clientid">client ID:</label>
           <input
             type="text"
             class="form-control"
@@ -81,7 +81,7 @@
           />
         </div>
         <div class="form-group">
-          <label for="clientsecret">Client Secret:</label>
+          <label for="clientsecret">client secret:</label>
           <input
             type="text"
             class="form-control"
@@ -91,7 +91,7 @@
         </div>
         <div class="form-group">
           <div>
-            <label for="state">state</label>
+            <label for="state">state:</label>
             <button
               type="button"
               class="btn btn-outline-secondary btn-sm btn-reload"
@@ -162,8 +162,12 @@
         </div>
         <div class="form-group">
           <div>
-            <label for="audience">Audience:</label>
-            <select class="select-modifier" id="audience_or_resource">
+            <label for="audience">audience:</label>
+            <select
+              class="select-modifier"
+              id="audience-or-resource"
+              title="name to use for query param in /authorize URL"
+            >
               <option value="none">None</option>
               <option value="audience" selected>audience</option>
               <option value="resource">resource</option>
@@ -178,7 +182,7 @@
           />
         </div>
         <div class="form-group">
-          <label for="tokenpath">Token Path:</label>
+          <label for="tokenpath">token path:</label>
           <input
             type="text"
             class="form-control"
@@ -189,7 +193,7 @@
         </div>
         <div class="form-group">
           <div>
-            <label for="code">code</label>
+            <label for="code">code:</label>
           </div>
           <input
             type="text"
