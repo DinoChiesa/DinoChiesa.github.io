@@ -1,8 +1,6 @@
-// goog-login-page.js
 // ------------------------------------------------------------------
 //
 /* jshint esversion: 9 */
-/* global $ */
 
 (function () {
   const googleTokenUrl = "https://www.googleapis.com/oauth2/v4/token";
@@ -20,10 +18,15 @@
     };
   })();
 
-  var html5AppId = html5AppId || "B673CC48-1927-46CB-827A-E6E9D7D5103D",
-    linkTemplate =
-      linkTemplate ||
-      "${baseloginurl}?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}&nonce=${nonce}";
+  const $ = (id) => document.getElementById(id),
+    $all = (query) => document.querySelectorAll(query),
+    $sel = (query) => document.querySelector(query);
+
+  const choices = {};
+  const APP_ID = "B673CC48-1927-46CB-827A-E6E9D7D5103D";
+
+  let linkTemplate =
+    "${baseloginurl}?client_id=${clientid}&redirect_uri=${cburi}&response_type=${rtype}&state=${state}&scope=${scope}&nonce=${nonce}";
   let model = {
     baseloginurl: "",
     clientid: "",
@@ -45,92 +48,91 @@
     return v.substring(0, len);
   };
 
-  function reloadRandomValue(event) {
-    let $elt = $(this),
-      sourceElement = $elt.data("target"),
+  function reloadRandomValue() {
+    const sourceElementId = this.dataset.target,
       // grab the element to copy
-      $source = $("#" + sourceElement),
-      desiredLength = Number($source.data("desired-length")) || 8,
+      source = $(sourceElementId),
+      desiredLength = Number(source.dataset.desiredLength) || 8,
       newValue = randomValue(desiredLength);
-    $source.val(newValue);
-    model[sourceElement] = newValue;
+    source.value = newValue;
+    model[sourceElementId] = newValue;
     updateLink();
   }
 
-  function copyToClipboard(event) {
-    let $elt = $(this),
-      sourceElement = $elt.data("target"),
+  function copyToClipboard() {
+    const sourceElementId = this.dataset.target,
       // grab the element to copy
-      $source = $("#" + sourceElement),
+      source = $(sourceElementId),
       // Create a temporary hidden textarea.
-      $temp = $("<textarea>");
+      temp = document.createElement("textarea");
 
     let textToCopy =
-      $source[0].tagName == "TEXTAREA" ? $source.val() : $source.text();
+      source.tagName == "TEXTAREA" ? source.value : source.textContent;
 
-    $("body").append($temp);
-    $temp.val(textToCopy).select();
+    document.body.appendChild(temp);
+    temp.value = textToCopy;
+    temp.select();
     let success;
     try {
       success = document.execCommand("copy");
       if (success) {
-        $source
-          .addClass("copy-to-clipboard-flash-bg")
-          .delay("1000")
-          .queue((_) =>
-            $source.removeClass("copy-to-clipboard-flash-bg").dequeue()
-          );
+        source.classList.add("copy-to-clipboard-flash-bg");
+        setTimeout(
+          () => source.classList.remove("copy-to-clipboard-flash-bg"),
+          1000
+        );
       }
     } catch (e) {
       success = false;
     }
-    $temp.remove();
+    temp.remove();
     return success;
   }
 
-  function copyHash(obj) {
-    var copy = {};
-    if (null !== obj && typeof obj == "object") {
-      Object.keys(obj).forEach(function (attr) {
-        copy[attr] = Array.isArray(obj[attr]) ? obj[attr].slice() : obj[attr];
-      });
-    }
-    return copy;
+  function freshCopyOfModel() {
+    // make sure model is consistent with the data in the form
+    Object.keys(model).forEach((key) => {
+      const elt = $(key);
+      if (choices[key]) {
+        model[key] = choices[key].getValue(true); // plain array of values
+      } else if (elt) {
+        model[key] = elt.type === "checkbox" ? elt.checked : elt.value;
+      }
+    });
+    // make a copy
+    return JSON.parse(JSON.stringify(model));
   }
 
   const wrapInSingleQuote = (s) => `'${s}'`;
 
   function updateLink() {
     let link = linkTemplate,
-      copyModel = copyHash(model);
+      copyModel = freshCopyOfModel();
+
     if (copyModel.aud && copyModel.scope) {
       copyModel.scope.push("audience:server:client_id:" + copyModel.aud);
       delete copyModel.aud;
     }
     Object.keys(copyModel).forEach(function (key) {
-      let pattern = "${" + key + "}",
-        value = "";
-      if (copyModel[key] !== null) {
-        value =
-          typeof copyModel[key] != "string"
-            ? copyModel[key].join("+")
-            : copyModel[key];
-        if (
-          key !== "state" &&
-          key !== "nonce" &&
-          value !== null &&
-          typeof value !== "undefined"
-        ) {
-          window.localStorage.setItem(html5AppId + ".model." + key, value);
+      const pattern = "${" + key + "}";
+      if (link.includes(pattern)) {
+        let value = "";
+        if (copyModel[key] !== null) {
+          value =
+            typeof copyModel[key] != "string"
+              ? copyModel[key].join("+")
+              : copyModel[key];
         }
+        link = link.replace(pattern, value);
       }
-      link = link.replace(pattern, value);
     });
     link = cleanDoubleSlash(link);
 
-    $("#authzlink").text(link);
-    $("#authzlink").attr("href", link);
+    const authzlink = $("authzlink");
+    authzlink.textContent = link;
+    authzlink.href = link;
 
+    const authzRedemption = $("authzRedemption");
     if (model.code) {
       let payload = {
         grant_type: "authorization_code",
@@ -139,42 +141,36 @@
         redirect_uri: model.cburi,
         code: model.code
       };
-      $("#preBox").html(
+      const preBox = $("preBox");
+      preBox.innerHTML =
         "<pre>curl -X POST -H content-type:application/x-www-form-urlencoded " +
-          wrapInSingleQuote(googleTokenUrl) +
-          " -d " +
-          wrapInSingleQuote($.param(payload)) +
-          "</pre>"
-      );
-      $("#authzRedemption").show();
+        wrapInSingleQuote(googleTokenUrl) +
+        " -d " +
+        wrapInSingleQuote(new URLSearchParams(payload).toString()) +
+        "</pre>";
+      authzRedemption.style.display = "block";
     } else {
-      $("#authzRedemption").hide();
+      authzRedemption.style.display = "none";
     }
   }
 
   function onInputChanged() {
-    var $$ = $(this),
-      name = $$.attr("id"),
-      value = $$.val();
-    model[name] = value;
+    model[this.id] = this.value;
+    if (this.id !== "state" && this.id !== "nonce" && this.id !== "code") {
+      window.localStorage.setItem(APP_ID + ".model." + this.id, this.value);
+    }
     updateLink();
   }
 
   function onSelectChanged() {
-    var $$ = $(this),
-      name = $$.attr("name"),
-      values = [];
-    $$.find("option:selected").each(function () {
-      values.push($(this).text());
-    });
-    model[name] = values;
+    const selectElt = this;
+    let values = choices[selectElt.id].getValue(true);
+    model[selectElt.name] = values;
+    window.localStorage.setItem(
+      APP_ID + ".model." + selectElt.name,
+      values.join("+")
+    );
     updateLink();
-  }
-
-  function updateModel(event) {
-    Object.keys(model).forEach((key) => (model[key] = $("#" + key).val()));
-    updateLink();
-    if (event) event.preventDefault();
   }
 
   const excludeTransientFields = (key) => key != "code";
@@ -184,37 +180,40 @@
     Object.keys(model)
       .filter(excludeTransientFields)
       .forEach((key) => {
-        let value = window.localStorage.getItem(html5AppId + ".model." + key),
-          $item = $("#" + key);
+        let value = window.localStorage.getItem(APP_ID + ".model." + key);
+        const item = $(key);
+        if (!item) return;
+
         if (key === "state" || key === "nonce") {
-          let desiredLength = Number($item.data("desired-length")) || 6;
-          $item.val(desiredLength);
+          let desiredLength = Number(item.dataset.desiredLength) || 8;
+          item.value = randomValue(desiredLength);
         } else if (value && value !== "") {
-          if (typeof model[key] !== "string") {
-            // the value is a set of values concatenated by +
-            // and the type of form field is select.
-            value.split("+").forEach((part) => {
-              $item
-                .find("option[value='" + part + "']")
-                .prop("selected", "selected");
-            });
-            $item.trigger("chosen:updated");
+          if (choices[key]) {
+            // The value is a set of values concatenated by +
+            choices[key].setValue(value.split("+"));
           } else {
             // value is a simple string, form field type is input.
-            $item.val(value);
+            item.value = value;
           }
         }
       });
   }
 
   function resetRedemption(event) {
-    $("#preBox").html("");
-    $("#code").val("");
-    updateModel();
     if (event) event.preventDefault();
+    const preBox = $("preBox");
+    if (preBox) preBox.innerHTML = "";
+    const code = $("code");
+    if (code) code.value = "";
+    model.code = "";
+    updateLink();
   }
 
   function invokeRedemption(event) {
+    if (event) event.preventDefault();
+    const preBox = $("preBox");
+    if (!preBox) return;
+
     let payload = {
       client_id: model.clientid,
       client_secret: model.clientsecret,
@@ -223,55 +222,70 @@
       code: model.code
     };
 
-    // NB: This call will fail if the server does not include CORS headers in the response
-    $.ajax({
-      url: googleTokenUrl,
-      type: "POST",
-      data: payload,
-      success: function (data, textStatus, jqXHR) {
-        $("#preBox")
-          .removeClass("error")
-          .html(
-            '<pre class="access-token-response">' +
-              JSON.stringify(data, null, 2) +
-              "</pre>"
-          );
+    // NB: This call MAY fail if the server does not include CORS headers in the response
+    fetch(googleTokenUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
       },
-      error: function (jqXHR, textStatus, errorThrown) {
-        $("#preBox")
-          .addClass("error")
-          .html(
-            '<pre class="access-token-response">' +
-              JSON.stringify(jqXHR.responseJSON, null, 2) +
-              "</pre>"
-          );
-      }
-    });
-
-    if (event) event.preventDefault();
+      body: new URLSearchParams(payload)
+    })
+      .then((response) =>
+        response.json().then((json) => ({
+          ok: response.ok,
+          json
+        }))
+      )
+      .then(({ ok, json }) => {
+        preBox.classList.remove("error");
+        let content = JSON.stringify(json, null, 2);
+        if (!ok) {
+          preBox.classList.add("error");
+        }
+        preBox.innerHTML =
+          '<pre class="access-token-response">' + content + "</pre>";
+      })
+      .catch((error) => {
+        preBox.classList.add("error");
+        preBox.innerHTML =
+          '<pre class="access-token-response">' +
+          "Error: " +
+          error.message +
+          "</pre>";
+      });
   }
 
-  $(document).ready(() => {
-    $(".rtype-chosen").chosen({
-      no_results_text: "No matching response types...",
-      allow_single_deselect: true
+  document.addEventListener("DOMContentLoaded", () => {
+    choices.rtype = new Choices($sel(".multi-choice.rtype"), {
+      removeItemButton: true,
+      duplicateItemsAllowed: false
     });
-    $(".scope-chosen").chosen({
-      no_results_text: "No matching scopes...",
-      allow_single_deselect: true
+    choices.scope = new Choices($sel(".multi-choice.scope"), {
+      removeItemButton: true,
+      duplicateItemsAllowed: false
     });
 
-    $("#btn-redeem").on("click", invokeRedemption);
-    $("#btn-reset").on("click", resetRedemption);
-    $("#btn-copy").on("click", copyToClipboard);
-    $(".btn-reload").on("click", reloadRandomValue);
+    $("btn-redeem").addEventListener("click", invokeRedemption);
+    $("btn-reset").addEventListener("click", resetRedemption);
+    $("btn-copy").addEventListener("click", copyToClipboard);
+    $all(".btn-reload").forEach((elt) =>
+      elt.addEventListener("click", reloadRandomValue)
+    );
 
     populateFormFields();
 
-    $("form input[type='text']").change(onInputChanged);
-    $("form select").change(onSelectChanged);
-    $("form button").submit(updateModel);
+    $all("form input[type='text']").forEach((elt) => {
+      if (elt.id) {
+        elt.addEventListener("change", onInputChanged);
+      }
+    });
+    $all("form select").forEach((elt) =>
+      elt.addEventListener("change", onSelectChanged)
+    );
 
-    updateModel();
+    // initial random values
+    $all(".btn-reload").forEach((button) => reloadRandomValue.call(button));
+
+    updateLink();
   });
 })();
