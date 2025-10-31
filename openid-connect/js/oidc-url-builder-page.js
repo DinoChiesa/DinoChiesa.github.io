@@ -144,7 +144,11 @@ function updateLink() {
     }
   });
 
-  if (copy.audience_or_resource !== "none" && copy.audience) {
+  if (
+    copy.audience_or_resource &&
+    copy.audience_or_resource !== "none" &&
+    copy.audience
+  ) {
     link +=
       "&" + copy.audience_or_resource + "=" + encodeURIComponent(copy.audience);
   }
