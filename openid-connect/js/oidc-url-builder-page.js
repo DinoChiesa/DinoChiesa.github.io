@@ -59,6 +59,7 @@ let model = {
 let saveModal;
 let loadModal;
 let lastLoadedConfigName = null;
+let isConfigDirty = false;
 
 let initializing = true;
 
@@ -184,6 +185,20 @@ function updateLink() {
   }
 }
 
+function updateConfigNameDisplay() {
+  const configNameElt = $("current-config-name");
+  if (!configNameElt) return;
+
+  if (lastLoadedConfigName) {
+    let text = `(${lastLoadedConfigName}${isConfigDirty ? "*" : ""})`;
+    configNameElt.textContent = text;
+    configNameElt.style.color = isConfigDirty ? "darkred" : "darkgrey";
+    configNameElt.style.fontSize = "1rem";
+  } else {
+    configNameElt.textContent = "";
+  }
+}
+
 function updateStoredValue(key) {
   if (key !== "state" && key !== "nonce") {
     let value = model[key];
@@ -212,6 +227,10 @@ function onInputChanged() {
     handleAudienceControlChange();
   }
   if (!initializing) {
+    if (this.id !== "state" && this.id !== "nonce" && this.id !== "code") {
+      isConfigDirty = true;
+      updateConfigNameDisplay();
+    }
     updateLink();
   }
 }
@@ -259,6 +278,8 @@ function onSelectChanged() {
   model[selectElt.name] = values;
   updateStoredValue(selectElt.name);
   if (!initializing) {
+    isConfigDirty = true;
+    updateConfigNameDisplay();
     updateLink();
   }
 }
@@ -356,6 +377,10 @@ function handleSaveConfig() {
   configs = configs.filter((c) => c.name !== name); // remove existing
   configs.unshift({ name, settings }); // add new one to the top
   storeConfigurations(configs);
+
+  lastLoadedConfigName = name;
+  isConfigDirty = false;
+  updateConfigNameDisplay();
   saveModal.hide();
 }
 
@@ -512,6 +537,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const selectedConfig = configs[selectedIndex];
     applySettingsToForm(selectedConfig.settings);
     lastLoadedConfigName = selectedConfig.name;
+    isConfigDirty = false;
+    updateConfigNameDisplay();
     loadModal.hide();
   });
 
