@@ -58,6 +58,7 @@ let model = {
 };
 let saveModal;
 let loadModal;
+let deleteModal;
 let lastLoadedConfigName = null;
 let isConfigDirty = false;
 
@@ -190,12 +191,21 @@ function updateConfigNameDisplay() {
   const configNameElt = $("current-config-name");
   if (!configNameElt) return;
 
+  configNameElt.classList.remove("text-danger");
+
   if (lastLoadedConfigName) {
-    let text = `(config: ${lastLoadedConfigName}${isConfigDirty ? "*" : ""})`;
-    configNameElt.textContent = text;
-    configNameElt.style.color = isConfigDirty ? "darkred" : "darkgrey";
+    configNameElt.textContent = `(loaded: ${lastLoadedConfigName}${isConfigDirty ? "*" : ""})`;
+    if (isConfigDirty) {
+      configNameElt.classList.add("text-danger");
+    }
   } else {
-    configNameElt.textContent = "";
+    // No config loaded
+    if (isConfigDirty) {
+      configNameElt.textContent = "(unsaved changes)";
+      configNameElt.classList.add("text-danger");
+    } else {
+      configNameElt.textContent = "";
+    }
   }
 }
 
@@ -481,9 +491,43 @@ function makeScopeSearch() {
   return scopeSearch;
 }
 
+function handleDeleteConfig() {
+  const select = $("config-delete-select");
+  const selectedIndex = select.value;
+  if (
+    selectedIndex === null ||
+    selectedIndex === "" ||
+    selectedIndex.startsWith("-")
+  )
+    return;
+
+  let configs = getStoredConfigurations();
+  const selectedConfig = configs[selectedIndex];
+
+  if (
+    window.confirm(
+      `Delete configuration "${selectedConfig.name}"? This cannot be undone.`,
+    )
+  ) {
+    configs.splice(selectedIndex, 1); // remove from array
+    storeConfigurations(configs);
+
+    if (lastLoadedConfigName === selectedConfig.name) {
+      lastLoadedConfigName = null;
+      isConfigDirty = true; // Form now has unsaved data
+      window.localStorage.setItem(APP_ID + ".lastLoadedConfigName", "");
+      window.localStorage.setItem(APP_ID + ".isConfigDirty", isConfigDirty);
+    }
+
+    updateConfigNameDisplay();
+    deleteModal.hide();
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   saveModal = new bootstrap.Modal($("saveConfigModal"));
   loadModal = new bootstrap.Modal($("loadConfigModal"));
+  deleteModal = new bootstrap.Modal($("deleteConfigModal"));
 
   lastLoadedConfigName = window.localStorage.getItem(
     APP_ID + ".lastLoadedConfigName",
@@ -501,7 +545,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnCopy = $("btn-copy");
   if (btnCopy) btnCopy.addEventListener("click", copyToClipboard);
 
-  $("btn-save-config").addEventListener("click", () => {
+  $("btn-config-menu").addEventListener("click", () => {
+    const configs = getStoredConfigurations();
+    const loadMenuItem = $("btn-load-config");
+    const deleteMenuItem = $("btn-delete-config");
+    if (configs.length === 0) {
+      loadMenuItem.classList.add("disabled");
+      deleteMenuItem.classList.add("disabled");
+    } else {
+      loadMenuItem.classList.remove("disabled");
+      deleteMenuItem.classList.remove("disabled");
+    }
+  });
+
+  $("btn-save-config").addEventListener("click", (e) => {
+    e.preventDefault();
     const nameInput = $("config-name");
     nameInput.value = lastLoadedConfigName || "";
 
@@ -519,21 +577,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   $("btn-do-save-config").addEventListener("click", handleSaveConfig);
 
-  $("btn-load-config").addEventListener("click", () => {
+  $("btn-load-config").addEventListener("click", (e) => {
+    e.preventDefault();
     const configs = getStoredConfigurations();
+    if (configs.length === 0) return;
     const select = $("config-select");
     select.innerHTML = "";
-    if (configs.length === 0) {
-      select.innerHTML =
-        "<option selected>--No configurations saved--</option>";
-    } else {
-      configs.forEach((config, index) => {
-        const option = document.createElement("option");
-        option.value = index;
-        option.textContent = `${config.name} (${config.settings.baseloginurl})`;
-        select.appendChild(option);
-      });
-    }
+    configs.forEach((config, index) => {
+      const option = document.createElement("option");
+      option.value = index;
+      option.textContent = `${config.name} (${config.settings.baseloginurl})`;
+      select.appendChild(option);
+    });
     loadModal.show();
   });
 
@@ -560,6 +615,23 @@ document.addEventListener("DOMContentLoaded", () => {
     updateConfigNameDisplay();
     loadModal.hide();
   });
+
+  $("btn-delete-config").addEventListener("click", (e) => {
+    e.preventDefault();
+    const configs = getStoredConfigurations();
+    if (configs.length === 0) return;
+    const select = $("config-delete-select");
+    select.innerHTML = "";
+    configs.forEach((config, index) => {
+      const option = document.createElement("option");
+      option.value = index;
+      option.textContent = config.name;
+      select.appendChild(option);
+    });
+    deleteModal.show();
+  });
+
+  $("btn-do-delete-config").addEventListener("click", handleDeleteConfig);
 
   $all(".btn-reload").forEach((elt) =>
     elt.addEventListener("click", reloadRandomValue),
