@@ -11,18 +11,18 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   createPopper: () => (/* binding */ createPopper),
-/* harmony export */   detectOverflow: () => (/* reexport safe */ _utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_8__["default"]),
+/* harmony export */   detectOverflow: () => (/* reexport safe */ _utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_7__["default"]),
 /* harmony export */   popperGenerator: () => (/* binding */ popperGenerator)
 /* harmony export */ });
-/* harmony import */ var _dom_utils_getCompositeRect_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./dom-utils/getCompositeRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getCompositeRect.js");
-/* harmony import */ var _dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./dom-utils/getLayoutRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js");
-/* harmony import */ var _dom_utils_listScrollParents_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dom-utils/listScrollParents.js */ "./node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js");
-/* harmony import */ var _dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./dom-utils/getOffsetParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js");
-/* harmony import */ var _utils_orderModifiers_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils/orderModifiers.js */ "./node_modules/@popperjs/core/lib/utils/orderModifiers.js");
-/* harmony import */ var _utils_debounce_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utils/debounce.js */ "./node_modules/@popperjs/core/lib/utils/debounce.js");
-/* harmony import */ var _utils_mergeByName_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils/mergeByName.js */ "./node_modules/@popperjs/core/lib/utils/mergeByName.js");
-/* harmony import */ var _utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./utils/detectOverflow.js */ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js");
-/* harmony import */ var _dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom-utils/instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
+/* harmony import */ var _dom_utils_getCompositeRect_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom-utils/getCompositeRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getCompositeRect.js");
+/* harmony import */ var _dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dom-utils/getLayoutRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js");
+/* harmony import */ var _dom_utils_listScrollParents_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dom-utils/listScrollParents.js */ "./node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js");
+/* harmony import */ var _dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./dom-utils/getOffsetParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js");
+/* harmony import */ var _utils_orderModifiers_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils/orderModifiers.js */ "./node_modules/@popperjs/core/lib/utils/orderModifiers.js");
+/* harmony import */ var _utils_debounce_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils/debounce.js */ "./node_modules/@popperjs/core/lib/utils/debounce.js");
+/* harmony import */ var _utils_mergeByName_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utils/mergeByName.js */ "./node_modules/@popperjs/core/lib/utils/mergeByName.js");
+/* harmony import */ var _utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utils/detectOverflow.js */ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js");
+/* harmony import */ var _dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./dom-utils/instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
 
 
 
@@ -84,12 +84,12 @@ function popperGenerator(generatorOptions) {
         cleanupModifierEffects();
         state.options = Object.assign({}, defaultOptions, state.options, options);
         state.scrollParents = {
-          reference: (0,_dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__.isElement)(reference) ? (0,_dom_utils_listScrollParents_js__WEBPACK_IMPORTED_MODULE_1__["default"])(reference) : reference.contextElement ? (0,_dom_utils_listScrollParents_js__WEBPACK_IMPORTED_MODULE_1__["default"])(reference.contextElement) : [],
-          popper: (0,_dom_utils_listScrollParents_js__WEBPACK_IMPORTED_MODULE_1__["default"])(popper)
+          reference: (0,_dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_8__.isElement)(reference) ? (0,_dom_utils_listScrollParents_js__WEBPACK_IMPORTED_MODULE_2__["default"])(reference) : reference.contextElement ? (0,_dom_utils_listScrollParents_js__WEBPACK_IMPORTED_MODULE_2__["default"])(reference.contextElement) : [],
+          popper: (0,_dom_utils_listScrollParents_js__WEBPACK_IMPORTED_MODULE_2__["default"])(popper)
         }; // Orders the modifiers based on their dependencies and `phase`
         // properties
 
-        var orderedModifiers = (0,_utils_orderModifiers_js__WEBPACK_IMPORTED_MODULE_2__["default"])((0,_utils_mergeByName_js__WEBPACK_IMPORTED_MODULE_3__["default"])([].concat(defaultModifiers, state.options.modifiers))); // Strip out disabled modifiers
+        var orderedModifiers = (0,_utils_orderModifiers_js__WEBPACK_IMPORTED_MODULE_4__["default"])((0,_utils_mergeByName_js__WEBPACK_IMPORTED_MODULE_6__["default"])([].concat(defaultModifiers, state.options.modifiers))); // Strip out disabled modifiers
 
         state.orderedModifiers = orderedModifiers.filter(function (m) {
           return m.enabled;
@@ -118,8 +118,8 @@ function popperGenerator(generatorOptions) {
 
 
         state.rects = {
-          reference: (0,_dom_utils_getCompositeRect_js__WEBPACK_IMPORTED_MODULE_4__["default"])(reference, (0,_dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_5__["default"])(popper), state.options.strategy === 'fixed'),
-          popper: (0,_dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_6__["default"])(popper)
+          reference: (0,_dom_utils_getCompositeRect_js__WEBPACK_IMPORTED_MODULE_0__["default"])(reference, (0,_dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_3__["default"])(popper), state.options.strategy === 'fixed'),
+          popper: (0,_dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_1__["default"])(popper)
         }; // Modifiers have the ability to reset the current update cycle. The
         // most common use case for this is the `flip` modifier changing the
         // placement, which then needs to re-run all the modifiers, because the
@@ -161,7 +161,7 @@ function popperGenerator(generatorOptions) {
       },
       // Async and optimistically optimized update – it will not be executed if
       // not necessary (debounced to run at most once-per-tick)
-      update: (0,_utils_debounce_js__WEBPACK_IMPORTED_MODULE_7__["default"])(function () {
+      update: (0,_utils_debounce_js__WEBPACK_IMPORTED_MODULE_5__["default"])(function () {
         return new Promise(function (resolve) {
           instance.forceUpdate();
           resolve(state);
@@ -333,19 +333,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ getClippingRect)
 /* harmony export */ });
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
-/* harmony import */ var _getViewportRect_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getViewportRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getViewportRect.js");
-/* harmony import */ var _getDocumentRect_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./getDocumentRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentRect.js");
-/* harmony import */ var _listScrollParents_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./listScrollParents.js */ "./node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js");
-/* harmony import */ var _getOffsetParent_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./getOffsetParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js");
-/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./getDocumentElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
-/* harmony import */ var _getComputedStyle_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./getComputedStyle.js */ "./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js");
-/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
-/* harmony import */ var _getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getBoundingClientRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js");
-/* harmony import */ var _getParentNode_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./getParentNode.js */ "./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js");
-/* harmony import */ var _contains_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./contains.js */ "./node_modules/@popperjs/core/lib/dom-utils/contains.js");
-/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./getNodeName.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
-/* harmony import */ var _utils_rectToClientRect_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/rectToClientRect.js */ "./node_modules/@popperjs/core/lib/utils/rectToClientRect.js");
+/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
+/* harmony import */ var _getViewportRect_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getViewportRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getViewportRect.js");
+/* harmony import */ var _getDocumentRect_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getDocumentRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentRect.js");
+/* harmony import */ var _listScrollParents_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./listScrollParents.js */ "./node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js");
+/* harmony import */ var _getOffsetParent_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./getOffsetParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js");
+/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./getDocumentElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
+/* harmony import */ var _getComputedStyle_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./getComputedStyle.js */ "./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js");
+/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
+/* harmony import */ var _getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./getBoundingClientRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js");
+/* harmony import */ var _getParentNode_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./getParentNode.js */ "./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js");
+/* harmony import */ var _contains_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./contains.js */ "./node_modules/@popperjs/core/lib/dom-utils/contains.js");
+/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./getNodeName.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
+/* harmony import */ var _utils_rectToClientRect_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../utils/rectToClientRect.js */ "./node_modules/@popperjs/core/lib/utils/rectToClientRect.js");
 /* harmony import */ var _utils_math_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../utils/math.js */ "./node_modules/@popperjs/core/lib/utils/math.js");
 
 
@@ -363,7 +363,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function getInnerBoundingClientRect(element, strategy) {
-  var rect = (0,_getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_0__["default"])(element, false, strategy === 'fixed');
+  var rect = (0,_getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_8__["default"])(element, false, strategy === 'fixed');
   rect.top = rect.top + element.clientTop;
   rect.left = rect.left + element.clientLeft;
   rect.bottom = rect.top + element.clientHeight;
@@ -376,24 +376,24 @@ function getInnerBoundingClientRect(element, strategy) {
 }
 
 function getClientRectFromMixedType(element, clippingParent, strategy) {
-  return clippingParent === _enums_js__WEBPACK_IMPORTED_MODULE_1__.viewport ? (0,_utils_rectToClientRect_js__WEBPACK_IMPORTED_MODULE_2__["default"])((0,_getViewportRect_js__WEBPACK_IMPORTED_MODULE_3__["default"])(element, strategy)) : (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_4__.isElement)(clippingParent) ? getInnerBoundingClientRect(clippingParent, strategy) : (0,_utils_rectToClientRect_js__WEBPACK_IMPORTED_MODULE_2__["default"])((0,_getDocumentRect_js__WEBPACK_IMPORTED_MODULE_5__["default"])((0,_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_6__["default"])(element)));
+  return clippingParent === _enums_js__WEBPACK_IMPORTED_MODULE_0__.viewport ? (0,_utils_rectToClientRect_js__WEBPACK_IMPORTED_MODULE_12__["default"])((0,_getViewportRect_js__WEBPACK_IMPORTED_MODULE_1__["default"])(element, strategy)) : (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_7__.isElement)(clippingParent) ? getInnerBoundingClientRect(clippingParent, strategy) : (0,_utils_rectToClientRect_js__WEBPACK_IMPORTED_MODULE_12__["default"])((0,_getDocumentRect_js__WEBPACK_IMPORTED_MODULE_2__["default"])((0,_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_5__["default"])(element)));
 } // A "clipping parent" is an overflowable container with the characteristic of
 // clipping (or hiding) overflowing elements with a position different from
 // `initial`
 
 
 function getClippingParents(element) {
-  var clippingParents = (0,_listScrollParents_js__WEBPACK_IMPORTED_MODULE_7__["default"])((0,_getParentNode_js__WEBPACK_IMPORTED_MODULE_8__["default"])(element));
-  var canEscapeClipping = ['absolute', 'fixed'].indexOf((0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_9__["default"])(element).position) >= 0;
-  var clipperElement = canEscapeClipping && (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_4__.isHTMLElement)(element) ? (0,_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_10__["default"])(element) : element;
+  var clippingParents = (0,_listScrollParents_js__WEBPACK_IMPORTED_MODULE_3__["default"])((0,_getParentNode_js__WEBPACK_IMPORTED_MODULE_9__["default"])(element));
+  var canEscapeClipping = ['absolute', 'fixed'].indexOf((0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_6__["default"])(element).position) >= 0;
+  var clipperElement = canEscapeClipping && (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_7__.isHTMLElement)(element) ? (0,_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_4__["default"])(element) : element;
 
-  if (!(0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_4__.isElement)(clipperElement)) {
+  if (!(0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_7__.isElement)(clipperElement)) {
     return [];
   } // $FlowFixMe[incompatible-return]: https://github.com/facebook/flow/issues/1414
 
 
   return clippingParents.filter(function (clippingParent) {
-    return (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_4__.isElement)(clippingParent) && (0,_contains_js__WEBPACK_IMPORTED_MODULE_11__["default"])(clippingParent, clipperElement) && (0,_getNodeName_js__WEBPACK_IMPORTED_MODULE_12__["default"])(clippingParent) !== 'body';
+    return (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_7__.isElement)(clippingParent) && (0,_contains_js__WEBPACK_IMPORTED_MODULE_10__["default"])(clippingParent, clipperElement) && (0,_getNodeName_js__WEBPACK_IMPORTED_MODULE_11__["default"])(clippingParent) !== 'body';
   });
 } // Gets the maximum area that the element is visible in due to any number of
 // clipping parents
@@ -431,14 +431,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ getCompositeRect)
 /* harmony export */ });
-/* harmony import */ var _getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getBoundingClientRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js");
-/* harmony import */ var _getNodeScroll_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./getNodeScroll.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeScroll.js");
-/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./getNodeName.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
-/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
-/* harmony import */ var _getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./getWindowScrollBarX.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js");
-/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getDocumentElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
-/* harmony import */ var _isScrollParent_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./isScrollParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js");
-/* harmony import */ var _utils_math_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/math.js */ "./node_modules/@popperjs/core/lib/utils/math.js");
+/* harmony import */ var _getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getBoundingClientRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js");
+/* harmony import */ var _getNodeScroll_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getNodeScroll.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeScroll.js");
+/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getNodeName.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
+/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
+/* harmony import */ var _getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./getWindowScrollBarX.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js");
+/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./getDocumentElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
+/* harmony import */ var _isScrollParent_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./isScrollParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js");
+/* harmony import */ var _utils_math_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/math.js */ "./node_modules/@popperjs/core/lib/utils/math.js");
 
 
 
@@ -450,8 +450,8 @@ __webpack_require__.r(__webpack_exports__);
 
 function isElementScaled(element) {
   var rect = element.getBoundingClientRect();
-  var scaleX = (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_0__.round)(rect.width) / element.offsetWidth || 1;
-  var scaleY = (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_0__.round)(rect.height) / element.offsetHeight || 1;
+  var scaleX = (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_7__.round)(rect.width) / element.offsetWidth || 1;
+  var scaleY = (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_7__.round)(rect.height) / element.offsetHeight || 1;
   return scaleX !== 1 || scaleY !== 1;
 } // Returns the composite rect of an element relative to its offsetParent.
 // Composite means it takes into account transforms as well as layout.
@@ -462,10 +462,10 @@ function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
     isFixed = false;
   }
 
-  var isOffsetParentAnElement = (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_1__.isHTMLElement)(offsetParent);
-  var offsetParentIsScaled = (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_1__.isHTMLElement)(offsetParent) && isElementScaled(offsetParent);
-  var documentElement = (0,_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_2__["default"])(offsetParent);
-  var rect = (0,_getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_3__["default"])(elementOrVirtualElement, offsetParentIsScaled, isFixed);
+  var isOffsetParentAnElement = (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_3__.isHTMLElement)(offsetParent);
+  var offsetParentIsScaled = (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_3__.isHTMLElement)(offsetParent) && isElementScaled(offsetParent);
+  var documentElement = (0,_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_5__["default"])(offsetParent);
+  var rect = (0,_getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_0__["default"])(elementOrVirtualElement, offsetParentIsScaled, isFixed);
   var scroll = {
     scrollLeft: 0,
     scrollTop: 0
@@ -476,17 +476,17 @@ function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
   };
 
   if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
-    if ((0,_getNodeName_js__WEBPACK_IMPORTED_MODULE_4__["default"])(offsetParent) !== 'body' || // https://github.com/popperjs/popper-core/issues/1078
-    (0,_isScrollParent_js__WEBPACK_IMPORTED_MODULE_5__["default"])(documentElement)) {
-      scroll = (0,_getNodeScroll_js__WEBPACK_IMPORTED_MODULE_6__["default"])(offsetParent);
+    if ((0,_getNodeName_js__WEBPACK_IMPORTED_MODULE_2__["default"])(offsetParent) !== 'body' || // https://github.com/popperjs/popper-core/issues/1078
+    (0,_isScrollParent_js__WEBPACK_IMPORTED_MODULE_6__["default"])(documentElement)) {
+      scroll = (0,_getNodeScroll_js__WEBPACK_IMPORTED_MODULE_1__["default"])(offsetParent);
     }
 
-    if ((0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_1__.isHTMLElement)(offsetParent)) {
-      offsets = (0,_getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_3__["default"])(offsetParent, true);
+    if ((0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_3__.isHTMLElement)(offsetParent)) {
+      offsets = (0,_getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_0__["default"])(offsetParent, true);
       offsets.x += offsetParent.clientLeft;
       offsets.y += offsetParent.clientTop;
     } else if (documentElement) {
-      offsets.x = (0,_getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_7__["default"])(documentElement);
+      offsets.x = (0,_getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_4__["default"])(documentElement);
     }
   }
 
@@ -552,10 +552,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ getDocumentRect)
 /* harmony export */ });
 /* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getDocumentElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
-/* harmony import */ var _getComputedStyle_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./getComputedStyle.js */ "./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js");
-/* harmony import */ var _getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getWindowScrollBarX.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js");
-/* harmony import */ var _getWindowScroll_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getWindowScroll.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js");
-/* harmony import */ var _utils_math_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/math.js */ "./node_modules/@popperjs/core/lib/utils/math.js");
+/* harmony import */ var _getComputedStyle_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getComputedStyle.js */ "./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js");
+/* harmony import */ var _getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getWindowScrollBarX.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js");
+/* harmony import */ var _getWindowScroll_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getWindowScroll.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js");
+/* harmony import */ var _utils_math_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/math.js */ "./node_modules/@popperjs/core/lib/utils/math.js");
 
 
 
@@ -567,15 +567,15 @@ function getDocumentRect(element) {
   var _element$ownerDocumen;
 
   var html = (0,_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_0__["default"])(element);
-  var winScroll = (0,_getWindowScroll_js__WEBPACK_IMPORTED_MODULE_1__["default"])(element);
+  var winScroll = (0,_getWindowScroll_js__WEBPACK_IMPORTED_MODULE_3__["default"])(element);
   var body = (_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body;
-  var width = (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_2__.max)(html.scrollWidth, html.clientWidth, body ? body.scrollWidth : 0, body ? body.clientWidth : 0);
-  var height = (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_2__.max)(html.scrollHeight, html.clientHeight, body ? body.scrollHeight : 0, body ? body.clientHeight : 0);
-  var x = -winScroll.scrollLeft + (0,_getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_3__["default"])(element);
+  var width = (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_4__.max)(html.scrollWidth, html.clientWidth, body ? body.scrollWidth : 0, body ? body.clientWidth : 0);
+  var height = (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_4__.max)(html.scrollHeight, html.clientHeight, body ? body.scrollHeight : 0, body ? body.clientHeight : 0);
+  var x = -winScroll.scrollLeft + (0,_getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_2__["default"])(element);
   var y = -winScroll.scrollTop;
 
-  if ((0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_4__["default"])(body || html).direction === 'rtl') {
-    x += (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_2__.max)(html.clientWidth, body ? body.clientWidth : 0) - width;
+  if ((0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_1__["default"])(body || html).direction === 'rtl') {
+    x += (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_4__.max)(html.clientWidth, body ? body.clientWidth : 0) - width;
   }
 
   return {
@@ -676,17 +676,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ getNodeScroll)
 /* harmony export */ });
-/* harmony import */ var _getWindowScroll_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getWindowScroll.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js");
-/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getWindow.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
-/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
+/* harmony import */ var _getWindowScroll_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getWindowScroll.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js");
+/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getWindow.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
+/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
 /* harmony import */ var _getHTMLElementScroll_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getHTMLElementScroll.js */ "./node_modules/@popperjs/core/lib/dom-utils/getHTMLElementScroll.js");
 
 
 
 
 function getNodeScroll(node) {
-  if (node === (0,_getWindow_js__WEBPACK_IMPORTED_MODULE_0__["default"])(node) || !(0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_1__.isHTMLElement)(node)) {
-    return (0,_getWindowScroll_js__WEBPACK_IMPORTED_MODULE_2__["default"])(node);
+  if (node === (0,_getWindow_js__WEBPACK_IMPORTED_MODULE_1__["default"])(node) || !(0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_2__.isHTMLElement)(node)) {
+    return (0,_getWindowScroll_js__WEBPACK_IMPORTED_MODULE_0__["default"])(node);
   } else {
     return (0,_getHTMLElementScroll_js__WEBPACK_IMPORTED_MODULE_3__["default"])(node);
   }
@@ -705,13 +705,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ getOffsetParent)
 /* harmony export */ });
-/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./getWindow.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
-/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./getNodeName.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
-/* harmony import */ var _getComputedStyle_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getComputedStyle.js */ "./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js");
-/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
-/* harmony import */ var _isTableElement_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./isTableElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/isTableElement.js");
-/* harmony import */ var _getParentNode_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getParentNode.js */ "./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js");
-/* harmony import */ var _utils_userAgent_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/userAgent.js */ "./node_modules/@popperjs/core/lib/utils/userAgent.js");
+/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getWindow.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
+/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getNodeName.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
+/* harmony import */ var _getComputedStyle_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getComputedStyle.js */ "./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js");
+/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
+/* harmony import */ var _isTableElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./isTableElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/isTableElement.js");
+/* harmony import */ var _getParentNode_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./getParentNode.js */ "./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js");
+/* harmony import */ var _utils_userAgent_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/userAgent.js */ "./node_modules/@popperjs/core/lib/utils/userAgent.js");
 
 
 
@@ -721,8 +721,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function getTrueOffsetParent(element) {
-  if (!(0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__.isHTMLElement)(element) || // https://github.com/popperjs/popper-core/issues/837
-  (0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_1__["default"])(element).position === 'fixed') {
+  if (!(0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_3__.isHTMLElement)(element) || // https://github.com/popperjs/popper-core/issues/837
+  (0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_2__["default"])(element).position === 'fixed') {
     return null;
   }
 
@@ -732,26 +732,26 @@ function getTrueOffsetParent(element) {
 
 
 function getContainingBlock(element) {
-  var isFirefox = /firefox/i.test((0,_utils_userAgent_js__WEBPACK_IMPORTED_MODULE_2__["default"])());
-  var isIE = /Trident/i.test((0,_utils_userAgent_js__WEBPACK_IMPORTED_MODULE_2__["default"])());
+  var isFirefox = /firefox/i.test((0,_utils_userAgent_js__WEBPACK_IMPORTED_MODULE_6__["default"])());
+  var isIE = /Trident/i.test((0,_utils_userAgent_js__WEBPACK_IMPORTED_MODULE_6__["default"])());
 
-  if (isIE && (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__.isHTMLElement)(element)) {
+  if (isIE && (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_3__.isHTMLElement)(element)) {
     // In IE 9, 10 and 11 fixed elements containing block is always established by the viewport
-    var elementCss = (0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_1__["default"])(element);
+    var elementCss = (0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_2__["default"])(element);
 
     if (elementCss.position === 'fixed') {
       return null;
     }
   }
 
-  var currentNode = (0,_getParentNode_js__WEBPACK_IMPORTED_MODULE_3__["default"])(element);
+  var currentNode = (0,_getParentNode_js__WEBPACK_IMPORTED_MODULE_5__["default"])(element);
 
-  if ((0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__.isShadowRoot)(currentNode)) {
+  if ((0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_3__.isShadowRoot)(currentNode)) {
     currentNode = currentNode.host;
   }
 
-  while ((0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__.isHTMLElement)(currentNode) && ['html', 'body'].indexOf((0,_getNodeName_js__WEBPACK_IMPORTED_MODULE_4__["default"])(currentNode)) < 0) {
-    var css = (0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_1__["default"])(currentNode); // This is non-exhaustive but covers the most common CSS properties that
+  while ((0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_3__.isHTMLElement)(currentNode) && ['html', 'body'].indexOf((0,_getNodeName_js__WEBPACK_IMPORTED_MODULE_1__["default"])(currentNode)) < 0) {
+    var css = (0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_2__["default"])(currentNode); // This is non-exhaustive but covers the most common CSS properties that
     // create a containing block.
     // https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
 
@@ -768,14 +768,14 @@ function getContainingBlock(element) {
 
 
 function getOffsetParent(element) {
-  var window = (0,_getWindow_js__WEBPACK_IMPORTED_MODULE_5__["default"])(element);
+  var window = (0,_getWindow_js__WEBPACK_IMPORTED_MODULE_0__["default"])(element);
   var offsetParent = getTrueOffsetParent(element);
 
-  while (offsetParent && (0,_isTableElement_js__WEBPACK_IMPORTED_MODULE_6__["default"])(offsetParent) && (0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_1__["default"])(offsetParent).position === 'static') {
+  while (offsetParent && (0,_isTableElement_js__WEBPACK_IMPORTED_MODULE_4__["default"])(offsetParent) && (0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_2__["default"])(offsetParent).position === 'static') {
     offsetParent = getTrueOffsetParent(offsetParent);
   }
 
-  if (offsetParent && ((0,_getNodeName_js__WEBPACK_IMPORTED_MODULE_4__["default"])(offsetParent) === 'html' || (0,_getNodeName_js__WEBPACK_IMPORTED_MODULE_4__["default"])(offsetParent) === 'body' && (0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_1__["default"])(offsetParent).position === 'static')) {
+  if (offsetParent && ((0,_getNodeName_js__WEBPACK_IMPORTED_MODULE_1__["default"])(offsetParent) === 'html' || (0,_getNodeName_js__WEBPACK_IMPORTED_MODULE_1__["default"])(offsetParent) === 'body' && (0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_2__["default"])(offsetParent).position === 'static')) {
     return window;
   }
 
@@ -796,8 +796,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ getParentNode)
 /* harmony export */ });
 /* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getNodeName.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
-/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getDocumentElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
-/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
+/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getDocumentElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
+/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
 
 
 
@@ -811,9 +811,9 @@ function getParentNode(element) {
     // $FlowFixMe[prop-missing]
     element.assignedSlot || // step into the shadow DOM of the parent of a slotted node
     element.parentNode || ( // DOM Element detected
-    (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_1__.isShadowRoot)(element) ? element.host : null) || // ShadowRoot detected
+    (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_2__.isShadowRoot)(element) ? element.host : null) || // ShadowRoot detected
     // $FlowFixMe[incompatible-call]: HTMLElement is a Node
-    (0,_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_2__["default"])(element) // fallback
+    (0,_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_1__["default"])(element) // fallback
 
   );
 }
@@ -831,25 +831,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ getScrollParent)
 /* harmony export */ });
-/* harmony import */ var _getParentNode_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getParentNode.js */ "./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js");
-/* harmony import */ var _isScrollParent_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./isScrollParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js");
-/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getNodeName.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
-/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
+/* harmony import */ var _getParentNode_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getParentNode.js */ "./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js");
+/* harmony import */ var _isScrollParent_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./isScrollParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js");
+/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getNodeName.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
+/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
 
 
 
 
 function getScrollParent(node) {
-  if (['html', 'body', '#document'].indexOf((0,_getNodeName_js__WEBPACK_IMPORTED_MODULE_0__["default"])(node)) >= 0) {
+  if (['html', 'body', '#document'].indexOf((0,_getNodeName_js__WEBPACK_IMPORTED_MODULE_2__["default"])(node)) >= 0) {
     // $FlowFixMe[incompatible-return]: assume body is always available
     return node.ownerDocument.body;
   }
 
-  if ((0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_1__.isHTMLElement)(node) && (0,_isScrollParent_js__WEBPACK_IMPORTED_MODULE_2__["default"])(node)) {
+  if ((0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_3__.isHTMLElement)(node) && (0,_isScrollParent_js__WEBPACK_IMPORTED_MODULE_1__["default"])(node)) {
     return node;
   }
 
-  return getScrollParent((0,_getParentNode_js__WEBPACK_IMPORTED_MODULE_3__["default"])(node));
+  return getScrollParent((0,_getParentNode_js__WEBPACK_IMPORTED_MODULE_0__["default"])(node));
 }
 
 /***/ }),
@@ -867,8 +867,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getWindow.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
 /* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getDocumentElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
-/* harmony import */ var _getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getWindowScrollBarX.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js");
-/* harmony import */ var _isLayoutViewport_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./isLayoutViewport.js */ "./node_modules/@popperjs/core/lib/dom-utils/isLayoutViewport.js");
+/* harmony import */ var _getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getWindowScrollBarX.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js");
+/* harmony import */ var _isLayoutViewport_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./isLayoutViewport.js */ "./node_modules/@popperjs/core/lib/dom-utils/isLayoutViewport.js");
 
 
 
@@ -885,7 +885,7 @@ function getViewportRect(element, strategy) {
   if (visualViewport) {
     width = visualViewport.width;
     height = visualViewport.height;
-    var layoutViewport = (0,_isLayoutViewport_js__WEBPACK_IMPORTED_MODULE_2__["default"])();
+    var layoutViewport = (0,_isLayoutViewport_js__WEBPACK_IMPORTED_MODULE_3__["default"])();
 
     if (layoutViewport || !layoutViewport && strategy === 'fixed') {
       x = visualViewport.offsetLeft;
@@ -896,7 +896,7 @@ function getViewportRect(element, strategy) {
   return {
     width: width,
     height: height,
-    x: x + (0,_getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_3__["default"])(element),
+    x: x + (0,_getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_2__["default"])(element),
     y: y
   };
 }
@@ -1099,9 +1099,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ listScrollParents)
 /* harmony export */ });
 /* harmony import */ var _getScrollParent_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getScrollParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/getScrollParent.js");
-/* harmony import */ var _getParentNode_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getParentNode.js */ "./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js");
-/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getWindow.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
-/* harmony import */ var _isScrollParent_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./isScrollParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js");
+/* harmony import */ var _getParentNode_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getParentNode.js */ "./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js");
+/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getWindow.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
+/* harmony import */ var _isScrollParent_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./isScrollParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js");
 
 
 
@@ -1122,11 +1122,11 @@ function listScrollParents(element, list) {
 
   var scrollParent = (0,_getScrollParent_js__WEBPACK_IMPORTED_MODULE_0__["default"])(element);
   var isBody = scrollParent === ((_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body);
-  var win = (0,_getWindow_js__WEBPACK_IMPORTED_MODULE_1__["default"])(scrollParent);
-  var target = isBody ? [win].concat(win.visualViewport || [], (0,_isScrollParent_js__WEBPACK_IMPORTED_MODULE_2__["default"])(scrollParent) ? scrollParent : []) : scrollParent;
+  var win = (0,_getWindow_js__WEBPACK_IMPORTED_MODULE_2__["default"])(scrollParent);
+  var target = isBody ? [win].concat(win.visualViewport || [], (0,_isScrollParent_js__WEBPACK_IMPORTED_MODULE_3__["default"])(scrollParent) ? scrollParent : []) : scrollParent;
   var updatedList = list.concat(target);
   return isBody ? updatedList : // $FlowFixMe[incompatible-call]: isBody tells us target will be an HTMLElement here
-  updatedList.concat(listScrollParents((0,_getParentNode_js__WEBPACK_IMPORTED_MODULE_3__["default"])(target)));
+  updatedList.concat(listScrollParents((0,_getParentNode_js__WEBPACK_IMPORTED_MODULE_1__["default"])(target)));
 }
 
 /***/ }),
@@ -1275,8 +1275,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _dom_utils_getNodeName_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dom-utils/getNodeName.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
-/* harmony import */ var _dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dom-utils/instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
+/* harmony import */ var _dom_utils_getNodeName_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dom-utils/getNodeName.js */ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js");
+/* harmony import */ var _dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dom-utils/instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
 
  // This modifier takes the styles prepared by the `computeStyles` modifier
 // and applies them to the HTMLElements such as popper and arrow
@@ -1288,7 +1288,7 @@ function applyStyles(_ref) {
     var attributes = state.attributes[name] || {};
     var element = state.elements[name]; // arrow is optional + virtual elements
 
-    if (!(0,_dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__.isHTMLElement)(element) || !(0,_dom_utils_getNodeName_js__WEBPACK_IMPORTED_MODULE_1__["default"])(element)) {
+    if (!(0,_dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_1__.isHTMLElement)(element) || !(0,_dom_utils_getNodeName_js__WEBPACK_IMPORTED_MODULE_0__["default"])(element)) {
       return;
     } // Flow doesn't support to extend this property, but it's the most
     // effective way to apply styles to an HTMLElement
@@ -1340,7 +1340,7 @@ function effect(_ref2) {
         return style;
       }, {}); // arrow is optional + virtual elements
 
-      if (!(0,_dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__.isHTMLElement)(element) || !(0,_dom_utils_getNodeName_js__WEBPACK_IMPORTED_MODULE_1__["default"])(element)) {
+      if (!(0,_dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_1__.isHTMLElement)(element) || !(0,_dom_utils_getNodeName_js__WEBPACK_IMPORTED_MODULE_0__["default"])(element)) {
         return;
       }
 
@@ -1375,15 +1375,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/getBasePlacement.js */ "./node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
-/* harmony import */ var _dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../dom-utils/getLayoutRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js");
-/* harmony import */ var _dom_utils_contains_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../dom-utils/contains.js */ "./node_modules/@popperjs/core/lib/dom-utils/contains.js");
-/* harmony import */ var _dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../dom-utils/getOffsetParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js");
+/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/getBasePlacement.js */ "./node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
+/* harmony import */ var _dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dom-utils/getLayoutRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js");
+/* harmony import */ var _dom_utils_contains_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dom-utils/contains.js */ "./node_modules/@popperjs/core/lib/dom-utils/contains.js");
+/* harmony import */ var _dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dom-utils/getOffsetParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js");
 /* harmony import */ var _utils_getMainAxisFromPlacement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/getMainAxisFromPlacement.js */ "./node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js");
-/* harmony import */ var _utils_within_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/within.js */ "./node_modules/@popperjs/core/lib/utils/within.js");
-/* harmony import */ var _utils_mergePaddingObject_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/mergePaddingObject.js */ "./node_modules/@popperjs/core/lib/utils/mergePaddingObject.js");
-/* harmony import */ var _utils_expandToHashMap_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/expandToHashMap.js */ "./node_modules/@popperjs/core/lib/utils/expandToHashMap.js");
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
+/* harmony import */ var _utils_within_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/within.js */ "./node_modules/@popperjs/core/lib/utils/within.js");
+/* harmony import */ var _utils_mergePaddingObject_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/mergePaddingObject.js */ "./node_modules/@popperjs/core/lib/utils/mergePaddingObject.js");
+/* harmony import */ var _utils_expandToHashMap_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/expandToHashMap.js */ "./node_modules/@popperjs/core/lib/utils/expandToHashMap.js");
+/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
 
 
 
@@ -1398,7 +1398,7 @@ var toPaddingObject = function toPaddingObject(padding, state) {
   padding = typeof padding === 'function' ? padding(Object.assign({}, state.rects, {
     placement: state.placement
   })) : padding;
-  return (0,_utils_mergePaddingObject_js__WEBPACK_IMPORTED_MODULE_0__["default"])(typeof padding !== 'number' ? padding : (0,_utils_expandToHashMap_js__WEBPACK_IMPORTED_MODULE_1__["default"])(padding, _enums_js__WEBPACK_IMPORTED_MODULE_2__.basePlacements));
+  return (0,_utils_mergePaddingObject_js__WEBPACK_IMPORTED_MODULE_6__["default"])(typeof padding !== 'number' ? padding : (0,_utils_expandToHashMap_js__WEBPACK_IMPORTED_MODULE_7__["default"])(padding, _enums_js__WEBPACK_IMPORTED_MODULE_8__.basePlacements));
 };
 
 function arrow(_ref) {
@@ -1409,9 +1409,9 @@ function arrow(_ref) {
       options = _ref.options;
   var arrowElement = state.elements.arrow;
   var popperOffsets = state.modifiersData.popperOffsets;
-  var basePlacement = (0,_utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_3__["default"])(state.placement);
+  var basePlacement = (0,_utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__["default"])(state.placement);
   var axis = (0,_utils_getMainAxisFromPlacement_js__WEBPACK_IMPORTED_MODULE_4__["default"])(basePlacement);
-  var isVertical = [_enums_js__WEBPACK_IMPORTED_MODULE_2__.left, _enums_js__WEBPACK_IMPORTED_MODULE_2__.right].indexOf(basePlacement) >= 0;
+  var isVertical = [_enums_js__WEBPACK_IMPORTED_MODULE_8__.left, _enums_js__WEBPACK_IMPORTED_MODULE_8__.right].indexOf(basePlacement) >= 0;
   var len = isVertical ? 'height' : 'width';
 
   if (!arrowElement || !popperOffsets) {
@@ -1419,12 +1419,12 @@ function arrow(_ref) {
   }
 
   var paddingObject = toPaddingObject(options.padding, state);
-  var arrowRect = (0,_dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_5__["default"])(arrowElement);
-  var minProp = axis === 'y' ? _enums_js__WEBPACK_IMPORTED_MODULE_2__.top : _enums_js__WEBPACK_IMPORTED_MODULE_2__.left;
-  var maxProp = axis === 'y' ? _enums_js__WEBPACK_IMPORTED_MODULE_2__.bottom : _enums_js__WEBPACK_IMPORTED_MODULE_2__.right;
+  var arrowRect = (0,_dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_1__["default"])(arrowElement);
+  var minProp = axis === 'y' ? _enums_js__WEBPACK_IMPORTED_MODULE_8__.top : _enums_js__WEBPACK_IMPORTED_MODULE_8__.left;
+  var maxProp = axis === 'y' ? _enums_js__WEBPACK_IMPORTED_MODULE_8__.bottom : _enums_js__WEBPACK_IMPORTED_MODULE_8__.right;
   var endDiff = state.rects.reference[len] + state.rects.reference[axis] - popperOffsets[axis] - state.rects.popper[len];
   var startDiff = popperOffsets[axis] - state.rects.reference[axis];
-  var arrowOffsetParent = (0,_dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_6__["default"])(arrowElement);
+  var arrowOffsetParent = (0,_dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_3__["default"])(arrowElement);
   var clientSize = arrowOffsetParent ? axis === 'y' ? arrowOffsetParent.clientHeight || 0 : arrowOffsetParent.clientWidth || 0 : 0;
   var centerToReference = endDiff / 2 - startDiff / 2; // Make sure the arrow doesn't overflow the popper if the center point is
   // outside of the popper bounds
@@ -1432,7 +1432,7 @@ function arrow(_ref) {
   var min = paddingObject[minProp];
   var max = clientSize - arrowRect[len] - paddingObject[maxProp];
   var center = clientSize / 2 - arrowRect[len] / 2 + centerToReference;
-  var offset = (0,_utils_within_js__WEBPACK_IMPORTED_MODULE_7__.within)(min, center, max); // Prevents breaking syntax highlighting...
+  var offset = (0,_utils_within_js__WEBPACK_IMPORTED_MODULE_5__.within)(min, center, max); // Prevents breaking syntax highlighting...
 
   var axisProp = axis;
   state.modifiersData[name] = (_state$modifiersData$ = {}, _state$modifiersData$[axisProp] = offset, _state$modifiersData$.centerOffset = offset - center, _state$modifiersData$);
@@ -1457,7 +1457,7 @@ function effect(_ref2) {
     }
   }
 
-  if (!(0,_dom_utils_contains_js__WEBPACK_IMPORTED_MODULE_8__["default"])(state.elements.popper, arrowElement)) {
+  if (!(0,_dom_utils_contains_js__WEBPACK_IMPORTED_MODULE_2__["default"])(state.elements.popper, arrowElement)) {
     return;
   }
 
@@ -1489,14 +1489,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
 /* harmony export */   mapToStyles: () => (/* binding */ mapToStyles)
 /* harmony export */ });
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
-/* harmony import */ var _dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dom-utils/getOffsetParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js");
-/* harmony import */ var _dom_utils_getWindow_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dom-utils/getWindow.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
-/* harmony import */ var _dom_utils_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dom-utils/getDocumentElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
-/* harmony import */ var _dom_utils_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../dom-utils/getComputedStyle.js */ "./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js");
-/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/getBasePlacement.js */ "./node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
-/* harmony import */ var _utils_getVariation_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/getVariation.js */ "./node_modules/@popperjs/core/lib/utils/getVariation.js");
-/* harmony import */ var _utils_math_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/math.js */ "./node_modules/@popperjs/core/lib/utils/math.js");
+/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
+/* harmony import */ var _dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dom-utils/getOffsetParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js");
+/* harmony import */ var _dom_utils_getWindow_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dom-utils/getWindow.js */ "./node_modules/@popperjs/core/lib/dom-utils/getWindow.js");
+/* harmony import */ var _dom_utils_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dom-utils/getDocumentElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
+/* harmony import */ var _dom_utils_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dom-utils/getComputedStyle.js */ "./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js");
+/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/getBasePlacement.js */ "./node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
+/* harmony import */ var _utils_getVariation_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/getVariation.js */ "./node_modules/@popperjs/core/lib/utils/getVariation.js");
+/* harmony import */ var _utils_math_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/math.js */ "./node_modules/@popperjs/core/lib/utils/math.js");
 
 
 
@@ -1520,8 +1520,8 @@ function roundOffsetsByDPR(_ref, win) {
       y = _ref.y;
   var dpr = win.devicePixelRatio || 1;
   return {
-    x: (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_0__.round)(x * dpr) / dpr || 0,
-    y: (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_0__.round)(y * dpr) / dpr || 0
+    x: (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_7__.round)(x * dpr) / dpr || 0,
+    y: (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_7__.round)(y * dpr) / dpr || 0
   };
 }
 
@@ -1555,19 +1555,19 @@ function mapToStyles(_ref2) {
   y = _ref3.y;
   var hasX = offsets.hasOwnProperty('x');
   var hasY = offsets.hasOwnProperty('y');
-  var sideX = _enums_js__WEBPACK_IMPORTED_MODULE_1__.left;
-  var sideY = _enums_js__WEBPACK_IMPORTED_MODULE_1__.top;
+  var sideX = _enums_js__WEBPACK_IMPORTED_MODULE_0__.left;
+  var sideY = _enums_js__WEBPACK_IMPORTED_MODULE_0__.top;
   var win = window;
 
   if (adaptive) {
-    var offsetParent = (0,_dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_2__["default"])(popper);
+    var offsetParent = (0,_dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_1__["default"])(popper);
     var heightProp = 'clientHeight';
     var widthProp = 'clientWidth';
 
-    if (offsetParent === (0,_dom_utils_getWindow_js__WEBPACK_IMPORTED_MODULE_3__["default"])(popper)) {
-      offsetParent = (0,_dom_utils_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_4__["default"])(popper);
+    if (offsetParent === (0,_dom_utils_getWindow_js__WEBPACK_IMPORTED_MODULE_2__["default"])(popper)) {
+      offsetParent = (0,_dom_utils_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_3__["default"])(popper);
 
-      if ((0,_dom_utils_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_5__["default"])(offsetParent).position !== 'static' && position === 'absolute') {
+      if ((0,_dom_utils_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_4__["default"])(offsetParent).position !== 'static' && position === 'absolute') {
         heightProp = 'scrollHeight';
         widthProp = 'scrollWidth';
       }
@@ -1576,16 +1576,16 @@ function mapToStyles(_ref2) {
 
     offsetParent = offsetParent;
 
-    if (placement === _enums_js__WEBPACK_IMPORTED_MODULE_1__.top || (placement === _enums_js__WEBPACK_IMPORTED_MODULE_1__.left || placement === _enums_js__WEBPACK_IMPORTED_MODULE_1__.right) && variation === _enums_js__WEBPACK_IMPORTED_MODULE_1__.end) {
-      sideY = _enums_js__WEBPACK_IMPORTED_MODULE_1__.bottom;
+    if (placement === _enums_js__WEBPACK_IMPORTED_MODULE_0__.top || (placement === _enums_js__WEBPACK_IMPORTED_MODULE_0__.left || placement === _enums_js__WEBPACK_IMPORTED_MODULE_0__.right) && variation === _enums_js__WEBPACK_IMPORTED_MODULE_0__.end) {
+      sideY = _enums_js__WEBPACK_IMPORTED_MODULE_0__.bottom;
       var offsetY = isFixed && offsetParent === win && win.visualViewport ? win.visualViewport.height : // $FlowFixMe[prop-missing]
       offsetParent[heightProp];
       y -= offsetY - popperRect.height;
       y *= gpuAcceleration ? 1 : -1;
     }
 
-    if (placement === _enums_js__WEBPACK_IMPORTED_MODULE_1__.left || (placement === _enums_js__WEBPACK_IMPORTED_MODULE_1__.top || placement === _enums_js__WEBPACK_IMPORTED_MODULE_1__.bottom) && variation === _enums_js__WEBPACK_IMPORTED_MODULE_1__.end) {
-      sideX = _enums_js__WEBPACK_IMPORTED_MODULE_1__.right;
+    if (placement === _enums_js__WEBPACK_IMPORTED_MODULE_0__.left || (placement === _enums_js__WEBPACK_IMPORTED_MODULE_0__.top || placement === _enums_js__WEBPACK_IMPORTED_MODULE_0__.bottom) && variation === _enums_js__WEBPACK_IMPORTED_MODULE_0__.end) {
+      sideX = _enums_js__WEBPACK_IMPORTED_MODULE_0__.right;
       var offsetX = isFixed && offsetParent === win && win.visualViewport ? win.visualViewport.width : // $FlowFixMe[prop-missing]
       offsetParent[widthProp];
       x -= offsetX - popperRect.width;
@@ -1600,7 +1600,7 @@ function mapToStyles(_ref2) {
   var _ref4 = roundOffsets === true ? roundOffsetsByDPR({
     x: x,
     y: y
-  }, (0,_dom_utils_getWindow_js__WEBPACK_IMPORTED_MODULE_3__["default"])(popper)) : {
+  }, (0,_dom_utils_getWindow_js__WEBPACK_IMPORTED_MODULE_2__["default"])(popper)) : {
     x: x,
     y: y
   };
@@ -1627,8 +1627,8 @@ function computeStyles(_ref5) {
       _options$roundOffsets = options.roundOffsets,
       roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;
   var commonStyles = {
-    placement: (0,_utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_6__["default"])(state.placement),
-    variation: (0,_utils_getVariation_js__WEBPACK_IMPORTED_MODULE_7__["default"])(state.placement),
+    placement: (0,_utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_5__["default"])(state.placement),
+    variation: (0,_utils_getVariation_js__WEBPACK_IMPORTED_MODULE_6__["default"])(state.placement),
     popper: state.elements.popper,
     popperRect: state.rects.popper,
     gpuAcceleration: gpuAcceleration,
@@ -1744,13 +1744,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _utils_getOppositePlacement_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/getOppositePlacement.js */ "./node_modules/@popperjs/core/lib/utils/getOppositePlacement.js");
-/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/getBasePlacement.js */ "./node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
-/* harmony import */ var _utils_getOppositeVariationPlacement_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/getOppositeVariationPlacement.js */ "./node_modules/@popperjs/core/lib/utils/getOppositeVariationPlacement.js");
-/* harmony import */ var _utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/detectOverflow.js */ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js");
+/* harmony import */ var _utils_getOppositePlacement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/getOppositePlacement.js */ "./node_modules/@popperjs/core/lib/utils/getOppositePlacement.js");
+/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/getBasePlacement.js */ "./node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
+/* harmony import */ var _utils_getOppositeVariationPlacement_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/getOppositeVariationPlacement.js */ "./node_modules/@popperjs/core/lib/utils/getOppositeVariationPlacement.js");
+/* harmony import */ var _utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/detectOverflow.js */ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js");
 /* harmony import */ var _utils_computeAutoPlacement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/computeAutoPlacement.js */ "./node_modules/@popperjs/core/lib/utils/computeAutoPlacement.js");
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
-/* harmony import */ var _utils_getVariation_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/getVariation.js */ "./node_modules/@popperjs/core/lib/utils/getVariation.js");
+/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
+/* harmony import */ var _utils_getVariation_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/getVariation.js */ "./node_modules/@popperjs/core/lib/utils/getVariation.js");
 
 
 
@@ -1760,12 +1760,12 @@ __webpack_require__.r(__webpack_exports__);
  // eslint-disable-next-line import/no-unused-modules
 
 function getExpandedFallbackPlacements(placement) {
-  if ((0,_utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__["default"])(placement) === _enums_js__WEBPACK_IMPORTED_MODULE_1__.auto) {
+  if ((0,_utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_1__["default"])(placement) === _enums_js__WEBPACK_IMPORTED_MODULE_5__.auto) {
     return [];
   }
 
-  var oppositePlacement = (0,_utils_getOppositePlacement_js__WEBPACK_IMPORTED_MODULE_2__["default"])(placement);
-  return [(0,_utils_getOppositeVariationPlacement_js__WEBPACK_IMPORTED_MODULE_3__["default"])(placement), oppositePlacement, (0,_utils_getOppositeVariationPlacement_js__WEBPACK_IMPORTED_MODULE_3__["default"])(oppositePlacement)];
+  var oppositePlacement = (0,_utils_getOppositePlacement_js__WEBPACK_IMPORTED_MODULE_0__["default"])(placement);
+  return [(0,_utils_getOppositeVariationPlacement_js__WEBPACK_IMPORTED_MODULE_2__["default"])(placement), oppositePlacement, (0,_utils_getOppositeVariationPlacement_js__WEBPACK_IMPORTED_MODULE_2__["default"])(oppositePlacement)];
 }
 
 function flip(_ref) {
@@ -1790,11 +1790,11 @@ function flip(_ref) {
       flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio,
       allowedAutoPlacements = options.allowedAutoPlacements;
   var preferredPlacement = state.options.placement;
-  var basePlacement = (0,_utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__["default"])(preferredPlacement);
+  var basePlacement = (0,_utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_1__["default"])(preferredPlacement);
   var isBasePlacement = basePlacement === preferredPlacement;
-  var fallbackPlacements = specifiedFallbackPlacements || (isBasePlacement || !flipVariations ? [(0,_utils_getOppositePlacement_js__WEBPACK_IMPORTED_MODULE_2__["default"])(preferredPlacement)] : getExpandedFallbackPlacements(preferredPlacement));
+  var fallbackPlacements = specifiedFallbackPlacements || (isBasePlacement || !flipVariations ? [(0,_utils_getOppositePlacement_js__WEBPACK_IMPORTED_MODULE_0__["default"])(preferredPlacement)] : getExpandedFallbackPlacements(preferredPlacement));
   var placements = [preferredPlacement].concat(fallbackPlacements).reduce(function (acc, placement) {
-    return acc.concat((0,_utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__["default"])(placement) === _enums_js__WEBPACK_IMPORTED_MODULE_1__.auto ? (0,_utils_computeAutoPlacement_js__WEBPACK_IMPORTED_MODULE_4__["default"])(state, {
+    return acc.concat((0,_utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_1__["default"])(placement) === _enums_js__WEBPACK_IMPORTED_MODULE_5__.auto ? (0,_utils_computeAutoPlacement_js__WEBPACK_IMPORTED_MODULE_4__["default"])(state, {
       placement: placement,
       boundary: boundary,
       rootBoundary: rootBoundary,
@@ -1812,25 +1812,25 @@ function flip(_ref) {
   for (var i = 0; i < placements.length; i++) {
     var placement = placements[i];
 
-    var _basePlacement = (0,_utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__["default"])(placement);
+    var _basePlacement = (0,_utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_1__["default"])(placement);
 
-    var isStartVariation = (0,_utils_getVariation_js__WEBPACK_IMPORTED_MODULE_5__["default"])(placement) === _enums_js__WEBPACK_IMPORTED_MODULE_1__.start;
-    var isVertical = [_enums_js__WEBPACK_IMPORTED_MODULE_1__.top, _enums_js__WEBPACK_IMPORTED_MODULE_1__.bottom].indexOf(_basePlacement) >= 0;
+    var isStartVariation = (0,_utils_getVariation_js__WEBPACK_IMPORTED_MODULE_6__["default"])(placement) === _enums_js__WEBPACK_IMPORTED_MODULE_5__.start;
+    var isVertical = [_enums_js__WEBPACK_IMPORTED_MODULE_5__.top, _enums_js__WEBPACK_IMPORTED_MODULE_5__.bottom].indexOf(_basePlacement) >= 0;
     var len = isVertical ? 'width' : 'height';
-    var overflow = (0,_utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_6__["default"])(state, {
+    var overflow = (0,_utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_3__["default"])(state, {
       placement: placement,
       boundary: boundary,
       rootBoundary: rootBoundary,
       altBoundary: altBoundary,
       padding: padding
     });
-    var mainVariationSide = isVertical ? isStartVariation ? _enums_js__WEBPACK_IMPORTED_MODULE_1__.right : _enums_js__WEBPACK_IMPORTED_MODULE_1__.left : isStartVariation ? _enums_js__WEBPACK_IMPORTED_MODULE_1__.bottom : _enums_js__WEBPACK_IMPORTED_MODULE_1__.top;
+    var mainVariationSide = isVertical ? isStartVariation ? _enums_js__WEBPACK_IMPORTED_MODULE_5__.right : _enums_js__WEBPACK_IMPORTED_MODULE_5__.left : isStartVariation ? _enums_js__WEBPACK_IMPORTED_MODULE_5__.bottom : _enums_js__WEBPACK_IMPORTED_MODULE_5__.top;
 
     if (referenceRect[len] > popperRect[len]) {
-      mainVariationSide = (0,_utils_getOppositePlacement_js__WEBPACK_IMPORTED_MODULE_2__["default"])(mainVariationSide);
+      mainVariationSide = (0,_utils_getOppositePlacement_js__WEBPACK_IMPORTED_MODULE_0__["default"])(mainVariationSide);
     }
 
-    var altVariationSide = (0,_utils_getOppositePlacement_js__WEBPACK_IMPORTED_MODULE_2__["default"])(mainVariationSide);
+    var altVariationSide = (0,_utils_getOppositePlacement_js__WEBPACK_IMPORTED_MODULE_0__["default"])(mainVariationSide);
     var checks = [];
 
     if (checkMainAxis) {
@@ -2140,16 +2140,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
+/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
 /* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/getBasePlacement.js */ "./node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
-/* harmony import */ var _utils_getMainAxisFromPlacement_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/getMainAxisFromPlacement.js */ "./node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js");
-/* harmony import */ var _utils_getAltAxis_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/getAltAxis.js */ "./node_modules/@popperjs/core/lib/utils/getAltAxis.js");
-/* harmony import */ var _utils_within_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils/within.js */ "./node_modules/@popperjs/core/lib/utils/within.js");
-/* harmony import */ var _dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../dom-utils/getLayoutRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js");
-/* harmony import */ var _dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../dom-utils/getOffsetParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js");
-/* harmony import */ var _utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/detectOverflow.js */ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js");
-/* harmony import */ var _utils_getVariation_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/getVariation.js */ "./node_modules/@popperjs/core/lib/utils/getVariation.js");
-/* harmony import */ var _utils_getFreshSideObject_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/getFreshSideObject.js */ "./node_modules/@popperjs/core/lib/utils/getFreshSideObject.js");
+/* harmony import */ var _utils_getMainAxisFromPlacement_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/getMainAxisFromPlacement.js */ "./node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js");
+/* harmony import */ var _utils_getAltAxis_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/getAltAxis.js */ "./node_modules/@popperjs/core/lib/utils/getAltAxis.js");
+/* harmony import */ var _utils_within_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/within.js */ "./node_modules/@popperjs/core/lib/utils/within.js");
+/* harmony import */ var _dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../dom-utils/getLayoutRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js");
+/* harmony import */ var _dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../dom-utils/getOffsetParent.js */ "./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js");
+/* harmony import */ var _utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/detectOverflow.js */ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js");
+/* harmony import */ var _utils_getVariation_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils/getVariation.js */ "./node_modules/@popperjs/core/lib/utils/getVariation.js");
+/* harmony import */ var _utils_getFreshSideObject_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utils/getFreshSideObject.js */ "./node_modules/@popperjs/core/lib/utils/getFreshSideObject.js");
 /* harmony import */ var _utils_math_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../utils/math.js */ "./node_modules/@popperjs/core/lib/utils/math.js");
 
 
@@ -2179,17 +2179,17 @@ function preventOverflow(_ref) {
       tether = _options$tether === void 0 ? true : _options$tether,
       _options$tetherOffset = options.tetherOffset,
       tetherOffset = _options$tetherOffset === void 0 ? 0 : _options$tetherOffset;
-  var overflow = (0,_utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_0__["default"])(state, {
+  var overflow = (0,_utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_7__["default"])(state, {
     boundary: boundary,
     rootBoundary: rootBoundary,
     padding: padding,
     altBoundary: altBoundary
   });
   var basePlacement = (0,_utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_1__["default"])(state.placement);
-  var variation = (0,_utils_getVariation_js__WEBPACK_IMPORTED_MODULE_2__["default"])(state.placement);
+  var variation = (0,_utils_getVariation_js__WEBPACK_IMPORTED_MODULE_8__["default"])(state.placement);
   var isBasePlacement = !variation;
-  var mainAxis = (0,_utils_getMainAxisFromPlacement_js__WEBPACK_IMPORTED_MODULE_3__["default"])(basePlacement);
-  var altAxis = (0,_utils_getAltAxis_js__WEBPACK_IMPORTED_MODULE_4__["default"])(mainAxis);
+  var mainAxis = (0,_utils_getMainAxisFromPlacement_js__WEBPACK_IMPORTED_MODULE_2__["default"])(basePlacement);
+  var altAxis = (0,_utils_getAltAxis_js__WEBPACK_IMPORTED_MODULE_3__["default"])(mainAxis);
   var popperOffsets = state.modifiersData.popperOffsets;
   var referenceRect = state.rects.reference;
   var popperRect = state.rects.popper;
@@ -2216,23 +2216,23 @@ function preventOverflow(_ref) {
   if (checkMainAxis) {
     var _offsetModifierState$;
 
-    var mainSide = mainAxis === 'y' ? _enums_js__WEBPACK_IMPORTED_MODULE_5__.top : _enums_js__WEBPACK_IMPORTED_MODULE_5__.left;
-    var altSide = mainAxis === 'y' ? _enums_js__WEBPACK_IMPORTED_MODULE_5__.bottom : _enums_js__WEBPACK_IMPORTED_MODULE_5__.right;
+    var mainSide = mainAxis === 'y' ? _enums_js__WEBPACK_IMPORTED_MODULE_0__.top : _enums_js__WEBPACK_IMPORTED_MODULE_0__.left;
+    var altSide = mainAxis === 'y' ? _enums_js__WEBPACK_IMPORTED_MODULE_0__.bottom : _enums_js__WEBPACK_IMPORTED_MODULE_0__.right;
     var len = mainAxis === 'y' ? 'height' : 'width';
     var offset = popperOffsets[mainAxis];
     var min = offset + overflow[mainSide];
     var max = offset - overflow[altSide];
     var additive = tether ? -popperRect[len] / 2 : 0;
-    var minLen = variation === _enums_js__WEBPACK_IMPORTED_MODULE_5__.start ? referenceRect[len] : popperRect[len];
-    var maxLen = variation === _enums_js__WEBPACK_IMPORTED_MODULE_5__.start ? -popperRect[len] : -referenceRect[len]; // We need to include the arrow in the calculation so the arrow doesn't go
+    var minLen = variation === _enums_js__WEBPACK_IMPORTED_MODULE_0__.start ? referenceRect[len] : popperRect[len];
+    var maxLen = variation === _enums_js__WEBPACK_IMPORTED_MODULE_0__.start ? -popperRect[len] : -referenceRect[len]; // We need to include the arrow in the calculation so the arrow doesn't go
     // outside the reference bounds
 
     var arrowElement = state.elements.arrow;
-    var arrowRect = tether && arrowElement ? (0,_dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_6__["default"])(arrowElement) : {
+    var arrowRect = tether && arrowElement ? (0,_dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_5__["default"])(arrowElement) : {
       width: 0,
       height: 0
     };
-    var arrowPaddingObject = state.modifiersData['arrow#persistent'] ? state.modifiersData['arrow#persistent'].padding : (0,_utils_getFreshSideObject_js__WEBPACK_IMPORTED_MODULE_7__["default"])();
+    var arrowPaddingObject = state.modifiersData['arrow#persistent'] ? state.modifiersData['arrow#persistent'].padding : (0,_utils_getFreshSideObject_js__WEBPACK_IMPORTED_MODULE_9__["default"])();
     var arrowPaddingMin = arrowPaddingObject[mainSide];
     var arrowPaddingMax = arrowPaddingObject[altSide]; // If the reference length is smaller than the arrow length, we don't want
     // to include its full size in the calculation. If the reference is small
@@ -2240,15 +2240,15 @@ function preventOverflow(_ref) {
     // reference is not overflowing as well (e.g. virtual elements with no
     // width or height)
 
-    var arrowLen = (0,_utils_within_js__WEBPACK_IMPORTED_MODULE_8__.within)(0, referenceRect[len], arrowRect[len]);
+    var arrowLen = (0,_utils_within_js__WEBPACK_IMPORTED_MODULE_4__.within)(0, referenceRect[len], arrowRect[len]);
     var minOffset = isBasePlacement ? referenceRect[len] / 2 - additive - arrowLen - arrowPaddingMin - normalizedTetherOffsetValue.mainAxis : minLen - arrowLen - arrowPaddingMin - normalizedTetherOffsetValue.mainAxis;
     var maxOffset = isBasePlacement ? -referenceRect[len] / 2 + additive + arrowLen + arrowPaddingMax + normalizedTetherOffsetValue.mainAxis : maxLen + arrowLen + arrowPaddingMax + normalizedTetherOffsetValue.mainAxis;
-    var arrowOffsetParent = state.elements.arrow && (0,_dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_9__["default"])(state.elements.arrow);
+    var arrowOffsetParent = state.elements.arrow && (0,_dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_6__["default"])(state.elements.arrow);
     var clientOffset = arrowOffsetParent ? mainAxis === 'y' ? arrowOffsetParent.clientTop || 0 : arrowOffsetParent.clientLeft || 0 : 0;
     var offsetModifierValue = (_offsetModifierState$ = offsetModifierState == null ? void 0 : offsetModifierState[mainAxis]) != null ? _offsetModifierState$ : 0;
     var tetherMin = offset + minOffset - offsetModifierValue - clientOffset;
     var tetherMax = offset + maxOffset - offsetModifierValue;
-    var preventedOffset = (0,_utils_within_js__WEBPACK_IMPORTED_MODULE_8__.within)(tether ? (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_10__.min)(min, tetherMin) : min, offset, tether ? (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_10__.max)(max, tetherMax) : max);
+    var preventedOffset = (0,_utils_within_js__WEBPACK_IMPORTED_MODULE_4__.within)(tether ? (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_10__.min)(min, tetherMin) : min, offset, tether ? (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_10__.max)(max, tetherMax) : max);
     popperOffsets[mainAxis] = preventedOffset;
     data[mainAxis] = preventedOffset - offset;
   }
@@ -2256,9 +2256,9 @@ function preventOverflow(_ref) {
   if (checkAltAxis) {
     var _offsetModifierState$2;
 
-    var _mainSide = mainAxis === 'x' ? _enums_js__WEBPACK_IMPORTED_MODULE_5__.top : _enums_js__WEBPACK_IMPORTED_MODULE_5__.left;
+    var _mainSide = mainAxis === 'x' ? _enums_js__WEBPACK_IMPORTED_MODULE_0__.top : _enums_js__WEBPACK_IMPORTED_MODULE_0__.left;
 
-    var _altSide = mainAxis === 'x' ? _enums_js__WEBPACK_IMPORTED_MODULE_5__.bottom : _enums_js__WEBPACK_IMPORTED_MODULE_5__.right;
+    var _altSide = mainAxis === 'x' ? _enums_js__WEBPACK_IMPORTED_MODULE_0__.bottom : _enums_js__WEBPACK_IMPORTED_MODULE_0__.right;
 
     var _offset = popperOffsets[altAxis];
 
@@ -2268,7 +2268,7 @@ function preventOverflow(_ref) {
 
     var _max = _offset - overflow[_altSide];
 
-    var isOriginSide = [_enums_js__WEBPACK_IMPORTED_MODULE_5__.top, _enums_js__WEBPACK_IMPORTED_MODULE_5__.left].indexOf(basePlacement) !== -1;
+    var isOriginSide = [_enums_js__WEBPACK_IMPORTED_MODULE_0__.top, _enums_js__WEBPACK_IMPORTED_MODULE_0__.left].indexOf(basePlacement) !== -1;
 
     var _offsetModifierValue = (_offsetModifierState$2 = offsetModifierState == null ? void 0 : offsetModifierState[altAxis]) != null ? _offsetModifierState$2 : 0;
 
@@ -2276,7 +2276,7 @@ function preventOverflow(_ref) {
 
     var _tetherMax = isOriginSide ? _offset + referenceRect[_len] + popperRect[_len] - _offsetModifierValue - normalizedTetherOffsetValue.altAxis : _max;
 
-    var _preventedOffset = tether && isOriginSide ? (0,_utils_within_js__WEBPACK_IMPORTED_MODULE_8__.withinMaxClamp)(_tetherMin, _offset, _tetherMax) : (0,_utils_within_js__WEBPACK_IMPORTED_MODULE_8__.within)(tether ? _tetherMin : _min, _offset, tether ? _tetherMax : _max);
+    var _preventedOffset = tether && isOriginSide ? (0,_utils_within_js__WEBPACK_IMPORTED_MODULE_4__.withinMaxClamp)(_tetherMin, _offset, _tetherMax) : (0,_utils_within_js__WEBPACK_IMPORTED_MODULE_4__.within)(tether ? _tetherMin : _min, _offset, tether ? _tetherMax : _max);
 
     popperOffsets[altAxis] = _preventedOffset;
     data[altAxis] = _preventedOffset - _offset;
@@ -2307,22 +2307,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   createPopper: () => (/* binding */ createPopper),
 /* harmony export */   defaultModifiers: () => (/* binding */ defaultModifiers),
-/* harmony export */   detectOverflow: () => (/* reexport safe */ _createPopper_js__WEBPACK_IMPORTED_MODULE_5__["default"]),
-/* harmony export */   popperGenerator: () => (/* reexport safe */ _createPopper_js__WEBPACK_IMPORTED_MODULE_4__.popperGenerator)
+/* harmony export */   detectOverflow: () => (/* reexport safe */ _createPopper_js__WEBPACK_IMPORTED_MODULE_1__["default"]),
+/* harmony export */   popperGenerator: () => (/* reexport safe */ _createPopper_js__WEBPACK_IMPORTED_MODULE_0__.popperGenerator)
 /* harmony export */ });
-/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./createPopper.js */ "./node_modules/@popperjs/core/lib/createPopper.js");
-/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./createPopper.js */ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js");
-/* harmony import */ var _modifiers_eventListeners_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modifiers/eventListeners.js */ "./node_modules/@popperjs/core/lib/modifiers/eventListeners.js");
-/* harmony import */ var _modifiers_popperOffsets_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modifiers/popperOffsets.js */ "./node_modules/@popperjs/core/lib/modifiers/popperOffsets.js");
-/* harmony import */ var _modifiers_computeStyles_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modifiers/computeStyles.js */ "./node_modules/@popperjs/core/lib/modifiers/computeStyles.js");
-/* harmony import */ var _modifiers_applyStyles_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modifiers/applyStyles.js */ "./node_modules/@popperjs/core/lib/modifiers/applyStyles.js");
+/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createPopper.js */ "./node_modules/@popperjs/core/lib/createPopper.js");
+/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./createPopper.js */ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js");
+/* harmony import */ var _modifiers_eventListeners_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modifiers/eventListeners.js */ "./node_modules/@popperjs/core/lib/modifiers/eventListeners.js");
+/* harmony import */ var _modifiers_popperOffsets_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modifiers/popperOffsets.js */ "./node_modules/@popperjs/core/lib/modifiers/popperOffsets.js");
+/* harmony import */ var _modifiers_computeStyles_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modifiers/computeStyles.js */ "./node_modules/@popperjs/core/lib/modifiers/computeStyles.js");
+/* harmony import */ var _modifiers_applyStyles_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modifiers/applyStyles.js */ "./node_modules/@popperjs/core/lib/modifiers/applyStyles.js");
 
 
 
 
 
-var defaultModifiers = [_modifiers_eventListeners_js__WEBPACK_IMPORTED_MODULE_0__["default"], _modifiers_popperOffsets_js__WEBPACK_IMPORTED_MODULE_1__["default"], _modifiers_computeStyles_js__WEBPACK_IMPORTED_MODULE_2__["default"], _modifiers_applyStyles_js__WEBPACK_IMPORTED_MODULE_3__["default"]];
-var createPopper = /*#__PURE__*/(0,_createPopper_js__WEBPACK_IMPORTED_MODULE_4__.popperGenerator)({
+var defaultModifiers = [_modifiers_eventListeners_js__WEBPACK_IMPORTED_MODULE_2__["default"], _modifiers_popperOffsets_js__WEBPACK_IMPORTED_MODULE_3__["default"], _modifiers_computeStyles_js__WEBPACK_IMPORTED_MODULE_4__["default"], _modifiers_applyStyles_js__WEBPACK_IMPORTED_MODULE_5__["default"]];
+var createPopper = /*#__PURE__*/(0,_createPopper_js__WEBPACK_IMPORTED_MODULE_0__.popperGenerator)({
   defaultModifiers: defaultModifiers
 }); // eslint-disable-next-line import/no-unused-modules
 
@@ -2345,26 +2345,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   createPopper: () => (/* binding */ createPopper),
 /* harmony export */   createPopperLite: () => (/* reexport safe */ _popper_lite_js__WEBPACK_IMPORTED_MODULE_11__.createPopper),
 /* harmony export */   defaultModifiers: () => (/* binding */ defaultModifiers),
-/* harmony export */   detectOverflow: () => (/* reexport safe */ _createPopper_js__WEBPACK_IMPORTED_MODULE_10__["default"]),
+/* harmony export */   detectOverflow: () => (/* reexport safe */ _createPopper_js__WEBPACK_IMPORTED_MODULE_1__["default"]),
 /* harmony export */   eventListeners: () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.eventListeners),
 /* harmony export */   flip: () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.flip),
 /* harmony export */   hide: () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.hide),
 /* harmony export */   offset: () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.offset),
-/* harmony export */   popperGenerator: () => (/* reexport safe */ _createPopper_js__WEBPACK_IMPORTED_MODULE_9__.popperGenerator),
+/* harmony export */   popperGenerator: () => (/* reexport safe */ _createPopper_js__WEBPACK_IMPORTED_MODULE_0__.popperGenerator),
 /* harmony export */   popperOffsets: () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.popperOffsets),
 /* harmony export */   preventOverflow: () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.preventOverflow)
 /* harmony export */ });
-/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./createPopper.js */ "./node_modules/@popperjs/core/lib/createPopper.js");
-/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./createPopper.js */ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js");
-/* harmony import */ var _modifiers_eventListeners_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modifiers/eventListeners.js */ "./node_modules/@popperjs/core/lib/modifiers/eventListeners.js");
-/* harmony import */ var _modifiers_popperOffsets_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modifiers/popperOffsets.js */ "./node_modules/@popperjs/core/lib/modifiers/popperOffsets.js");
-/* harmony import */ var _modifiers_computeStyles_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modifiers/computeStyles.js */ "./node_modules/@popperjs/core/lib/modifiers/computeStyles.js");
-/* harmony import */ var _modifiers_applyStyles_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modifiers/applyStyles.js */ "./node_modules/@popperjs/core/lib/modifiers/applyStyles.js");
-/* harmony import */ var _modifiers_offset_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modifiers/offset.js */ "./node_modules/@popperjs/core/lib/modifiers/offset.js");
-/* harmony import */ var _modifiers_flip_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modifiers/flip.js */ "./node_modules/@popperjs/core/lib/modifiers/flip.js");
-/* harmony import */ var _modifiers_preventOverflow_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modifiers/preventOverflow.js */ "./node_modules/@popperjs/core/lib/modifiers/preventOverflow.js");
-/* harmony import */ var _modifiers_arrow_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modifiers/arrow.js */ "./node_modules/@popperjs/core/lib/modifiers/arrow.js");
-/* harmony import */ var _modifiers_hide_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modifiers/hide.js */ "./node_modules/@popperjs/core/lib/modifiers/hide.js");
+/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createPopper.js */ "./node_modules/@popperjs/core/lib/createPopper.js");
+/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./createPopper.js */ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js");
+/* harmony import */ var _modifiers_eventListeners_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modifiers/eventListeners.js */ "./node_modules/@popperjs/core/lib/modifiers/eventListeners.js");
+/* harmony import */ var _modifiers_popperOffsets_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modifiers/popperOffsets.js */ "./node_modules/@popperjs/core/lib/modifiers/popperOffsets.js");
+/* harmony import */ var _modifiers_computeStyles_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modifiers/computeStyles.js */ "./node_modules/@popperjs/core/lib/modifiers/computeStyles.js");
+/* harmony import */ var _modifiers_applyStyles_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modifiers/applyStyles.js */ "./node_modules/@popperjs/core/lib/modifiers/applyStyles.js");
+/* harmony import */ var _modifiers_offset_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modifiers/offset.js */ "./node_modules/@popperjs/core/lib/modifiers/offset.js");
+/* harmony import */ var _modifiers_flip_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modifiers/flip.js */ "./node_modules/@popperjs/core/lib/modifiers/flip.js");
+/* harmony import */ var _modifiers_preventOverflow_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modifiers/preventOverflow.js */ "./node_modules/@popperjs/core/lib/modifiers/preventOverflow.js");
+/* harmony import */ var _modifiers_arrow_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modifiers/arrow.js */ "./node_modules/@popperjs/core/lib/modifiers/arrow.js");
+/* harmony import */ var _modifiers_hide_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modifiers/hide.js */ "./node_modules/@popperjs/core/lib/modifiers/hide.js");
 /* harmony import */ var _popper_lite_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./popper-lite.js */ "./node_modules/@popperjs/core/lib/popper-lite.js");
 /* harmony import */ var _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./modifiers/index.js */ "./node_modules/@popperjs/core/lib/modifiers/index.js");
 
@@ -2377,8 +2377,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var defaultModifiers = [_modifiers_eventListeners_js__WEBPACK_IMPORTED_MODULE_0__["default"], _modifiers_popperOffsets_js__WEBPACK_IMPORTED_MODULE_1__["default"], _modifiers_computeStyles_js__WEBPACK_IMPORTED_MODULE_2__["default"], _modifiers_applyStyles_js__WEBPACK_IMPORTED_MODULE_3__["default"], _modifiers_offset_js__WEBPACK_IMPORTED_MODULE_4__["default"], _modifiers_flip_js__WEBPACK_IMPORTED_MODULE_5__["default"], _modifiers_preventOverflow_js__WEBPACK_IMPORTED_MODULE_6__["default"], _modifiers_arrow_js__WEBPACK_IMPORTED_MODULE_7__["default"], _modifiers_hide_js__WEBPACK_IMPORTED_MODULE_8__["default"]];
-var createPopper = /*#__PURE__*/(0,_createPopper_js__WEBPACK_IMPORTED_MODULE_9__.popperGenerator)({
+var defaultModifiers = [_modifiers_eventListeners_js__WEBPACK_IMPORTED_MODULE_2__["default"], _modifiers_popperOffsets_js__WEBPACK_IMPORTED_MODULE_3__["default"], _modifiers_computeStyles_js__WEBPACK_IMPORTED_MODULE_4__["default"], _modifiers_applyStyles_js__WEBPACK_IMPORTED_MODULE_5__["default"], _modifiers_offset_js__WEBPACK_IMPORTED_MODULE_6__["default"], _modifiers_flip_js__WEBPACK_IMPORTED_MODULE_7__["default"], _modifiers_preventOverflow_js__WEBPACK_IMPORTED_MODULE_8__["default"], _modifiers_arrow_js__WEBPACK_IMPORTED_MODULE_9__["default"], _modifiers_hide_js__WEBPACK_IMPORTED_MODULE_10__["default"]];
+var createPopper = /*#__PURE__*/(0,_createPopper_js__WEBPACK_IMPORTED_MODULE_0__.popperGenerator)({
   defaultModifiers: defaultModifiers
 }); // eslint-disable-next-line import/no-unused-modules
 
@@ -2401,8 +2401,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ computeAutoPlacement)
 /* harmony export */ });
-/* harmony import */ var _getVariation_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getVariation.js */ "./node_modules/@popperjs/core/lib/utils/getVariation.js");
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
+/* harmony import */ var _getVariation_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getVariation.js */ "./node_modules/@popperjs/core/lib/utils/getVariation.js");
+/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
 /* harmony import */ var _detectOverflow_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./detectOverflow.js */ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js");
 /* harmony import */ var _getBasePlacement_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getBasePlacement.js */ "./node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
 
@@ -2421,11 +2421,11 @@ function computeAutoPlacement(state, options) {
       padding = _options.padding,
       flipVariations = _options.flipVariations,
       _options$allowedAutoP = _options.allowedAutoPlacements,
-      allowedAutoPlacements = _options$allowedAutoP === void 0 ? _enums_js__WEBPACK_IMPORTED_MODULE_0__.placements : _options$allowedAutoP;
-  var variation = (0,_getVariation_js__WEBPACK_IMPORTED_MODULE_1__["default"])(placement);
-  var placements = variation ? flipVariations ? _enums_js__WEBPACK_IMPORTED_MODULE_0__.variationPlacements : _enums_js__WEBPACK_IMPORTED_MODULE_0__.variationPlacements.filter(function (placement) {
-    return (0,_getVariation_js__WEBPACK_IMPORTED_MODULE_1__["default"])(placement) === variation;
-  }) : _enums_js__WEBPACK_IMPORTED_MODULE_0__.basePlacements;
+      allowedAutoPlacements = _options$allowedAutoP === void 0 ? _enums_js__WEBPACK_IMPORTED_MODULE_1__.placements : _options$allowedAutoP;
+  var variation = (0,_getVariation_js__WEBPACK_IMPORTED_MODULE_0__["default"])(placement);
+  var placements = variation ? flipVariations ? _enums_js__WEBPACK_IMPORTED_MODULE_1__.variationPlacements : _enums_js__WEBPACK_IMPORTED_MODULE_1__.variationPlacements.filter(function (placement) {
+    return (0,_getVariation_js__WEBPACK_IMPORTED_MODULE_0__["default"])(placement) === variation;
+  }) : _enums_js__WEBPACK_IMPORTED_MODULE_1__.basePlacements;
   var allowedPlacements = placements.filter(function (placement) {
     return allowedAutoPlacements.indexOf(placement) >= 0;
   });
@@ -2464,8 +2464,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getBasePlacement.js */ "./node_modules/@popperjs/core/lib/utils/getBasePlacement.js");
 /* harmony import */ var _getVariation_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getVariation.js */ "./node_modules/@popperjs/core/lib/utils/getVariation.js");
-/* harmony import */ var _getMainAxisFromPlacement_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getMainAxisFromPlacement.js */ "./node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js");
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
+/* harmony import */ var _getMainAxisFromPlacement_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getMainAxisFromPlacement.js */ "./node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js");
+/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
 
 
 
@@ -2481,28 +2481,28 @@ function computeOffsets(_ref) {
   var offsets;
 
   switch (basePlacement) {
-    case _enums_js__WEBPACK_IMPORTED_MODULE_2__.top:
+    case _enums_js__WEBPACK_IMPORTED_MODULE_3__.top:
       offsets = {
         x: commonX,
         y: reference.y - element.height
       };
       break;
 
-    case _enums_js__WEBPACK_IMPORTED_MODULE_2__.bottom:
+    case _enums_js__WEBPACK_IMPORTED_MODULE_3__.bottom:
       offsets = {
         x: commonX,
         y: reference.y + reference.height
       };
       break;
 
-    case _enums_js__WEBPACK_IMPORTED_MODULE_2__.right:
+    case _enums_js__WEBPACK_IMPORTED_MODULE_3__.right:
       offsets = {
         x: reference.x + reference.width,
         y: commonY
       };
       break;
 
-    case _enums_js__WEBPACK_IMPORTED_MODULE_2__.left:
+    case _enums_js__WEBPACK_IMPORTED_MODULE_3__.left:
       offsets = {
         x: reference.x - element.width,
         y: commonY
@@ -2516,17 +2516,17 @@ function computeOffsets(_ref) {
       };
   }
 
-  var mainAxis = basePlacement ? (0,_getMainAxisFromPlacement_js__WEBPACK_IMPORTED_MODULE_3__["default"])(basePlacement) : null;
+  var mainAxis = basePlacement ? (0,_getMainAxisFromPlacement_js__WEBPACK_IMPORTED_MODULE_2__["default"])(basePlacement) : null;
 
   if (mainAxis != null) {
     var len = mainAxis === 'y' ? 'height' : 'width';
 
     switch (variation) {
-      case _enums_js__WEBPACK_IMPORTED_MODULE_2__.start:
+      case _enums_js__WEBPACK_IMPORTED_MODULE_3__.start:
         offsets[mainAxis] = offsets[mainAxis] - (reference[len] / 2 - element[len] / 2);
         break;
 
-      case _enums_js__WEBPACK_IMPORTED_MODULE_2__.end:
+      case _enums_js__WEBPACK_IMPORTED_MODULE_3__.end:
         offsets[mainAxis] = offsets[mainAxis] + (reference[len] / 2 - element[len] / 2);
         break;
 
@@ -2579,15 +2579,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ detectOverflow)
 /* harmony export */ });
-/* harmony import */ var _dom_utils_getClippingRect_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dom-utils/getClippingRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getClippingRect.js");
-/* harmony import */ var _dom_utils_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../dom-utils/getDocumentElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
-/* harmony import */ var _dom_utils_getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../dom-utils/getBoundingClientRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js");
-/* harmony import */ var _computeOffsets_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./computeOffsets.js */ "./node_modules/@popperjs/core/lib/utils/computeOffsets.js");
-/* harmony import */ var _rectToClientRect_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./rectToClientRect.js */ "./node_modules/@popperjs/core/lib/utils/rectToClientRect.js");
-/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
-/* harmony import */ var _dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dom-utils/instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
-/* harmony import */ var _mergePaddingObject_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mergePaddingObject.js */ "./node_modules/@popperjs/core/lib/utils/mergePaddingObject.js");
-/* harmony import */ var _expandToHashMap_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./expandToHashMap.js */ "./node_modules/@popperjs/core/lib/utils/expandToHashMap.js");
+/* harmony import */ var _dom_utils_getClippingRect_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dom-utils/getClippingRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getClippingRect.js");
+/* harmony import */ var _dom_utils_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dom-utils/getDocumentElement.js */ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js");
+/* harmony import */ var _dom_utils_getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dom-utils/getBoundingClientRect.js */ "./node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js");
+/* harmony import */ var _computeOffsets_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./computeOffsets.js */ "./node_modules/@popperjs/core/lib/utils/computeOffsets.js");
+/* harmony import */ var _rectToClientRect_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./rectToClientRect.js */ "./node_modules/@popperjs/core/lib/utils/rectToClientRect.js");
+/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../enums.js */ "./node_modules/@popperjs/core/lib/enums.js");
+/* harmony import */ var _dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../dom-utils/instanceOf.js */ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js");
+/* harmony import */ var _mergePaddingObject_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./mergePaddingObject.js */ "./node_modules/@popperjs/core/lib/utils/mergePaddingObject.js");
+/* harmony import */ var _expandToHashMap_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./expandToHashMap.js */ "./node_modules/@popperjs/core/lib/utils/expandToHashMap.js");
 
 
 
@@ -2609,29 +2609,29 @@ function detectOverflow(state, options) {
       _options$strategy = _options.strategy,
       strategy = _options$strategy === void 0 ? state.strategy : _options$strategy,
       _options$boundary = _options.boundary,
-      boundary = _options$boundary === void 0 ? _enums_js__WEBPACK_IMPORTED_MODULE_0__.clippingParents : _options$boundary,
+      boundary = _options$boundary === void 0 ? _enums_js__WEBPACK_IMPORTED_MODULE_5__.clippingParents : _options$boundary,
       _options$rootBoundary = _options.rootBoundary,
-      rootBoundary = _options$rootBoundary === void 0 ? _enums_js__WEBPACK_IMPORTED_MODULE_0__.viewport : _options$rootBoundary,
+      rootBoundary = _options$rootBoundary === void 0 ? _enums_js__WEBPACK_IMPORTED_MODULE_5__.viewport : _options$rootBoundary,
       _options$elementConte = _options.elementContext,
-      elementContext = _options$elementConte === void 0 ? _enums_js__WEBPACK_IMPORTED_MODULE_0__.popper : _options$elementConte,
+      elementContext = _options$elementConte === void 0 ? _enums_js__WEBPACK_IMPORTED_MODULE_5__.popper : _options$elementConte,
       _options$altBoundary = _options.altBoundary,
       altBoundary = _options$altBoundary === void 0 ? false : _options$altBoundary,
       _options$padding = _options.padding,
       padding = _options$padding === void 0 ? 0 : _options$padding;
-  var paddingObject = (0,_mergePaddingObject_js__WEBPACK_IMPORTED_MODULE_1__["default"])(typeof padding !== 'number' ? padding : (0,_expandToHashMap_js__WEBPACK_IMPORTED_MODULE_2__["default"])(padding, _enums_js__WEBPACK_IMPORTED_MODULE_0__.basePlacements));
-  var altContext = elementContext === _enums_js__WEBPACK_IMPORTED_MODULE_0__.popper ? _enums_js__WEBPACK_IMPORTED_MODULE_0__.reference : _enums_js__WEBPACK_IMPORTED_MODULE_0__.popper;
+  var paddingObject = (0,_mergePaddingObject_js__WEBPACK_IMPORTED_MODULE_7__["default"])(typeof padding !== 'number' ? padding : (0,_expandToHashMap_js__WEBPACK_IMPORTED_MODULE_8__["default"])(padding, _enums_js__WEBPACK_IMPORTED_MODULE_5__.basePlacements));
+  var altContext = elementContext === _enums_js__WEBPACK_IMPORTED_MODULE_5__.popper ? _enums_js__WEBPACK_IMPORTED_MODULE_5__.reference : _enums_js__WEBPACK_IMPORTED_MODULE_5__.popper;
   var popperRect = state.rects.popper;
   var element = state.elements[altBoundary ? altContext : elementContext];
-  var clippingClientRect = (0,_dom_utils_getClippingRect_js__WEBPACK_IMPORTED_MODULE_3__["default"])((0,_dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_4__.isElement)(element) ? element : element.contextElement || (0,_dom_utils_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_5__["default"])(state.elements.popper), boundary, rootBoundary, strategy);
-  var referenceClientRect = (0,_dom_utils_getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_6__["default"])(state.elements.reference);
-  var popperOffsets = (0,_computeOffsets_js__WEBPACK_IMPORTED_MODULE_7__["default"])({
+  var clippingClientRect = (0,_dom_utils_getClippingRect_js__WEBPACK_IMPORTED_MODULE_0__["default"])((0,_dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_6__.isElement)(element) ? element : element.contextElement || (0,_dom_utils_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_1__["default"])(state.elements.popper), boundary, rootBoundary, strategy);
+  var referenceClientRect = (0,_dom_utils_getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_2__["default"])(state.elements.reference);
+  var popperOffsets = (0,_computeOffsets_js__WEBPACK_IMPORTED_MODULE_3__["default"])({
     reference: referenceClientRect,
     element: popperRect,
     strategy: 'absolute',
     placement: placement
   });
-  var popperClientRect = (0,_rectToClientRect_js__WEBPACK_IMPORTED_MODULE_8__["default"])(Object.assign({}, popperRect, popperOffsets));
-  var elementClientRect = elementContext === _enums_js__WEBPACK_IMPORTED_MODULE_0__.popper ? popperClientRect : referenceClientRect; // positive = overflowing the clipping rect
+  var popperClientRect = (0,_rectToClientRect_js__WEBPACK_IMPORTED_MODULE_4__["default"])(Object.assign({}, popperRect, popperOffsets));
+  var elementClientRect = elementContext === _enums_js__WEBPACK_IMPORTED_MODULE_5__.popper ? popperClientRect : referenceClientRect; // positive = overflowing the clipping rect
   // 0 or negative = within the clipping rect
 
   var overflowOffsets = {
@@ -2642,11 +2642,11 @@ function detectOverflow(state, options) {
   };
   var offsetData = state.modifiersData.offset; // Offsets can be applied only to the popper element
 
-  if (elementContext === _enums_js__WEBPACK_IMPORTED_MODULE_0__.popper && offsetData) {
+  if (elementContext === _enums_js__WEBPACK_IMPORTED_MODULE_5__.popper && offsetData) {
     var offset = offsetData[placement];
     Object.keys(overflowOffsets).forEach(function (key) {
-      var multiply = [_enums_js__WEBPACK_IMPORTED_MODULE_0__.right, _enums_js__WEBPACK_IMPORTED_MODULE_0__.bottom].indexOf(key) >= 0 ? 1 : -1;
-      var axis = [_enums_js__WEBPACK_IMPORTED_MODULE_0__.top, _enums_js__WEBPACK_IMPORTED_MODULE_0__.bottom].indexOf(key) >= 0 ? 'y' : 'x';
+      var multiply = [_enums_js__WEBPACK_IMPORTED_MODULE_5__.right, _enums_js__WEBPACK_IMPORTED_MODULE_5__.bottom].indexOf(key) >= 0 ? 1 : -1;
+      var axis = [_enums_js__WEBPACK_IMPORTED_MODULE_5__.top, _enums_js__WEBPACK_IMPORTED_MODULE_5__.bottom].indexOf(key) >= 0 ? 'y' : 'x';
       overflowOffsets[key] += offset[axis] * multiply;
     });
   }
@@ -3288,8 +3288,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _popperjs_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @popperjs/core */ "./node_modules/@popperjs/core/lib/index.js");
 /* harmony import */ var _popperjs_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @popperjs/core */ "./node_modules/@popperjs/core/lib/popper.js");
 /*!
-  * Bootstrap v5.3.3 (https://getbootstrap.com/)
-  * Copyright 2011-2024 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+  * Bootstrap v5.3.8 (https://getbootstrap.com/)
+  * Copyright 2011-2025 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
   */
 
@@ -3490,7 +3490,7 @@ const noop = () => {};
  * @param {HTMLElement} element
  * @return void
  *
- * @see https://www.charistheo.io/blog/2021/02/restart-a-css-animation-with-javascript/#restarting-a-css-animation
+ * @see https://www.harrytheo.com/blog/2021/02/restart-a-css-animation-with-javascript/#restarting-a-css-animation
  */
 const reflow = element => {
   element.offsetHeight; // eslint-disable-line no-unused-expressions
@@ -3535,7 +3535,7 @@ const defineJQueryPlugin = plugin => {
   });
 };
 const execute = (possibleCallback, args = [], defaultValue = possibleCallback) => {
-  return typeof possibleCallback === 'function' ? possibleCallback(...args) : defaultValue;
+  return typeof possibleCallback === 'function' ? possibleCallback.call(...args) : defaultValue;
 };
 const executeAfterTransition = (callback, transitionElement, waitForTransition = true) => {
   if (!waitForTransition) {
@@ -3857,7 +3857,7 @@ const Manipulator = {
     const bsKeys = Object.keys(element.dataset).filter(key => key.startsWith('bs') && !key.startsWith('bsConfig'));
     for (const key of bsKeys) {
       let pureKey = key.replace(/^bs/, '');
-      pureKey = pureKey.charAt(0).toLowerCase() + pureKey.slice(1, pureKey.length);
+      pureKey = pureKey.charAt(0).toLowerCase() + pureKey.slice(1);
       attributes[pureKey] = normalizeData(element.dataset[key]);
     }
     return attributes;
@@ -3932,7 +3932,7 @@ class Config {
  * Constants
  */
 
-const VERSION = '5.3.3';
+const VERSION = '5.3.8';
 
 /**
  * Class definition
@@ -3958,6 +3958,8 @@ class BaseComponent extends Config {
       this[propertyName] = null;
     }
   }
+
+  // Private
   _queueCallback(callback, element, isAnimated = true) {
     executeAfterTransition(callback, element, isAnimated);
   }
@@ -4889,11 +4891,11 @@ class Collapse extends BaseComponent {
     this._element.style[dimension] = '';
     this._queueCallback(complete, this._element, true);
   }
+
+  // Private
   _isShown(element = this._element) {
     return element.classList.contains(CLASS_NAME_SHOW$7);
   }
-
-  // Private
   _configAfterMerge(config) {
     config.toggle = Boolean(config.toggle); // Coerce string values
     config.parent = getElement(config.parent);
@@ -5147,7 +5149,7 @@ class Dropdown extends BaseComponent {
   }
   _createPopper() {
     if (typeof _popperjs_core__WEBPACK_IMPORTED_MODULE_0__ === 'undefined') {
-      throw new TypeError('Bootstrap\'s dropdowns require Popper (https://popper.js.org)');
+      throw new TypeError('Bootstrap\'s dropdowns require Popper (https://popper.js.org/docs/v2/)');
     }
     let referenceElement = this._element;
     if (this._config.reference === 'parent') {
@@ -5226,7 +5228,7 @@ class Dropdown extends BaseComponent {
     }
     return {
       ...defaultBsPopperConfig,
-      ...execute(this._config.popperConfig, [defaultBsPopperConfig])
+      ...execute(this._config.popperConfig, [undefined, defaultBsPopperConfig])
     };
   }
   _selectMenuItem({
@@ -6248,7 +6250,6 @@ const uriAttributes = new Set(['background', 'cite', 'href', 'itemtype', 'longde
  *
  * Shout-out to Angular https://github.com/angular/angular/blob/15.2.8/packages/core/src/sanitization/url_sanitizer.ts#L38
  */
-// eslint-disable-next-line unicorn/better-regex
 const SAFE_URL_PATTERN = /^(?!javascript:)(?:[a-z0-9+.-]+:|[^&:/?#]*(?:[/?#]|$))/i;
 const allowedAttribute = (attribute, allowedAttributeList) => {
   const attributeName = attribute.nodeName.toLowerCase();
@@ -6413,7 +6414,7 @@ class TemplateFactory extends Config {
     return this._config.sanitize ? sanitizeHtml(arg, this._config.allowList, this._config.sanitizeFn) : arg;
   }
   _resolvePossibleFunction(arg) {
-    return execute(arg, [this]);
+    return execute(arg, [undefined, this]);
   }
   _putElementInTemplate(element, templateElement) {
     if (this._config.html) {
@@ -6512,7 +6513,7 @@ const DefaultType$3 = {
 class Tooltip extends BaseComponent {
   constructor(element, config) {
     if (typeof _popperjs_core__WEBPACK_IMPORTED_MODULE_0__ === 'undefined') {
-      throw new TypeError('Bootstrap\'s tooltips require Popper (https://popper.js.org)');
+      throw new TypeError('Bootstrap\'s tooltips require Popper (https://popper.js.org/docs/v2/)');
     }
     super(element, config);
 
@@ -6558,7 +6559,6 @@ class Tooltip extends BaseComponent {
     if (!this._isEnabled) {
       return;
     }
-    this._activeTrigger.click = !this._activeTrigger.click;
     if (this._isShown()) {
       this._leave();
       return;
@@ -6746,7 +6746,7 @@ class Tooltip extends BaseComponent {
     return offset;
   }
   _resolvePossibleFunction(arg) {
-    return execute(arg, [this._element]);
+    return execute(arg, [this._element, this._element]);
   }
   _getPopperConfig(attachment) {
     const defaultBsPopperConfig = {
@@ -6784,7 +6784,7 @@ class Tooltip extends BaseComponent {
     };
     return {
       ...defaultBsPopperConfig,
-      ...execute(this._config.popperConfig, [defaultBsPopperConfig])
+      ...execute(this._config.popperConfig, [undefined, defaultBsPopperConfig])
     };
   }
   _setListeners() {
@@ -6793,6 +6793,7 @@ class Tooltip extends BaseComponent {
       if (trigger === 'click') {
         EventHandler.on(this._element, this.constructor.eventName(EVENT_CLICK$1), this._config.selector, event => {
           const context = this._initializeOnDelegatedTarget(event);
+          context._activeTrigger[TRIGGER_CLICK] = !(context._isShown() && context._activeTrigger[TRIGGER_CLICK]);
           context.toggle();
         });
       } else if (trigger !== TRIGGER_MANUAL) {
@@ -7658,7 +7659,6 @@ class Toast extends BaseComponent {
   }
 
   // Private
-
   _maybeScheduleHide() {
     if (!this._config.autohide) {
       return;
@@ -9867,7 +9867,8 @@ function BufferBigIntNotDefined () {
 (function(mod) {
   if (true) // CommonJS
     mod(__webpack_require__(/*! ../../lib/codemirror */ "./node_modules/codemirror/lib/codemirror.js"));
-  else {}
+  else // removed by dead control flow
+{}
 })(function(CodeMirror) {
   "use strict";
 
@@ -14511,7 +14512,7 @@ function BufferBigIntNotDefined () {
     // The element in which the editor lives.
     d.wrapper = elt("div", [d.scrollbarFiller, d.gutterFiller, d.scroller], "CodeMirror");
     // See #6982. FIXME remove when this has been fixed for a while in Chrome
-    if (chrome && chrome_version >= 105) { d.wrapper.style.clipPath = "inset(0px)"; }
+    if (chrome && chrome_version === 105) { d.wrapper.style.clipPath = "inset(0px)"; }
 
     // This attribute is respected by automatic translation systems such as Google Translate,
     // and may also be respected by tools used by human translators.
@@ -19962,7 +19963,7 @@ function BufferBigIntNotDefined () {
 
   addLegacyProps(CodeMirror);
 
-  CodeMirror.version = "5.65.18";
+  CodeMirror.version = "5.65.20";
 
   return CodeMirror;
 
@@ -19983,7 +19984,8 @@ function BufferBigIntNotDefined () {
 (function(mod) {
   if (true) // CommonJS
     mod(__webpack_require__(/*! ../../lib/codemirror */ "./node_modules/codemirror/lib/codemirror.js"));
-  else {}
+  else // removed by dead control flow
+{}
 })(function(CodeMirror) {
 "use strict";
 
@@ -22213,6 +22215,2727 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/locale/en.json.js":
+/*!************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/locale/en.json.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+	"locale": "en",
+	"long": {
+		"year": {
+			"previous": "last year",
+			"current": "this year",
+			"next": "next year",
+			"past": {
+				"one": "{0} year ago",
+				"other": "{0} years ago"
+			},
+			"future": {
+				"one": "in {0} year",
+				"other": "in {0} years"
+			}
+		},
+		"quarter": {
+			"previous": "last quarter",
+			"current": "this quarter",
+			"next": "next quarter",
+			"past": {
+				"one": "{0} quarter ago",
+				"other": "{0} quarters ago"
+			},
+			"future": {
+				"one": "in {0} quarter",
+				"other": "in {0} quarters"
+			}
+		},
+		"month": {
+			"previous": "last month",
+			"current": "this month",
+			"next": "next month",
+			"past": {
+				"one": "{0} month ago",
+				"other": "{0} months ago"
+			},
+			"future": {
+				"one": "in {0} month",
+				"other": "in {0} months"
+			}
+		},
+		"week": {
+			"previous": "last week",
+			"current": "this week",
+			"next": "next week",
+			"past": {
+				"one": "{0} week ago",
+				"other": "{0} weeks ago"
+			},
+			"future": {
+				"one": "in {0} week",
+				"other": "in {0} weeks"
+			}
+		},
+		"day": {
+			"previous": "yesterday",
+			"current": "today",
+			"next": "tomorrow",
+			"past": {
+				"one": "{0} day ago",
+				"other": "{0} days ago"
+			},
+			"future": {
+				"one": "in {0} day",
+				"other": "in {0} days"
+			}
+		},
+		"hour": {
+			"current": "this hour",
+			"past": {
+				"one": "{0} hour ago",
+				"other": "{0} hours ago"
+			},
+			"future": {
+				"one": "in {0} hour",
+				"other": "in {0} hours"
+			}
+		},
+		"minute": {
+			"current": "this minute",
+			"past": {
+				"one": "{0} minute ago",
+				"other": "{0} minutes ago"
+			},
+			"future": {
+				"one": "in {0} minute",
+				"other": "in {0} minutes"
+			}
+		},
+		"second": {
+			"current": "now",
+			"past": {
+				"one": "{0} second ago",
+				"other": "{0} seconds ago"
+			},
+			"future": {
+				"one": "in {0} second",
+				"other": "in {0} seconds"
+			}
+		}
+	},
+	"short": {
+		"year": {
+			"previous": "last yr.",
+			"current": "this yr.",
+			"next": "next yr.",
+			"past": "{0} yr. ago",
+			"future": "in {0} yr."
+		},
+		"quarter": {
+			"previous": "last qtr.",
+			"current": "this qtr.",
+			"next": "next qtr.",
+			"past": {
+				"one": "{0} qtr. ago",
+				"other": "{0} qtrs. ago"
+			},
+			"future": {
+				"one": "in {0} qtr.",
+				"other": "in {0} qtrs."
+			}
+		},
+		"month": {
+			"previous": "last mo.",
+			"current": "this mo.",
+			"next": "next mo.",
+			"past": "{0} mo. ago",
+			"future": "in {0} mo."
+		},
+		"week": {
+			"previous": "last wk.",
+			"current": "this wk.",
+			"next": "next wk.",
+			"past": "{0} wk. ago",
+			"future": "in {0} wk."
+		},
+		"day": {
+			"previous": "yesterday",
+			"current": "today",
+			"next": "tomorrow",
+			"past": {
+				"one": "{0} day ago",
+				"other": "{0} days ago"
+			},
+			"future": {
+				"one": "in {0} day",
+				"other": "in {0} days"
+			}
+		},
+		"hour": {
+			"current": "this hour",
+			"past": "{0} hr. ago",
+			"future": "in {0} hr."
+		},
+		"minute": {
+			"current": "this minute",
+			"past": "{0} min. ago",
+			"future": "in {0} min."
+		},
+		"second": {
+			"current": "now",
+			"past": "{0} sec. ago",
+			"future": "in {0} sec."
+		}
+	},
+	"narrow": {
+		"year": {
+			"previous": "last yr.",
+			"current": "this yr.",
+			"next": "next yr.",
+			"past": "{0}y ago",
+			"future": "in {0}y"
+		},
+		"quarter": {
+			"previous": "last qtr.",
+			"current": "this qtr.",
+			"next": "next qtr.",
+			"past": "{0}q ago",
+			"future": "in {0}q"
+		},
+		"month": {
+			"previous": "last mo.",
+			"current": "this mo.",
+			"next": "next mo.",
+			"past": "{0}mo ago",
+			"future": "in {0}mo"
+		},
+		"week": {
+			"previous": "last wk.",
+			"current": "this wk.",
+			"next": "next wk.",
+			"past": "{0}w ago",
+			"future": "in {0}w"
+		},
+		"day": {
+			"previous": "yesterday",
+			"current": "today",
+			"next": "tomorrow",
+			"past": "{0}d ago",
+			"future": "in {0}d"
+		},
+		"hour": {
+			"current": "this hour",
+			"past": "{0}h ago",
+			"future": "in {0}h"
+		},
+		"minute": {
+			"current": "this minute",
+			"past": "{0}m ago",
+			"future": "in {0}m"
+		},
+		"second": {
+			"current": "now",
+			"past": "{0}s ago",
+			"future": "in {0}s"
+		}
+	},
+	"now": {
+		"now": {
+			"current": "now",
+			"future": "in a moment",
+			"past": "just now"
+		}
+	},
+	"mini": {
+		"year": "{0}yr",
+		"month": "{0}mo",
+		"week": "{0}wk",
+		"day": "{0}d",
+		"hour": "{0}h",
+		"minute": "{0}m",
+		"second": "{0}s",
+		"now": "now"
+	},
+	"short-time": {
+		"year": "{0} yr.",
+		"month": "{0} mo.",
+		"week": "{0} wk.",
+		"day": {
+			"one": "{0} day",
+			"other": "{0} days"
+		},
+		"hour": "{0} hr.",
+		"minute": "{0} min.",
+		"second": "{0} sec."
+	},
+	"long-time": {
+		"year": {
+			"one": "{0} year",
+			"other": "{0} years"
+		},
+		"month": {
+			"one": "{0} month",
+			"other": "{0} months"
+		},
+		"week": {
+			"one": "{0} week",
+			"other": "{0} weeks"
+		},
+		"day": {
+			"one": "{0} day",
+			"other": "{0} days"
+		},
+		"hour": {
+			"one": "{0} hour",
+			"other": "{0} hours"
+		},
+		"minute": {
+			"one": "{0} minute",
+			"other": "{0} minutes"
+		},
+		"second": {
+			"one": "{0} second",
+			"other": "{0} seconds"
+		}
+	}
+});
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/LocaleDataStore.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/LocaleDataStore.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   addLocaleData: () => (/* binding */ addLocaleData),
+/* harmony export */   getLocaleData: () => (/* binding */ getLocaleData)
+/* harmony export */ });
+// For all locales added
+// their relative time formatter messages will be stored here.
+var localesData = {};
+function getLocaleData(locale) {
+  return localesData[locale];
+}
+function addLocaleData(localeData) {
+  if (!localeData) {
+    throw new Error('[javascript-time-ago] No locale data passed.');
+  }
+  // This locale data is stored in a global variable
+  // and later used when calling `.format(time)`.
+  localesData[localeData.locale] = localeData;
+}
+//# sourceMappingURL=LocaleDataStore.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/TimeAgo.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/TimeAgo.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ TimeAgo)
+/* harmony export */ });
+/* harmony import */ var relative_time_format__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! relative-time-format */ "./node_modules/relative-time-format/modules/RelativeTimeFormat.js");
+/* harmony import */ var _cache_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./cache.js */ "./node_modules/javascript-time-ago/modules/cache.js");
+/* harmony import */ var _locale_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./locale.js */ "./node_modules/javascript-time-ago/modules/locale.js");
+/* harmony import */ var _isStyleObject_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./isStyleObject.js */ "./node_modules/javascript-time-ago/modules/isStyleObject.js");
+/* harmony import */ var _steps_getStep_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./steps/getStep.js */ "./node_modules/javascript-time-ago/modules/steps/getStep.js");
+/* harmony import */ var _steps_getStepDenominator_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./steps/getStepDenominator.js */ "./node_modules/javascript-time-ago/modules/steps/getStepDenominator.js");
+/* harmony import */ var _steps_getTimeToNextUpdate_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./steps/getTimeToNextUpdate.js */ "./node_modules/javascript-time-ago/modules/steps/getTimeToNextUpdate.js");
+/* harmony import */ var _LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./LocaleDataStore.js */ "./node_modules/javascript-time-ago/modules/LocaleDataStore.js");
+/* harmony import */ var _style_roundMinute_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./style/roundMinute.js */ "./node_modules/javascript-time-ago/modules/style/roundMinute.js");
+/* harmony import */ var _style_getStyleByName_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./style/getStyleByName.js */ "./node_modules/javascript-time-ago/modules/style/getStyleByName.js");
+/* harmony import */ var _round_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./round.js */ "./node_modules/javascript-time-ago/modules/round.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _createForOfIteratorHelperLoose(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (t) return (t = t.call(r)).next.bind(t); if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var o = 0; return function () { return o >= r.length ? { done: !0 } : { done: !1, value: r[o++] }; }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0) { ; } } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+
+
+
+
+
+
+
+
+
+
+
+// Valid time units.
+var UNITS = ['now',
+// The rest are the same as in `Intl.RelativeTimeFormat`.
+'second', 'minute', 'hour', 'day', 'week', 'month', 'quarter', 'year'];
+var TimeAgo = /*#__PURE__*/function () {
+  /**
+   * @param {(string|string[])} locales=[] - Preferred locales (or locale).
+   * @param {boolean} [polyfill] — Pass `false` to use native `Intl.RelativeTimeFormat` and `Intl.PluralRules` instead of the polyfills.
+   */
+  function TimeAgo() {
+    var locales = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+      polyfill = _ref.polyfill;
+    _classCallCheck(this, TimeAgo);
+    // Convert `locales` to an array.
+    if (typeof locales === 'string') {
+      locales = [locales];
+    }
+
+    // Choose the most appropriate locale
+    // from the list of `locales` added by the user.
+    // For example, new TimeAgo("en-US") -> "en".
+    this.locale = (0,_locale_js__WEBPACK_IMPORTED_MODULE_2__["default"])(locales.concat(TimeAgo.getDefaultLocale()), _LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_7__.getLocaleData);
+    if (typeof Intl !== 'undefined') {
+      // Use `Intl.NumberFormat` for formatting numbers (when available).
+      if (Intl.NumberFormat) {
+        this.numberFormat = new Intl.NumberFormat(this.locale);
+      }
+    }
+
+    // Some people have requested the ability to use native
+    // `Intl.RelativeTimeFormat` and `Intl.PluralRules`
+    // instead of the polyfills.
+    // https://github.com/catamphetamine/javascript-time-ago/issues/21
+    if (polyfill === false) {
+      this.IntlRelativeTimeFormat = Intl.RelativeTimeFormat;
+      this.IntlPluralRules = Intl.PluralRules;
+    } else {
+      this.IntlRelativeTimeFormat = relative_time_format__WEBPACK_IMPORTED_MODULE_0__["default"];
+      this.IntlPluralRules = relative_time_format__WEBPACK_IMPORTED_MODULE_0__["default"].PluralRules;
+    }
+
+    // Cache `Intl.RelativeTimeFormat` instance.
+    this.relativeTimeFormatCache = new _cache_js__WEBPACK_IMPORTED_MODULE_1__["default"]();
+
+    // Cache `Intl.PluralRules` instance.
+    this.pluralRulesCache = new _cache_js__WEBPACK_IMPORTED_MODULE_1__["default"]();
+  }
+
+  /**
+   * Formats relative date/time.
+   *
+   * @param {(number|Date)} input — A `Date` or a javascript timestamp.
+   *
+   * @param {(string|object)} style — Date/time formatting style. Either one of the built-in style names or a "custom" style definition object having `steps: object[]` and `labels: string[]`.
+   *
+   * @param {number} [options.now] - Sets the current date timestamp.
+   *
+   * @param  {boolean} [options.future] — Tells how to format value `0`:
+   *         as "future" (`true`) or "past" (`false`).
+   *         Is `false` by default, but should have been `true` actually,
+   *         in order to correspond to `Intl.RelativeTimeFormat`
+   *         that uses `future` formatting for `0` unless `-0` is passed.
+   *
+   * @param {string} [options.round] — Rounding method. Overrides the style's one.
+   *
+   * @param {boolean} [options.getTimeToNextUpdate] — Pass `true` to return `[formattedDate, timeToNextUpdate]` instead of just `formattedDate`.
+   *
+   * @return {string} The formatted relative date/time. If no eligible `step` is found, then an empty string is returned.
+   */
+  _createClass(TimeAgo, [{
+    key: "format",
+    value: function format(input, style, options) {
+      if (!options) {
+        if (style && !isStyle(style)) {
+          options = style;
+          style = undefined;
+        } else {
+          options = {};
+        }
+      }
+      if (!style) {
+        style = _style_roundMinute_js__WEBPACK_IMPORTED_MODULE_8__["default"];
+      }
+      if (typeof style === 'string') {
+        style = (0,_style_getStyleByName_js__WEBPACK_IMPORTED_MODULE_9__["default"])(style);
+      }
+      var timestamp = getTimestamp(input);
+
+      // Get locale messages for this type of labels.
+      // "flavour" is a legacy name for "labels".
+      var _this$getLabels = this.getLabels(style.flavour || style.labels),
+        labels = _this$getLabels.labels,
+        labelsType = _this$getLabels.labelsType;
+      var now;
+      // Can pass a custom `now`, e.g. for testing purposes.
+      //
+      // Legacy way was passing `now` in `style`.
+      // That way is deprecated.
+      if (style.now !== undefined) {
+        now = style.now;
+      }
+      // The new way is passing `now` option to `.format()`.
+      if (now === undefined && options.now !== undefined) {
+        now = options.now;
+      }
+      if (now === undefined) {
+        now = Date.now();
+      }
+
+      // how much time has passed (in seconds)
+      var secondsPassed = (now - timestamp) / 1000; // in seconds
+
+      var future = options.future || secondsPassed < 0;
+      var nowLabel = getNowLabel(labels, (0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_7__.getLocaleData)(this.locale).now, (0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_7__.getLocaleData)(this.locale)["long"], future);
+
+      // `custom` – A function of `{ elapsed, time, date, now, locale }`.
+      //
+      // Looks like `custom` function is deprecated and will be removed
+      // in the next major version.
+      //
+      // If this function returns a value, then the `.format()` call will return that value.
+      // Otherwise the relative date/time is formatted as usual.
+      // This feature is currently not used anywhere and is here
+      // just for providing the ultimate customization point
+      // in case anyone would ever need that. Prefer using
+      // `steps[step].format(value, locale)` instead.
+      //
+      if (style.custom) {
+        var custom = style.custom({
+          now: now,
+          date: new Date(timestamp),
+          time: timestamp,
+          elapsed: secondsPassed,
+          locale: this.locale
+        });
+        if (custom !== undefined) {
+          // Won't return `timeToNextUpdate` here
+          // because `custom()` seems deprecated.
+          return custom;
+        }
+      }
+
+      // Get the list of available time interval units.
+      var units = getTimeIntervalMeasurementUnits(
+      // Controlling `style.steps` through `style.units` seems to be deprecated:
+      // create a new custom `style` instead.
+      style.units, labels, nowLabel);
+
+      // // If no available time unit is suitable, just output an empty string.
+      // if (units.length === 0) {
+      // 	console.error(`None of the "${units.join(', ')}" time units have been found in "${labelsType}" labels for "${this.locale}" locale.`)
+      // 	return ''
+      // }
+
+      var round = options.round || style.round;
+
+      // Choose the appropriate time measurement unit
+      // and get the corresponding rounded time amount.
+      var _getStep = (0,_steps_getStep_js__WEBPACK_IMPORTED_MODULE_4__["default"])(
+        // "gradation" is a legacy name for "steps".
+        // For historical reasons, "approximate" steps are used by default.
+        // In the next major version, there'll be no default for `steps`.
+        style.gradation || style.steps || _style_roundMinute_js__WEBPACK_IMPORTED_MODULE_8__["default"].steps, secondsPassed, {
+          now: now,
+          units: units,
+          round: round,
+          future: future,
+          getNextStep: true
+        }),
+        _getStep2 = _slicedToArray(_getStep, 3),
+        prevStep = _getStep2[0],
+        step = _getStep2[1],
+        nextStep = _getStep2[2];
+      var formattedDate = this.formatDateForStep(timestamp, step, secondsPassed, {
+        labels: labels,
+        labelsType: labelsType,
+        nowLabel: nowLabel,
+        now: now,
+        future: future,
+        round: round
+      }) || '';
+      if (options.getTimeToNextUpdate) {
+        var timeToNextUpdate = (0,_steps_getTimeToNextUpdate_js__WEBPACK_IMPORTED_MODULE_6__["default"])(timestamp, step, {
+          nextStep: nextStep,
+          prevStep: prevStep,
+          now: now,
+          future: future,
+          round: round
+        });
+        return [formattedDate, timeToNextUpdate];
+      }
+      return formattedDate;
+    }
+  }, {
+    key: "formatDateForStep",
+    value: function formatDateForStep(timestamp, step, secondsPassed, _ref2) {
+      var _this = this;
+      var labels = _ref2.labels,
+        labelsType = _ref2.labelsType,
+        nowLabel = _ref2.nowLabel,
+        now = _ref2.now,
+        future = _ref2.future,
+        round = _ref2.round;
+      // If no step matches, then output an empty string.
+      if (!step) {
+        return;
+      }
+      if (step.format) {
+        return step.format(timestamp, this.locale, {
+          formatAs: function formatAs(unit, value) {
+            // Mimicks `Intl.RelativeTimeFormat.format()`.
+            return _this.formatValue(value, unit, {
+              labels: labels,
+              future: future
+            });
+          },
+          now: now,
+          future: future
+        });
+      }
+
+      // "unit" is now called "formatAs".
+      var unit = step.unit || step.formatAs;
+      if (!unit) {
+        throw new Error("[javascript-time-ago] Each step must define either `formatAs` or `format()`. Step: ".concat(JSON.stringify(step)));
+      }
+
+      // `Intl.RelativeTimeFormat` doesn't operate in "now" units.
+      // Therefore, threat "now" as a special case.
+      if (unit === 'now') {
+        return nowLabel;
+      }
+
+      // Amount in units.
+      var amount = Math.abs(secondsPassed) / (0,_steps_getStepDenominator_js__WEBPACK_IMPORTED_MODULE_5__["default"])(step);
+
+      // Apply granularity to the time amount
+      // (and fallback to the previous step
+      //  if the first level of granularity
+      //  isn't met by this amount)
+      //
+      // `granularity` — (advanced) Time interval value "granularity".
+      // For example, it could be set to `5` for minutes to allow only 5-minute increments
+      // when formatting time intervals: `0 minutes`, `5 minutes`, `10 minutes`, etc.
+      // Perhaps this feature will be removed because there seem to be no use cases
+      // of it in the real world.
+      //
+      if (step.granularity) {
+        // Recalculate the amount of seconds passed based on granularity
+        amount = (0,_round_js__WEBPACK_IMPORTED_MODULE_10__.getRoundFunction)(round)(amount / step.granularity) * step.granularity;
+      }
+      var valueForFormatting = -1 * Math.sign(secondsPassed) * (0,_round_js__WEBPACK_IMPORTED_MODULE_10__.getRoundFunction)(round)(amount);
+
+      // By default, this library formats a `0` in "past" mode,
+      // unless `future: true` option is passed.
+      // This is different to `relative-time-format`'s behavior
+      // which formats a `0` in "future" mode by default, unless it's a `-0`.
+      // So, convert `0` to `-0` if `future: true` option wasn't passed.
+      // `=== 0` matches both `0` and `-0`.
+      if (valueForFormatting === 0) {
+        if (future) {
+          valueForFormatting = 0;
+        } else {
+          valueForFormatting = -0;
+        }
+      }
+      switch (labelsType) {
+        case 'long':
+        case 'short':
+        case 'narrow':
+          // Format the amount using `Intl.RelativeTimeFormat`.
+          return this.getFormatter(labelsType).format(valueForFormatting, unit);
+        default:
+          // Format the amount.
+          // (mimicks `Intl.RelativeTimeFormat` behavior for other time label styles)
+          return this.formatValue(valueForFormatting, unit, {
+            labels: labels,
+            future: future
+          });
+      }
+    }
+
+    /**
+     * Mimicks what `Intl.RelativeTimeFormat` does for additional locale styles.
+     * @param  {number} value
+     * @param  {string} unit
+     * @param  {object} options.labels — Relative time labels.
+     * @param  {boolean} [options.future] — Tells how to format value `0`: as "future" (`true`) or "past" (`false`). Is `false` by default, but should have been `true` actually.
+     * @return {string}
+     */
+  }, {
+    key: "formatValue",
+    value: function formatValue(value, unit, _ref3) {
+      var labels = _ref3.labels,
+        future = _ref3.future;
+      return this.getFormattingRule(labels, unit, value, {
+        future: future
+      }).replace('{0}', this.formatNumber(Math.abs(value)));
+    }
+
+    /**
+     * Returns formatting rule for `value` in `units` (either in past or in future).
+     * @param {object} formattingRules — Relative time labels for different units.
+     * @param {string} unit - Time interval measurement unit.
+     * @param {number} value - Time interval value.
+     * @param  {boolean} [options.future] — Tells how to format value `0`: as "future" (`true`) or "past" (`false`). Is `false` by default.
+     * @return {string}
+     * @example
+     * // Returns "{0} days ago"
+     * getFormattingRule(en.long, "day", -2, 'en')
+     */
+  }, {
+    key: "getFormattingRule",
+    value: function getFormattingRule(formattingRules, unit, value, _ref4) {
+      var future = _ref4.future;
+      // Passing the language is required in order to
+      // be able to correctly classify the `value` as a number.
+      var locale = this.locale;
+      formattingRules = formattingRules[unit];
+      // Check for a special "compacted" rules case:
+      // if formatting rules are the same for "past" and "future",
+      // and also for all possible `value`s, then those rules are
+      // stored as a single string.
+      if (typeof formattingRules === 'string') {
+        return formattingRules;
+      }
+      // Choose either "past" or "future" based on time `value` sign.
+      // If "past" is same as "future" then they're stored as "other".
+      // If there's only "other" then it's being collapsed.
+      var pastOrFuture = value === 0 ? future ? 'future' : 'past' : value < 0 ? 'past' : 'future';
+      var quantifierRules = formattingRules[pastOrFuture] || formattingRules;
+      // Bundle size optimization technique.
+      if (typeof quantifierRules === 'string') {
+        return quantifierRules;
+      }
+      // Quantify `value`.
+      var quantifier = this.getPluralRules().select(Math.abs(value));
+      // "other" rule is supposed to always be present.
+      // If only "other" rule is present then "rules" is not an object and is a string.
+      return quantifierRules[quantifier] || quantifierRules.other;
+    }
+
+    /**
+     * Formats a number into a string.
+     * Uses `Intl.NumberFormat` when available.
+     * @param  {number} number
+     * @return {string}
+     */
+  }, {
+    key: "formatNumber",
+    value: function formatNumber(number) {
+      return this.numberFormat ? this.numberFormat.format(number) : String(number);
+    }
+
+    /**
+     * Returns an `Intl.RelativeTimeFormat` for a given `labelsType`.
+     * @param {string} labelsType
+     * @return {object} `Intl.RelativeTimeFormat` instance
+     */
+  }, {
+    key: "getFormatter",
+    value: function getFormatter(labelsType) {
+      // `Intl.RelativeTimeFormat` instance creation is (hypothetically) assumed
+      // a lengthy operation so the instances are cached and reused.
+      return this.relativeTimeFormatCache.get(this.locale, labelsType) || this.relativeTimeFormatCache.put(this.locale, labelsType, new this.IntlRelativeTimeFormat(this.locale, {
+        style: labelsType
+      }));
+    }
+
+    /**
+     * Returns an `Intl.PluralRules` instance.
+     * @return {object} `Intl.PluralRules` instance
+     */
+  }, {
+    key: "getPluralRules",
+    value: function getPluralRules() {
+      // `Intl.PluralRules` instance creation is (hypothetically) assumed
+      // a lengthy operation so the instances are cached and reused.
+      return this.pluralRulesCache.get(this.locale) || this.pluralRulesCache.put(this.locale, new this.IntlPluralRules(this.locale));
+    }
+
+    /**
+     * Gets localized labels for this type of labels.
+     *
+     * @param {(string|string[])} labelsType - Relative date/time labels type.
+     *                                     If it's an array then all label types are tried
+     *                                     until a suitable one is found.
+     *
+     * @returns {Object} Returns an object of shape { labelsType, labels }
+     */
+  }, {
+    key: "getLabels",
+    value: function getLabels() {
+      var labelsType = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+      // Convert `labels` to an array.
+      if (typeof labelsType === 'string') {
+        labelsType = [labelsType];
+      }
+
+      // Supports legacy "tiny" and "mini-time" label styles.
+      labelsType = labelsType.map(function (labelsType) {
+        switch (labelsType) {
+          case 'tiny':
+          case 'mini-time':
+            return 'mini';
+          default:
+            return labelsType;
+        }
+      });
+
+      // "long" labels type is the default one.
+      // (it's always present for all languages)
+      labelsType = labelsType.concat('long');
+
+      // Find a suitable labels type.
+      var localeData = (0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_7__.getLocaleData)(this.locale);
+      for (var _iterator = _createForOfIteratorHelperLoose(labelsType), _step; !(_step = _iterator()).done;) {
+        var _labelsType = _step.value;
+        if (localeData[_labelsType]) {
+          return {
+            labelsType: _labelsType,
+            labels: localeData[_labelsType]
+          };
+        }
+      }
+    }
+  }]);
+  return TimeAgo;
+}();
+/**
+ * Default locale global variable.
+ */
+
+var defaultLocale = 'en';
+
+/**
+ * Gets default locale.
+ * @return  {string} locale
+ */
+TimeAgo.getDefaultLocale = function () {
+  return defaultLocale;
+};
+
+/**
+ * Sets default locale.
+ * @param  {string} locale
+ */
+TimeAgo.setDefaultLocale = function (locale) {
+  return defaultLocale = locale;
+};
+
+/**
+ * Adds locale data for a specific locale and marks the locale as default.
+ * @param {Object} localeData
+ */
+TimeAgo.addDefaultLocale = function (localeData) {
+  if (defaultLocaleHasBeenSpecified) {
+    return console.error('[javascript-time-ago] `TimeAgo.addDefaultLocale()` can only be called once. To add other locales, use `TimeAgo.addLocale()`.');
+  }
+  defaultLocaleHasBeenSpecified = true;
+  TimeAgo.setDefaultLocale(localeData.locale);
+  TimeAgo.addLocale(localeData);
+};
+var defaultLocaleHasBeenSpecified;
+
+/**
+ * Adds locale data for a specific locale.
+ * @param {Object} localeData
+ */
+TimeAgo.addLocale = function (localeData) {
+  (0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_7__.addLocaleData)(localeData);
+  relative_time_format__WEBPACK_IMPORTED_MODULE_0__["default"].addLocale(localeData);
+};
+
+/**
+ * (legacy alias)
+ * Adds locale data for a specific locale.
+ * @param {Object} localeData
+ * @deprecated
+ */
+TimeAgo.locale = TimeAgo.addLocale;
+
+/**
+ * Adds custom labels to locale data.
+ * @param {string} locale
+ * @param {string} name
+ * @param {object} labels
+ */
+TimeAgo.addLabels = function (locale, name, labels) {
+  var localeData = (0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_7__.getLocaleData)(locale);
+  if (!localeData) {
+    (0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_7__.addLocaleData)({
+      locale: locale
+    });
+    localeData = (0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_7__.getLocaleData)(locale);
+    // throw new Error(`[javascript-time-ago] No data for locale "${locale}"`)
+  }
+  localeData[name] = labels;
+};
+
+// Normalizes `.format()` `time` argument.
+function getTimestamp(input) {
+  if (input.constructor === Date || isMockedDate(input)) {
+    return input.getTime();
+  }
+  if (typeof input === 'number') {
+    return input;
+  }
+
+  // For some weird reason istanbul doesn't see this `throw` covered.
+  /* istanbul ignore next */
+  throw new Error("Unsupported relative time formatter input: ".concat(_typeof(input), ", ").concat(input));
+}
+
+// During testing via some testing libraries `Date`s aren't actually `Date`s.
+// https://github.com/catamphetamine/javascript-time-ago/issues/22
+function isMockedDate(object) {
+  return _typeof(object) === 'object' && typeof object.getTime === 'function';
+}
+
+// Get available time interval measurement units.
+function getTimeIntervalMeasurementUnits(allowedUnits, labels, nowLabel) {
+  // Get all time interval measurement units that're available
+  // in locale data for a given time labels style.
+  var units = Object.keys(labels);
+
+  // `now` unit is handled separately and is shipped in its own `now.json` file.
+  // `now.json` isn't present for all locales, so it could be substituted with
+  // ".second.current".
+  // Add `now` unit if it's available in locale data.
+  if (nowLabel) {
+    units.push('now');
+  }
+
+  // If only a specific set of available time measurement units can be used
+  // then only those units are allowed (if they're present in locale data).
+  if (allowedUnits) {
+    units = allowedUnits.filter(function (unit) {
+      return unit === 'now' || units.indexOf(unit) >= 0;
+    });
+  }
+  return units;
+}
+function getNowLabel(labels, nowLabels, longLabels, future) {
+  var nowLabel = labels.now || nowLabels && nowLabels.now;
+  // Specific "now" message form extended locale data (if present).
+  if (nowLabel) {
+    // Bundle size optimization technique.
+    if (typeof nowLabel === 'string') {
+      return nowLabel;
+    }
+    // Not handling `value === 0` as `localeData.now.current` here
+    // because it wouldn't make sense: "now" is a moment,
+    // so one can't possibly differentiate between a
+    // "previous" moment, a "current" moment and a "next moment".
+    // It can only be differentiated between "past" and "future".
+    if (future) {
+      return nowLabel.future;
+    } else {
+      return nowLabel.past;
+    }
+  }
+  // Use ".second.current" as "now" message.
+  if (longLabels && longLabels.second && longLabels.second.current) {
+    return longLabels.second.current;
+  }
+}
+function isStyle(variable) {
+  return typeof variable === 'string' || (0,_isStyleObject_js__WEBPACK_IMPORTED_MODULE_3__["default"])(variable);
+}
+//# sourceMappingURL=TimeAgo.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/cache.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/cache.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Cache)
+/* harmony export */ });
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+/**
+ * A basic in-memory cache.
+ *
+ * import Cache from 'javascript-time-ago/Cache'
+ * const cache = new Cache()
+ * const object = cache.get('key1', 'key2', ...) || cache.put('key1', 'key2', ..., createObject())
+ */
+var Cache = /*#__PURE__*/function () {
+  function Cache() {
+    _classCallCheck(this, Cache);
+    this.cache = {};
+  }
+  _createClass(Cache, [{
+    key: "get",
+    value: function get() {
+      var cache = this.cache;
+      for (var _len = arguments.length, keys = new Array(_len), _key = 0; _key < _len; _key++) {
+        keys[_key] = arguments[_key];
+      }
+      for (var _i = 0, _keys = keys; _i < _keys.length; _i++) {
+        var key = _keys[_i];
+        if (_typeof(cache) !== 'object') {
+          return;
+        }
+        cache = cache[key];
+      }
+      return cache;
+    }
+  }, {
+    key: "put",
+    value: function put() {
+      for (var _len2 = arguments.length, keys = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        keys[_key2] = arguments[_key2];
+      }
+      var value = keys.pop();
+      var lastKey = keys.pop();
+      var cache = this.cache;
+      for (var _i2 = 0, _keys2 = keys; _i2 < _keys2.length; _i2++) {
+        var key = _keys2[_i2];
+        if (_typeof(cache[key]) !== 'object') {
+          cache[key] = {};
+        }
+        cache = cache[key];
+      }
+      return cache[lastKey] = value;
+    }
+  }]);
+  return Cache;
+}();
+
+//# sourceMappingURL=cache.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/isStyleObject.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/isStyleObject.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ isStyleObject)
+/* harmony export */ });
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function isStyleObject(object) {
+  return isObject(object) && (Array.isArray(object.steps) ||
+  // `gradation` property is deprecated: it has been renamed to `steps`.
+  Array.isArray(object.gradation) ||
+  // `flavour` property is deprecated: it has been renamed to `labels`.
+  Array.isArray(object.flavour) || typeof object.flavour === 'string' || Array.isArray(object.labels) || typeof object.labels === 'string' ||
+  // `units` property is deprecated.
+  Array.isArray(object.units) ||
+  // `custom` property is deprecated.
+  typeof object.custom === 'function');
+}
+var OBJECT_CONSTRUCTOR = {}.constructor;
+function isObject(object) {
+  return _typeof(object) !== undefined && object !== null && object.constructor === OBJECT_CONSTRUCTOR;
+}
+//# sourceMappingURL=isStyleObject.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/locale.js":
+/*!************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/locale.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ chooseLocale),
+/* harmony export */   intlDateTimeFormatSupported: () => (/* binding */ intlDateTimeFormatSupported),
+/* harmony export */   intlDateTimeFormatSupportedLocale: () => (/* binding */ intlDateTimeFormatSupportedLocale)
+/* harmony export */ });
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _createForOfIteratorHelperLoose(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (t) return (t = t.call(r)).next.bind(t); if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var o = 0; return function () { return o >= r.length ? { done: !0 } : { done: !1, value: r[o++] }; }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
+/**
+ * Chooses the most appropriate locale
+ * (one of the registered ones)
+ * based on the list of preferred `locales` supplied by the user.
+ *
+ * @param {string[]} locales - the list of preferable locales (in [IETF format](https://en.wikipedia.org/wiki/IETF_language_tag)).
+ * @param {Function} isLocaleDataAvailable - tests if a locale is available.
+ *
+ * @returns {string} The most suitable locale.
+ *
+ * @example
+ * // Returns 'en'
+ * chooseLocale(['en-US'], undefined, (locale) => locale === 'ru' || locale === 'en')
+ */
+function chooseLocale(locales, isLocaleDataAvailable) {
+  // This is not an intelligent algorithm,
+  // but it will do for this library's case.
+  // `sr-Cyrl-BA` -> `sr-Cyrl` -> `sr`.
+  for (var _iterator = _createForOfIteratorHelperLoose(locales), _step; !(_step = _iterator()).done;) {
+    var locale = _step.value;
+    if (isLocaleDataAvailable(locale)) {
+      return locale;
+    }
+    var parts = locale.split('-');
+    while (parts.length > 1) {
+      parts.pop();
+      locale = parts.join('-');
+      if (isLocaleDataAvailable(locale)) {
+        return locale;
+      }
+    }
+  }
+  throw new Error("No locale data has been registered for any of the locales: ".concat(locales.join(', ')));
+}
+
+/**
+ * Whether can use `Intl.DateTimeFormat` for these `locales`.
+ * Returns the first suitable one.
+ * @param  {(string|string[])} locales
+ * @return {?string} The first locale that can be used.
+ */
+function intlDateTimeFormatSupportedLocale(locales) {
+  /* istanbul ignore else */
+  if (intlDateTimeFormatSupported()) {
+    return Intl.DateTimeFormat.supportedLocalesOf(locales)[0];
+  }
+}
+
+/**
+ * Whether can use `Intl.DateTimeFormat`.
+ * @return {boolean}
+ */
+function intlDateTimeFormatSupported() {
+  // Babel transforms `typeof` into some "branches"
+  // so istanbul will show this as "branch not covered".
+  /* istanbul ignore next */
+  var isIntlAvailable = (typeof Intl === "undefined" ? "undefined" : _typeof(Intl)) === 'object';
+  return isIntlAvailable && typeof Intl.DateTimeFormat === 'function';
+}
+//# sourceMappingURL=locale.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/round.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/round.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getDiffRatioToNextRoundedNumber: () => (/* binding */ getDiffRatioToNextRoundedNumber),
+/* harmony export */   getRoundFunction: () => (/* binding */ getRoundFunction)
+/* harmony export */ });
+function getRoundFunction(round) {
+  switch (round) {
+    case 'floor':
+      return Math.floor;
+    default:
+      return Math.round;
+  }
+}
+
+// For non-negative numbers.
+function getDiffRatioToNextRoundedNumber(round) {
+  switch (round) {
+    case 'floor':
+      // Math.floor(x) = x
+      // Math.floor(x + 1) = x + 1
+      return 1;
+    default:
+      // Math.round(x) = x
+      // Math.round(x + 0.5) = x + 1
+      return 0.5;
+  }
+}
+//# sourceMappingURL=round.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/steps/approximate.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/steps/approximate.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _units_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./units.js */ "./node_modules/javascript-time-ago/modules/steps/units.js");
+
+
+// "factor" is a legacy property.
+// Developers shouldn't need to use it in their custom steps.
+
+// "threshold" is a legacy name of "min".
+// Developers should use "min" property name instead of "threshold".
+
+// "threshold_for_idOrUnit: value" is a legacy way of specifying "min: { id: value }".
+// Developers should use "min" property instead of "threshold".
+
+// just now
+// 1 minute ago
+// 2 minutes ago
+// 5 minutes ago
+// 10 minutes ago
+// 15 minutes ago
+// 20 minutes ago
+// …
+// 50 minutes ago
+// an hour ago
+// 2 hours ago
+// …
+// 20 hours ago
+// a day ago
+// 2 days ago
+// 5 days ago
+// a week ago
+// 2 weeks ago
+// 3 weeks ago
+// a month ago
+// 2 months ago
+// 4 months ago
+// a year ago
+// 2 years ago
+// …
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{
+  // This step returns the amount of seconds
+  // by dividing the amount of seconds by `1`.
+  factor: 1,
+  // "now" labels are used for formatting the output.
+  unit: 'now'
+}, {
+  // When the language doesn't support `now` unit,
+  // the first step is ignored, and it uses this `second` unit.
+  threshold: 1,
+  // `threshold_for_now` should be the same as `threshold` on minutes.
+  threshold_for_now: 45.5,
+  // This step returns the amount of seconds
+  // by dividing the amount of seconds by `1`.
+  factor: 1,
+  // "second" labels are used for formatting the output.
+  unit: 'second'
+}, {
+  // `threshold` should be the same as `threshold_for_now` on seconds.
+  threshold: 45.5,
+  // Return the amount of minutes by dividing the amount
+  // of seconds by the amount of seconds in a minute.
+  factor: _units_js__WEBPACK_IMPORTED_MODULE_0__.minute,
+  // "minute" labels are used for formatting the output.
+  unit: 'minute'
+}, {
+  // This step is effective starting from 2.5 minutes.
+  threshold: 2.5 * _units_js__WEBPACK_IMPORTED_MODULE_0__.minute,
+  // Allow only 5-minute increments of minutes starting from 2.5 minutes.
+  // `granularity` — (advanced) Time interval value "granularity".
+  // For example, it could be set to `5` for minutes to allow only 5-minute increments
+  // when formatting time intervals: `0 minutes`, `5 minutes`, `10 minutes`, etc.
+  // Perhaps this feature will be removed because there seem to be no use cases
+  // of it in the real world.
+  granularity: 5,
+  // Return the amount of minutes by dividing the amount
+  // of seconds by the amount of seconds in a minute.
+  factor: _units_js__WEBPACK_IMPORTED_MODULE_0__.minute,
+  // "minute" labels are used for formatting the output.
+  unit: 'minute'
+}, {
+  // This step is effective starting from 22.5 minutes.
+  threshold: 22.5 * _units_js__WEBPACK_IMPORTED_MODULE_0__.minute,
+  // Return the amount of minutes by dividing the amount
+  // of seconds by the amount of seconds in  half-an-hour.
+  factor: 0.5 * _units_js__WEBPACK_IMPORTED_MODULE_0__.hour,
+  // "half-hour" labels are used for formatting the output.
+  // (if available, which is no longer the case)
+  unit: 'half-hour'
+}, {
+  // This step is effective starting from 42.5 minutes.
+  threshold: 42.5 * _units_js__WEBPACK_IMPORTED_MODULE_0__.minute,
+  threshold_for_minute: 52.5 * _units_js__WEBPACK_IMPORTED_MODULE_0__.minute,
+  // Return the amount of minutes by dividing the amount
+  // of seconds by the amount of seconds in an hour.
+  factor: _units_js__WEBPACK_IMPORTED_MODULE_0__.hour,
+  // "hour" labels are used for formatting the output.
+  unit: 'hour'
+}, {
+  // This step is effective starting from 20.5 hours.
+  threshold: 20.5 / 24 * _units_js__WEBPACK_IMPORTED_MODULE_0__.day,
+  // Return the amount of minutes by dividing the amount
+  // of seconds by the amount of seconds in a day.
+  factor: _units_js__WEBPACK_IMPORTED_MODULE_0__.day,
+  // "day" labels are used for formatting the output.
+  unit: 'day'
+}, {
+  // This step is effective starting from 5.5 days.
+  threshold: 5.5 * _units_js__WEBPACK_IMPORTED_MODULE_0__.day,
+  // Return the amount of minutes by dividing the amount
+  // of seconds by the amount of seconds in a week.
+  factor: _units_js__WEBPACK_IMPORTED_MODULE_0__.week,
+  // "week" labels are used for formatting the output.
+  unit: 'week'
+}, {
+  // This step is effective starting from 3.5 weeks.
+  threshold: 3.5 * _units_js__WEBPACK_IMPORTED_MODULE_0__.week,
+  // Return the amount of minutes by dividing the amount
+  // of seconds by the amount of seconds in a month.
+  factor: _units_js__WEBPACK_IMPORTED_MODULE_0__.month,
+  // "month" labels are used for formatting the output.
+  unit: 'month'
+}, {
+  // This step is effective starting from 10.5 months.
+  threshold: 10.5 * _units_js__WEBPACK_IMPORTED_MODULE_0__.month,
+  // Return the amount of minutes by dividing the amount
+  // of seconds by the amount of seconds in a year.
+  factor: _units_js__WEBPACK_IMPORTED_MODULE_0__.year,
+  // "year" labels are used for formatting the output.
+  unit: 'year'
+}]);
+//# sourceMappingURL=approximate.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/steps/getStep.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/steps/getStep.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ getStep)
+/* harmony export */ });
+/* harmony import */ var _getStepDenominator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getStepDenominator.js */ "./node_modules/javascript-time-ago/modules/steps/getStepDenominator.js");
+/* harmony import */ var _getStepMinTime_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getStepMinTime.js */ "./node_modules/javascript-time-ago/modules/steps/getStepMinTime.js");
+/* harmony import */ var _round_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../round.js */ "./node_modules/javascript-time-ago/modules/round.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+
+
+
+/**
+ * Finds an appropriate `step` of `steps` for the time interval (in seconds).
+ *
+ * @param {Object[]} steps - Time formatting steps.
+ *
+ * @param {number} secondsPassed - Time interval (in seconds).
+ *                                 `< 0` for past dates and `> 0` for future dates.
+ *
+ * @param {number} options.now - Current timestamp.
+ *
+ * @param {boolean} [options.future] - Whether the date should be formatted as a future one
+ *                                     instead of a past one.
+ *
+ * @param {string} [options.round] - (undocumented) Rounding mechanism.
+ *
+ * @param {string[]} [options.units] - A list of allowed time units.
+ *                                     (Example: ['second', 'minute', 'hour', …])
+ *
+ * @param {boolean} [options.getNextStep] - Pass true to return `[step, nextStep]` instead of just `step`.
+ *
+ * @return {Object|Object[]} [step] — Either a `step` or `[prevStep, step, nextStep]`.
+ */
+function getStep(steps, secondsPassed, _ref) {
+  var now = _ref.now,
+    future = _ref.future,
+    round = _ref.round,
+    units = _ref.units,
+    getNextStep = _ref.getNextStep;
+  // Ignore steps having not-supported time units in `formatAs`.
+  steps = filterStepsByUnits(steps, units);
+  var step = _getStep(steps, secondsPassed, {
+    now: now,
+    future: future,
+    round: round
+  });
+  if (getNextStep) {
+    if (step) {
+      var prevStep = steps[steps.indexOf(step) - 1];
+      var nextStep = steps[steps.indexOf(step) + 1];
+      return [prevStep, step, nextStep];
+    }
+    return [undefined, undefined, steps[0]];
+  }
+  return step;
+}
+function _getStep(steps, secondsPassed, _ref2) {
+  var now = _ref2.now,
+    future = _ref2.future,
+    round = _ref2.round;
+  // If no steps fit the conditions then return nothing.
+  if (steps.length === 0) {
+    return;
+  }
+
+  // Find the most appropriate step.
+  var i = getStepIndex(steps, secondsPassed, {
+    now: now,
+    future: future || secondsPassed < 0,
+    round: round
+  });
+
+  // If no step is applicable the return nothing.
+  if (i === -1) {
+    return;
+  }
+  var step = steps[i];
+
+  // Apply granularity to the time amount
+  // (and fall back to the previous step
+  //  if the first level of granularity
+  //  isn't met by this amount)
+  if (step.granularity) {
+    // Recalculate the amount of seconds passed based on `granularity`.
+    var secondsPassedGranular = (0,_round_js__WEBPACK_IMPORTED_MODULE_2__.getRoundFunction)(round)(Math.abs(secondsPassed) / (0,_getStepDenominator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(step) / step.granularity) * step.granularity;
+    // If the granularity for this step is too high,
+    // then fall back to the previous step.
+    // (if there is any previous step)
+    if (secondsPassedGranular === 0 && i > 0) {
+      return steps[i - 1];
+    }
+  }
+  return step;
+}
+
+/**
+ * Iterates through steps until it finds the maximum one satisfying the `minTime` threshold.
+ * @param  {Object} steps - Steps.
+ * @param  {number} secondsPassed - How much seconds have passed since the date till `now`.
+ * @param  {number} options.now - Current timestamp.
+ * @param  {boolean} options.future - Whether the time interval should be formatted as a future one.
+ * @param  {number} [i] - Gradation step currently being tested.
+ * @return {number} Gradation step index.
+ */
+function getStepIndex(steps, secondsPassed, options) {
+  var i = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+  var minTime = (0,_getStepMinTime_js__WEBPACK_IMPORTED_MODULE_1__["default"])(steps[i], _objectSpread({
+    prevStep: steps[i - 1],
+    timestamp: options.now - secondsPassed * 1000
+  }, options));
+  // If `minTime` isn't defined or deduceable for this step, then stop.
+  if (minTime === undefined) {
+    return i - 1;
+  }
+  // If the `minTime` threshold for moving from previous step
+  // to this step is too high then return the previous step.
+  if (Math.abs(secondsPassed) < minTime) {
+    return i - 1;
+  }
+  // If it's the last step then return it.
+  if (i === steps.length - 1) {
+    return i;
+  }
+  // Move to the next step.
+  return getStepIndex(steps, secondsPassed, options, i + 1);
+}
+
+/**
+ * Leaves only allowed steps.
+ * @param  {Object[]} steps
+ * @param  {string[]} units - Allowed time units.
+ * @return {Object[]}
+ */
+function filterStepsByUnits(steps, units) {
+  return steps.filter(function (_ref3) {
+    var unit = _ref3.unit,
+      formatAs = _ref3.formatAs;
+    // "unit" is now called "formatAs".
+    unit = unit || formatAs;
+    // If this step has a `unit` defined
+    // then this `unit` must be in the list of allowed `units`.
+    if (unit) {
+      return units.indexOf(unit) >= 0;
+    }
+    // A step is not required to specify a `unit`:
+    // alternatively, it could specify `format()`.
+    // (see "twitter" style for an example)
+    return true;
+  });
+}
+//# sourceMappingURL=getStep.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/steps/getStepDenominator.js":
+/*!******************************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/steps/getStepDenominator.js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ getStepDenominator)
+/* harmony export */ });
+/* harmony import */ var _units_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./units.js */ "./node_modules/javascript-time-ago/modules/steps/units.js");
+
+function getStepDenominator(step) {
+  // `factor` is a legacy property.
+  if (step.factor !== undefined) {
+    return step.factor;
+  }
+  // "unit" is now called "formatAs".
+  return (0,_units_js__WEBPACK_IMPORTED_MODULE_0__.getSecondsInUnit)(step.unit || step.formatAs) || 1;
+}
+//# sourceMappingURL=getStepDenominator.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/steps/getStepMinTime.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/steps/getStepMinTime.js ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ getStepMinTime)
+/* harmony export */ });
+/* harmony import */ var _units_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./units.js */ "./node_modules/javascript-time-ago/modules/steps/units.js");
+/* harmony import */ var _round_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../round.js */ "./node_modules/javascript-time-ago/modules/round.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+
+
+function getStepMinTime(step, _ref) {
+  var prevStep = _ref.prevStep,
+    timestamp = _ref.timestamp,
+    now = _ref.now,
+    future = _ref.future,
+    round = _ref.round;
+  var minTime;
+  // "threshold_for_xxx" is a legacy property.
+  if (prevStep) {
+    if (prevStep.id || prevStep.unit) {
+      minTime = step["threshold_for_".concat(prevStep.id || prevStep.unit)];
+    }
+  }
+  if (minTime === undefined) {
+    // "threshold" is a legacy property.
+    if (step.threshold !== undefined) {
+      // "threshold" is a legacy name for "minTime".
+      minTime = step.threshold;
+      // "threshold" function is deprecated.
+      if (typeof minTime === 'function') {
+        minTime = minTime(now, future);
+      }
+    }
+  }
+  if (minTime === undefined) {
+    minTime = step.minTime;
+  }
+  // A deprecated way of specifying a different threshold
+  // depending on the previous step's unit.
+  if (_typeof(minTime) === 'object') {
+    if (prevStep && prevStep.id && minTime[prevStep.id] !== undefined) {
+      minTime = minTime[prevStep.id];
+    } else {
+      minTime = minTime["default"];
+    }
+  }
+  if (typeof minTime === 'function') {
+    minTime = minTime(timestamp, {
+      future: future,
+      getMinTimeForUnit: function getMinTimeForUnit(toUnit, fromUnit) {
+        return _getMinTimeForUnit(toUnit, fromUnit || prevStep && prevStep.formatAs, {
+          round: round
+        });
+      }
+    });
+  }
+  // Evaluate the `test()` function.
+  // `test()` function is deprecated.
+  if (minTime === undefined) {
+    if (step.test) {
+      if (step.test(timestamp, {
+        now: now,
+        future: future
+      })) {
+        // `0` threshold always passes.
+        minTime = 0;
+      } else {
+        // `MAX_SAFE_INTEGER` threshold won't ever pass in real life.
+        minTime = 9007199254740991; // Number.MAX_SAFE_INTEGER
+      }
+    }
+  }
+  if (minTime === undefined) {
+    if (prevStep) {
+      if (step.formatAs && prevStep.formatAs) {
+        minTime = _getMinTimeForUnit(step.formatAs, prevStep.formatAs, {
+          round: round
+        });
+      }
+    } else {
+      // The first step's `minTime` is `0` by default.
+      minTime = 0;
+    }
+  }
+  // Warn if no `minTime` was defined or could be deduced.
+  if (minTime === undefined) {
+    console.warn('[javascript-time-ago] A step should specify `minTime`:\n' + JSON.stringify(step, null, 2));
+  }
+  return minTime;
+}
+function _getMinTimeForUnit(toUnit, fromUnit, _ref2) {
+  var round = _ref2.round;
+  var toUnitAmount = (0,_units_js__WEBPACK_IMPORTED_MODULE_0__.getSecondsInUnit)(toUnit);
+  // if (!fromUnit) {
+  // 	return toUnitAmount;
+  // }
+  // if (!fromUnit) {
+  // 	fromUnit = getPreviousUnitFor(toUnit)
+  // }
+  var fromUnitAmount;
+  if (fromUnit === 'now') {
+    fromUnitAmount = (0,_units_js__WEBPACK_IMPORTED_MODULE_0__.getSecondsInUnit)(toUnit);
+  } else {
+    fromUnitAmount = (0,_units_js__WEBPACK_IMPORTED_MODULE_0__.getSecondsInUnit)(fromUnit);
+  }
+  if (toUnitAmount !== undefined && fromUnitAmount !== undefined) {
+    return toUnitAmount - fromUnitAmount * (1 - (0,_round_js__WEBPACK_IMPORTED_MODULE_1__.getDiffRatioToNextRoundedNumber)(round));
+  }
+}
+//# sourceMappingURL=getStepMinTime.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/steps/getTimeToNextUpdate.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/steps/getTimeToNextUpdate.js ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   INFINITY: () => (/* binding */ INFINITY),
+/* harmony export */   "default": () => (/* binding */ getTimeToNextUpdate),
+/* harmony export */   getStepChangesAt: () => (/* binding */ getStepChangesAt),
+/* harmony export */   getTimeToStepChange: () => (/* binding */ getTimeToStepChange)
+/* harmony export */ });
+/* harmony import */ var _getTimeToNextUpdateForUnit_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getTimeToNextUpdateForUnit.js */ "./node_modules/javascript-time-ago/modules/steps/getTimeToNextUpdateForUnit.js");
+/* harmony import */ var _getStepMinTime_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getStepMinTime.js */ "./node_modules/javascript-time-ago/modules/steps/getStepMinTime.js");
+/* harmony import */ var _round_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../round.js */ "./node_modules/javascript-time-ago/modules/round.js");
+
+
+
+
+// A thousand years is practically a metaphor for "infinity".
+var YEAR = 365 * 24 * 60 * 60 * 1000;
+var INFINITY = 1000 * YEAR;
+
+/**
+ * Gets the time to next update for a date and a step.
+ * @param  {number} date — The date passed to `.format()`, converted to a timestamp.
+ * @param  {object} step
+ * @param  {object} [options.previousStep]
+ * @param  {object} [options.nextStep]
+ * @param  {number} options.now
+ * @param  {boolean} options.future
+ * @param  {string} [options.round] - (undocumented) Rounding mechanism.
+ * @return {number} [timeToNextUpdate]
+ */
+function getTimeToNextUpdate(date, step, _ref) {
+  var prevStep = _ref.prevStep,
+    nextStep = _ref.nextStep,
+    now = _ref.now,
+    future = _ref.future,
+    round = _ref.round;
+  var timestamp = date.getTime ? date.getTime() : date;
+  var getTimeToNextUpdateForUnit = function getTimeToNextUpdateForUnit(unit) {
+    return (0,_getTimeToNextUpdateForUnit_js__WEBPACK_IMPORTED_MODULE_0__["default"])(unit, timestamp, {
+      now: now,
+      round: round
+    });
+  };
+
+  // For future dates, steps move from the last one to the first one,
+  // while for past dates, steps move from the first one to the last one,
+  // due to the fact that time flows in one direction,
+  // and future dates' interval naturally becomes smaller
+  // while past dates' interval naturally grows larger.
+  //
+  // For future dates, it's the transition
+  // from the current step to the previous step,
+  // therefore check the `minTime` of the current step.
+  //
+  // For past dates, it's the transition
+  // from the current step to the next step,
+  // therefore check the `minTime` of the next step.
+  //
+  var timeToStepChange = getTimeToStepChange(future ? step : nextStep, timestamp, {
+    future: future,
+    now: now,
+    round: round,
+    prevStep: future ? prevStep : step
+    // isFirstStep: future && isFirstStep
+  });
+  if (timeToStepChange === undefined) {
+    // Can't reliably determine "time to next update"
+    // if not all of the steps provide `minTime`.
+    return;
+  }
+  var timeToNextUpdate;
+  if (step) {
+    if (step.getTimeToNextUpdate) {
+      timeToNextUpdate = step.getTimeToNextUpdate(timestamp, {
+        getTimeToNextUpdateForUnit: getTimeToNextUpdateForUnit,
+        getRoundFunction: _round_js__WEBPACK_IMPORTED_MODULE_2__.getRoundFunction,
+        now: now,
+        future: future,
+        round: round
+      });
+    }
+    if (timeToNextUpdate === undefined) {
+      // "unit" is now called "formatAs".
+      var unit = step.unit || step.formatAs;
+      if (unit) {
+        // For some units, like "now", there's no defined amount of seconds in them.
+        // In such cases, `getTimeToNextUpdateForUnit()` returns `undefined`,
+        // and the next step's `minTime` could be used to calculate the update interval:
+        // it will just assume that the label never changes for this step.
+        timeToNextUpdate = getTimeToNextUpdateForUnit(unit);
+      }
+    }
+  }
+  if (timeToNextUpdate === undefined) {
+    return timeToStepChange;
+  }
+  return Math.min(timeToNextUpdate, timeToStepChange);
+}
+function getStepChangesAt(currentOrNextStep, timestamp, _ref2) {
+  var now = _ref2.now,
+    future = _ref2.future,
+    round = _ref2.round,
+    prevStep = _ref2.prevStep;
+  // The first step's `minTime` is `0` by default.
+  // It doesn't "change" steps at zero point
+  // but it does change the wording when switching
+  // from "future" to "past": "in ..." -> "... ago".
+  // Therefore, the label should be updated at zero-point too.
+  var minTime = (0,_getStepMinTime_js__WEBPACK_IMPORTED_MODULE_1__["default"])(currentOrNextStep, {
+    timestamp: timestamp,
+    now: now,
+    future: future,
+    round: round,
+    prevStep: prevStep
+  });
+  if (minTime === undefined) {
+    return;
+  }
+  if (future) {
+    // The step changes to the previous step
+    // as soon as `timestamp - now` becomes
+    // less than the `minTime` of the current step:
+    // `timestamp - now === minTime - 1`
+    // => `now === timestamp - minTime + 1`.
+    return timestamp - minTime * 1000 + 1;
+  } else {
+    // The step changes to the next step
+    // as soon as `now - timestamp` becomes
+    // equal to `minTime` of the next step:
+    // `now - timestamp === minTime`
+    // => `now === timestamp + minTime`.
+
+    // This is a special case when double-update could be skipped.
+    if (minTime === 0 && timestamp === now) {
+      return INFINITY;
+    }
+    return timestamp + minTime * 1000;
+  }
+}
+function getTimeToStepChange(step, timestamp, _ref3) {
+  var now = _ref3.now,
+    future = _ref3.future,
+    round = _ref3.round,
+    prevStep = _ref3.prevStep;
+  if (step) {
+    var stepChangesAt = getStepChangesAt(step, timestamp, {
+      now: now,
+      future: future,
+      round: round,
+      prevStep: prevStep
+    });
+    if (stepChangesAt === undefined) {
+      return;
+    }
+    return stepChangesAt - now;
+  } else {
+    if (future) {
+      // No step.
+      // Update right after zero point, when it changes from "future" to "past".
+      return timestamp - now + 1;
+    } else {
+      // The last step doesn't ever change when `date` is in the past.
+      return INFINITY;
+    }
+  }
+}
+//# sourceMappingURL=getTimeToNextUpdate.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/steps/getTimeToNextUpdateForUnit.js":
+/*!**************************************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/steps/getTimeToNextUpdateForUnit.js ***!
+  \**************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ getTimeToNextUpdateForUnit)
+/* harmony export */ });
+/* harmony import */ var _units_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./units.js */ "./node_modules/javascript-time-ago/modules/steps/units.js");
+/* harmony import */ var _round_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../round.js */ "./node_modules/javascript-time-ago/modules/round.js");
+
+
+
+/**
+ * Gets the time to next update for a step with a time unit defined.
+ * @param  {string} unit
+ * @param  {number} date — The date passed to `.format()`, converted to a timestamp.
+ * @param  {number} options.now
+ * @param  {string} [options.round] — (undocumented) Rounding mechanism.
+ * @return {number} [timeToNextUpdate]
+ */
+function getTimeToNextUpdateForUnit(unit, timestamp, _ref) {
+  var now = _ref.now,
+    round = _ref.round;
+  // For some units, like "now", there's no defined amount of seconds in them.
+  if (!(0,_units_js__WEBPACK_IMPORTED_MODULE_0__.getSecondsInUnit)(unit)) {
+    // If there's no amount of seconds defined for this unit
+    // then the update interval can't be determined reliably.
+    return;
+  }
+  var unitDenominator = (0,_units_js__WEBPACK_IMPORTED_MODULE_0__.getSecondsInUnit)(unit) * 1000;
+  var future = timestamp > now;
+  var preciseAmount = Math.abs(timestamp - now);
+  var roundedAmount = (0,_round_js__WEBPACK_IMPORTED_MODULE_1__.getRoundFunction)(round)(preciseAmount / unitDenominator) * unitDenominator;
+  if (future) {
+    if (roundedAmount > 0) {
+      // Amount decreases with time.
+      return preciseAmount - roundedAmount + getDiffToPreviousRoundedNumber(round, unitDenominator);
+    } else {
+      // Refresh right after the zero point,
+      // when "future" changes to "past".
+      return preciseAmount - roundedAmount + 1;
+    }
+  }
+  // Amount increases with time.
+  return -(preciseAmount - roundedAmount) + getDiffToNextRoundedNumber(round, unitDenominator);
+}
+function getDiffToNextRoundedNumber(round, unitDenominator) {
+  return (0,_round_js__WEBPACK_IMPORTED_MODULE_1__.getDiffRatioToNextRoundedNumber)(round) * unitDenominator;
+}
+function getDiffToPreviousRoundedNumber(round, unitDenominator) {
+  return (1 - (0,_round_js__WEBPACK_IMPORTED_MODULE_1__.getDiffRatioToNextRoundedNumber)(round)) * unitDenominator + 1;
+}
+//# sourceMappingURL=getTimeToNextUpdateForUnit.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/steps/helpers.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/steps/helpers.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getDate: () => (/* binding */ getDate)
+/* harmony export */ });
+// Looks like this one's deprecated.
+// /**
+//  * Returns a step corresponding to the unit.
+//  * @param  {Object[]} steps
+//  * @param  {string} unit
+//  * @return {?Object}
+//  */
+// export function getStepForUnit(steps, unit) {
+// 	for (const step of steps) {
+// 		if (step.unit === unit) {
+// 			return step
+// 		}
+// 	}
+// }
+
+// Looks like this one won't be used in the next major version.
+/**
+ * Converts value to a `Date`
+ * @param {(number|Date)} value
+ * @return {Date}
+ */
+function getDate(value) {
+  return value instanceof Date ? value : new Date(value);
+}
+//# sourceMappingURL=helpers.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/steps/round.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/steps/round.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// just now
+// 1 second ago
+// 2 seconds ago
+// …
+// 59 seconds ago
+// 1 minute ago
+// 2 minutes ago
+// …
+// 59 minutes ago
+// 1 hour ago
+// 2 hours ago
+// …
+// 24 hours ago
+// 1 day ago
+// 2 days ago
+// …
+// 6 days ago
+// 1 week ago
+// 2 weeks ago
+// …
+// 3 weeks ago
+// 1 month ago
+// 2 months ago
+// …
+// 11 months ago
+// 1 year ago
+// 2 years ago
+// …
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{
+  formatAs: 'now'
+}, {
+  formatAs: 'second'
+}, {
+  formatAs: 'minute'
+}, {
+  formatAs: 'hour'
+}, {
+  formatAs: 'day'
+}, {
+  formatAs: 'week'
+}, {
+  formatAs: 'month'
+}, {
+  formatAs: 'year'
+}]);
+//# sourceMappingURL=round.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/steps/units.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/steps/units.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   day: () => (/* binding */ day),
+/* harmony export */   getSecondsInUnit: () => (/* binding */ getSecondsInUnit),
+/* harmony export */   hour: () => (/* binding */ hour),
+/* harmony export */   minute: () => (/* binding */ minute),
+/* harmony export */   month: () => (/* binding */ month),
+/* harmony export */   week: () => (/* binding */ week),
+/* harmony export */   year: () => (/* binding */ year)
+/* harmony export */ });
+var minute = 60; // in seconds
+
+var hour = 60 * minute; // in seconds
+
+var day = 24 * hour; // in seconds
+
+var week = 7 * day; // in seconds
+
+// https://www.quora.com/What-is-the-average-number-of-days-in-a-month
+var month = 30.44 * day; // in seconds
+
+// "400 years have 146097 days (taking into account leap year rules)"
+var year = 146097 / 400 * day; // in seconds
+
+function getSecondsInUnit(unit) {
+  switch (unit) {
+    case 'second':
+      return 1;
+    case 'minute':
+      return minute;
+    case 'hour':
+      return hour;
+    case 'day':
+      return day;
+    case 'week':
+      return week;
+    case 'month':
+      return month;
+    case 'year':
+      return year;
+  }
+}
+
+// export function getPreviousUnitFor(unit) {
+// 	switch (unit) {
+// 		case 'second':
+// 			return 'now'
+// 		case 'minute':
+// 			return 'second'
+// 		case 'hour':
+// 			return 'minute'
+// 		case 'day':
+// 			return 'hour'
+// 		case 'week':
+// 			return 'day'
+// 		case 'month':
+// 			return 'week'
+// 		case 'year':
+// 			return 'month'
+// 	}
+// }
+//# sourceMappingURL=units.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/style/approximate.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/style/approximate.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _steps_approximate_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../steps/approximate.js */ "./node_modules/javascript-time-ago/modules/steps/approximate.js");
+
+
+// "gradation" is a legacy name for "steps".
+// It's here just for legacy compatibility.
+// Use "steps" name instead.
+
+// "flavour" is a legacy name for "labels".
+// It's here just for legacy compatibility.
+// Use "labels" name instead.
+
+// "units" is a legacy property.
+// It's here just for legacy compatibility.
+// Developers shouldn't need to use it in their custom styles.
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  gradation: _steps_approximate_js__WEBPACK_IMPORTED_MODULE_0__["default"],
+  flavour: 'long',
+  units: ['now', 'minute', 'hour', 'day', 'week', 'month', 'year']
+});
+//# sourceMappingURL=approximate.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/style/approximateTime.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/style/approximateTime.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _steps_approximate_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../steps/approximate.js */ "./node_modules/javascript-time-ago/modules/steps/approximate.js");
+
+
+// "gradation" is a legacy name for "steps".
+// It's here just for legacy compatibility.
+// Use "steps" name instead.
+
+// "flavour" is a legacy name for "labels".
+// It's here just for legacy compatibility.
+// Use "labels" name instead.
+
+// "units" is a legacy property.
+// It's here just for legacy compatibility.
+// Developers shouldn't need to use it in their custom styles.
+
+// Similar to the default style but with "ago" omitted.
+//
+// just now
+// 5 minutes
+// 10 minutes
+// 15 minutes
+// 20 minutes
+// an hour
+// 2 hours
+// …
+// 20 hours
+// 1 day
+// 2 days
+// a week
+// 2 weeks
+// 3 weeks
+// a month
+// 2 months
+// 3 months
+// 4 months
+// a year
+// 2 years
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  gradation: _steps_approximate_js__WEBPACK_IMPORTED_MODULE_0__["default"],
+  flavour: 'long-time',
+  units: ['now', 'minute', 'hour', 'day', 'week', 'month', 'year']
+});
+//# sourceMappingURL=approximateTime.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/style/getStyleByName.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/style/getStyleByName.js ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ getStyleByName)
+/* harmony export */ });
+/* harmony import */ var _round_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./round.js */ "./node_modules/javascript-time-ago/modules/style/round.js");
+/* harmony import */ var _roundMinute_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./roundMinute.js */ "./node_modules/javascript-time-ago/modules/style/roundMinute.js");
+/* harmony import */ var _approximate_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./approximate.js */ "./node_modules/javascript-time-ago/modules/style/approximate.js");
+/* harmony import */ var _approximateTime_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./approximateTime.js */ "./node_modules/javascript-time-ago/modules/style/approximateTime.js");
+/* harmony import */ var _twitter_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./twitter.js */ "./node_modules/javascript-time-ago/modules/style/twitter.js");
+/* harmony import */ var _twitterNow_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./twitterNow.js */ "./node_modules/javascript-time-ago/modules/style/twitterNow.js");
+/* harmony import */ var _twitterMinute_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./twitterMinute.js */ "./node_modules/javascript-time-ago/modules/style/twitterMinute.js");
+/* harmony import */ var _twitterMinuteNow_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./twitterMinuteNow.js */ "./node_modules/javascript-time-ago/modules/style/twitterMinuteNow.js");
+/* harmony import */ var _twitterFirstMinute_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./twitterFirstMinute.js */ "./node_modules/javascript-time-ago/modules/style/twitterFirstMinute.js");
+/* harmony import */ var _mini_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./mini.js */ "./node_modules/javascript-time-ago/modules/style/mini.js");
+/* harmony import */ var _miniNow_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./miniNow.js */ "./node_modules/javascript-time-ago/modules/style/miniNow.js");
+/* harmony import */ var _miniMinute_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./miniMinute.js */ "./node_modules/javascript-time-ago/modules/style/miniMinute.js");
+/* harmony import */ var _miniMinuteNow_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./miniMinuteNow.js */ "./node_modules/javascript-time-ago/modules/style/miniMinuteNow.js");
+
+
+// `approximate` style is deprecated.
+
+// `approximateTime` style is deprecated.
+
+
+
+
+
+
+
+
+
+
+function getStyleByName(style) {
+  switch (style) {
+    // "default" style name is deprecated.
+    case 'default':
+    case 'round':
+      return _round_js__WEBPACK_IMPORTED_MODULE_0__["default"];
+    case 'round-minute':
+      return _roundMinute_js__WEBPACK_IMPORTED_MODULE_1__["default"];
+    case 'approximate':
+      return _approximate_js__WEBPACK_IMPORTED_MODULE_2__["default"];
+    // "time" style name is deprecated.
+    case 'time':
+    case 'approximate-time':
+      return _approximateTime_js__WEBPACK_IMPORTED_MODULE_3__["default"];
+    case 'mini':
+      return _mini_js__WEBPACK_IMPORTED_MODULE_9__["default"];
+    case 'mini-now':
+      return _miniNow_js__WEBPACK_IMPORTED_MODULE_10__["default"];
+    case 'mini-minute':
+      return _miniMinute_js__WEBPACK_IMPORTED_MODULE_11__["default"];
+    case 'mini-minute-now':
+      return _miniMinuteNow_js__WEBPACK_IMPORTED_MODULE_12__["default"];
+    case 'twitter':
+      return _twitter_js__WEBPACK_IMPORTED_MODULE_4__["default"];
+    case 'twitter-now':
+      return _twitterNow_js__WEBPACK_IMPORTED_MODULE_5__["default"];
+    case 'twitter-minute':
+      return _twitterMinute_js__WEBPACK_IMPORTED_MODULE_6__["default"];
+    case 'twitter-minute-now':
+      return _twitterMinuteNow_js__WEBPACK_IMPORTED_MODULE_7__["default"];
+    case 'twitter-first-minute':
+      return _twitterFirstMinute_js__WEBPACK_IMPORTED_MODULE_8__["default"];
+    default:
+      // For historical reasons, the default style is "approximate".
+      return _approximate_js__WEBPACK_IMPORTED_MODULE_2__["default"];
+  }
+}
+//# sourceMappingURL=getStyleByName.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/style/mini.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/style/mini.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  steps: [{
+    formatAs: 'second'
+  }, {
+    formatAs: 'minute'
+  }, {
+    formatAs: 'hour'
+  }, {
+    formatAs: 'day'
+  }, {
+    formatAs: 'month'
+  }, {
+    formatAs: 'year'
+  }],
+  labels: [
+  // "mini" labels are only defined for a few languages.
+  'mini',
+  // "short-time" labels are only defined for a few languages.
+  'short-time',
+  // "narrow" and "short" labels are defined for all languages.
+  // "narrow" labels can sometimes be weird (like "+5d."),
+  // but "short" labels have the " ago" part, so "narrow" seem
+  // more appropriate.
+  // "short" labels would have been more appropriate if they
+  // didn't have the " ago" part, hence the "short-time" above.
+  'narrow',
+  // Since "narrow" labels are always present, "short" element
+  // of this array can be removed.
+  'short']
+});
+//# sourceMappingURL=mini.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/style/miniMinute.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/style/miniMinute.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _mini_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mini.js */ "./node_modules/javascript-time-ago/modules/style/mini.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_objectSpread(_objectSpread({}, _mini_js__WEBPACK_IMPORTED_MODULE_0__["default"]), {}, {
+  // Skip "seconds".
+  steps: _mini_js__WEBPACK_IMPORTED_MODULE_0__["default"].steps.filter(function (step) {
+    return step.formatAs !== 'second';
+  })
+}));
+//# sourceMappingURL=miniMinute.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/style/miniMinuteNow.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/style/miniMinuteNow.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _miniMinute_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./miniMinute.js */ "./node_modules/javascript-time-ago/modules/style/miniMinute.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_objectSpread(_objectSpread({}, _miniMinute_js__WEBPACK_IMPORTED_MODULE_0__["default"]), {}, {
+  // Add "now".
+  steps: [{
+    formatAs: 'now'
+  }].concat(_miniMinute_js__WEBPACK_IMPORTED_MODULE_0__["default"].steps)
+}));
+//# sourceMappingURL=miniMinuteNow.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/style/miniNow.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/style/miniNow.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _mini_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mini.js */ "./node_modules/javascript-time-ago/modules/style/mini.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_objectSpread(_objectSpread({}, _mini_js__WEBPACK_IMPORTED_MODULE_0__["default"]), {}, {
+  // Add "now".
+  steps: [{
+    formatAs: 'now'
+  }].concat(_mini_js__WEBPACK_IMPORTED_MODULE_0__["default"].steps)
+}));
+//# sourceMappingURL=miniNow.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/style/round.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/style/round.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _steps_round_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../steps/round.js */ "./node_modules/javascript-time-ago/modules/steps/round.js");
+
+
+// just now
+// 1 second ago
+// 2 seconds ago
+// …
+// 59 seconds ago
+// 1 minute ago
+// 2 minutes ago
+// …
+// 59 minutes ago
+// 1 minute ago
+// 2 minutes ago
+// …
+// 59 minutes ago
+// 1 hour ago
+// 2 hours ago
+// …
+// 24 hours ago
+// 1 day ago
+// 2 days ago
+// …
+// 6 days ago
+// 1 week ago
+// 2 weeks ago
+// 3 weeks ago
+// 4 weeks ago
+// 1 month ago
+// 2 months ago
+// …
+// 11 months ago
+// 1 year ago
+// 2 years ago
+// …
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  steps: _steps_round_js__WEBPACK_IMPORTED_MODULE_0__["default"],
+  labels: 'long'
+});
+//# sourceMappingURL=round.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/style/roundMinute.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/style/roundMinute.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _round_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./round.js */ "./node_modules/javascript-time-ago/modules/style/round.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+
+// just now
+// 1 minute ago
+// 2 minutes ago
+// …
+// 59 minutes ago
+// 1 minute ago
+// 2 minutes ago
+// …
+// 59 minutes ago
+// 1 hour ago
+// 2 hours ago
+// …
+// 24 hours ago
+// 1 day ago
+// 2 days ago
+// …
+// 6 days ago
+// 1 week ago
+// 2 weeks ago
+// 3 weeks ago
+// 4 weeks ago
+// 1 month ago
+// 2 months ago
+// …
+// 11 months ago
+// 1 year ago
+// 2 years ago
+// …
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_objectSpread(_objectSpread({}, _round_js__WEBPACK_IMPORTED_MODULE_0__["default"]), {}, {
+  // Skip "seconds".
+  steps: _round_js__WEBPACK_IMPORTED_MODULE_0__["default"].steps.filter(function (step) {
+    return step.formatAs !== 'second';
+  })
+}));
+//# sourceMappingURL=roundMinute.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/style/twitter.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/style/twitter.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _steps_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../steps/index.js */ "./node_modules/javascript-time-ago/modules/steps/helpers.js");
+/* harmony import */ var _locale_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../locale.js */ "./node_modules/javascript-time-ago/modules/locale.js");
+
+
+
+// For compatibility with the old versions of this library.
+
+
+// Twitter-style relative date/time formatting.
+// ("1m", "2h", "Mar 3", "Apr 4, 2012").
+//
+// Seconds, minutes or hours are shown for shorter intervals,
+// and longer intervals are formatted using full date format.
+
+var steps = [{
+  formatAs: 'second'
+}, {
+  formatAs: 'minute'
+}, {
+  formatAs: 'hour'
+}];
+
+// A cache for `Intl.DateTimeFormat` formatters
+// for various locales (is a global variable).
+var formatters = {};
+
+// Starting from day intervals, output month and day.
+var monthAndDay = {
+  minTime: function minTime(timestamp, _ref) {
+    var future = _ref.future,
+      getMinTimeForUnit = _ref.getMinTimeForUnit;
+    // Returns `23.5 * 60 * 60` when `round` is "round",
+    // and `24 * 60 * 60` when `round` is "floor".
+    return getMinTimeForUnit('day');
+  },
+  format: function format(value, locale) {
+    /* istanbul ignore else */
+    if (!formatters[locale]) {
+      formatters[locale] = {};
+    }
+    /* istanbul ignore else */
+    if (!formatters[locale].dayMonth) {
+      // "Apr 11" (MMMd)
+      formatters[locale].dayMonth = new Intl.DateTimeFormat(locale, {
+        month: 'short',
+        day: 'numeric'
+      });
+    }
+    // Output month and day.
+    return formatters[locale].dayMonth.format((0,_steps_index_js__WEBPACK_IMPORTED_MODULE_0__.getDate)(value));
+  }
+};
+
+// If the `date` happened/happens outside of current year,
+// then output day, month and year.
+// The interval should be such that the `date` lies outside of the current year.
+var yearMonthAndDay = {
+  minTime: function minTime(timestamp, _ref2) {
+    var future = _ref2.future;
+    if (future) {
+      // January 1, 00:00, of the `date`'s year is right after
+      // the maximum `now` for formatting a future date:
+      // When `now` is before that date, the `date` is formatted as "day/month/year" (this step),
+      // When `now` is equal to or after that date, the `date` is formatted as "day/month" (another step).
+      // After that, it's hours, minutes, seconds, and after that it's no longer `future`.
+      // The date is right after the maximum `now` for formatting a future date,
+      // so subtract 1 millisecond from it.
+      var maxFittingNow = new Date(new Date(timestamp).getFullYear(), 0).getTime() - 1;
+      // Return `minTime` (in seconds).
+      return (timestamp - maxFittingNow) / 1000;
+    } else {
+      // January 1, 00:00, of the year following the `date`'s year
+      // is the minimum `now` for formatting a past date:
+      // When `now` is before that date, the `date` is formatted as "day/month" (another step),
+      // When `now` is equal to or after that date, the `date` is formatted as "day/month/year" (this step).
+      // After that, it's hours, minutes, seconds, and after that it's no longer `future`.
+      var minFittingNow = new Date(new Date(timestamp).getFullYear() + 1, 0).getTime();
+      // Return `minTime` (in seconds).
+      return (minFittingNow - timestamp) / 1000;
+    }
+  },
+  format: function format(value, locale) {
+    /* istanbul ignore if */
+    if (!formatters[locale]) {
+      formatters[locale] = {};
+    }
+    /* istanbul ignore else */
+    if (!formatters[locale].dayMonthYear) {
+      // "Apr 11, 2017" (yMMMd)
+      formatters[locale].dayMonthYear = new Intl.DateTimeFormat(locale, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+    }
+    // Output day, month and year.
+    return formatters[locale].dayMonthYear.format((0,_steps_index_js__WEBPACK_IMPORTED_MODULE_0__.getDate)(value));
+  }
+};
+
+// If `Intl.DateTimeFormat` is supported,
+// then longer time intervals will be formatted as dates.
+/* istanbul ignore else */
+if ((0,_locale_js__WEBPACK_IMPORTED_MODULE_1__.intlDateTimeFormatSupported)()) {
+  steps.push(monthAndDay, yearMonthAndDay);
+}
+// Otherwise, if `Intl.DateTimeFormat` is not supported,
+// which could be the case when using Internet Explorer,
+// then simply mimick "round" steps.
+else {
+  steps.push({
+    formatAs: 'day'
+  }, {
+    formatAs: 'week'
+  }, {
+    formatAs: 'month'
+  }, {
+    formatAs: 'year'
+  });
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  steps: steps,
+  labels: [
+  // "mini" labels are only defined for a few languages.
+  'mini',
+  // "short-time" labels are only defined for a few languages.
+  'short-time',
+  // "narrow" and "short" labels are defined for all languages.
+  // "narrow" labels can sometimes be weird (like "+5d."),
+  // but "short" labels have the " ago" part, so "narrow" seem
+  // more appropriate.
+  // "short" labels would have been more appropriate if they
+  // didn't have the " ago" part, hence the "short-time" above.
+  'narrow',
+  // Since "narrow" labels are always present, "short" element
+  // of this array can be removed.
+  'short']
+});
+//# sourceMappingURL=twitter.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/style/twitterFirstMinute.js":
+/*!******************************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/style/twitterFirstMinute.js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _steps_units_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../steps/units.js */ "./node_modules/javascript-time-ago/modules/steps/units.js");
+/* harmony import */ var _twitter_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./twitter.js */ "./node_modules/javascript-time-ago/modules/style/twitter.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_objectSpread(_objectSpread({}, _twitter_js__WEBPACK_IMPORTED_MODULE_1__["default"]), {}, {
+  // Skip "seconds".
+  steps: _twitter_js__WEBPACK_IMPORTED_MODULE_1__["default"].steps.filter(function (step) {
+    return step.formatAs !== 'second';
+  })
+  // Start showing `1m` from the first minute.
+  .map(function (step) {
+    return step.formatAs === 'minute' ? _objectSpread(_objectSpread({}, step), {}, {
+      minTime: _steps_units_js__WEBPACK_IMPORTED_MODULE_0__.minute
+    }) : step;
+  })
+}));
+//# sourceMappingURL=twitterFirstMinute.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/style/twitterMinute.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/style/twitterMinute.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _twitter_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./twitter.js */ "./node_modules/javascript-time-ago/modules/style/twitter.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_objectSpread(_objectSpread({}, _twitter_js__WEBPACK_IMPORTED_MODULE_0__["default"]), {}, {
+  // Skip "seconds".
+  steps: _twitter_js__WEBPACK_IMPORTED_MODULE_0__["default"].steps.filter(function (step) {
+    return step.formatAs !== 'second';
+  })
+}));
+//# sourceMappingURL=twitterMinute.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/style/twitterMinuteNow.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/style/twitterMinuteNow.js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _twitterMinute_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./twitterMinute.js */ "./node_modules/javascript-time-ago/modules/style/twitterMinute.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_objectSpread(_objectSpread({}, _twitterMinute_js__WEBPACK_IMPORTED_MODULE_0__["default"]), {}, {
+  // Add "now".
+  steps: [{
+    formatAs: 'now'
+  }].concat(_twitterMinute_js__WEBPACK_IMPORTED_MODULE_0__["default"].steps)
+}));
+//# sourceMappingURL=twitterMinuteNow.js.map
+
+/***/ }),
+
+/***/ "./node_modules/javascript-time-ago/modules/style/twitterNow.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/javascript-time-ago/modules/style/twitterNow.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _twitter_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./twitter.js */ "./node_modules/javascript-time-ago/modules/style/twitter.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_objectSpread(_objectSpread({}, _twitter_js__WEBPACK_IMPORTED_MODULE_0__["default"]), {}, {
+  // Add "now".
+  steps: [{
+    formatAs: 'now'
+  }].concat(_twitter_js__WEBPACK_IMPORTED_MODULE_0__["default"].steps)
+}));
+//# sourceMappingURL=twitterNow.js.map
 
 /***/ }),
 
@@ -30465,6 +33188,1631 @@ lodash.prototype = baseLodash.prototype;
 lodash.prototype.constructor = lodash;
 
 module.exports = lodash;
+
+
+/***/ }),
+
+/***/ "./node_modules/long/umd/index.js":
+/*!****************************************!*\
+  !*** ./node_modules/long/umd/index.js ***!
+  \****************************************/
+/***/ (function(module, exports) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// GENERATED FILE. DO NOT EDIT.
+(function (global, factory) {
+  function preferDefault(exports) {
+    return exports.default || exports;
+  }
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+      var exports = {};
+      factory(exports);
+      return preferDefault(exports);
+    }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else // removed by dead control flow
+{}
+})(
+  typeof globalThis !== "undefined"
+    ? globalThis
+    : typeof self !== "undefined"
+      ? self
+      : this,
+  function (_exports) {
+    "use strict";
+
+    Object.defineProperty(_exports, "__esModule", {
+      value: true,
+    });
+    _exports.default = void 0;
+    /**
+     * @license
+     * Copyright 2009 The Closure Library Authors
+     * Copyright 2020 Daniel Wirtz / The long.js Authors.
+     *
+     * Licensed under the Apache License, Version 2.0 (the "License");
+     * you may not use this file except in compliance with the License.
+     * You may obtain a copy of the License at
+     *
+     *     http://www.apache.org/licenses/LICENSE-2.0
+     *
+     * Unless required by applicable law or agreed to in writing, software
+     * distributed under the License is distributed on an "AS IS" BASIS,
+     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     * See the License for the specific language governing permissions and
+     * limitations under the License.
+     *
+     * SPDX-License-Identifier: Apache-2.0
+     */
+
+    // WebAssembly optimizations to do native i64 multiplication and divide
+    var wasm = null;
+    try {
+      wasm = new WebAssembly.Instance(
+        new WebAssembly.Module(
+          new Uint8Array([
+            // \0asm
+            0, 97, 115, 109,
+            // version 1
+            1, 0, 0, 0,
+            // section "type"
+            1, 13, 2,
+            // 0, () => i32
+            96, 0, 1, 127,
+            // 1, (i32, i32, i32, i32) => i32
+            96, 4, 127, 127, 127, 127, 1, 127,
+            // section "function"
+            3, 7, 6,
+            // 0, type 0
+            0,
+            // 1, type 1
+            1,
+            // 2, type 1
+            1,
+            // 3, type 1
+            1,
+            // 4, type 1
+            1,
+            // 5, type 1
+            1,
+            // section "global"
+            6, 6, 1,
+            // 0, "high", mutable i32
+            127, 1, 65, 0, 11,
+            // section "export"
+            7, 50, 6,
+            // 0, "mul"
+            3, 109, 117, 108, 0, 1,
+            // 1, "div_s"
+            5, 100, 105, 118, 95, 115, 0, 2,
+            // 2, "div_u"
+            5, 100, 105, 118, 95, 117, 0, 3,
+            // 3, "rem_s"
+            5, 114, 101, 109, 95, 115, 0, 4,
+            // 4, "rem_u"
+            5, 114, 101, 109, 95, 117, 0, 5,
+            // 5, "get_high"
+            8, 103, 101, 116, 95, 104, 105, 103, 104, 0, 0,
+            // section "code"
+            10, 191, 1, 6,
+            // 0, "get_high"
+            4, 0, 35, 0, 11,
+            // 1, "mul"
+            36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173,
+            32, 3, 173, 66, 32, 134, 132, 126, 34, 4, 66, 32, 135, 167, 36, 0,
+            32, 4, 167, 11,
+            // 2, "div_s"
+            36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173,
+            32, 3, 173, 66, 32, 134, 132, 127, 34, 4, 66, 32, 135, 167, 36, 0,
+            32, 4, 167, 11,
+            // 3, "div_u"
+            36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173,
+            32, 3, 173, 66, 32, 134, 132, 128, 34, 4, 66, 32, 135, 167, 36, 0,
+            32, 4, 167, 11,
+            // 4, "rem_s"
+            36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173,
+            32, 3, 173, 66, 32, 134, 132, 129, 34, 4, 66, 32, 135, 167, 36, 0,
+            32, 4, 167, 11,
+            // 5, "rem_u"
+            36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173,
+            32, 3, 173, 66, 32, 134, 132, 130, 34, 4, 66, 32, 135, 167, 36, 0,
+            32, 4, 167, 11,
+          ]),
+        ),
+        {},
+      ).exports;
+    } catch {
+      // no wasm support :(
+    }
+
+    /**
+     * Constructs a 64 bit two's-complement integer, given its low and high 32 bit values as *signed* integers.
+     *  See the from* functions below for more convenient ways of constructing Longs.
+     * @exports Long
+     * @class A Long class for representing a 64 bit two's-complement integer value.
+     * @param {number} low The low (signed) 32 bits of the long
+     * @param {number} high The high (signed) 32 bits of the long
+     * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
+     * @constructor
+     */
+    function Long(low, high, unsigned) {
+      /**
+       * The low 32 bits as a signed value.
+       * @type {number}
+       */
+      this.low = low | 0;
+
+      /**
+       * The high 32 bits as a signed value.
+       * @type {number}
+       */
+      this.high = high | 0;
+
+      /**
+       * Whether unsigned or not.
+       * @type {boolean}
+       */
+      this.unsigned = !!unsigned;
+    }
+
+    // The internal representation of a long is the two given signed, 32-bit values.
+    // We use 32-bit pieces because these are the size of integers on which
+    // Javascript performs bit-operations.  For operations like addition and
+    // multiplication, we split each number into 16 bit pieces, which can easily be
+    // multiplied within Javascript's floating-point representation without overflow
+    // or change in sign.
+    //
+    // In the algorithms below, we frequently reduce the negative case to the
+    // positive case by negating the input(s) and then post-processing the result.
+    // Note that we must ALWAYS check specially whether those values are MIN_VALUE
+    // (-2^63) because -MIN_VALUE == MIN_VALUE (since 2^63 cannot be represented as
+    // a positive number, it overflows back into a negative).  Not handling this
+    // case would often result in infinite recursion.
+    //
+    // Common constant values ZERO, ONE, NEG_ONE, etc. are defined below the from*
+    // methods on which they depend.
+
+    /**
+     * An indicator used to reliably determine if an object is a Long or not.
+     * @type {boolean}
+     * @const
+     * @private
+     */
+    Long.prototype.__isLong__;
+    Object.defineProperty(Long.prototype, "__isLong__", {
+      value: true,
+    });
+
+    /**
+     * @function
+     * @param {*} obj Object
+     * @returns {boolean}
+     * @inner
+     */
+    function isLong(obj) {
+      return (obj && obj["__isLong__"]) === true;
+    }
+
+    /**
+     * @function
+     * @param {*} value number
+     * @returns {number}
+     * @inner
+     */
+    function ctz32(value) {
+      var c = Math.clz32(value & -value);
+      return value ? 31 - c : c;
+    }
+
+    /**
+     * Tests if the specified object is a Long.
+     * @function
+     * @param {*} obj Object
+     * @returns {boolean}
+     */
+    Long.isLong = isLong;
+
+    /**
+     * A cache of the Long representations of small integer values.
+     * @type {!Object}
+     * @inner
+     */
+    var INT_CACHE = {};
+
+    /**
+     * A cache of the Long representations of small unsigned integer values.
+     * @type {!Object}
+     * @inner
+     */
+    var UINT_CACHE = {};
+
+    /**
+     * @param {number} value
+     * @param {boolean=} unsigned
+     * @returns {!Long}
+     * @inner
+     */
+    function fromInt(value, unsigned) {
+      var obj, cachedObj, cache;
+      if (unsigned) {
+        value >>>= 0;
+        if ((cache = 0 <= value && value < 256)) {
+          cachedObj = UINT_CACHE[value];
+          if (cachedObj) return cachedObj;
+        }
+        obj = fromBits(value, 0, true);
+        if (cache) UINT_CACHE[value] = obj;
+        return obj;
+      } else {
+        value |= 0;
+        if ((cache = -128 <= value && value < 128)) {
+          cachedObj = INT_CACHE[value];
+          if (cachedObj) return cachedObj;
+        }
+        obj = fromBits(value, value < 0 ? -1 : 0, false);
+        if (cache) INT_CACHE[value] = obj;
+        return obj;
+      }
+    }
+
+    /**
+     * Returns a Long representing the given 32 bit integer value.
+     * @function
+     * @param {number} value The 32 bit integer in question
+     * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
+     * @returns {!Long} The corresponding Long value
+     */
+    Long.fromInt = fromInt;
+
+    /**
+     * @param {number} value
+     * @param {boolean=} unsigned
+     * @returns {!Long}
+     * @inner
+     */
+    function fromNumber(value, unsigned) {
+      if (isNaN(value)) return unsigned ? UZERO : ZERO;
+      if (unsigned) {
+        if (value < 0) return UZERO;
+        if (value >= TWO_PWR_64_DBL) return MAX_UNSIGNED_VALUE;
+      } else {
+        if (value <= -TWO_PWR_63_DBL) return MIN_VALUE;
+        if (value + 1 >= TWO_PWR_63_DBL) return MAX_VALUE;
+      }
+      if (value < 0) return fromNumber(-value, unsigned).neg();
+      return fromBits(
+        value % TWO_PWR_32_DBL | 0,
+        (value / TWO_PWR_32_DBL) | 0,
+        unsigned,
+      );
+    }
+
+    /**
+     * Returns a Long representing the given value, provided that it is a finite number. Otherwise, zero is returned.
+     * @function
+     * @param {number} value The number in question
+     * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
+     * @returns {!Long} The corresponding Long value
+     */
+    Long.fromNumber = fromNumber;
+
+    /**
+     * @param {number} lowBits
+     * @param {number} highBits
+     * @param {boolean=} unsigned
+     * @returns {!Long}
+     * @inner
+     */
+    function fromBits(lowBits, highBits, unsigned) {
+      return new Long(lowBits, highBits, unsigned);
+    }
+
+    /**
+     * Returns a Long representing the 64 bit integer that comes by concatenating the given low and high bits. Each is
+     *  assumed to use 32 bits.
+     * @function
+     * @param {number} lowBits The low 32 bits
+     * @param {number} highBits The high 32 bits
+     * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
+     * @returns {!Long} The corresponding Long value
+     */
+    Long.fromBits = fromBits;
+
+    /**
+     * @function
+     * @param {number} base
+     * @param {number} exponent
+     * @returns {number}
+     * @inner
+     */
+    var pow_dbl = Math.pow; // Used 4 times (4*8 to 15+4)
+
+    /**
+     * @param {string} str
+     * @param {(boolean|number)=} unsigned
+     * @param {number=} radix
+     * @returns {!Long}
+     * @inner
+     */
+    function fromString(str, unsigned, radix) {
+      if (str.length === 0) throw Error("empty string");
+      if (typeof unsigned === "number") {
+        // For goog.math.long compatibility
+        radix = unsigned;
+        unsigned = false;
+      } else {
+        unsigned = !!unsigned;
+      }
+      if (
+        str === "NaN" ||
+        str === "Infinity" ||
+        str === "+Infinity" ||
+        str === "-Infinity"
+      )
+        return unsigned ? UZERO : ZERO;
+      radix = radix || 10;
+      if (radix < 2 || 36 < radix) throw RangeError("radix");
+      var p;
+      if ((p = str.indexOf("-")) > 0) throw Error("interior hyphen");
+      else if (p === 0) {
+        return fromString(str.substring(1), unsigned, radix).neg();
+      }
+
+      // Do several (8) digits each time through the loop, so as to
+      // minimize the calls to the very expensive emulated div.
+      var radixToPower = fromNumber(pow_dbl(radix, 8));
+      var result = ZERO;
+      for (var i = 0; i < str.length; i += 8) {
+        var size = Math.min(8, str.length - i),
+          value = parseInt(str.substring(i, i + size), radix);
+        if (size < 8) {
+          var power = fromNumber(pow_dbl(radix, size));
+          result = result.mul(power).add(fromNumber(value));
+        } else {
+          result = result.mul(radixToPower);
+          result = result.add(fromNumber(value));
+        }
+      }
+      result.unsigned = unsigned;
+      return result;
+    }
+
+    /**
+     * Returns a Long representation of the given string, written using the specified radix.
+     * @function
+     * @param {string} str The textual representation of the Long
+     * @param {(boolean|number)=} unsigned Whether unsigned or not, defaults to signed
+     * @param {number=} radix The radix in which the text is written (2-36), defaults to 10
+     * @returns {!Long} The corresponding Long value
+     */
+    Long.fromString = fromString;
+
+    /**
+     * @function
+     * @param {!Long|number|string|!{low: number, high: number, unsigned: boolean}} val
+     * @param {boolean=} unsigned
+     * @returns {!Long}
+     * @inner
+     */
+    function fromValue(val, unsigned) {
+      if (typeof val === "number") return fromNumber(val, unsigned);
+      if (typeof val === "string") return fromString(val, unsigned);
+      // Throws for non-objects, converts non-instanceof Long:
+      return fromBits(
+        val.low,
+        val.high,
+        typeof unsigned === "boolean" ? unsigned : val.unsigned,
+      );
+    }
+
+    /**
+     * Converts the specified value to a Long using the appropriate from* function for its type.
+     * @function
+     * @param {!Long|number|bigint|string|!{low: number, high: number, unsigned: boolean}} val Value
+     * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
+     * @returns {!Long}
+     */
+    Long.fromValue = fromValue;
+
+    // NOTE: the compiler should inline these constant values below and then remove these variables, so there should be
+    // no runtime penalty for these.
+
+    /**
+     * @type {number}
+     * @const
+     * @inner
+     */
+    var TWO_PWR_16_DBL = 1 << 16;
+
+    /**
+     * @type {number}
+     * @const
+     * @inner
+     */
+    var TWO_PWR_24_DBL = 1 << 24;
+
+    /**
+     * @type {number}
+     * @const
+     * @inner
+     */
+    var TWO_PWR_32_DBL = TWO_PWR_16_DBL * TWO_PWR_16_DBL;
+
+    /**
+     * @type {number}
+     * @const
+     * @inner
+     */
+    var TWO_PWR_64_DBL = TWO_PWR_32_DBL * TWO_PWR_32_DBL;
+
+    /**
+     * @type {number}
+     * @const
+     * @inner
+     */
+    var TWO_PWR_63_DBL = TWO_PWR_64_DBL / 2;
+
+    /**
+     * @type {!Long}
+     * @const
+     * @inner
+     */
+    var TWO_PWR_24 = fromInt(TWO_PWR_24_DBL);
+
+    /**
+     * @type {!Long}
+     * @inner
+     */
+    var ZERO = fromInt(0);
+
+    /**
+     * Signed zero.
+     * @type {!Long}
+     */
+    Long.ZERO = ZERO;
+
+    /**
+     * @type {!Long}
+     * @inner
+     */
+    var UZERO = fromInt(0, true);
+
+    /**
+     * Unsigned zero.
+     * @type {!Long}
+     */
+    Long.UZERO = UZERO;
+
+    /**
+     * @type {!Long}
+     * @inner
+     */
+    var ONE = fromInt(1);
+
+    /**
+     * Signed one.
+     * @type {!Long}
+     */
+    Long.ONE = ONE;
+
+    /**
+     * @type {!Long}
+     * @inner
+     */
+    var UONE = fromInt(1, true);
+
+    /**
+     * Unsigned one.
+     * @type {!Long}
+     */
+    Long.UONE = UONE;
+
+    /**
+     * @type {!Long}
+     * @inner
+     */
+    var NEG_ONE = fromInt(-1);
+
+    /**
+     * Signed negative one.
+     * @type {!Long}
+     */
+    Long.NEG_ONE = NEG_ONE;
+
+    /**
+     * @type {!Long}
+     * @inner
+     */
+    var MAX_VALUE = fromBits(0xffffffff | 0, 0x7fffffff | 0, false);
+
+    /**
+     * Maximum signed value.
+     * @type {!Long}
+     */
+    Long.MAX_VALUE = MAX_VALUE;
+
+    /**
+     * @type {!Long}
+     * @inner
+     */
+    var MAX_UNSIGNED_VALUE = fromBits(0xffffffff | 0, 0xffffffff | 0, true);
+
+    /**
+     * Maximum unsigned value.
+     * @type {!Long}
+     */
+    Long.MAX_UNSIGNED_VALUE = MAX_UNSIGNED_VALUE;
+
+    /**
+     * @type {!Long}
+     * @inner
+     */
+    var MIN_VALUE = fromBits(0, 0x80000000 | 0, false);
+
+    /**
+     * Minimum signed value.
+     * @type {!Long}
+     */
+    Long.MIN_VALUE = MIN_VALUE;
+
+    /**
+     * @alias Long.prototype
+     * @inner
+     */
+    var LongPrototype = Long.prototype;
+
+    /**
+     * Converts the Long to a 32 bit integer, assuming it is a 32 bit integer.
+     * @this {!Long}
+     * @returns {number}
+     */
+    LongPrototype.toInt = function toInt() {
+      return this.unsigned ? this.low >>> 0 : this.low;
+    };
+
+    /**
+     * Converts the Long to a the nearest floating-point representation of this value (double, 53 bit mantissa).
+     * @this {!Long}
+     * @returns {number}
+     */
+    LongPrototype.toNumber = function toNumber() {
+      if (this.unsigned)
+        return (this.high >>> 0) * TWO_PWR_32_DBL + (this.low >>> 0);
+      return this.high * TWO_PWR_32_DBL + (this.low >>> 0);
+    };
+
+    /**
+     * Converts the Long to a string written in the specified radix.
+     * @this {!Long}
+     * @param {number=} radix Radix (2-36), defaults to 10
+     * @returns {string}
+     * @override
+     * @throws {RangeError} If `radix` is out of range
+     */
+    LongPrototype.toString = function toString(radix) {
+      radix = radix || 10;
+      if (radix < 2 || 36 < radix) throw RangeError("radix");
+      if (this.isZero()) return "0";
+      if (this.isNegative()) {
+        // Unsigned Longs are never negative
+        if (this.eq(MIN_VALUE)) {
+          // We need to change the Long value before it can be negated, so we remove
+          // the bottom-most digit in this base and then recurse to do the rest.
+          var radixLong = fromNumber(radix),
+            div = this.div(radixLong),
+            rem1 = div.mul(radixLong).sub(this);
+          return div.toString(radix) + rem1.toInt().toString(radix);
+        } else return "-" + this.neg().toString(radix);
+      }
+
+      // Do several (6) digits each time through the loop, so as to
+      // minimize the calls to the very expensive emulated div.
+      var radixToPower = fromNumber(pow_dbl(radix, 6), this.unsigned),
+        rem = this;
+      var result = "";
+      while (true) {
+        var remDiv = rem.div(radixToPower),
+          intval = rem.sub(remDiv.mul(radixToPower)).toInt() >>> 0,
+          digits = intval.toString(radix);
+        rem = remDiv;
+        if (rem.isZero()) return digits + result;
+        else {
+          while (digits.length < 6) digits = "0" + digits;
+          result = "" + digits + result;
+        }
+      }
+    };
+
+    /**
+     * Gets the high 32 bits as a signed integer.
+     * @this {!Long}
+     * @returns {number} Signed high bits
+     */
+    LongPrototype.getHighBits = function getHighBits() {
+      return this.high;
+    };
+
+    /**
+     * Gets the high 32 bits as an unsigned integer.
+     * @this {!Long}
+     * @returns {number} Unsigned high bits
+     */
+    LongPrototype.getHighBitsUnsigned = function getHighBitsUnsigned() {
+      return this.high >>> 0;
+    };
+
+    /**
+     * Gets the low 32 bits as a signed integer.
+     * @this {!Long}
+     * @returns {number} Signed low bits
+     */
+    LongPrototype.getLowBits = function getLowBits() {
+      return this.low;
+    };
+
+    /**
+     * Gets the low 32 bits as an unsigned integer.
+     * @this {!Long}
+     * @returns {number} Unsigned low bits
+     */
+    LongPrototype.getLowBitsUnsigned = function getLowBitsUnsigned() {
+      return this.low >>> 0;
+    };
+
+    /**
+     * Gets the number of bits needed to represent the absolute value of this Long.
+     * @this {!Long}
+     * @returns {number}
+     */
+    LongPrototype.getNumBitsAbs = function getNumBitsAbs() {
+      if (this.isNegative())
+        // Unsigned Longs are never negative
+        return this.eq(MIN_VALUE) ? 64 : this.neg().getNumBitsAbs();
+      var val = this.high != 0 ? this.high : this.low;
+      for (var bit = 31; bit > 0; bit--) if ((val & (1 << bit)) != 0) break;
+      return this.high != 0 ? bit + 33 : bit + 1;
+    };
+
+    /**
+     * Tests if this Long can be safely represented as a JavaScript number.
+     * @this {!Long}
+     * @returns {boolean}
+     */
+    LongPrototype.isSafeInteger = function isSafeInteger() {
+      // 2^53-1 is the maximum safe value
+      var top11Bits = this.high >> 21;
+      // [0, 2^53-1]
+      if (!top11Bits) return true;
+      // > 2^53-1
+      if (this.unsigned) return false;
+      // [-2^53, -1] except -2^53
+      return top11Bits === -1 && !(this.low === 0 && this.high === -0x200000);
+    };
+
+    /**
+     * Tests if this Long's value equals zero.
+     * @this {!Long}
+     * @returns {boolean}
+     */
+    LongPrototype.isZero = function isZero() {
+      return this.high === 0 && this.low === 0;
+    };
+
+    /**
+     * Tests if this Long's value equals zero. This is an alias of {@link Long#isZero}.
+     * @returns {boolean}
+     */
+    LongPrototype.eqz = LongPrototype.isZero;
+
+    /**
+     * Tests if this Long's value is negative.
+     * @this {!Long}
+     * @returns {boolean}
+     */
+    LongPrototype.isNegative = function isNegative() {
+      return !this.unsigned && this.high < 0;
+    };
+
+    /**
+     * Tests if this Long's value is positive or zero.
+     * @this {!Long}
+     * @returns {boolean}
+     */
+    LongPrototype.isPositive = function isPositive() {
+      return this.unsigned || this.high >= 0;
+    };
+
+    /**
+     * Tests if this Long's value is odd.
+     * @this {!Long}
+     * @returns {boolean}
+     */
+    LongPrototype.isOdd = function isOdd() {
+      return (this.low & 1) === 1;
+    };
+
+    /**
+     * Tests if this Long's value is even.
+     * @this {!Long}
+     * @returns {boolean}
+     */
+    LongPrototype.isEven = function isEven() {
+      return (this.low & 1) === 0;
+    };
+
+    /**
+     * Tests if this Long's value equals the specified's.
+     * @this {!Long}
+     * @param {!Long|number|bigint|string} other Other value
+     * @returns {boolean}
+     */
+    LongPrototype.equals = function equals(other) {
+      if (!isLong(other)) other = fromValue(other);
+      if (
+        this.unsigned !== other.unsigned &&
+        this.high >>> 31 === 1 &&
+        other.high >>> 31 === 1
+      )
+        return false;
+      return this.high === other.high && this.low === other.low;
+    };
+
+    /**
+     * Tests if this Long's value equals the specified's. This is an alias of {@link Long#equals}.
+     * @function
+     * @param {!Long|number|bigint|string} other Other value
+     * @returns {boolean}
+     */
+    LongPrototype.eq = LongPrototype.equals;
+
+    /**
+     * Tests if this Long's value differs from the specified's.
+     * @this {!Long}
+     * @param {!Long|number|bigint|string} other Other value
+     * @returns {boolean}
+     */
+    LongPrototype.notEquals = function notEquals(other) {
+      return !this.eq(/* validates */ other);
+    };
+
+    /**
+     * Tests if this Long's value differs from the specified's. This is an alias of {@link Long#notEquals}.
+     * @function
+     * @param {!Long|number|bigint|string} other Other value
+     * @returns {boolean}
+     */
+    LongPrototype.neq = LongPrototype.notEquals;
+
+    /**
+     * Tests if this Long's value differs from the specified's. This is an alias of {@link Long#notEquals}.
+     * @function
+     * @param {!Long|number|bigint|string} other Other value
+     * @returns {boolean}
+     */
+    LongPrototype.ne = LongPrototype.notEquals;
+
+    /**
+     * Tests if this Long's value is less than the specified's.
+     * @this {!Long}
+     * @param {!Long|number|bigint|string} other Other value
+     * @returns {boolean}
+     */
+    LongPrototype.lessThan = function lessThan(other) {
+      return this.comp(/* validates */ other) < 0;
+    };
+
+    /**
+     * Tests if this Long's value is less than the specified's. This is an alias of {@link Long#lessThan}.
+     * @function
+     * @param {!Long|number|bigint|string} other Other value
+     * @returns {boolean}
+     */
+    LongPrototype.lt = LongPrototype.lessThan;
+
+    /**
+     * Tests if this Long's value is less than or equal the specified's.
+     * @this {!Long}
+     * @param {!Long|number|bigint|string} other Other value
+     * @returns {boolean}
+     */
+    LongPrototype.lessThanOrEqual = function lessThanOrEqual(other) {
+      return this.comp(/* validates */ other) <= 0;
+    };
+
+    /**
+     * Tests if this Long's value is less than or equal the specified's. This is an alias of {@link Long#lessThanOrEqual}.
+     * @function
+     * @param {!Long|number|bigint|string} other Other value
+     * @returns {boolean}
+     */
+    LongPrototype.lte = LongPrototype.lessThanOrEqual;
+
+    /**
+     * Tests if this Long's value is less than or equal the specified's. This is an alias of {@link Long#lessThanOrEqual}.
+     * @function
+     * @param {!Long|number|bigint|string} other Other value
+     * @returns {boolean}
+     */
+    LongPrototype.le = LongPrototype.lessThanOrEqual;
+
+    /**
+     * Tests if this Long's value is greater than the specified's.
+     * @this {!Long}
+     * @param {!Long|number|bigint|string} other Other value
+     * @returns {boolean}
+     */
+    LongPrototype.greaterThan = function greaterThan(other) {
+      return this.comp(/* validates */ other) > 0;
+    };
+
+    /**
+     * Tests if this Long's value is greater than the specified's. This is an alias of {@link Long#greaterThan}.
+     * @function
+     * @param {!Long|number|bigint|string} other Other value
+     * @returns {boolean}
+     */
+    LongPrototype.gt = LongPrototype.greaterThan;
+
+    /**
+     * Tests if this Long's value is greater than or equal the specified's.
+     * @this {!Long}
+     * @param {!Long|number|bigint|string} other Other value
+     * @returns {boolean}
+     */
+    LongPrototype.greaterThanOrEqual = function greaterThanOrEqual(other) {
+      return this.comp(/* validates */ other) >= 0;
+    };
+
+    /**
+     * Tests if this Long's value is greater than or equal the specified's. This is an alias of {@link Long#greaterThanOrEqual}.
+     * @function
+     * @param {!Long|number|bigint|string} other Other value
+     * @returns {boolean}
+     */
+    LongPrototype.gte = LongPrototype.greaterThanOrEqual;
+
+    /**
+     * Tests if this Long's value is greater than or equal the specified's. This is an alias of {@link Long#greaterThanOrEqual}.
+     * @function
+     * @param {!Long|number|bigint|string} other Other value
+     * @returns {boolean}
+     */
+    LongPrototype.ge = LongPrototype.greaterThanOrEqual;
+
+    /**
+     * Compares this Long's value with the specified's.
+     * @this {!Long}
+     * @param {!Long|number|bigint|string} other Other value
+     * @returns {number} 0 if they are the same, 1 if the this is greater and -1
+     *  if the given one is greater
+     */
+    LongPrototype.compare = function compare(other) {
+      if (!isLong(other)) other = fromValue(other);
+      if (this.eq(other)) return 0;
+      var thisNeg = this.isNegative(),
+        otherNeg = other.isNegative();
+      if (thisNeg && !otherNeg) return -1;
+      if (!thisNeg && otherNeg) return 1;
+      // At this point the sign bits are the same
+      if (!this.unsigned) return this.sub(other).isNegative() ? -1 : 1;
+      // Both are positive if at least one is unsigned
+      return other.high >>> 0 > this.high >>> 0 ||
+        (other.high === this.high && other.low >>> 0 > this.low >>> 0)
+        ? -1
+        : 1;
+    };
+
+    /**
+     * Compares this Long's value with the specified's. This is an alias of {@link Long#compare}.
+     * @function
+     * @param {!Long|number|bigint|string} other Other value
+     * @returns {number} 0 if they are the same, 1 if the this is greater and -1
+     *  if the given one is greater
+     */
+    LongPrototype.comp = LongPrototype.compare;
+
+    /**
+     * Negates this Long's value.
+     * @this {!Long}
+     * @returns {!Long} Negated Long
+     */
+    LongPrototype.negate = function negate() {
+      if (!this.unsigned && this.eq(MIN_VALUE)) return MIN_VALUE;
+      return this.not().add(ONE);
+    };
+
+    /**
+     * Negates this Long's value. This is an alias of {@link Long#negate}.
+     * @function
+     * @returns {!Long} Negated Long
+     */
+    LongPrototype.neg = LongPrototype.negate;
+
+    /**
+     * Returns the sum of this and the specified Long.
+     * @this {!Long}
+     * @param {!Long|number|bigint|string} addend Addend
+     * @returns {!Long} Sum
+     */
+    LongPrototype.add = function add(addend) {
+      if (!isLong(addend)) addend = fromValue(addend);
+
+      // Divide each number into 4 chunks of 16 bits, and then sum the chunks.
+
+      var a48 = this.high >>> 16;
+      var a32 = this.high & 0xffff;
+      var a16 = this.low >>> 16;
+      var a00 = this.low & 0xffff;
+      var b48 = addend.high >>> 16;
+      var b32 = addend.high & 0xffff;
+      var b16 = addend.low >>> 16;
+      var b00 = addend.low & 0xffff;
+      var c48 = 0,
+        c32 = 0,
+        c16 = 0,
+        c00 = 0;
+      c00 += a00 + b00;
+      c16 += c00 >>> 16;
+      c00 &= 0xffff;
+      c16 += a16 + b16;
+      c32 += c16 >>> 16;
+      c16 &= 0xffff;
+      c32 += a32 + b32;
+      c48 += c32 >>> 16;
+      c32 &= 0xffff;
+      c48 += a48 + b48;
+      c48 &= 0xffff;
+      return fromBits((c16 << 16) | c00, (c48 << 16) | c32, this.unsigned);
+    };
+
+    /**
+     * Returns the difference of this and the specified Long.
+     * @this {!Long}
+     * @param {!Long|number|bigint|string} subtrahend Subtrahend
+     * @returns {!Long} Difference
+     */
+    LongPrototype.subtract = function subtract(subtrahend) {
+      if (!isLong(subtrahend)) subtrahend = fromValue(subtrahend);
+      return this.add(subtrahend.neg());
+    };
+
+    /**
+     * Returns the difference of this and the specified Long. This is an alias of {@link Long#subtract}.
+     * @function
+     * @param {!Long|number|bigint|string} subtrahend Subtrahend
+     * @returns {!Long} Difference
+     */
+    LongPrototype.sub = LongPrototype.subtract;
+
+    /**
+     * Returns the product of this and the specified Long.
+     * @this {!Long}
+     * @param {!Long|number|bigint|string} multiplier Multiplier
+     * @returns {!Long} Product
+     */
+    LongPrototype.multiply = function multiply(multiplier) {
+      if (this.isZero()) return this;
+      if (!isLong(multiplier)) multiplier = fromValue(multiplier);
+
+      // use wasm support if present
+      if (wasm) {
+        var low = wasm["mul"](
+          this.low,
+          this.high,
+          multiplier.low,
+          multiplier.high,
+        );
+        return fromBits(low, wasm["get_high"](), this.unsigned);
+      }
+      if (multiplier.isZero()) return this.unsigned ? UZERO : ZERO;
+      if (this.eq(MIN_VALUE)) return multiplier.isOdd() ? MIN_VALUE : ZERO;
+      if (multiplier.eq(MIN_VALUE)) return this.isOdd() ? MIN_VALUE : ZERO;
+      if (this.isNegative()) {
+        if (multiplier.isNegative()) return this.neg().mul(multiplier.neg());
+        else return this.neg().mul(multiplier).neg();
+      } else if (multiplier.isNegative())
+        return this.mul(multiplier.neg()).neg();
+
+      // If both longs are small, use float multiplication
+      if (this.lt(TWO_PWR_24) && multiplier.lt(TWO_PWR_24))
+        return fromNumber(
+          this.toNumber() * multiplier.toNumber(),
+          this.unsigned,
+        );
+
+      // Divide each long into 4 chunks of 16 bits, and then add up 4x4 products.
+      // We can skip products that would overflow.
+
+      var a48 = this.high >>> 16;
+      var a32 = this.high & 0xffff;
+      var a16 = this.low >>> 16;
+      var a00 = this.low & 0xffff;
+      var b48 = multiplier.high >>> 16;
+      var b32 = multiplier.high & 0xffff;
+      var b16 = multiplier.low >>> 16;
+      var b00 = multiplier.low & 0xffff;
+      var c48 = 0,
+        c32 = 0,
+        c16 = 0,
+        c00 = 0;
+      c00 += a00 * b00;
+      c16 += c00 >>> 16;
+      c00 &= 0xffff;
+      c16 += a16 * b00;
+      c32 += c16 >>> 16;
+      c16 &= 0xffff;
+      c16 += a00 * b16;
+      c32 += c16 >>> 16;
+      c16 &= 0xffff;
+      c32 += a32 * b00;
+      c48 += c32 >>> 16;
+      c32 &= 0xffff;
+      c32 += a16 * b16;
+      c48 += c32 >>> 16;
+      c32 &= 0xffff;
+      c32 += a00 * b32;
+      c48 += c32 >>> 16;
+      c32 &= 0xffff;
+      c48 += a48 * b00 + a32 * b16 + a16 * b32 + a00 * b48;
+      c48 &= 0xffff;
+      return fromBits((c16 << 16) | c00, (c48 << 16) | c32, this.unsigned);
+    };
+
+    /**
+     * Returns the product of this and the specified Long. This is an alias of {@link Long#multiply}.
+     * @function
+     * @param {!Long|number|bigint|string} multiplier Multiplier
+     * @returns {!Long} Product
+     */
+    LongPrototype.mul = LongPrototype.multiply;
+
+    /**
+     * Returns this Long divided by the specified. The result is signed if this Long is signed or
+     *  unsigned if this Long is unsigned.
+     * @this {!Long}
+     * @param {!Long|number|bigint|string} divisor Divisor
+     * @returns {!Long} Quotient
+     */
+    LongPrototype.divide = function divide(divisor) {
+      if (!isLong(divisor)) divisor = fromValue(divisor);
+      if (divisor.isZero()) throw Error("division by zero");
+
+      // use wasm support if present
+      if (wasm) {
+        // guard against signed division overflow: the largest
+        // negative number / -1 would be 1 larger than the largest
+        // positive number, due to two's complement.
+        if (
+          !this.unsigned &&
+          this.high === -0x80000000 &&
+          divisor.low === -1 &&
+          divisor.high === -1
+        ) {
+          // be consistent with non-wasm code path
+          return this;
+        }
+        var low = (this.unsigned ? wasm["div_u"] : wasm["div_s"])(
+          this.low,
+          this.high,
+          divisor.low,
+          divisor.high,
+        );
+        return fromBits(low, wasm["get_high"](), this.unsigned);
+      }
+      if (this.isZero()) return this.unsigned ? UZERO : ZERO;
+      var approx, rem, res;
+      if (!this.unsigned) {
+        // This section is only relevant for signed longs and is derived from the
+        // closure library as a whole.
+        if (this.eq(MIN_VALUE)) {
+          if (divisor.eq(ONE) || divisor.eq(NEG_ONE))
+            return MIN_VALUE; // recall that -MIN_VALUE == MIN_VALUE
+          else if (divisor.eq(MIN_VALUE)) return ONE;
+          else {
+            // At this point, we have |other| >= 2, so |this/other| < |MIN_VALUE|.
+            var halfThis = this.shr(1);
+            approx = halfThis.div(divisor).shl(1);
+            if (approx.eq(ZERO)) {
+              return divisor.isNegative() ? ONE : NEG_ONE;
+            } else {
+              rem = this.sub(divisor.mul(approx));
+              res = approx.add(rem.div(divisor));
+              return res;
+            }
+          }
+        } else if (divisor.eq(MIN_VALUE)) return this.unsigned ? UZERO : ZERO;
+        if (this.isNegative()) {
+          if (divisor.isNegative()) return this.neg().div(divisor.neg());
+          return this.neg().div(divisor).neg();
+        } else if (divisor.isNegative()) return this.div(divisor.neg()).neg();
+        res = ZERO;
+      } else {
+        // The algorithm below has not been made for unsigned longs. It's therefore
+        // required to take special care of the MSB prior to running it.
+        if (!divisor.unsigned) divisor = divisor.toUnsigned();
+        if (divisor.gt(this)) return UZERO;
+        if (divisor.gt(this.shru(1)))
+          // 15 >>> 1 = 7 ; with divisor = 8 ; true
+          return UONE;
+        res = UZERO;
+      }
+
+      // Repeat the following until the remainder is less than other:  find a
+      // floating-point that approximates remainder / other *from below*, add this
+      // into the result, and subtract it from the remainder.  It is critical that
+      // the approximate value is less than or equal to the real value so that the
+      // remainder never becomes negative.
+      rem = this;
+      while (rem.gte(divisor)) {
+        // Approximate the result of division. This may be a little greater or
+        // smaller than the actual value.
+        approx = Math.max(1, Math.floor(rem.toNumber() / divisor.toNumber()));
+
+        // We will tweak the approximate result by changing it in the 48-th digit or
+        // the smallest non-fractional digit, whichever is larger.
+        var log2 = Math.ceil(Math.log(approx) / Math.LN2),
+          delta = log2 <= 48 ? 1 : pow_dbl(2, log2 - 48),
+          // Decrease the approximation until it is smaller than the remainder.  Note
+          // that if it is too large, the product overflows and is negative.
+          approxRes = fromNumber(approx),
+          approxRem = approxRes.mul(divisor);
+        while (approxRem.isNegative() || approxRem.gt(rem)) {
+          approx -= delta;
+          approxRes = fromNumber(approx, this.unsigned);
+          approxRem = approxRes.mul(divisor);
+        }
+
+        // We know the answer can't be zero... and actually, zero would cause
+        // infinite recursion since we would make no progress.
+        if (approxRes.isZero()) approxRes = ONE;
+        res = res.add(approxRes);
+        rem = rem.sub(approxRem);
+      }
+      return res;
+    };
+
+    /**
+     * Returns this Long divided by the specified. This is an alias of {@link Long#divide}.
+     * @function
+     * @param {!Long|number|bigint|string} divisor Divisor
+     * @returns {!Long} Quotient
+     */
+    LongPrototype.div = LongPrototype.divide;
+
+    /**
+     * Returns this Long modulo the specified.
+     * @this {!Long}
+     * @param {!Long|number|bigint|string} divisor Divisor
+     * @returns {!Long} Remainder
+     */
+    LongPrototype.modulo = function modulo(divisor) {
+      if (!isLong(divisor)) divisor = fromValue(divisor);
+
+      // use wasm support if present
+      if (wasm) {
+        var low = (this.unsigned ? wasm["rem_u"] : wasm["rem_s"])(
+          this.low,
+          this.high,
+          divisor.low,
+          divisor.high,
+        );
+        return fromBits(low, wasm["get_high"](), this.unsigned);
+      }
+      return this.sub(this.div(divisor).mul(divisor));
+    };
+
+    /**
+     * Returns this Long modulo the specified. This is an alias of {@link Long#modulo}.
+     * @function
+     * @param {!Long|number|bigint|string} divisor Divisor
+     * @returns {!Long} Remainder
+     */
+    LongPrototype.mod = LongPrototype.modulo;
+
+    /**
+     * Returns this Long modulo the specified. This is an alias of {@link Long#modulo}.
+     * @function
+     * @param {!Long|number|bigint|string} divisor Divisor
+     * @returns {!Long} Remainder
+     */
+    LongPrototype.rem = LongPrototype.modulo;
+
+    /**
+     * Returns the bitwise NOT of this Long.
+     * @this {!Long}
+     * @returns {!Long}
+     */
+    LongPrototype.not = function not() {
+      return fromBits(~this.low, ~this.high, this.unsigned);
+    };
+
+    /**
+     * Returns count leading zeros of this Long.
+     * @this {!Long}
+     * @returns {!number}
+     */
+    LongPrototype.countLeadingZeros = function countLeadingZeros() {
+      return this.high ? Math.clz32(this.high) : Math.clz32(this.low) + 32;
+    };
+
+    /**
+     * Returns count leading zeros. This is an alias of {@link Long#countLeadingZeros}.
+     * @function
+     * @param {!Long}
+     * @returns {!number}
+     */
+    LongPrototype.clz = LongPrototype.countLeadingZeros;
+
+    /**
+     * Returns count trailing zeros of this Long.
+     * @this {!Long}
+     * @returns {!number}
+     */
+    LongPrototype.countTrailingZeros = function countTrailingZeros() {
+      return this.low ? ctz32(this.low) : ctz32(this.high) + 32;
+    };
+
+    /**
+     * Returns count trailing zeros. This is an alias of {@link Long#countTrailingZeros}.
+     * @function
+     * @param {!Long}
+     * @returns {!number}
+     */
+    LongPrototype.ctz = LongPrototype.countTrailingZeros;
+
+    /**
+     * Returns the bitwise AND of this Long and the specified.
+     * @this {!Long}
+     * @param {!Long|number|bigint|string} other Other Long
+     * @returns {!Long}
+     */
+    LongPrototype.and = function and(other) {
+      if (!isLong(other)) other = fromValue(other);
+      return fromBits(
+        this.low & other.low,
+        this.high & other.high,
+        this.unsigned,
+      );
+    };
+
+    /**
+     * Returns the bitwise OR of this Long and the specified.
+     * @this {!Long}
+     * @param {!Long|number|bigint|string} other Other Long
+     * @returns {!Long}
+     */
+    LongPrototype.or = function or(other) {
+      if (!isLong(other)) other = fromValue(other);
+      return fromBits(
+        this.low | other.low,
+        this.high | other.high,
+        this.unsigned,
+      );
+    };
+
+    /**
+     * Returns the bitwise XOR of this Long and the given one.
+     * @this {!Long}
+     * @param {!Long|number|bigint|string} other Other Long
+     * @returns {!Long}
+     */
+    LongPrototype.xor = function xor(other) {
+      if (!isLong(other)) other = fromValue(other);
+      return fromBits(
+        this.low ^ other.low,
+        this.high ^ other.high,
+        this.unsigned,
+      );
+    };
+
+    /**
+     * Returns this Long with bits shifted to the left by the given amount.
+     * @this {!Long}
+     * @param {number|!Long} numBits Number of bits
+     * @returns {!Long} Shifted Long
+     */
+    LongPrototype.shiftLeft = function shiftLeft(numBits) {
+      if (isLong(numBits)) numBits = numBits.toInt();
+      if ((numBits &= 63) === 0) return this;
+      else if (numBits < 32)
+        return fromBits(
+          this.low << numBits,
+          (this.high << numBits) | (this.low >>> (32 - numBits)),
+          this.unsigned,
+        );
+      else return fromBits(0, this.low << (numBits - 32), this.unsigned);
+    };
+
+    /**
+     * Returns this Long with bits shifted to the left by the given amount. This is an alias of {@link Long#shiftLeft}.
+     * @function
+     * @param {number|!Long} numBits Number of bits
+     * @returns {!Long} Shifted Long
+     */
+    LongPrototype.shl = LongPrototype.shiftLeft;
+
+    /**
+     * Returns this Long with bits arithmetically shifted to the right by the given amount.
+     * @this {!Long}
+     * @param {number|!Long} numBits Number of bits
+     * @returns {!Long} Shifted Long
+     */
+    LongPrototype.shiftRight = function shiftRight(numBits) {
+      if (isLong(numBits)) numBits = numBits.toInt();
+      if ((numBits &= 63) === 0) return this;
+      else if (numBits < 32)
+        return fromBits(
+          (this.low >>> numBits) | (this.high << (32 - numBits)),
+          this.high >> numBits,
+          this.unsigned,
+        );
+      else
+        return fromBits(
+          this.high >> (numBits - 32),
+          this.high >= 0 ? 0 : -1,
+          this.unsigned,
+        );
+    };
+
+    /**
+     * Returns this Long with bits arithmetically shifted to the right by the given amount. This is an alias of {@link Long#shiftRight}.
+     * @function
+     * @param {number|!Long} numBits Number of bits
+     * @returns {!Long} Shifted Long
+     */
+    LongPrototype.shr = LongPrototype.shiftRight;
+
+    /**
+     * Returns this Long with bits logically shifted to the right by the given amount.
+     * @this {!Long}
+     * @param {number|!Long} numBits Number of bits
+     * @returns {!Long} Shifted Long
+     */
+    LongPrototype.shiftRightUnsigned = function shiftRightUnsigned(numBits) {
+      if (isLong(numBits)) numBits = numBits.toInt();
+      if ((numBits &= 63) === 0) return this;
+      if (numBits < 32)
+        return fromBits(
+          (this.low >>> numBits) | (this.high << (32 - numBits)),
+          this.high >>> numBits,
+          this.unsigned,
+        );
+      if (numBits === 32) return fromBits(this.high, 0, this.unsigned);
+      return fromBits(this.high >>> (numBits - 32), 0, this.unsigned);
+    };
+
+    /**
+     * Returns this Long with bits logically shifted to the right by the given amount. This is an alias of {@link Long#shiftRightUnsigned}.
+     * @function
+     * @param {number|!Long} numBits Number of bits
+     * @returns {!Long} Shifted Long
+     */
+    LongPrototype.shru = LongPrototype.shiftRightUnsigned;
+
+    /**
+     * Returns this Long with bits logically shifted to the right by the given amount. This is an alias of {@link Long#shiftRightUnsigned}.
+     * @function
+     * @param {number|!Long} numBits Number of bits
+     * @returns {!Long} Shifted Long
+     */
+    LongPrototype.shr_u = LongPrototype.shiftRightUnsigned;
+
+    /**
+     * Returns this Long with bits rotated to the left by the given amount.
+     * @this {!Long}
+     * @param {number|!Long} numBits Number of bits
+     * @returns {!Long} Rotated Long
+     */
+    LongPrototype.rotateLeft = function rotateLeft(numBits) {
+      var b;
+      if (isLong(numBits)) numBits = numBits.toInt();
+      if ((numBits &= 63) === 0) return this;
+      if (numBits === 32) return fromBits(this.high, this.low, this.unsigned);
+      if (numBits < 32) {
+        b = 32 - numBits;
+        return fromBits(
+          (this.low << numBits) | (this.high >>> b),
+          (this.high << numBits) | (this.low >>> b),
+          this.unsigned,
+        );
+      }
+      numBits -= 32;
+      b = 32 - numBits;
+      return fromBits(
+        (this.high << numBits) | (this.low >>> b),
+        (this.low << numBits) | (this.high >>> b),
+        this.unsigned,
+      );
+    };
+    /**
+     * Returns this Long with bits rotated to the left by the given amount. This is an alias of {@link Long#rotateLeft}.
+     * @function
+     * @param {number|!Long} numBits Number of bits
+     * @returns {!Long} Rotated Long
+     */
+    LongPrototype.rotl = LongPrototype.rotateLeft;
+
+    /**
+     * Returns this Long with bits rotated to the right by the given amount.
+     * @this {!Long}
+     * @param {number|!Long} numBits Number of bits
+     * @returns {!Long} Rotated Long
+     */
+    LongPrototype.rotateRight = function rotateRight(numBits) {
+      var b;
+      if (isLong(numBits)) numBits = numBits.toInt();
+      if ((numBits &= 63) === 0) return this;
+      if (numBits === 32) return fromBits(this.high, this.low, this.unsigned);
+      if (numBits < 32) {
+        b = 32 - numBits;
+        return fromBits(
+          (this.high << b) | (this.low >>> numBits),
+          (this.low << b) | (this.high >>> numBits),
+          this.unsigned,
+        );
+      }
+      numBits -= 32;
+      b = 32 - numBits;
+      return fromBits(
+        (this.low << b) | (this.high >>> numBits),
+        (this.high << b) | (this.low >>> numBits),
+        this.unsigned,
+      );
+    };
+    /**
+     * Returns this Long with bits rotated to the right by the given amount. This is an alias of {@link Long#rotateRight}.
+     * @function
+     * @param {number|!Long} numBits Number of bits
+     * @returns {!Long} Rotated Long
+     */
+    LongPrototype.rotr = LongPrototype.rotateRight;
+
+    /**
+     * Converts this Long to signed.
+     * @this {!Long}
+     * @returns {!Long} Signed long
+     */
+    LongPrototype.toSigned = function toSigned() {
+      if (!this.unsigned) return this;
+      return fromBits(this.low, this.high, false);
+    };
+
+    /**
+     * Converts this Long to unsigned.
+     * @this {!Long}
+     * @returns {!Long} Unsigned long
+     */
+    LongPrototype.toUnsigned = function toUnsigned() {
+      if (this.unsigned) return this;
+      return fromBits(this.low, this.high, true);
+    };
+
+    /**
+     * Converts this Long to its byte representation.
+     * @param {boolean=} le Whether little or big endian, defaults to big endian
+     * @this {!Long}
+     * @returns {!Array.<number>} Byte representation
+     */
+    LongPrototype.toBytes = function toBytes(le) {
+      return le ? this.toBytesLE() : this.toBytesBE();
+    };
+
+    /**
+     * Converts this Long to its little endian byte representation.
+     * @this {!Long}
+     * @returns {!Array.<number>} Little endian byte representation
+     */
+    LongPrototype.toBytesLE = function toBytesLE() {
+      var hi = this.high,
+        lo = this.low;
+      return [
+        lo & 0xff,
+        (lo >>> 8) & 0xff,
+        (lo >>> 16) & 0xff,
+        lo >>> 24,
+        hi & 0xff,
+        (hi >>> 8) & 0xff,
+        (hi >>> 16) & 0xff,
+        hi >>> 24,
+      ];
+    };
+
+    /**
+     * Converts this Long to its big endian byte representation.
+     * @this {!Long}
+     * @returns {!Array.<number>} Big endian byte representation
+     */
+    LongPrototype.toBytesBE = function toBytesBE() {
+      var hi = this.high,
+        lo = this.low;
+      return [
+        hi >>> 24,
+        (hi >>> 16) & 0xff,
+        (hi >>> 8) & 0xff,
+        hi & 0xff,
+        lo >>> 24,
+        (lo >>> 16) & 0xff,
+        (lo >>> 8) & 0xff,
+        lo & 0xff,
+      ];
+    };
+
+    /**
+     * Creates a Long from its byte representation.
+     * @param {!Array.<number>} bytes Byte representation
+     * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
+     * @param {boolean=} le Whether little or big endian, defaults to big endian
+     * @returns {Long} The corresponding Long value
+     */
+    Long.fromBytes = function fromBytes(bytes, unsigned, le) {
+      return le
+        ? Long.fromBytesLE(bytes, unsigned)
+        : Long.fromBytesBE(bytes, unsigned);
+    };
+
+    /**
+     * Creates a Long from its little endian byte representation.
+     * @param {!Array.<number>} bytes Little endian byte representation
+     * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
+     * @returns {Long} The corresponding Long value
+     */
+    Long.fromBytesLE = function fromBytesLE(bytes, unsigned) {
+      return new Long(
+        bytes[0] | (bytes[1] << 8) | (bytes[2] << 16) | (bytes[3] << 24),
+        bytes[4] | (bytes[5] << 8) | (bytes[6] << 16) | (bytes[7] << 24),
+        unsigned,
+      );
+    };
+
+    /**
+     * Creates a Long from its big endian byte representation.
+     * @param {!Array.<number>} bytes Big endian byte representation
+     * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
+     * @returns {Long} The corresponding Long value
+     */
+    Long.fromBytesBE = function fromBytesBE(bytes, unsigned) {
+      return new Long(
+        (bytes[4] << 24) | (bytes[5] << 16) | (bytes[6] << 8) | bytes[7],
+        (bytes[0] << 24) | (bytes[1] << 16) | (bytes[2] << 8) | bytes[3],
+        unsigned,
+      );
+    };
+
+    // Support conversion to/from BigInt where available
+    if (typeof BigInt === "function") {
+      /**
+       * Returns a Long representing the given big integer.
+       * @function
+       * @param {number} value The big integer value
+       * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
+       * @returns {!Long} The corresponding Long value
+       */
+      Long.fromBigInt = function fromBigInt(value, unsigned) {
+        var lowBits = Number(BigInt.asIntN(32, value));
+        var highBits = Number(BigInt.asIntN(32, value >> BigInt(32)));
+        return fromBits(lowBits, highBits, unsigned);
+      };
+
+      // Override
+      Long.fromValue = function fromValueWithBigInt(value, unsigned) {
+        if (typeof value === "bigint") return Long.fromBigInt(value, unsigned);
+        return fromValue(value, unsigned);
+      };
+
+      /**
+       * Converts the Long to its big integer representation.
+       * @this {!Long}
+       * @returns {bigint}
+       */
+      LongPrototype.toBigInt = function toBigInt() {
+        var lowBigInt = BigInt(this.low >>> 0);
+        var highBigInt = BigInt(this.unsigned ? this.high >>> 0 : this.high);
+        return (highBigInt << BigInt(32)) | lowBigInt;
+      };
+    }
+    var _default = (_exports.default = Long);
+  },
+);
 
 
 /***/ }),
@@ -70990,6 +75338,1076 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
+/***/ "./node_modules/relative-time-format/modules/LocaleDataStore.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/relative-time-format/modules/LocaleDataStore.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   addLocaleData: () => (/* binding */ addLocaleData),
+/* harmony export */   getDefaultLocale: () => (/* binding */ getDefaultLocale),
+/* harmony export */   getLocaleData: () => (/* binding */ getLocaleData),
+/* harmony export */   resolveLocale: () => (/* binding */ resolveLocale),
+/* harmony export */   setDefaultLocale: () => (/* binding */ setDefaultLocale)
+/* harmony export */ });
+// Fallback locale.
+// (when not a single one of the supplied "preferred" locales is available)
+var defaultLocale = 'en';
+
+// For all locales added
+// their relative time formatter messages will be stored here.
+var localesData = {};
+
+// According to the spec BCP 47 language tags are case-insensitive.
+// https://tools.ietf.org/html/rfc5646
+var lowercaseLocaleLookup = {};
+function getDefaultLocale() {
+  return defaultLocale;
+}
+function setDefaultLocale(locale) {
+  defaultLocale = locale;
+}
+
+/**
+ * Gets locale data previously added by `addLocaleData()`.
+ * @return  {object} [localeData]
+ */
+function getLocaleData(locale) {
+  return localesData[locale];
+}
+
+/**
+ * Adds locale data.
+ * Is called by `RelativeTimeFormat.addLocale(...)`.
+ * @param  {object} localeData
+ */
+function addLocaleData(localeData) {
+  if (!localeData) {
+    throw new Error('No locale data passed');
+  }
+  // This locale data is stored in a global variable
+  // and later used when calling `.format(time)`.
+  localesData[localeData.locale] = localeData;
+  lowercaseLocaleLookup[localeData.locale.toLowerCase()] = localeData.locale;
+}
+
+/**
+ * Returns a locale for which locale data has been added
+ * via `RelativeTimeFormat.addLocale(...)`.
+ * @param  {string} locale
+ * @return {string} [locale]
+ */
+function resolveLocale(locale) {
+  if (localesData[locale]) {
+    return locale;
+  }
+  if (lowercaseLocaleLookup[locale.toLowerCase()]) {
+    return lowercaseLocaleLookup[locale.toLowerCase()];
+  }
+}
+//# sourceMappingURL=LocaleDataStore.js.map
+
+/***/ }),
+
+/***/ "./node_modules/relative-time-format/modules/PluralRuleFunctions.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/relative-time-format/modules/PluralRuleFunctions.js ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// (this file was autogenerated by `generate-locales`)
+// "plural rules" functions are not stored in locale JSON files because they're not strings.
+// This file isn't big — it's about 5 kilobytes in size (minified).
+// Alternatively, the pluralization rules for each locale could be stored
+// in their JSON files in a non-parsed form and later parsed via `make-plural` library.
+// But `make-plural` library itself is relatively big in size:
+// `make-plural.min.js` is about 6 kilobytes (https://unpkg.com/make-plural/).
+// So, it's more practical to bypass runtime `make-plural` pluralization rules compilation
+// and just include the already compiled pluarlization rules for all locales in the library code.
+
+var $ = {
+  af: function af(n) {
+    return n == 1 ? 'one' : 'other';
+  },
+  ak: function ak(n) {
+    return n == 0 || n == 1 ? 'one' : 'other';
+  },
+  am: function am(n) {
+    return n >= 0 && n <= 1 ? 'one' : 'other';
+  },
+  ar: function ar(n) {
+    var s = String(n).split('.'),
+      t0 = Number(s[0]) == n,
+      n100 = t0 && s[0].slice(-2);
+    return n == 0 ? 'zero' : n == 1 ? 'one' : n == 2 ? 'two' : n100 >= 3 && n100 <= 10 ? 'few' : n100 >= 11 && n100 <= 99 ? 'many' : 'other';
+  },
+  ast: function ast(n) {
+    var s = String(n).split('.'),
+      v0 = !s[1];
+    return n == 1 && v0 ? 'one' : 'other';
+  },
+  be: function be(n) {
+    var s = String(n).split('.'),
+      t0 = Number(s[0]) == n,
+      n10 = t0 && s[0].slice(-1),
+      n100 = t0 && s[0].slice(-2);
+    return n10 == 1 && n100 != 11 ? 'one' : n10 >= 2 && n10 <= 4 && (n100 < 12 || n100 > 14) ? 'few' : t0 && n10 == 0 || n10 >= 5 && n10 <= 9 || n100 >= 11 && n100 <= 14 ? 'many' : 'other';
+  },
+  blo: function blo(n) {
+    return n == 0 ? 'zero' : n == 1 ? 'one' : 'other';
+  },
+  br: function br(n) {
+    var s = String(n).split('.'),
+      t0 = Number(s[0]) == n,
+      n10 = t0 && s[0].slice(-1),
+      n100 = t0 && s[0].slice(-2),
+      n1000000 = t0 && s[0].slice(-6);
+    return n10 == 1 && n100 != 11 && n100 != 71 && n100 != 91 ? 'one' : n10 == 2 && n100 != 12 && n100 != 72 && n100 != 92 ? 'two' : (n10 == 3 || n10 == 4 || n10 == 9) && (n100 < 10 || n100 > 19) && (n100 < 70 || n100 > 79) && (n100 < 90 || n100 > 99) ? 'few' : n != 0 && t0 && n1000000 == 0 ? 'many' : 'other';
+  },
+  bs: function bs(n) {
+    var s = String(n).split('.'),
+      i = s[0],
+      f = s[1] || '',
+      v0 = !s[1],
+      i10 = i.slice(-1),
+      i100 = i.slice(-2),
+      f10 = f.slice(-1),
+      f100 = f.slice(-2);
+    return v0 && i10 == 1 && i100 != 11 || f10 == 1 && f100 != 11 ? 'one' : v0 && i10 >= 2 && i10 <= 4 && (i100 < 12 || i100 > 14) || f10 >= 2 && f10 <= 4 && (f100 < 12 || f100 > 14) ? 'few' : 'other';
+  },
+  ca: function ca(n) {
+    var s = String(n).split('.'),
+      i = s[0],
+      v0 = !s[1],
+      i1000000 = i.slice(-6);
+    return n == 1 && v0 ? 'one' : i != 0 && i1000000 == 0 && v0 ? 'many' : 'other';
+  },
+  ceb: function ceb(n) {
+    var s = String(n).split('.'),
+      i = s[0],
+      f = s[1] || '',
+      v0 = !s[1],
+      i10 = i.slice(-1),
+      f10 = f.slice(-1);
+    return v0 && (i == 1 || i == 2 || i == 3) || v0 && i10 != 4 && i10 != 6 && i10 != 9 || !v0 && f10 != 4 && f10 != 6 && f10 != 9 ? 'one' : 'other';
+  },
+  cs: function cs(n) {
+    var s = String(n).split('.'),
+      i = s[0],
+      v0 = !s[1];
+    return n == 1 && v0 ? 'one' : i >= 2 && i <= 4 && v0 ? 'few' : !v0 ? 'many' : 'other';
+  },
+  cy: function cy(n) {
+    return n == 0 ? 'zero' : n == 1 ? 'one' : n == 2 ? 'two' : n == 3 ? 'few' : n == 6 ? 'many' : 'other';
+  },
+  da: function da(n) {
+    var s = String(n).split('.'),
+      i = s[0],
+      t0 = Number(s[0]) == n;
+    return n == 1 || !t0 && (i == 0 || i == 1) ? 'one' : 'other';
+  },
+  dsb: function dsb(n) {
+    var s = String(n).split('.'),
+      i = s[0],
+      f = s[1] || '',
+      v0 = !s[1],
+      i100 = i.slice(-2),
+      f100 = f.slice(-2);
+    return v0 && i100 == 1 || f100 == 1 ? 'one' : v0 && i100 == 2 || f100 == 2 ? 'two' : v0 && (i100 == 3 || i100 == 4) || f100 == 3 || f100 == 4 ? 'few' : 'other';
+  },
+  dz: function dz(n) {
+    return 'other';
+  },
+  es: function es(n) {
+    var s = String(n).split('.'),
+      i = s[0],
+      v0 = !s[1],
+      i1000000 = i.slice(-6);
+    return n == 1 ? 'one' : i != 0 && i1000000 == 0 && v0 ? 'many' : 'other';
+  },
+  ff: function ff(n) {
+    return n >= 0 && n < 2 ? 'one' : 'other';
+  },
+  fr: function fr(n) {
+    var s = String(n).split('.'),
+      i = s[0],
+      v0 = !s[1],
+      i1000000 = i.slice(-6);
+    return n >= 0 && n < 2 ? 'one' : i != 0 && i1000000 == 0 && v0 ? 'many' : 'other';
+  },
+  ga: function ga(n) {
+    var s = String(n).split('.'),
+      t0 = Number(s[0]) == n;
+    return n == 1 ? 'one' : n == 2 ? 'two' : t0 && n >= 3 && n <= 6 ? 'few' : t0 && n >= 7 && n <= 10 ? 'many' : 'other';
+  },
+  gd: function gd(n) {
+    var s = String(n).split('.'),
+      t0 = Number(s[0]) == n;
+    return n == 1 || n == 11 ? 'one' : n == 2 || n == 12 ? 'two' : t0 && n >= 3 && n <= 10 || t0 && n >= 13 && n <= 19 ? 'few' : 'other';
+  },
+  he: function he(n) {
+    var s = String(n).split('.'),
+      i = s[0],
+      v0 = !s[1];
+    return i == 1 && v0 || i == 0 && !v0 ? 'one' : i == 2 && v0 ? 'two' : 'other';
+  },
+  is: function is(n) {
+    var s = String(n).split('.'),
+      i = s[0],
+      t = (s[1] || '').replace(/0+$/, ''),
+      t0 = Number(s[0]) == n,
+      i10 = i.slice(-1),
+      i100 = i.slice(-2);
+    return t0 && i10 == 1 && i100 != 11 || t % 10 == 1 && t % 100 != 11 ? 'one' : 'other';
+  },
+  lt: function lt(n) {
+    var s = String(n).split('.'),
+      f = s[1] || '',
+      t0 = Number(s[0]) == n,
+      n10 = t0 && s[0].slice(-1),
+      n100 = t0 && s[0].slice(-2);
+    return n10 == 1 && (n100 < 11 || n100 > 19) ? 'one' : n10 >= 2 && n10 <= 9 && (n100 < 11 || n100 > 19) ? 'few' : f != 0 ? 'many' : 'other';
+  },
+  lv: function lv(n) {
+    var s = String(n).split('.'),
+      f = s[1] || '',
+      v = f.length,
+      t0 = Number(s[0]) == n,
+      n10 = t0 && s[0].slice(-1),
+      n100 = t0 && s[0].slice(-2),
+      f100 = f.slice(-2),
+      f10 = f.slice(-1);
+    return t0 && n10 == 0 || n100 >= 11 && n100 <= 19 || v == 2 && f100 >= 11 && f100 <= 19 ? 'zero' : n10 == 1 && n100 != 11 || v == 2 && f10 == 1 && f100 != 11 || v != 2 && f10 == 1 ? 'one' : 'other';
+  },
+  mk: function mk(n) {
+    var s = String(n).split('.'),
+      i = s[0],
+      f = s[1] || '',
+      v0 = !s[1],
+      i10 = i.slice(-1),
+      i100 = i.slice(-2),
+      f10 = f.slice(-1),
+      f100 = f.slice(-2);
+    return v0 && i10 == 1 && i100 != 11 || f10 == 1 && f100 != 11 ? 'one' : 'other';
+  },
+  mt: function mt(n) {
+    var s = String(n).split('.'),
+      t0 = Number(s[0]) == n,
+      n100 = t0 && s[0].slice(-2);
+    return n == 1 ? 'one' : n == 2 ? 'two' : n == 0 || n100 >= 3 && n100 <= 10 ? 'few' : n100 >= 11 && n100 <= 19 ? 'many' : 'other';
+  },
+  pl: function pl(n) {
+    var s = String(n).split('.'),
+      i = s[0],
+      v0 = !s[1],
+      i10 = i.slice(-1),
+      i100 = i.slice(-2);
+    return n == 1 && v0 ? 'one' : v0 && i10 >= 2 && i10 <= 4 && (i100 < 12 || i100 > 14) ? 'few' : v0 && i != 1 && (i10 == 0 || i10 == 1) || v0 && i10 >= 5 && i10 <= 9 || v0 && i100 >= 12 && i100 <= 14 ? 'many' : 'other';
+  },
+  pt: function pt(n) {
+    var s = String(n).split('.'),
+      i = s[0],
+      v0 = !s[1],
+      i1000000 = i.slice(-6);
+    return i == 0 || i == 1 ? 'one' : i != 0 && i1000000 == 0 && v0 ? 'many' : 'other';
+  },
+  ro: function ro(n) {
+    var s = String(n).split('.'),
+      v0 = !s[1],
+      t0 = Number(s[0]) == n,
+      n100 = t0 && s[0].slice(-2);
+    return n == 1 && v0 ? 'one' : !v0 || n == 0 || n != 1 && n100 >= 1 && n100 <= 19 ? 'few' : 'other';
+  },
+  ru: function ru(n) {
+    var s = String(n).split('.'),
+      i = s[0],
+      v0 = !s[1],
+      i10 = i.slice(-1),
+      i100 = i.slice(-2);
+    return v0 && i10 == 1 && i100 != 11 ? 'one' : v0 && i10 >= 2 && i10 <= 4 && (i100 < 12 || i100 > 14) ? 'few' : v0 && i10 == 0 || v0 && i10 >= 5 && i10 <= 9 || v0 && i100 >= 11 && i100 <= 14 ? 'many' : 'other';
+  },
+  se: function se(n) {
+    return n == 1 ? 'one' : n == 2 ? 'two' : 'other';
+  },
+  si: function si(n) {
+    var s = String(n).split('.'),
+      i = s[0],
+      f = s[1] || '';
+    return n == 0 || n == 1 || i == 0 && f == 1 ? 'one' : 'other';
+  },
+  sl: function sl(n) {
+    var s = String(n).split('.'),
+      i = s[0],
+      v0 = !s[1],
+      i100 = i.slice(-2);
+    return v0 && i100 == 1 ? 'one' : v0 && i100 == 2 ? 'two' : v0 && (i100 == 3 || i100 == 4) || !v0 ? 'few' : 'other';
+  }
+};
+$.as = $.am;
+$.az = $.af;
+$.bal = $.af;
+$.bg = $.af;
+$.bn = $.am;
+$.brx = $.af;
+$.ce = $.af;
+$.chr = $.af;
+$.de = $.ast;
+$.doi = $.am;
+$.ee = $.af;
+$.el = $.af;
+$.en = $.ast;
+$.et = $.ast;
+$.eu = $.af;
+$.fa = $.am;
+$.fi = $.ast;
+$.fil = $.ceb;
+$.fo = $.af;
+$.fur = $.af;
+$.fy = $.ast;
+$.gl = $.ast;
+$.gu = $.am;
+$.ha = $.af;
+$.hi = $.am;
+$.hr = $.bs;
+$.hsb = $.dsb;
+$.hu = $.af;
+$.hy = $.ff;
+$.ia = $.ast;
+$.id = $.dz;
+$.ig = $.dz;
+$.ii = $.dz;
+$.it = $.ca;
+$.ja = $.dz;
+$.jgo = $.af;
+$.jv = $.dz;
+$.ka = $.af;
+$.kea = $.dz;
+$.kk = $.af;
+$.kl = $.af;
+$.km = $.dz;
+$.kn = $.am;
+$.ko = $.dz;
+$.ks = $.af;
+$.ksh = $.blo;
+$.ku = $.af;
+$.ky = $.af;
+$.lb = $.af;
+$.lkt = $.dz;
+$.lo = $.dz;
+$.ml = $.af;
+$.mn = $.af;
+$.mr = $.af;
+$.ms = $.dz;
+$.my = $.dz;
+$.nb = $.af;
+$.ne = $.af;
+$.nl = $.ast;
+$.nn = $.af;
+$.no = $.af;
+$.nqo = $.dz;
+$.om = $.af;
+$.or = $.af;
+$.pa = $.ak;
+$.pcm = $.am;
+$.ps = $.af;
+$.rm = $.af;
+$.sah = $.dz;
+$.sc = $.ast;
+$.sd = $.af;
+$.sk = $.cs;
+$.so = $.af;
+$.sq = $.af;
+$.sr = $.bs;
+$.su = $.dz;
+$.sv = $.ast;
+$.sw = $.ast;
+$.syr = $.af;
+$.ta = $.af;
+$.te = $.af;
+$.th = $.dz;
+$.ti = $.ak;
+$.tk = $.af;
+$.tn = $.af;
+$.to = $.dz;
+$.tr = $.af;
+$.ug = $.af;
+$.uk = $.ru;
+$.ur = $.ast;
+$.uz = $.af;
+$.vec = $.ca;
+$.vi = $.dz;
+$.wae = $.af;
+$.wo = $.dz;
+$.xh = $.af;
+$.yi = $.ast;
+$.yo = $.dz;
+$.yue = $.dz;
+$.zh = $.dz;
+$.zu = $.am;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ($);
+//# sourceMappingURL=PluralRuleFunctions.js.map
+
+/***/ }),
+
+/***/ "./node_modules/relative-time-format/modules/PluralRules.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/relative-time-format/modules/PluralRules.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ PluralRules)
+/* harmony export */ });
+/* harmony import */ var _PluralRuleFunctions_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PluralRuleFunctions.js */ "./node_modules/relative-time-format/modules/PluralRuleFunctions.js");
+/* harmony import */ var _getPluralRulesLocale_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getPluralRulesLocale.js */ "./node_modules/relative-time-format/modules/getPluralRulesLocale.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+// Importing `PluralRule` polyfill from a separate package
+// results in a bundle that is larger by 1kB for some reason.
+// export { default as default } from 'intl-plural-rules-polyfill/cardinal'
+
+
+
+
+/**
+ * `Intl.PluralRules` polyfill.
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/PluralRules
+ */
+var PluralRules = /*#__PURE__*/function () {
+  function PluralRules(locale, options) {
+    _classCallCheck(this, PluralRules);
+    var locales = PluralRules.supportedLocalesOf(locale);
+    if (locales.length === 0) {
+      throw new RangeError("Unsupported locale: " + locale);
+    }
+    if (options && options.type !== "cardinal") {
+      throw new RangeError("Only \"cardinal\" \"type\" is supported");
+    }
+    this.$ = _PluralRuleFunctions_js__WEBPACK_IMPORTED_MODULE_0__["default"][(0,_getPluralRulesLocale_js__WEBPACK_IMPORTED_MODULE_1__["default"])(locales[0])];
+  }
+  _createClass(PluralRules, [{
+    key: "select",
+    value: function select(number) {
+      return this.$(number);
+    }
+  }], [{
+    key: "supportedLocalesOf",
+    value: function supportedLocalesOf(locales) {
+      if (typeof locales === "string") {
+        locales = [locales];
+      }
+      return locales.filter(function (locale) {
+        return _PluralRuleFunctions_js__WEBPACK_IMPORTED_MODULE_0__["default"][(0,_getPluralRulesLocale_js__WEBPACK_IMPORTED_MODULE_1__["default"])(locale)];
+      });
+    }
+  }]);
+  return PluralRules;
+}();
+
+//# sourceMappingURL=PluralRules.js.map
+
+/***/ }),
+
+/***/ "./node_modules/relative-time-format/modules/RelativeTimeFormat.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/relative-time-format/modules/RelativeTimeFormat.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   UNITS: () => (/* binding */ UNITS),
+/* harmony export */   "default": () => (/* binding */ RelativeTimeFormat)
+/* harmony export */ });
+/* harmony import */ var _LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LocaleDataStore.js */ "./node_modules/relative-time-format/modules/LocaleDataStore.js");
+/* harmony import */ var _resolveLocale_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./resolveLocale.js */ "./node_modules/relative-time-format/modules/resolveLocale.js");
+/* harmony import */ var _PluralRules_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PluralRules.js */ "./node_modules/relative-time-format/modules/PluralRules.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0) { ; } } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+
+
+// Importing `PluralRule` polyfill from a separate package
+// results in a bundle that is larger by 1kB for some reason.
+// import PluralRules from 'intl-plural-rules-polyfill/cardinal'
+
+// Valid time units.
+var UNITS = ["second", "minute", "hour", "day", "week", "month", "quarter", "year"];
+
+// Valid values for the `numeric` option.
+var NUMERIC_VALUES = ["auto", "always"];
+
+// Valid values for the `style` option.
+var STYLE_VALUES = ["long", "short", "narrow"];
+
+// Valid values for the `localeMatcher` option.
+var LOCALE_MATCHER_VALUES = ["lookup", "best fit"];
+
+/**
+ * Polyfill for `Intl.RelativeTimeFormat` proposal.
+ * https://github.com/tc39/proposal-intl-relative-time
+ * https://github.com/tc39/proposal-intl-relative-time/issues/55
+ */
+var RelativeTimeFormat = /*#__PURE__*/function () {
+  /**
+   * @param {(string|string[])} [locales] - Preferred locales (or locale).
+   * @param {Object} [options] - Formatting options.
+   * @param {string} [options.style="long"] - One of: "long", "short", "narrow".
+   * @param {string} [options.numeric="always"] - (Version >= 2) One of: "always", "auto".
+   * @param {string} [options.localeMatcher="lookup"] - One of: "lookup", "best fit". Currently only "lookup" is supported.
+   */
+  function RelativeTimeFormat() {
+    var locales = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    _classCallCheck(this, RelativeTimeFormat);
+    var numeric = options.numeric,
+      style = options.style,
+      localeMatcher = options.localeMatcher;
+    this.numeric = "always";
+    this.style = "long";
+    this.localeMatcher = "lookup";
+
+    // Set `numeric` option.
+    if (numeric !== undefined) {
+      if (NUMERIC_VALUES.indexOf(numeric) < 0) {
+        throw new RangeError("Invalid \"numeric\" option: ".concat(numeric));
+      }
+      this.numeric = numeric;
+    }
+
+    // Set `style` option.
+    if (style !== undefined) {
+      if (STYLE_VALUES.indexOf(style) < 0) {
+        throw new RangeError("Invalid \"style\" option: ".concat(style));
+      }
+      this.style = style;
+    }
+
+    // Set `localeMatcher` option.
+    if (localeMatcher !== undefined) {
+      if (LOCALE_MATCHER_VALUES.indexOf(localeMatcher) < 0) {
+        throw new RangeError("Invalid \"localeMatcher\" option: ".concat(localeMatcher));
+      }
+      this.localeMatcher = localeMatcher;
+    }
+
+    // Set `locale`.
+    // Convert `locales` to an array.
+    if (typeof locales === 'string') {
+      locales = [locales];
+    }
+    // Add default locale.
+    locales.push((0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_0__.getDefaultLocale)());
+    // Choose the most appropriate locale.
+    this.locale = RelativeTimeFormat.supportedLocalesOf(locales, {
+      localeMatcher: this.localeMatcher
+    })[0];
+    if (!this.locale) {
+      throw new Error("Unsupported locale");
+    }
+
+    // Construct an `Intl.PluralRules` instance (polyfill).
+    if (_PluralRules_js__WEBPACK_IMPORTED_MODULE_2__["default"].supportedLocalesOf(this.locale).length > 0) {
+      this.pluralRules = new _PluralRules_js__WEBPACK_IMPORTED_MODULE_2__["default"](this.locale);
+    } else {
+      console.warn("\"".concat(this.locale, "\" locale is not supported"));
+    }
+
+    // Use `Intl.NumberFormat` for formatting numbers (when available).
+    if (typeof Intl !== 'undefined' && Intl.NumberFormat) {
+      this.numberFormat = new Intl.NumberFormat(this.locale);
+      this.numberingSystem = this.numberFormat.resolvedOptions().numberingSystem;
+    } else {
+      this.numberingSystem = 'latn';
+    }
+    this.locale = (0,_resolveLocale_js__WEBPACK_IMPORTED_MODULE_1__["default"])(this.locale, {
+      localeMatcher: this.localeMatcher
+    });
+  }
+
+  /**
+   * Formats time `number` in `units` (either in past or in future).
+   * @param {number} number - Time interval value.
+   * @param {string} unit - Time interval measurement unit.
+   * @return {string}
+   * @throws {RangeError} If unit is not one of "second", "minute", "hour", "day", "week", "month", "quarter".
+   * @example
+   * // Returns "2 days ago"
+   * rtf.format(-2, "day")
+   * // Returns "in 5 minutes"
+   * rtf.format(5, "minute")
+   */
+  _createClass(RelativeTimeFormat, [{
+    key: "format",
+    value: function format() {
+      var _parseFormatArgs = parseFormatArgs(arguments),
+        _parseFormatArgs2 = _slicedToArray(_parseFormatArgs, 2),
+        number = _parseFormatArgs2[0],
+        unit = _parseFormatArgs2[1];
+      return this.getRule(number, unit).replace('{0}', this.formatNumber(Math.abs(number)));
+    }
+
+    /**
+     * Formats time `number` in `units` (either in past or in future).
+     * @param {number} number - Time interval value.
+     * @param {string} unit - Time interval measurement unit.
+     * @return {Object[]} The parts (`{ type, value, unit? }`).
+     * @throws {RangeError} If unit is not one of "second", "minute", "hour", "day", "week", "month", "quarter".
+     * @example
+     * // Version 1 (deprecated).
+     * // Returns [
+     * //   { type: "literal", value: "in " },
+     * //   { type: "day", value: "100" },
+     * //   { type: "literal", value: " days" }
+     * // ]
+     * rtf.formatToParts(100, "day")
+     * //
+     * // Version 2.
+     * // Returns [
+     * //   { type: "literal", value: "in " },
+     * //   { type: "integer", value: "100", unit: "day" },
+     * //   { type: "literal", value: " days" }
+     * // ]
+     * rtf.formatToParts(100, "day")
+     */
+  }, {
+    key: "formatToParts",
+    value: function formatToParts() {
+      var _parseFormatArgs3 = parseFormatArgs(arguments),
+        _parseFormatArgs4 = _slicedToArray(_parseFormatArgs3, 2),
+        number = _parseFormatArgs4[0],
+        unit = _parseFormatArgs4[1];
+      var rule = this.getRule(number, unit);
+      var valueIndex = rule.indexOf("{0}");
+      // "yesterday"/"today"/"tomorrow".
+      if (valueIndex < 0) {
+        return [{
+          type: "literal",
+          value: rule
+        }];
+      }
+      var parts = [];
+      if (valueIndex > 0) {
+        parts.push({
+          type: "literal",
+          value: rule.slice(0, valueIndex)
+        });
+      }
+      parts = parts.concat(this.formatNumberToParts(Math.abs(number)).map(function (part) {
+        return _objectSpread(_objectSpread({}, part), {}, {
+          unit: unit
+        });
+      }));
+      if (valueIndex + "{0}".length < rule.length - 1) {
+        parts.push({
+          type: "literal",
+          value: rule.slice(valueIndex + "{0}".length)
+        });
+      }
+      return parts;
+    }
+
+    /**
+     * Returns formatting rule for `value` in `units` (either in past or in future).
+     * @param {number} value - Time interval value.
+     * @param {string} unit - Time interval measurement unit.
+     * @return {string}
+     * @throws {RangeError} If unit is not one of "second", "minute", "hour", "day", "week", "month", "quarter".
+     * @example
+     * // Returns "{0} days ago"
+     * getRule(-2, "day")
+     */
+  }, {
+    key: "getRule",
+    value: function getRule(value, unit) {
+      // Get locale-specific time interval formatting rules
+      // of a given `style` for the given value of measurement `unit`.
+      //
+      // E.g.:
+      //
+      // ```json
+      // {
+      //  "past": {
+      //    "one": "a second ago",
+      //    "other": "{0} seconds ago"
+      //  },
+      //  "future": {
+      //    "one": "in a second",
+      //    "other": "in {0} seconds"
+      //  }
+      // }
+      // ```
+      //
+      var unitMessages = (0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_0__.getLocaleData)(this.locale)[this.style][unit];
+      // Bundle size optimization technique for styles like
+      // "tiny" in `javascript-time-ago`: "1m", "2h", "3d"...
+      if (typeof unitMessages === 'string') {
+        return unitMessages;
+      }
+      // Special case for "yesterday"/"today"/"tomorrow".
+      if (this.numeric === "auto") {
+        // "yesterday", "the day before yesterday", etc.
+        if (value === -2 || value === -1) {
+          var message = unitMessages["previous".concat(value === -1 ? '' : '-' + Math.abs(value))];
+          if (message) {
+            return message;
+          }
+        }
+        // "tomorrow", "the day after tomorrow", etc.
+        else if (value === 1 || value === 2) {
+          var _message = unitMessages["next".concat(value === 1 ? '' : '-' + Math.abs(value))];
+          if (_message) {
+            return _message;
+          }
+        }
+        // "today"
+        else if (value === 0) {
+          if (unitMessages.current) {
+            return unitMessages.current;
+          }
+        }
+      }
+      // Choose either "past" or "future" based on time `value` sign.
+      // If there's only "other" then it's being collapsed.
+      // (the resulting bundle size optimization technique)
+      var pluralizedMessages = unitMessages[isNegative(value) ? "past" : "future"];
+      // Bundle size optimization technique for styles like "narrow"
+      // having messages like "in {0} d." or "{0} d. ago".
+      if (typeof pluralizedMessages === "string") {
+        return pluralizedMessages;
+      }
+      // Quantify `value`.
+      // There seems to be no such locale in CLDR
+      // for which "plural rules" function is missing.
+      var quantifier = this.pluralRules && this.pluralRules.select(Math.abs(value)) || 'other';
+      // "other" rule is supposed to be always present.
+      // If only "other" rule is present then "rules" is not an object and is a string.
+      return pluralizedMessages[quantifier] || pluralizedMessages.other;
+    }
+
+    /**
+     * Formats a number into a string.
+     * Uses `Intl.NumberFormat` when available.
+     * @param  {number} number
+     * @return {string}
+     */
+  }, {
+    key: "formatNumber",
+    value: function formatNumber(number) {
+      return this.numberFormat ? this.numberFormat.format(number) : String(number);
+    }
+
+    /**
+     * Formats a number into a list of parts.
+     * Uses `Intl.NumberFormat` when available.
+     * @param  {number} number
+     * @return {object[]}
+     */
+  }, {
+    key: "formatNumberToParts",
+    value: function formatNumberToParts(number) {
+      // `Intl.NumberFormat.formatToParts()` is not present, for example,
+      // in Node.js 8.x while `Intl.NumberFormat` itself is present.
+      return this.numberFormat && this.numberFormat.formatToParts ? this.numberFormat.formatToParts(number) : [{
+        type: "integer",
+        value: this.formatNumber(number)
+      }];
+    }
+
+    /**
+     * Returns a new object with properties reflecting the locale and date and time formatting options computed during initialization of this DateTimeFormat object.
+     * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat/resolvedOptions
+     * @return {Object}
+     */
+  }, {
+    key: "resolvedOptions",
+    value: function resolvedOptions() {
+      return {
+        locale: this.locale,
+        style: this.style,
+        numeric: this.numeric,
+        numberingSystem: this.numberingSystem
+      };
+    }
+  }]);
+  return RelativeTimeFormat;
+}();
+/**
+ * Returns an array containing those of the provided locales
+ * that are supported in collation without having to fall back
+ * to the runtime's default locale.
+ * @param {(string|string[])} locale - A string with a BCP 47 language tag, or an array of such strings. For the general form of the locales argument, see the Intl page.
+ * @param {Object} [options] - An object that may have the following property:
+ * @param {string} [options.localeMatcher="lookup"] - The locale matching algorithm to use. Possible values are "lookup" and "best fit". Currently only "lookup" is supported.
+ * @return {string[]} An array of strings representing a subset of the given locale tags that are supported in collation without having to fall back to the runtime's default locale.
+ * @example
+ * var locales = ['ban', 'id-u-co-pinyin', 'es-PY']
+ * var options = { localeMatcher: 'lookup' }
+ * // Returns ["id", "es-PY"]
+ * Intl.RelativeTimeFormat.supportedLocalesOf(locales, options)
+ */
+
+RelativeTimeFormat.supportedLocalesOf = function (locales) {
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  // Convert `locales` to an array.
+  if (typeof locales === 'string') {
+    locales = [locales];
+  } else if (!Array.isArray(locales)) {
+    throw new TypeError('Invalid "locales" argument');
+  }
+  return locales.filter(function (locale) {
+    return (0,_resolveLocale_js__WEBPACK_IMPORTED_MODULE_1__["default"])(locale, options);
+  });
+};
+
+/**
+ * Adds locale data for a specific locale.
+ * @param {Object} localeData
+ */
+RelativeTimeFormat.addLocale = _LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_0__.addLocaleData;
+
+/**
+ * Adds locale data for a specific locale and then sets it as the "default" locale.
+ * @param {Object} localeData
+ */
+RelativeTimeFormat.addDefaultLocale = function (localeData) {
+  (0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_0__.addLocaleData)(localeData);
+  (0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_0__.setDefaultLocale)(localeData.locale);
+};
+
+/**
+ * Sets default locale.
+ * @param  {string} locale
+ */
+RelativeTimeFormat.setDefaultLocale = _LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_0__.setDefaultLocale;
+
+/**
+ * Gets default locale.
+ * @return  {string} locale
+ */
+RelativeTimeFormat.getDefaultLocale = _LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_0__.getDefaultLocale;
+
+/**
+ * Export `Intl.PluralRules` just in case it's used somewhere else.
+ */
+RelativeTimeFormat.PluralRules = _PluralRules_js__WEBPACK_IMPORTED_MODULE_2__["default"];
+
+// The specification allows units to be in plural form.
+// Convert plural to singular.
+// Example: "seconds" -> "second".
+var UNIT_ERROR = 'Invalid "unit" argument';
+function parseUnit(unit) {
+  if (_typeof(unit) === 'symbol') {
+    throw new TypeError(UNIT_ERROR);
+  }
+  if (typeof unit !== 'string') {
+    throw new RangeError("".concat(UNIT_ERROR, ": ").concat(unit));
+  }
+  if (unit[unit.length - 1] === 's') {
+    unit = unit.slice(0, unit.length - 1);
+  }
+  if (UNITS.indexOf(unit) < 0) {
+    throw new RangeError("".concat(UNIT_ERROR, ": ").concat(unit));
+  }
+  return unit;
+}
+
+// Converts `value` to a `Number`.
+// The specification allows value to be a non-number.
+// For example, "-0" is supposed to be treated as `-0`.
+// Also checks if `value` is a finite number.
+var NUMBER_ERROR = 'Invalid "number" argument';
+function parseNumber(value) {
+  value = Number(value);
+  if (Number.isFinite) {
+    if (!Number.isFinite(value)) {
+      throw new RangeError("".concat(NUMBER_ERROR, ": ").concat(value));
+    }
+  }
+  return value;
+}
+
+/**
+ * Tells `0` from `-0`.
+ * https://stackoverflow.com/questions/7223359/are-0-and-0-the-same
+ * @param  {number} number
+ * @return {Boolean}
+ * @example
+ * isNegativeZero(0); // false
+ * isNegativeZero(-0); // true
+ */
+function isNegativeZero(number) {
+  return 1 / number === -Infinity;
+}
+function isNegative(number) {
+  return number < 0 || number === 0 && isNegativeZero(number);
+}
+function parseFormatArgs(args) {
+  if (args.length < 2) {
+    throw new TypeError("\"unit\" argument is required");
+  }
+  return [parseNumber(args[0]), parseUnit(args[1])];
+}
+//# sourceMappingURL=RelativeTimeFormat.js.map
+
+/***/ }),
+
+/***/ "./node_modules/relative-time-format/modules/getPluralRulesLocale.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/relative-time-format/modules/getPluralRulesLocale.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ getPluralRulesLocale)
+/* harmony export */ });
+/**
+ * Returns a `locale` for which a function exists in `./PluralRuleFunctions.js`.
+ * @param  {string} locale
+ * @return {string}
+ * @example
+ * getPluralRulesLocale("ru-RU-Cyrl") // Returns "ru".
+ */
+function getPluralRulesLocale(locale) {
+  // "pt" language is the only one having different pluralization rules
+  // for the one ("pt") (Portuguese) locale and the other ("pt-PT") (European Portuguese).
+  // http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html
+  // (see the entries for "pt" and "pt_PT" there)
+  if (locale === 'pt-PT') {
+    return locale;
+  }
+  return getLanguageFromLanguageTag(locale);
+}
+
+/**
+ * Extracts language from an IETF BCP 47 language tag.
+ * @param {string} languageTag - IETF BCP 47 language tag.
+ * @return {string}
+ * @example
+ * // Returns "he"
+ * getLanguageFromLanguageTag("he-IL-u-ca-hebrew-tz-jeruslm")
+ * // Returns "ar"
+ * getLanguageFromLanguageTag("ar-u-nu-latn")
+ */
+var LANGUAGE_REG_EXP = /^([a-z0-9]+)/i;
+function getLanguageFromLanguageTag(languageTag) {
+  var match = languageTag.match(LANGUAGE_REG_EXP);
+  if (!match) {
+    throw new TypeError("Invalid locale: ".concat(languageTag));
+  }
+  return match[1];
+}
+//# sourceMappingURL=getPluralRulesLocale.js.map
+
+/***/ }),
+
+/***/ "./node_modules/relative-time-format/modules/resolveLocale.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/relative-time-format/modules/resolveLocale.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ resolveLocale),
+/* harmony export */   resolveLocaleLookup: () => (/* binding */ resolveLocaleLookup)
+/* harmony export */ });
+/* harmony import */ var _LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LocaleDataStore.js */ "./node_modules/relative-time-format/modules/LocaleDataStore.js");
+
+
+/**
+ * Resolves a locale to a supported one (if any).
+ * @param  {string} locale
+ * @param {Object} [options] - An object that may have the following property:
+ * @param {string} [options.localeMatcher="lookup"] - The locale matching algorithm to use. Possible values are "lookup" and "best fit". Currently only "lookup" is supported.
+ * @return {string} [locale]
+ * @example
+ * // Returns "sr"
+ * resolveLocale("sr-Cyrl-BA")
+ * // Returns `undefined`
+ * resolveLocale("xx-Latn")
+ */
+function resolveLocale(locale) {
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var localeMatcher = options.localeMatcher || 'lookup';
+  switch (localeMatcher) {
+    case 'lookup':
+      return resolveLocaleLookup(locale);
+    // "best fit" locale matching is not supported.
+    // https://github.com/catamphetamine/relative-time-format/issues/2
+    case 'best fit':
+      // return resolveLocaleBestFit(locale)
+      return resolveLocaleLookup(locale);
+    default:
+      throw new RangeError("Invalid \"localeMatcher\" option: ".concat(localeMatcher));
+  }
+}
+
+/**
+ * Resolves a locale to a supported one (if any).
+ * Starts from the most specific locale and gradually
+ * falls back to less specific ones.
+ * This is a basic implementation of the "lookup" algorithm.
+ * https://tools.ietf.org/html/rfc4647#section-3.4
+ * @param  {string} locale
+ * @return {string} [locale]
+ * @example
+ * // Returns "sr"
+ * resolveLocaleLookup("sr-Cyrl-BA")
+ * // Returns `undefined`
+ * resolveLocaleLookup("xx-Latn")
+ */
+function resolveLocaleLookup(locale) {
+  var resolvedLocale = (0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_0__.resolveLocale)(locale);
+  if (resolvedLocale) {
+    return resolvedLocale;
+  }
+  // `sr-Cyrl-BA` -> `sr-Cyrl` -> `sr`.
+  var parts = locale.split('-');
+  while (locale.length > 1) {
+    parts.pop();
+    locale = parts.join('-');
+    var _resolvedLocale = (0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_0__.resolveLocale)(locale);
+    if (_resolvedLocale) {
+      return _resolvedLocale;
+    }
+  }
+}
+//# sourceMappingURL=resolveLocale.js.map
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js":
 /*!****************************************************************************!*\
   !*** ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js ***!
@@ -72537,16 +77955,6 @@ const arrayItem = (a) => selectRandomValue(a);
 
 /***/ }),
 
-/***/ "?b254":
-/*!************************!*\
-  !*** crypto (ignored) ***!
-  \************************/
-/***/ (() => {
-
-/* (ignored) */
-
-/***/ }),
-
 /***/ "?8fcd":
 /*!************************!*\
   !*** crypto (ignored) ***!
@@ -72557,5382 +77965,13 @@ const arrayItem = (a) => selectRandomValue(a);
 
 /***/ }),
 
-/***/ "./node_modules/long/umd/index.js":
-/*!****************************************!*\
-  !*** ./node_modules/long/umd/index.js ***!
-  \****************************************/
-/***/ ((module, exports) => {
-
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// GENERATED FILE. DO NOT EDIT.
-var Long = (function(exports) {
-  "use strict";
-  
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = void 0;
-  
-  /**
-   * @license
-   * Copyright 2009 The Closure Library Authors
-   * Copyright 2020 Daniel Wirtz / The long.js Authors.
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License");
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   *     http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   *
-   * SPDX-License-Identifier: Apache-2.0
-   */
-  // WebAssembly optimizations to do native i64 multiplication and divide
-  var wasm = null;
-  
-  try {
-    wasm = new WebAssembly.Instance(new WebAssembly.Module(new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0, 1, 13, 2, 96, 0, 1, 127, 96, 4, 127, 127, 127, 127, 1, 127, 3, 7, 6, 0, 1, 1, 1, 1, 1, 6, 6, 1, 127, 1, 65, 0, 11, 7, 50, 6, 3, 109, 117, 108, 0, 1, 5, 100, 105, 118, 95, 115, 0, 2, 5, 100, 105, 118, 95, 117, 0, 3, 5, 114, 101, 109, 95, 115, 0, 4, 5, 114, 101, 109, 95, 117, 0, 5, 8, 103, 101, 116, 95, 104, 105, 103, 104, 0, 0, 10, 191, 1, 6, 4, 0, 35, 0, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 126, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 127, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 128, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 129, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11, 36, 1, 1, 126, 32, 0, 173, 32, 1, 173, 66, 32, 134, 132, 32, 2, 173, 32, 3, 173, 66, 32, 134, 132, 130, 34, 4, 66, 32, 135, 167, 36, 0, 32, 4, 167, 11])), {}).exports;
-  } catch (e) {// no wasm support :(
-  }
-  /**
-   * Constructs a 64 bit two's-complement integer, given its low and high 32 bit values as *signed* integers.
-   *  See the from* functions below for more convenient ways of constructing Longs.
-   * @exports Long
-   * @class A Long class for representing a 64 bit two's-complement integer value.
-   * @param {number} low The low (signed) 32 bits of the long
-   * @param {number} high The high (signed) 32 bits of the long
-   * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
-   * @constructor
-   */
-  
-  
-  function Long(low, high, unsigned) {
-    /**
-     * The low 32 bits as a signed value.
-     * @type {number}
-     */
-    this.low = low | 0;
-    /**
-     * The high 32 bits as a signed value.
-     * @type {number}
-     */
-  
-    this.high = high | 0;
-    /**
-     * Whether unsigned or not.
-     * @type {boolean}
-     */
-  
-    this.unsigned = !!unsigned;
-  } // The internal representation of a long is the two given signed, 32-bit values.
-  // We use 32-bit pieces because these are the size of integers on which
-  // Javascript performs bit-operations.  For operations like addition and
-  // multiplication, we split each number into 16 bit pieces, which can easily be
-  // multiplied within Javascript's floating-point representation without overflow
-  // or change in sign.
-  //
-  // In the algorithms below, we frequently reduce the negative case to the
-  // positive case by negating the input(s) and then post-processing the result.
-  // Note that we must ALWAYS check specially whether those values are MIN_VALUE
-  // (-2^63) because -MIN_VALUE == MIN_VALUE (since 2^63 cannot be represented as
-  // a positive number, it overflows back into a negative).  Not handling this
-  // case would often result in infinite recursion.
-  //
-  // Common constant values ZERO, ONE, NEG_ONE, etc. are defined below the from*
-  // methods on which they depend.
-  
-  /**
-   * An indicator used to reliably determine if an object is a Long or not.
-   * @type {boolean}
-   * @const
-   * @private
-   */
-  
-  
-  Long.prototype.__isLong__;
-  Object.defineProperty(Long.prototype, "__isLong__", {
-    value: true
-  });
-  /**
-   * @function
-   * @param {*} obj Object
-   * @returns {boolean}
-   * @inner
-   */
-  
-  function isLong(obj) {
-    return (obj && obj["__isLong__"]) === true;
-  }
-  /**
-   * @function
-   * @param {*} value number
-   * @returns {number}
-   * @inner
-   */
-  
-  
-  function ctz32(value) {
-    var c = Math.clz32(value & -value);
-    return value ? 31 - c : c;
-  }
-  /**
-   * Tests if the specified object is a Long.
-   * @function
-   * @param {*} obj Object
-   * @returns {boolean}
-   */
-  
-  
-  Long.isLong = isLong;
-  /**
-   * A cache of the Long representations of small integer values.
-   * @type {!Object}
-   * @inner
-   */
-  
-  var INT_CACHE = {};
-  /**
-   * A cache of the Long representations of small unsigned integer values.
-   * @type {!Object}
-   * @inner
-   */
-  
-  var UINT_CACHE = {};
-  /**
-   * @param {number} value
-   * @param {boolean=} unsigned
-   * @returns {!Long}
-   * @inner
-   */
-  
-  function fromInt(value, unsigned) {
-    var obj, cachedObj, cache;
-  
-    if (unsigned) {
-      value >>>= 0;
-  
-      if (cache = 0 <= value && value < 256) {
-        cachedObj = UINT_CACHE[value];
-        if (cachedObj) return cachedObj;
-      }
-  
-      obj = fromBits(value, 0, true);
-      if (cache) UINT_CACHE[value] = obj;
-      return obj;
-    } else {
-      value |= 0;
-  
-      if (cache = -128 <= value && value < 128) {
-        cachedObj = INT_CACHE[value];
-        if (cachedObj) return cachedObj;
-      }
-  
-      obj = fromBits(value, value < 0 ? -1 : 0, false);
-      if (cache) INT_CACHE[value] = obj;
-      return obj;
-    }
-  }
-  /**
-   * Returns a Long representing the given 32 bit integer value.
-   * @function
-   * @param {number} value The 32 bit integer in question
-   * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
-   * @returns {!Long} The corresponding Long value
-   */
-  
-  
-  Long.fromInt = fromInt;
-  /**
-   * @param {number} value
-   * @param {boolean=} unsigned
-   * @returns {!Long}
-   * @inner
-   */
-  
-  function fromNumber(value, unsigned) {
-    if (isNaN(value)) return unsigned ? UZERO : ZERO;
-  
-    if (unsigned) {
-      if (value < 0) return UZERO;
-      if (value >= TWO_PWR_64_DBL) return MAX_UNSIGNED_VALUE;
-    } else {
-      if (value <= -TWO_PWR_63_DBL) return MIN_VALUE;
-      if (value + 1 >= TWO_PWR_63_DBL) return MAX_VALUE;
-    }
-  
-    if (value < 0) return fromNumber(-value, unsigned).neg();
-    return fromBits(value % TWO_PWR_32_DBL | 0, value / TWO_PWR_32_DBL | 0, unsigned);
-  }
-  /**
-   * Returns a Long representing the given value, provided that it is a finite number. Otherwise, zero is returned.
-   * @function
-   * @param {number} value The number in question
-   * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
-   * @returns {!Long} The corresponding Long value
-   */
-  
-  
-  Long.fromNumber = fromNumber;
-  /**
-   * @param {number} lowBits
-   * @param {number} highBits
-   * @param {boolean=} unsigned
-   * @returns {!Long}
-   * @inner
-   */
-  
-  function fromBits(lowBits, highBits, unsigned) {
-    return new Long(lowBits, highBits, unsigned);
-  }
-  /**
-   * Returns a Long representing the 64 bit integer that comes by concatenating the given low and high bits. Each is
-   *  assumed to use 32 bits.
-   * @function
-   * @param {number} lowBits The low 32 bits
-   * @param {number} highBits The high 32 bits
-   * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
-   * @returns {!Long} The corresponding Long value
-   */
-  
-  
-  Long.fromBits = fromBits;
-  /**
-   * @function
-   * @param {number} base
-   * @param {number} exponent
-   * @returns {number}
-   * @inner
-   */
-  
-  var pow_dbl = Math.pow; // Used 4 times (4*8 to 15+4)
-  
-  /**
-   * @param {string} str
-   * @param {(boolean|number)=} unsigned
-   * @param {number=} radix
-   * @returns {!Long}
-   * @inner
-   */
-  
-  function fromString(str, unsigned, radix) {
-    if (str.length === 0) throw Error('empty string');
-  
-    if (typeof unsigned === 'number') {
-      // For goog.math.long compatibility
-      radix = unsigned;
-      unsigned = false;
-    } else {
-      unsigned = !!unsigned;
-    }
-  
-    if (str === "NaN" || str === "Infinity" || str === "+Infinity" || str === "-Infinity") return unsigned ? UZERO : ZERO;
-    radix = radix || 10;
-    if (radix < 2 || 36 < radix) throw RangeError('radix');
-    var p;
-    if ((p = str.indexOf('-')) > 0) throw Error('interior hyphen');else if (p === 0) {
-      return fromString(str.substring(1), unsigned, radix).neg();
-    } // Do several (8) digits each time through the loop, so as to
-    // minimize the calls to the very expensive emulated div.
-  
-    var radixToPower = fromNumber(pow_dbl(radix, 8));
-    var result = ZERO;
-  
-    for (var i = 0; i < str.length; i += 8) {
-      var size = Math.min(8, str.length - i),
-          value = parseInt(str.substring(i, i + size), radix);
-  
-      if (size < 8) {
-        var power = fromNumber(pow_dbl(radix, size));
-        result = result.mul(power).add(fromNumber(value));
-      } else {
-        result = result.mul(radixToPower);
-        result = result.add(fromNumber(value));
-      }
-    }
-  
-    result.unsigned = unsigned;
-    return result;
-  }
-  /**
-   * Returns a Long representation of the given string, written using the specified radix.
-   * @function
-   * @param {string} str The textual representation of the Long
-   * @param {(boolean|number)=} unsigned Whether unsigned or not, defaults to signed
-   * @param {number=} radix The radix in which the text is written (2-36), defaults to 10
-   * @returns {!Long} The corresponding Long value
-   */
-  
-  
-  Long.fromString = fromString;
-  /**
-   * @function
-   * @param {!Long|number|string|!{low: number, high: number, unsigned: boolean}} val
-   * @param {boolean=} unsigned
-   * @returns {!Long}
-   * @inner
-   */
-  
-  function fromValue(val, unsigned) {
-    if (typeof val === 'number') return fromNumber(val, unsigned);
-    if (typeof val === 'string') return fromString(val, unsigned); // Throws for non-objects, converts non-instanceof Long:
-  
-    return fromBits(val.low, val.high, typeof unsigned === 'boolean' ? unsigned : val.unsigned);
-  }
-  /**
-   * Converts the specified value to a Long using the appropriate from* function for its type.
-   * @function
-   * @param {!Long|number|string|!{low: number, high: number, unsigned: boolean}} val Value
-   * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
-   * @returns {!Long}
-   */
-  
-  
-  Long.fromValue = fromValue; // NOTE: the compiler should inline these constant values below and then remove these variables, so there should be
-  // no runtime penalty for these.
-  
-  /**
-   * @type {number}
-   * @const
-   * @inner
-   */
-  
-  var TWO_PWR_16_DBL = 1 << 16;
-  /**
-   * @type {number}
-   * @const
-   * @inner
-   */
-  
-  var TWO_PWR_24_DBL = 1 << 24;
-  /**
-   * @type {number}
-   * @const
-   * @inner
-   */
-  
-  var TWO_PWR_32_DBL = TWO_PWR_16_DBL * TWO_PWR_16_DBL;
-  /**
-   * @type {number}
-   * @const
-   * @inner
-   */
-  
-  var TWO_PWR_64_DBL = TWO_PWR_32_DBL * TWO_PWR_32_DBL;
-  /**
-   * @type {number}
-   * @const
-   * @inner
-   */
-  
-  var TWO_PWR_63_DBL = TWO_PWR_64_DBL / 2;
-  /**
-   * @type {!Long}
-   * @const
-   * @inner
-   */
-  
-  var TWO_PWR_24 = fromInt(TWO_PWR_24_DBL);
-  /**
-   * @type {!Long}
-   * @inner
-   */
-  
-  var ZERO = fromInt(0);
-  /**
-   * Signed zero.
-   * @type {!Long}
-   */
-  
-  Long.ZERO = ZERO;
-  /**
-   * @type {!Long}
-   * @inner
-   */
-  
-  var UZERO = fromInt(0, true);
-  /**
-   * Unsigned zero.
-   * @type {!Long}
-   */
-  
-  Long.UZERO = UZERO;
-  /**
-   * @type {!Long}
-   * @inner
-   */
-  
-  var ONE = fromInt(1);
-  /**
-   * Signed one.
-   * @type {!Long}
-   */
-  
-  Long.ONE = ONE;
-  /**
-   * @type {!Long}
-   * @inner
-   */
-  
-  var UONE = fromInt(1, true);
-  /**
-   * Unsigned one.
-   * @type {!Long}
-   */
-  
-  Long.UONE = UONE;
-  /**
-   * @type {!Long}
-   * @inner
-   */
-  
-  var NEG_ONE = fromInt(-1);
-  /**
-   * Signed negative one.
-   * @type {!Long}
-   */
-  
-  Long.NEG_ONE = NEG_ONE;
-  /**
-   * @type {!Long}
-   * @inner
-   */
-  
-  var MAX_VALUE = fromBits(0xFFFFFFFF | 0, 0x7FFFFFFF | 0, false);
-  /**
-   * Maximum signed value.
-   * @type {!Long}
-   */
-  
-  Long.MAX_VALUE = MAX_VALUE;
-  /**
-   * @type {!Long}
-   * @inner
-   */
-  
-  var MAX_UNSIGNED_VALUE = fromBits(0xFFFFFFFF | 0, 0xFFFFFFFF | 0, true);
-  /**
-   * Maximum unsigned value.
-   * @type {!Long}
-   */
-  
-  Long.MAX_UNSIGNED_VALUE = MAX_UNSIGNED_VALUE;
-  /**
-   * @type {!Long}
-   * @inner
-   */
-  
-  var MIN_VALUE = fromBits(0, 0x80000000 | 0, false);
-  /**
-   * Minimum signed value.
-   * @type {!Long}
-   */
-  
-  Long.MIN_VALUE = MIN_VALUE;
-  /**
-   * @alias Long.prototype
-   * @inner
-   */
-  
-  var LongPrototype = Long.prototype;
-  /**
-   * Converts the Long to a 32 bit integer, assuming it is a 32 bit integer.
-   * @this {!Long}
-   * @returns {number}
-   */
-  
-  LongPrototype.toInt = function toInt() {
-    return this.unsigned ? this.low >>> 0 : this.low;
-  };
-  /**
-   * Converts the Long to a the nearest floating-point representation of this value (double, 53 bit mantissa).
-   * @this {!Long}
-   * @returns {number}
-   */
-  
-  
-  LongPrototype.toNumber = function toNumber() {
-    if (this.unsigned) return (this.high >>> 0) * TWO_PWR_32_DBL + (this.low >>> 0);
-    return this.high * TWO_PWR_32_DBL + (this.low >>> 0);
-  };
-  /**
-   * Converts the Long to a string written in the specified radix.
-   * @this {!Long}
-   * @param {number=} radix Radix (2-36), defaults to 10
-   * @returns {string}
-   * @override
-   * @throws {RangeError} If `radix` is out of range
-   */
-  
-  
-  LongPrototype.toString = function toString(radix) {
-    radix = radix || 10;
-    if (radix < 2 || 36 < radix) throw RangeError('radix');
-    if (this.isZero()) return '0';
-  
-    if (this.isNegative()) {
-      // Unsigned Longs are never negative
-      if (this.eq(MIN_VALUE)) {
-        // We need to change the Long value before it can be negated, so we remove
-        // the bottom-most digit in this base and then recurse to do the rest.
-        var radixLong = fromNumber(radix),
-            div = this.div(radixLong),
-            rem1 = div.mul(radixLong).sub(this);
-        return div.toString(radix) + rem1.toInt().toString(radix);
-      } else return '-' + this.neg().toString(radix);
-    } // Do several (6) digits each time through the loop, so as to
-    // minimize the calls to the very expensive emulated div.
-  
-  
-    var radixToPower = fromNumber(pow_dbl(radix, 6), this.unsigned),
-        rem = this;
-    var result = '';
-  
-    while (true) {
-      var remDiv = rem.div(radixToPower),
-          intval = rem.sub(remDiv.mul(radixToPower)).toInt() >>> 0,
-          digits = intval.toString(radix);
-      rem = remDiv;
-      if (rem.isZero()) return digits + result;else {
-        while (digits.length < 6) digits = '0' + digits;
-  
-        result = '' + digits + result;
-      }
-    }
-  };
-  /**
-   * Gets the high 32 bits as a signed integer.
-   * @this {!Long}
-   * @returns {number} Signed high bits
-   */
-  
-  
-  LongPrototype.getHighBits = function getHighBits() {
-    return this.high;
-  };
-  /**
-   * Gets the high 32 bits as an unsigned integer.
-   * @this {!Long}
-   * @returns {number} Unsigned high bits
-   */
-  
-  
-  LongPrototype.getHighBitsUnsigned = function getHighBitsUnsigned() {
-    return this.high >>> 0;
-  };
-  /**
-   * Gets the low 32 bits as a signed integer.
-   * @this {!Long}
-   * @returns {number} Signed low bits
-   */
-  
-  
-  LongPrototype.getLowBits = function getLowBits() {
-    return this.low;
-  };
-  /**
-   * Gets the low 32 bits as an unsigned integer.
-   * @this {!Long}
-   * @returns {number} Unsigned low bits
-   */
-  
-  
-  LongPrototype.getLowBitsUnsigned = function getLowBitsUnsigned() {
-    return this.low >>> 0;
-  };
-  /**
-   * Gets the number of bits needed to represent the absolute value of this Long.
-   * @this {!Long}
-   * @returns {number}
-   */
-  
-  
-  LongPrototype.getNumBitsAbs = function getNumBitsAbs() {
-    if (this.isNegative()) // Unsigned Longs are never negative
-      return this.eq(MIN_VALUE) ? 64 : this.neg().getNumBitsAbs();
-    var val = this.high != 0 ? this.high : this.low;
-  
-    for (var bit = 31; bit > 0; bit--) if ((val & 1 << bit) != 0) break;
-  
-    return this.high != 0 ? bit + 33 : bit + 1;
-  };
-  /**
-   * Tests if this Long's value equals zero.
-   * @this {!Long}
-   * @returns {boolean}
-   */
-  
-  
-  LongPrototype.isZero = function isZero() {
-    return this.high === 0 && this.low === 0;
-  };
-  /**
-   * Tests if this Long's value equals zero. This is an alias of {@link Long#isZero}.
-   * @returns {boolean}
-   */
-  
-  
-  LongPrototype.eqz = LongPrototype.isZero;
-  /**
-   * Tests if this Long's value is negative.
-   * @this {!Long}
-   * @returns {boolean}
-   */
-  
-  LongPrototype.isNegative = function isNegative() {
-    return !this.unsigned && this.high < 0;
-  };
-  /**
-   * Tests if this Long's value is positive or zero.
-   * @this {!Long}
-   * @returns {boolean}
-   */
-  
-  
-  LongPrototype.isPositive = function isPositive() {
-    return this.unsigned || this.high >= 0;
-  };
-  /**
-   * Tests if this Long's value is odd.
-   * @this {!Long}
-   * @returns {boolean}
-   */
-  
-  
-  LongPrototype.isOdd = function isOdd() {
-    return (this.low & 1) === 1;
-  };
-  /**
-   * Tests if this Long's value is even.
-   * @this {!Long}
-   * @returns {boolean}
-   */
-  
-  
-  LongPrototype.isEven = function isEven() {
-    return (this.low & 1) === 0;
-  };
-  /**
-   * Tests if this Long's value equals the specified's.
-   * @this {!Long}
-   * @param {!Long|number|string} other Other value
-   * @returns {boolean}
-   */
-  
-  
-  LongPrototype.equals = function equals(other) {
-    if (!isLong(other)) other = fromValue(other);
-    if (this.unsigned !== other.unsigned && this.high >>> 31 === 1 && other.high >>> 31 === 1) return false;
-    return this.high === other.high && this.low === other.low;
-  };
-  /**
-   * Tests if this Long's value equals the specified's. This is an alias of {@link Long#equals}.
-   * @function
-   * @param {!Long|number|string} other Other value
-   * @returns {boolean}
-   */
-  
-  
-  LongPrototype.eq = LongPrototype.equals;
-  /**
-   * Tests if this Long's value differs from the specified's.
-   * @this {!Long}
-   * @param {!Long|number|string} other Other value
-   * @returns {boolean}
-   */
-  
-  LongPrototype.notEquals = function notEquals(other) {
-    return !this.eq(
-    /* validates */
-    other);
-  };
-  /**
-   * Tests if this Long's value differs from the specified's. This is an alias of {@link Long#notEquals}.
-   * @function
-   * @param {!Long|number|string} other Other value
-   * @returns {boolean}
-   */
-  
-  
-  LongPrototype.neq = LongPrototype.notEquals;
-  /**
-   * Tests if this Long's value differs from the specified's. This is an alias of {@link Long#notEquals}.
-   * @function
-   * @param {!Long|number|string} other Other value
-   * @returns {boolean}
-   */
-  
-  LongPrototype.ne = LongPrototype.notEquals;
-  /**
-   * Tests if this Long's value is less than the specified's.
-   * @this {!Long}
-   * @param {!Long|number|string} other Other value
-   * @returns {boolean}
-   */
-  
-  LongPrototype.lessThan = function lessThan(other) {
-    return this.comp(
-    /* validates */
-    other) < 0;
-  };
-  /**
-   * Tests if this Long's value is less than the specified's. This is an alias of {@link Long#lessThan}.
-   * @function
-   * @param {!Long|number|string} other Other value
-   * @returns {boolean}
-   */
-  
-  
-  LongPrototype.lt = LongPrototype.lessThan;
-  /**
-   * Tests if this Long's value is less than or equal the specified's.
-   * @this {!Long}
-   * @param {!Long|number|string} other Other value
-   * @returns {boolean}
-   */
-  
-  LongPrototype.lessThanOrEqual = function lessThanOrEqual(other) {
-    return this.comp(
-    /* validates */
-    other) <= 0;
-  };
-  /**
-   * Tests if this Long's value is less than or equal the specified's. This is an alias of {@link Long#lessThanOrEqual}.
-   * @function
-   * @param {!Long|number|string} other Other value
-   * @returns {boolean}
-   */
-  
-  
-  LongPrototype.lte = LongPrototype.lessThanOrEqual;
-  /**
-   * Tests if this Long's value is less than or equal the specified's. This is an alias of {@link Long#lessThanOrEqual}.
-   * @function
-   * @param {!Long|number|string} other Other value
-   * @returns {boolean}
-   */
-  
-  LongPrototype.le = LongPrototype.lessThanOrEqual;
-  /**
-   * Tests if this Long's value is greater than the specified's.
-   * @this {!Long}
-   * @param {!Long|number|string} other Other value
-   * @returns {boolean}
-   */
-  
-  LongPrototype.greaterThan = function greaterThan(other) {
-    return this.comp(
-    /* validates */
-    other) > 0;
-  };
-  /**
-   * Tests if this Long's value is greater than the specified's. This is an alias of {@link Long#greaterThan}.
-   * @function
-   * @param {!Long|number|string} other Other value
-   * @returns {boolean}
-   */
-  
-  
-  LongPrototype.gt = LongPrototype.greaterThan;
-  /**
-   * Tests if this Long's value is greater than or equal the specified's.
-   * @this {!Long}
-   * @param {!Long|number|string} other Other value
-   * @returns {boolean}
-   */
-  
-  LongPrototype.greaterThanOrEqual = function greaterThanOrEqual(other) {
-    return this.comp(
-    /* validates */
-    other) >= 0;
-  };
-  /**
-   * Tests if this Long's value is greater than or equal the specified's. This is an alias of {@link Long#greaterThanOrEqual}.
-   * @function
-   * @param {!Long|number|string} other Other value
-   * @returns {boolean}
-   */
-  
-  
-  LongPrototype.gte = LongPrototype.greaterThanOrEqual;
-  /**
-   * Tests if this Long's value is greater than or equal the specified's. This is an alias of {@link Long#greaterThanOrEqual}.
-   * @function
-   * @param {!Long|number|string} other Other value
-   * @returns {boolean}
-   */
-  
-  LongPrototype.ge = LongPrototype.greaterThanOrEqual;
-  /**
-   * Compares this Long's value with the specified's.
-   * @this {!Long}
-   * @param {!Long|number|string} other Other value
-   * @returns {number} 0 if they are the same, 1 if the this is greater and -1
-   *  if the given one is greater
-   */
-  
-  LongPrototype.compare = function compare(other) {
-    if (!isLong(other)) other = fromValue(other);
-    if (this.eq(other)) return 0;
-    var thisNeg = this.isNegative(),
-        otherNeg = other.isNegative();
-    if (thisNeg && !otherNeg) return -1;
-    if (!thisNeg && otherNeg) return 1; // At this point the sign bits are the same
-  
-    if (!this.unsigned) return this.sub(other).isNegative() ? -1 : 1; // Both are positive if at least one is unsigned
-  
-    return other.high >>> 0 > this.high >>> 0 || other.high === this.high && other.low >>> 0 > this.low >>> 0 ? -1 : 1;
-  };
-  /**
-   * Compares this Long's value with the specified's. This is an alias of {@link Long#compare}.
-   * @function
-   * @param {!Long|number|string} other Other value
-   * @returns {number} 0 if they are the same, 1 if the this is greater and -1
-   *  if the given one is greater
-   */
-  
-  
-  LongPrototype.comp = LongPrototype.compare;
-  /**
-   * Negates this Long's value.
-   * @this {!Long}
-   * @returns {!Long} Negated Long
-   */
-  
-  LongPrototype.negate = function negate() {
-    if (!this.unsigned && this.eq(MIN_VALUE)) return MIN_VALUE;
-    return this.not().add(ONE);
-  };
-  /**
-   * Negates this Long's value. This is an alias of {@link Long#negate}.
-   * @function
-   * @returns {!Long} Negated Long
-   */
-  
-  
-  LongPrototype.neg = LongPrototype.negate;
-  /**
-   * Returns the sum of this and the specified Long.
-   * @this {!Long}
-   * @param {!Long|number|string} addend Addend
-   * @returns {!Long} Sum
-   */
-  
-  LongPrototype.add = function add(addend) {
-    if (!isLong(addend)) addend = fromValue(addend); // Divide each number into 4 chunks of 16 bits, and then sum the chunks.
-  
-    var a48 = this.high >>> 16;
-    var a32 = this.high & 0xFFFF;
-    var a16 = this.low >>> 16;
-    var a00 = this.low & 0xFFFF;
-    var b48 = addend.high >>> 16;
-    var b32 = addend.high & 0xFFFF;
-    var b16 = addend.low >>> 16;
-    var b00 = addend.low & 0xFFFF;
-    var c48 = 0,
-        c32 = 0,
-        c16 = 0,
-        c00 = 0;
-    c00 += a00 + b00;
-    c16 += c00 >>> 16;
-    c00 &= 0xFFFF;
-    c16 += a16 + b16;
-    c32 += c16 >>> 16;
-    c16 &= 0xFFFF;
-    c32 += a32 + b32;
-    c48 += c32 >>> 16;
-    c32 &= 0xFFFF;
-    c48 += a48 + b48;
-    c48 &= 0xFFFF;
-    return fromBits(c16 << 16 | c00, c48 << 16 | c32, this.unsigned);
-  };
-  /**
-   * Returns the difference of this and the specified Long.
-   * @this {!Long}
-   * @param {!Long|number|string} subtrahend Subtrahend
-   * @returns {!Long} Difference
-   */
-  
-  
-  LongPrototype.subtract = function subtract(subtrahend) {
-    if (!isLong(subtrahend)) subtrahend = fromValue(subtrahend);
-    return this.add(subtrahend.neg());
-  };
-  /**
-   * Returns the difference of this and the specified Long. This is an alias of {@link Long#subtract}.
-   * @function
-   * @param {!Long|number|string} subtrahend Subtrahend
-   * @returns {!Long} Difference
-   */
-  
-  
-  LongPrototype.sub = LongPrototype.subtract;
-  /**
-   * Returns the product of this and the specified Long.
-   * @this {!Long}
-   * @param {!Long|number|string} multiplier Multiplier
-   * @returns {!Long} Product
-   */
-  
-  LongPrototype.multiply = function multiply(multiplier) {
-    if (this.isZero()) return this;
-    if (!isLong(multiplier)) multiplier = fromValue(multiplier); // use wasm support if present
-  
-    if (wasm) {
-      var low = wasm["mul"](this.low, this.high, multiplier.low, multiplier.high);
-      return fromBits(low, wasm["get_high"](), this.unsigned);
-    }
-  
-    if (multiplier.isZero()) return this.unsigned ? UZERO : ZERO;
-    if (this.eq(MIN_VALUE)) return multiplier.isOdd() ? MIN_VALUE : ZERO;
-    if (multiplier.eq(MIN_VALUE)) return this.isOdd() ? MIN_VALUE : ZERO;
-  
-    if (this.isNegative()) {
-      if (multiplier.isNegative()) return this.neg().mul(multiplier.neg());else return this.neg().mul(multiplier).neg();
-    } else if (multiplier.isNegative()) return this.mul(multiplier.neg()).neg(); // If both longs are small, use float multiplication
-  
-  
-    if (this.lt(TWO_PWR_24) && multiplier.lt(TWO_PWR_24)) return fromNumber(this.toNumber() * multiplier.toNumber(), this.unsigned); // Divide each long into 4 chunks of 16 bits, and then add up 4x4 products.
-    // We can skip products that would overflow.
-  
-    var a48 = this.high >>> 16;
-    var a32 = this.high & 0xFFFF;
-    var a16 = this.low >>> 16;
-    var a00 = this.low & 0xFFFF;
-    var b48 = multiplier.high >>> 16;
-    var b32 = multiplier.high & 0xFFFF;
-    var b16 = multiplier.low >>> 16;
-    var b00 = multiplier.low & 0xFFFF;
-    var c48 = 0,
-        c32 = 0,
-        c16 = 0,
-        c00 = 0;
-    c00 += a00 * b00;
-    c16 += c00 >>> 16;
-    c00 &= 0xFFFF;
-    c16 += a16 * b00;
-    c32 += c16 >>> 16;
-    c16 &= 0xFFFF;
-    c16 += a00 * b16;
-    c32 += c16 >>> 16;
-    c16 &= 0xFFFF;
-    c32 += a32 * b00;
-    c48 += c32 >>> 16;
-    c32 &= 0xFFFF;
-    c32 += a16 * b16;
-    c48 += c32 >>> 16;
-    c32 &= 0xFFFF;
-    c32 += a00 * b32;
-    c48 += c32 >>> 16;
-    c32 &= 0xFFFF;
-    c48 += a48 * b00 + a32 * b16 + a16 * b32 + a00 * b48;
-    c48 &= 0xFFFF;
-    return fromBits(c16 << 16 | c00, c48 << 16 | c32, this.unsigned);
-  };
-  /**
-   * Returns the product of this and the specified Long. This is an alias of {@link Long#multiply}.
-   * @function
-   * @param {!Long|number|string} multiplier Multiplier
-   * @returns {!Long} Product
-   */
-  
-  
-  LongPrototype.mul = LongPrototype.multiply;
-  /**
-   * Returns this Long divided by the specified. The result is signed if this Long is signed or
-   *  unsigned if this Long is unsigned.
-   * @this {!Long}
-   * @param {!Long|number|string} divisor Divisor
-   * @returns {!Long} Quotient
-   */
-  
-  LongPrototype.divide = function divide(divisor) {
-    if (!isLong(divisor)) divisor = fromValue(divisor);
-    if (divisor.isZero()) throw Error('division by zero'); // use wasm support if present
-  
-    if (wasm) {
-      // guard against signed division overflow: the largest
-      // negative number / -1 would be 1 larger than the largest
-      // positive number, due to two's complement.
-      if (!this.unsigned && this.high === -0x80000000 && divisor.low === -1 && divisor.high === -1) {
-        // be consistent with non-wasm code path
-        return this;
-      }
-  
-      var low = (this.unsigned ? wasm["div_u"] : wasm["div_s"])(this.low, this.high, divisor.low, divisor.high);
-      return fromBits(low, wasm["get_high"](), this.unsigned);
-    }
-  
-    if (this.isZero()) return this.unsigned ? UZERO : ZERO;
-    var approx, rem, res;
-  
-    if (!this.unsigned) {
-      // This section is only relevant for signed longs and is derived from the
-      // closure library as a whole.
-      if (this.eq(MIN_VALUE)) {
-        if (divisor.eq(ONE) || divisor.eq(NEG_ONE)) return MIN_VALUE; // recall that -MIN_VALUE == MIN_VALUE
-        else if (divisor.eq(MIN_VALUE)) return ONE;else {
-          // At this point, we have |other| >= 2, so |this/other| < |MIN_VALUE|.
-          var halfThis = this.shr(1);
-          approx = halfThis.div(divisor).shl(1);
-  
-          if (approx.eq(ZERO)) {
-            return divisor.isNegative() ? ONE : NEG_ONE;
-          } else {
-            rem = this.sub(divisor.mul(approx));
-            res = approx.add(rem.div(divisor));
-            return res;
-          }
-        }
-      } else if (divisor.eq(MIN_VALUE)) return this.unsigned ? UZERO : ZERO;
-  
-      if (this.isNegative()) {
-        if (divisor.isNegative()) return this.neg().div(divisor.neg());
-        return this.neg().div(divisor).neg();
-      } else if (divisor.isNegative()) return this.div(divisor.neg()).neg();
-  
-      res = ZERO;
-    } else {
-      // The algorithm below has not been made for unsigned longs. It's therefore
-      // required to take special care of the MSB prior to running it.
-      if (!divisor.unsigned) divisor = divisor.toUnsigned();
-      if (divisor.gt(this)) return UZERO;
-      if (divisor.gt(this.shru(1))) // 15 >>> 1 = 7 ; with divisor = 8 ; true
-        return UONE;
-      res = UZERO;
-    } // Repeat the following until the remainder is less than other:  find a
-    // floating-point that approximates remainder / other *from below*, add this
-    // into the result, and subtract it from the remainder.  It is critical that
-    // the approximate value is less than or equal to the real value so that the
-    // remainder never becomes negative.
-  
-  
-    rem = this;
-  
-    while (rem.gte(divisor)) {
-      // Approximate the result of division. This may be a little greater or
-      // smaller than the actual value.
-      approx = Math.max(1, Math.floor(rem.toNumber() / divisor.toNumber())); // We will tweak the approximate result by changing it in the 48-th digit or
-      // the smallest non-fractional digit, whichever is larger.
-  
-      var log2 = Math.ceil(Math.log(approx) / Math.LN2),
-          delta = log2 <= 48 ? 1 : pow_dbl(2, log2 - 48),
-          // Decrease the approximation until it is smaller than the remainder.  Note
-      // that if it is too large, the product overflows and is negative.
-      approxRes = fromNumber(approx),
-          approxRem = approxRes.mul(divisor);
-  
-      while (approxRem.isNegative() || approxRem.gt(rem)) {
-        approx -= delta;
-        approxRes = fromNumber(approx, this.unsigned);
-        approxRem = approxRes.mul(divisor);
-      } // We know the answer can't be zero... and actually, zero would cause
-      // infinite recursion since we would make no progress.
-  
-  
-      if (approxRes.isZero()) approxRes = ONE;
-      res = res.add(approxRes);
-      rem = rem.sub(approxRem);
-    }
-  
-    return res;
-  };
-  /**
-   * Returns this Long divided by the specified. This is an alias of {@link Long#divide}.
-   * @function
-   * @param {!Long|number|string} divisor Divisor
-   * @returns {!Long} Quotient
-   */
-  
-  
-  LongPrototype.div = LongPrototype.divide;
-  /**
-   * Returns this Long modulo the specified.
-   * @this {!Long}
-   * @param {!Long|number|string} divisor Divisor
-   * @returns {!Long} Remainder
-   */
-  
-  LongPrototype.modulo = function modulo(divisor) {
-    if (!isLong(divisor)) divisor = fromValue(divisor); // use wasm support if present
-  
-    if (wasm) {
-      var low = (this.unsigned ? wasm["rem_u"] : wasm["rem_s"])(this.low, this.high, divisor.low, divisor.high);
-      return fromBits(low, wasm["get_high"](), this.unsigned);
-    }
-  
-    return this.sub(this.div(divisor).mul(divisor));
-  };
-  /**
-   * Returns this Long modulo the specified. This is an alias of {@link Long#modulo}.
-   * @function
-   * @param {!Long|number|string} divisor Divisor
-   * @returns {!Long} Remainder
-   */
-  
-  
-  LongPrototype.mod = LongPrototype.modulo;
-  /**
-   * Returns this Long modulo the specified. This is an alias of {@link Long#modulo}.
-   * @function
-   * @param {!Long|number|string} divisor Divisor
-   * @returns {!Long} Remainder
-   */
-  
-  LongPrototype.rem = LongPrototype.modulo;
-  /**
-   * Returns the bitwise NOT of this Long.
-   * @this {!Long}
-   * @returns {!Long}
-   */
-  
-  LongPrototype.not = function not() {
-    return fromBits(~this.low, ~this.high, this.unsigned);
-  };
-  /**
-   * Returns count leading zeros of this Long.
-   * @this {!Long}
-   * @returns {!number}
-   */
-  
-  
-  LongPrototype.countLeadingZeros = function countLeadingZeros() {
-    return this.high ? Math.clz32(this.high) : Math.clz32(this.low) + 32;
-  };
-  /**
-   * Returns count leading zeros. This is an alias of {@link Long#countLeadingZeros}.
-   * @function
-   * @param {!Long}
-   * @returns {!number}
-   */
-  
-  
-  LongPrototype.clz = LongPrototype.countLeadingZeros;
-  /**
-   * Returns count trailing zeros of this Long.
-   * @this {!Long}
-   * @returns {!number}
-   */
-  
-  LongPrototype.countTrailingZeros = function countTrailingZeros() {
-    return this.low ? ctz32(this.low) : ctz32(this.high) + 32;
-  };
-  /**
-   * Returns count trailing zeros. This is an alias of {@link Long#countTrailingZeros}.
-   * @function
-   * @param {!Long}
-   * @returns {!number}
-   */
-  
-  
-  LongPrototype.ctz = LongPrototype.countTrailingZeros;
-  /**
-   * Returns the bitwise AND of this Long and the specified.
-   * @this {!Long}
-   * @param {!Long|number|string} other Other Long
-   * @returns {!Long}
-   */
-  
-  LongPrototype.and = function and(other) {
-    if (!isLong(other)) other = fromValue(other);
-    return fromBits(this.low & other.low, this.high & other.high, this.unsigned);
-  };
-  /**
-   * Returns the bitwise OR of this Long and the specified.
-   * @this {!Long}
-   * @param {!Long|number|string} other Other Long
-   * @returns {!Long}
-   */
-  
-  
-  LongPrototype.or = function or(other) {
-    if (!isLong(other)) other = fromValue(other);
-    return fromBits(this.low | other.low, this.high | other.high, this.unsigned);
-  };
-  /**
-   * Returns the bitwise XOR of this Long and the given one.
-   * @this {!Long}
-   * @param {!Long|number|string} other Other Long
-   * @returns {!Long}
-   */
-  
-  
-  LongPrototype.xor = function xor(other) {
-    if (!isLong(other)) other = fromValue(other);
-    return fromBits(this.low ^ other.low, this.high ^ other.high, this.unsigned);
-  };
-  /**
-   * Returns this Long with bits shifted to the left by the given amount.
-   * @this {!Long}
-   * @param {number|!Long} numBits Number of bits
-   * @returns {!Long} Shifted Long
-   */
-  
-  
-  LongPrototype.shiftLeft = function shiftLeft(numBits) {
-    if (isLong(numBits)) numBits = numBits.toInt();
-    if ((numBits &= 63) === 0) return this;else if (numBits < 32) return fromBits(this.low << numBits, this.high << numBits | this.low >>> 32 - numBits, this.unsigned);else return fromBits(0, this.low << numBits - 32, this.unsigned);
-  };
-  /**
-   * Returns this Long with bits shifted to the left by the given amount. This is an alias of {@link Long#shiftLeft}.
-   * @function
-   * @param {number|!Long} numBits Number of bits
-   * @returns {!Long} Shifted Long
-   */
-  
-  
-  LongPrototype.shl = LongPrototype.shiftLeft;
-  /**
-   * Returns this Long with bits arithmetically shifted to the right by the given amount.
-   * @this {!Long}
-   * @param {number|!Long} numBits Number of bits
-   * @returns {!Long} Shifted Long
-   */
-  
-  LongPrototype.shiftRight = function shiftRight(numBits) {
-    if (isLong(numBits)) numBits = numBits.toInt();
-    if ((numBits &= 63) === 0) return this;else if (numBits < 32) return fromBits(this.low >>> numBits | this.high << 32 - numBits, this.high >> numBits, this.unsigned);else return fromBits(this.high >> numBits - 32, this.high >= 0 ? 0 : -1, this.unsigned);
-  };
-  /**
-   * Returns this Long with bits arithmetically shifted to the right by the given amount. This is an alias of {@link Long#shiftRight}.
-   * @function
-   * @param {number|!Long} numBits Number of bits
-   * @returns {!Long} Shifted Long
-   */
-  
-  
-  LongPrototype.shr = LongPrototype.shiftRight;
-  /**
-   * Returns this Long with bits logically shifted to the right by the given amount.
-   * @this {!Long}
-   * @param {number|!Long} numBits Number of bits
-   * @returns {!Long} Shifted Long
-   */
-  
-  LongPrototype.shiftRightUnsigned = function shiftRightUnsigned(numBits) {
-    if (isLong(numBits)) numBits = numBits.toInt();
-    if ((numBits &= 63) === 0) return this;
-    if (numBits < 32) return fromBits(this.low >>> numBits | this.high << 32 - numBits, this.high >>> numBits, this.unsigned);
-    if (numBits === 32) return fromBits(this.high, 0, this.unsigned);
-    return fromBits(this.high >>> numBits - 32, 0, this.unsigned);
-  };
-  /**
-   * Returns this Long with bits logically shifted to the right by the given amount. This is an alias of {@link Long#shiftRightUnsigned}.
-   * @function
-   * @param {number|!Long} numBits Number of bits
-   * @returns {!Long} Shifted Long
-   */
-  
-  
-  LongPrototype.shru = LongPrototype.shiftRightUnsigned;
-  /**
-   * Returns this Long with bits logically shifted to the right by the given amount. This is an alias of {@link Long#shiftRightUnsigned}.
-   * @function
-   * @param {number|!Long} numBits Number of bits
-   * @returns {!Long} Shifted Long
-   */
-  
-  LongPrototype.shr_u = LongPrototype.shiftRightUnsigned;
-  /**
-   * Returns this Long with bits rotated to the left by the given amount.
-   * @this {!Long}
-   * @param {number|!Long} numBits Number of bits
-   * @returns {!Long} Rotated Long
-   */
-  
-  LongPrototype.rotateLeft = function rotateLeft(numBits) {
-    var b;
-    if (isLong(numBits)) numBits = numBits.toInt();
-    if ((numBits &= 63) === 0) return this;
-    if (numBits === 32) return fromBits(this.high, this.low, this.unsigned);
-  
-    if (numBits < 32) {
-      b = 32 - numBits;
-      return fromBits(this.low << numBits | this.high >>> b, this.high << numBits | this.low >>> b, this.unsigned);
-    }
-  
-    numBits -= 32;
-    b = 32 - numBits;
-    return fromBits(this.high << numBits | this.low >>> b, this.low << numBits | this.high >>> b, this.unsigned);
-  };
-  /**
-   * Returns this Long with bits rotated to the left by the given amount. This is an alias of {@link Long#rotateLeft}.
-   * @function
-   * @param {number|!Long} numBits Number of bits
-   * @returns {!Long} Rotated Long
-   */
-  
-  
-  LongPrototype.rotl = LongPrototype.rotateLeft;
-  /**
-   * Returns this Long with bits rotated to the right by the given amount.
-   * @this {!Long}
-   * @param {number|!Long} numBits Number of bits
-   * @returns {!Long} Rotated Long
-   */
-  
-  LongPrototype.rotateRight = function rotateRight(numBits) {
-    var b;
-    if (isLong(numBits)) numBits = numBits.toInt();
-    if ((numBits &= 63) === 0) return this;
-    if (numBits === 32) return fromBits(this.high, this.low, this.unsigned);
-  
-    if (numBits < 32) {
-      b = 32 - numBits;
-      return fromBits(this.high << b | this.low >>> numBits, this.low << b | this.high >>> numBits, this.unsigned);
-    }
-  
-    numBits -= 32;
-    b = 32 - numBits;
-    return fromBits(this.low << b | this.high >>> numBits, this.high << b | this.low >>> numBits, this.unsigned);
-  };
-  /**
-   * Returns this Long with bits rotated to the right by the given amount. This is an alias of {@link Long#rotateRight}.
-   * @function
-   * @param {number|!Long} numBits Number of bits
-   * @returns {!Long} Rotated Long
-   */
-  
-  
-  LongPrototype.rotr = LongPrototype.rotateRight;
-  /**
-   * Converts this Long to signed.
-   * @this {!Long}
-   * @returns {!Long} Signed long
-   */
-  
-  LongPrototype.toSigned = function toSigned() {
-    if (!this.unsigned) return this;
-    return fromBits(this.low, this.high, false);
-  };
-  /**
-   * Converts this Long to unsigned.
-   * @this {!Long}
-   * @returns {!Long} Unsigned long
-   */
-  
-  
-  LongPrototype.toUnsigned = function toUnsigned() {
-    if (this.unsigned) return this;
-    return fromBits(this.low, this.high, true);
-  };
-  /**
-   * Converts this Long to its byte representation.
-   * @param {boolean=} le Whether little or big endian, defaults to big endian
-   * @this {!Long}
-   * @returns {!Array.<number>} Byte representation
-   */
-  
-  
-  LongPrototype.toBytes = function toBytes(le) {
-    return le ? this.toBytesLE() : this.toBytesBE();
-  };
-  /**
-   * Converts this Long to its little endian byte representation.
-   * @this {!Long}
-   * @returns {!Array.<number>} Little endian byte representation
-   */
-  
-  
-  LongPrototype.toBytesLE = function toBytesLE() {
-    var hi = this.high,
-        lo = this.low;
-    return [lo & 0xff, lo >>> 8 & 0xff, lo >>> 16 & 0xff, lo >>> 24, hi & 0xff, hi >>> 8 & 0xff, hi >>> 16 & 0xff, hi >>> 24];
-  };
-  /**
-   * Converts this Long to its big endian byte representation.
-   * @this {!Long}
-   * @returns {!Array.<number>} Big endian byte representation
-   */
-  
-  
-  LongPrototype.toBytesBE = function toBytesBE() {
-    var hi = this.high,
-        lo = this.low;
-    return [hi >>> 24, hi >>> 16 & 0xff, hi >>> 8 & 0xff, hi & 0xff, lo >>> 24, lo >>> 16 & 0xff, lo >>> 8 & 0xff, lo & 0xff];
-  };
-  /**
-   * Creates a Long from its byte representation.
-   * @param {!Array.<number>} bytes Byte representation
-   * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
-   * @param {boolean=} le Whether little or big endian, defaults to big endian
-   * @returns {Long} The corresponding Long value
-   */
-  
-  
-  Long.fromBytes = function fromBytes(bytes, unsigned, le) {
-    return le ? Long.fromBytesLE(bytes, unsigned) : Long.fromBytesBE(bytes, unsigned);
-  };
-  /**
-   * Creates a Long from its little endian byte representation.
-   * @param {!Array.<number>} bytes Little endian byte representation
-   * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
-   * @returns {Long} The corresponding Long value
-   */
-  
-  
-  Long.fromBytesLE = function fromBytesLE(bytes, unsigned) {
-    return new Long(bytes[0] | bytes[1] << 8 | bytes[2] << 16 | bytes[3] << 24, bytes[4] | bytes[5] << 8 | bytes[6] << 16 | bytes[7] << 24, unsigned);
-  };
-  /**
-   * Creates a Long from its big endian byte representation.
-   * @param {!Array.<number>} bytes Big endian byte representation
-   * @param {boolean=} unsigned Whether unsigned or not, defaults to signed
-   * @returns {Long} The corresponding Long value
-   */
-  
-  
-  Long.fromBytesBE = function fromBytesBE(bytes, unsigned) {
-    return new Long(bytes[4] << 24 | bytes[5] << 16 | bytes[6] << 8 | bytes[7], bytes[0] << 24 | bytes[1] << 16 | bytes[2] << 8 | bytes[3], unsigned);
-  };
-  
-  var _default = Long;
-  exports.default = _default;
-  return "default" in exports ? exports.default : exports;
-})({});
-if (true) !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function() { return Long; }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-else {}
-
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/locale/en.json.js":
-/*!************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/locale/en.json.js ***!
-  \************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-	"locale": "en",
-	"long": {
-		"year": {
-			"previous": "last year",
-			"current": "this year",
-			"next": "next year",
-			"past": {
-				"one": "{0} year ago",
-				"other": "{0} years ago"
-			},
-			"future": {
-				"one": "in {0} year",
-				"other": "in {0} years"
-			}
-		},
-		"quarter": {
-			"previous": "last quarter",
-			"current": "this quarter",
-			"next": "next quarter",
-			"past": {
-				"one": "{0} quarter ago",
-				"other": "{0} quarters ago"
-			},
-			"future": {
-				"one": "in {0} quarter",
-				"other": "in {0} quarters"
-			}
-		},
-		"month": {
-			"previous": "last month",
-			"current": "this month",
-			"next": "next month",
-			"past": {
-				"one": "{0} month ago",
-				"other": "{0} months ago"
-			},
-			"future": {
-				"one": "in {0} month",
-				"other": "in {0} months"
-			}
-		},
-		"week": {
-			"previous": "last week",
-			"current": "this week",
-			"next": "next week",
-			"past": {
-				"one": "{0} week ago",
-				"other": "{0} weeks ago"
-			},
-			"future": {
-				"one": "in {0} week",
-				"other": "in {0} weeks"
-			}
-		},
-		"day": {
-			"previous": "yesterday",
-			"current": "today",
-			"next": "tomorrow",
-			"past": {
-				"one": "{0} day ago",
-				"other": "{0} days ago"
-			},
-			"future": {
-				"one": "in {0} day",
-				"other": "in {0} days"
-			}
-		},
-		"hour": {
-			"current": "this hour",
-			"past": {
-				"one": "{0} hour ago",
-				"other": "{0} hours ago"
-			},
-			"future": {
-				"one": "in {0} hour",
-				"other": "in {0} hours"
-			}
-		},
-		"minute": {
-			"current": "this minute",
-			"past": {
-				"one": "{0} minute ago",
-				"other": "{0} minutes ago"
-			},
-			"future": {
-				"one": "in {0} minute",
-				"other": "in {0} minutes"
-			}
-		},
-		"second": {
-			"current": "now",
-			"past": {
-				"one": "{0} second ago",
-				"other": "{0} seconds ago"
-			},
-			"future": {
-				"one": "in {0} second",
-				"other": "in {0} seconds"
-			}
-		}
-	},
-	"short": {
-		"year": {
-			"previous": "last yr.",
-			"current": "this yr.",
-			"next": "next yr.",
-			"past": "{0} yr. ago",
-			"future": "in {0} yr."
-		},
-		"quarter": {
-			"previous": "last qtr.",
-			"current": "this qtr.",
-			"next": "next qtr.",
-			"past": {
-				"one": "{0} qtr. ago",
-				"other": "{0} qtrs. ago"
-			},
-			"future": {
-				"one": "in {0} qtr.",
-				"other": "in {0} qtrs."
-			}
-		},
-		"month": {
-			"previous": "last mo.",
-			"current": "this mo.",
-			"next": "next mo.",
-			"past": "{0} mo. ago",
-			"future": "in {0} mo."
-		},
-		"week": {
-			"previous": "last wk.",
-			"current": "this wk.",
-			"next": "next wk.",
-			"past": "{0} wk. ago",
-			"future": "in {0} wk."
-		},
-		"day": {
-			"previous": "yesterday",
-			"current": "today",
-			"next": "tomorrow",
-			"past": {
-				"one": "{0} day ago",
-				"other": "{0} days ago"
-			},
-			"future": {
-				"one": "in {0} day",
-				"other": "in {0} days"
-			}
-		},
-		"hour": {
-			"current": "this hour",
-			"past": "{0} hr. ago",
-			"future": "in {0} hr."
-		},
-		"minute": {
-			"current": "this minute",
-			"past": "{0} min. ago",
-			"future": "in {0} min."
-		},
-		"second": {
-			"current": "now",
-			"past": "{0} sec. ago",
-			"future": "in {0} sec."
-		}
-	},
-	"narrow": {
-		"year": {
-			"previous": "last yr.",
-			"current": "this yr.",
-			"next": "next yr.",
-			"past": "{0}y ago",
-			"future": "in {0}y"
-		},
-		"quarter": {
-			"previous": "last qtr.",
-			"current": "this qtr.",
-			"next": "next qtr.",
-			"past": "{0}q ago",
-			"future": "in {0}q"
-		},
-		"month": {
-			"previous": "last mo.",
-			"current": "this mo.",
-			"next": "next mo.",
-			"past": "{0}mo ago",
-			"future": "in {0}mo"
-		},
-		"week": {
-			"previous": "last wk.",
-			"current": "this wk.",
-			"next": "next wk.",
-			"past": "{0}w ago",
-			"future": "in {0}w"
-		},
-		"day": {
-			"previous": "yesterday",
-			"current": "today",
-			"next": "tomorrow",
-			"past": "{0}d ago",
-			"future": "in {0}d"
-		},
-		"hour": {
-			"current": "this hour",
-			"past": "{0}h ago",
-			"future": "in {0}h"
-		},
-		"minute": {
-			"current": "this minute",
-			"past": "{0}m ago",
-			"future": "in {0}m"
-		},
-		"second": {
-			"current": "now",
-			"past": "{0}s ago",
-			"future": "in {0}s"
-		}
-	},
-	"now": {
-		"now": {
-			"current": "now",
-			"future": "in a moment",
-			"past": "just now"
-		}
-	},
-	"mini": {
-		"year": "{0}yr",
-		"month": "{0}mo",
-		"week": "{0}wk",
-		"day": "{0}d",
-		"hour": "{0}h",
-		"minute": "{0}m",
-		"second": "{0}s",
-		"now": "now"
-	},
-	"short-time": {
-		"year": "{0} yr.",
-		"month": "{0} mo.",
-		"week": "{0} wk.",
-		"day": {
-			"one": "{0} day",
-			"other": "{0} days"
-		},
-		"hour": "{0} hr.",
-		"minute": "{0} min.",
-		"second": "{0} sec."
-	},
-	"long-time": {
-		"year": {
-			"one": "{0} year",
-			"other": "{0} years"
-		},
-		"month": {
-			"one": "{0} month",
-			"other": "{0} months"
-		},
-		"week": {
-			"one": "{0} week",
-			"other": "{0} weeks"
-		},
-		"day": {
-			"one": "{0} day",
-			"other": "{0} days"
-		},
-		"hour": {
-			"one": "{0} hour",
-			"other": "{0} hours"
-		},
-		"minute": {
-			"one": "{0} minute",
-			"other": "{0} minutes"
-		},
-		"second": {
-			"one": "{0} second",
-			"other": "{0} seconds"
-		}
-	}
-});
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/LocaleDataStore.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/LocaleDataStore.js ***!
-  \*********************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   addLocaleData: () => (/* binding */ addLocaleData),
-/* harmony export */   getLocaleData: () => (/* binding */ getLocaleData)
-/* harmony export */ });
-// For all locales added
-// their relative time formatter messages will be stored here.
-var localesData = {};
-function getLocaleData(locale) {
-  return localesData[locale];
-}
-function addLocaleData(localeData) {
-  if (!localeData) {
-    throw new Error('[javascript-time-ago] No locale data passed.');
-  } // This locale data is stored in a global variable
-  // and later used when calling `.format(time)`.
-
-
-  localesData[localeData.locale] = localeData;
-}
-//# sourceMappingURL=LocaleDataStore.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/TimeAgo.js":
-/*!*************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/TimeAgo.js ***!
-  \*************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ TimeAgo)
-/* harmony export */ });
-/* harmony import */ var relative_time_format__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! relative-time-format */ "./node_modules/relative-time-format/modules/RelativeTimeFormat.js");
-/* harmony import */ var _cache_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./cache.js */ "./node_modules/javascript-time-ago/modules/cache.js");
-/* harmony import */ var _locale_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./locale.js */ "./node_modules/javascript-time-ago/modules/locale.js");
-/* harmony import */ var _isStyleObject_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./isStyleObject.js */ "./node_modules/javascript-time-ago/modules/isStyleObject.js");
-/* harmony import */ var _steps_getStep_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./steps/getStep.js */ "./node_modules/javascript-time-ago/modules/steps/getStep.js");
-/* harmony import */ var _steps_getStepDenominator_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./steps/getStepDenominator.js */ "./node_modules/javascript-time-ago/modules/steps/getStepDenominator.js");
-/* harmony import */ var _steps_getTimeToNextUpdate_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./steps/getTimeToNextUpdate.js */ "./node_modules/javascript-time-ago/modules/steps/getTimeToNextUpdate.js");
-/* harmony import */ var _LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LocaleDataStore.js */ "./node_modules/javascript-time-ago/modules/LocaleDataStore.js");
-/* harmony import */ var _style_roundMinute_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./style/roundMinute.js */ "./node_modules/javascript-time-ago/modules/style/roundMinute.js");
-/* harmony import */ var _style_getStyleByName_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./style/getStyleByName.js */ "./node_modules/javascript-time-ago/modules/style/getStyleByName.js");
-/* harmony import */ var _round_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./round.js */ "./node_modules/javascript-time-ago/modules/round.js");
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _createForOfIteratorHelperLoose(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (it) return (it = it.call(o)).next.bind(it); if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; return function () { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-
-
-
-
-
-
-
-
-
-
- // Valid time units.
-
-var UNITS = ['now', // The rest are the same as in `Intl.RelativeTimeFormat`.
-'second', 'minute', 'hour', 'day', 'week', 'month', 'quarter', 'year'];
-
-var TimeAgo = /*#__PURE__*/function () {
-  /**
-   * @param {(string|string[])} locales=[] - Preferred locales (or locale).
-   * @param {boolean} [polyfill] — Pass `false` to use native `Intl.RelativeTimeFormat` and `Intl.PluralRules` instead of the polyfills.
-   */
-  function TimeAgo() {
-    var locales = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-    var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-        polyfill = _ref.polyfill;
-
-    _classCallCheck(this, TimeAgo);
-
-    // Convert `locales` to an array.
-    if (typeof locales === 'string') {
-      locales = [locales];
-    } // Choose the most appropriate locale
-    // from the list of `locales` added by the user.
-    // For example, new TimeAgo("en-US") -> "en".
-
-
-    this.locale = (0,_locale_js__WEBPACK_IMPORTED_MODULE_0__["default"])(locales.concat(TimeAgo.getDefaultLocale()), _LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_1__.getLocaleData);
-
-    if (typeof Intl !== 'undefined') {
-      // Use `Intl.NumberFormat` for formatting numbers (when available).
-      if (Intl.NumberFormat) {
-        this.numberFormat = new Intl.NumberFormat(this.locale);
-      }
-    } // Some people have requested the ability to use native
-    // `Intl.RelativeTimeFormat` and `Intl.PluralRules`
-    // instead of the polyfills.
-    // https://github.com/catamphetamine/javascript-time-ago/issues/21
-
-
-    if (polyfill === false) {
-      this.IntlRelativeTimeFormat = Intl.RelativeTimeFormat;
-      this.IntlPluralRules = Intl.PluralRules;
-    } else {
-      this.IntlRelativeTimeFormat = relative_time_format__WEBPACK_IMPORTED_MODULE_2__["default"];
-      this.IntlPluralRules = relative_time_format__WEBPACK_IMPORTED_MODULE_2__["default"].PluralRules;
-    } // Cache `Intl.RelativeTimeFormat` instance.
-
-
-    this.relativeTimeFormatCache = new _cache_js__WEBPACK_IMPORTED_MODULE_3__["default"](); // Cache `Intl.PluralRules` instance.
-
-    this.pluralRulesCache = new _cache_js__WEBPACK_IMPORTED_MODULE_3__["default"]();
-  }
-  /**
-   * Formats relative date/time.
-   *
-   * @param {(number|Date)} input — A `Date` or a javascript timestamp.
-   *
-   * @param {(string|object)} style — Date/time formatting style. Either one of the built-in style names or a "custom" style definition object having `steps: object[]` and `labels: string[]`.
-   *
-   * @param {number} [options.now] - Sets the current date timestamp.
-   *
-   * @param  {boolean} [options.future] — Tells how to format value `0`:
-   *         as "future" (`true`) or "past" (`false`).
-   *         Is `false` by default, but should have been `true` actually,
-   *         in order to correspond to `Intl.RelativeTimeFormat`
-   *         that uses `future` formatting for `0` unless `-0` is passed.
-   *
-   * @param {string} [options.round] — Rounding method. Overrides the style's one.
-   *
-   * @param {boolean} [options.getTimeToNextUpdate] — Pass `true` to return `[formattedDate, timeToNextUpdate]` instead of just `formattedDate`.
-   *
-   * @return {string} The formatted relative date/time. If no eligible `step` is found, then an empty string is returned.
-   */
-
-
-  _createClass(TimeAgo, [{
-    key: "format",
-    value: function format(input, style, options) {
-      if (!options) {
-        if (style && !isStyle(style)) {
-          options = style;
-          style = undefined;
-        } else {
-          options = {};
-        }
-      }
-
-      if (!style) {
-        style = _style_roundMinute_js__WEBPACK_IMPORTED_MODULE_4__["default"];
-      }
-
-      if (typeof style === 'string') {
-        style = (0,_style_getStyleByName_js__WEBPACK_IMPORTED_MODULE_5__["default"])(style);
-      }
-
-      var timestamp = getTimestamp(input); // Get locale messages for this type of labels.
-      // "flavour" is a legacy name for "labels".
-
-      var _this$getLabels = this.getLabels(style.flavour || style.labels),
-          labels = _this$getLabels.labels,
-          labelsType = _this$getLabels.labelsType;
-
-      var now; // Can pass a custom `now`, e.g. for testing purposes.
-      //
-      // Legacy way was passing `now` in `style`.
-      // That way is deprecated.
-
-      if (style.now !== undefined) {
-        now = style.now;
-      } // The new way is passing `now` option to `.format()`.
-
-
-      if (now === undefined && options.now !== undefined) {
-        now = options.now;
-      }
-
-      if (now === undefined) {
-        now = Date.now();
-      } // how much time has passed (in seconds)
-
-
-      var secondsPassed = (now - timestamp) / 1000; // in seconds
-
-      var future = options.future || secondsPassed < 0;
-      var nowLabel = getNowLabel(labels, (0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_1__.getLocaleData)(this.locale).now, (0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_1__.getLocaleData)(this.locale)["long"], future); // `custom` – A function of `{ elapsed, time, date, now, locale }`.
-      //
-      // Looks like `custom` function is deprecated and will be removed
-      // in the next major version.
-      //
-      // If this function returns a value, then the `.format()` call will return that value.
-      // Otherwise the relative date/time is formatted as usual.
-      // This feature is currently not used anywhere and is here
-      // just for providing the ultimate customization point
-      // in case anyone would ever need that. Prefer using
-      // `steps[step].format(value, locale)` instead.
-      //
-
-      if (style.custom) {
-        var custom = style.custom({
-          now: now,
-          date: new Date(timestamp),
-          time: timestamp,
-          elapsed: secondsPassed,
-          locale: this.locale
-        });
-
-        if (custom !== undefined) {
-          // Won't return `timeToNextUpdate` here
-          // because `custom()` seems deprecated.
-          return custom;
-        }
-      } // Get the list of available time interval units.
-
-
-      var units = getTimeIntervalMeasurementUnits( // Controlling `style.steps` through `style.units` seems to be deprecated:
-      // create a new custom `style` instead.
-      style.units, labels, nowLabel); // // If no available time unit is suitable, just output an empty string.
-      // if (units.length === 0) {
-      // 	console.error(`None of the "${units.join(', ')}" time units have been found in "${labelsType}" labels for "${this.locale}" locale.`)
-      // 	return ''
-      // }
-
-      var round = options.round || style.round; // Choose the appropriate time measurement unit
-      // and get the corresponding rounded time amount.
-
-      var _getStep = (0,_steps_getStep_js__WEBPACK_IMPORTED_MODULE_6__["default"])( // "gradation" is a legacy name for "steps".
-      // For historical reasons, "approximate" steps are used by default.
-      // In the next major version, there'll be no default for `steps`.
-      style.gradation || style.steps || _style_roundMinute_js__WEBPACK_IMPORTED_MODULE_4__["default"].steps, secondsPassed, {
-        now: now,
-        units: units,
-        round: round,
-        future: future,
-        getNextStep: true
-      }),
-          _getStep2 = _slicedToArray(_getStep, 3),
-          prevStep = _getStep2[0],
-          step = _getStep2[1],
-          nextStep = _getStep2[2];
-
-      var formattedDate = this.formatDateForStep(timestamp, step, secondsPassed, {
-        labels: labels,
-        labelsType: labelsType,
-        nowLabel: nowLabel,
-        now: now,
-        future: future,
-        round: round
-      }) || '';
-
-      if (options.getTimeToNextUpdate) {
-        var timeToNextUpdate = (0,_steps_getTimeToNextUpdate_js__WEBPACK_IMPORTED_MODULE_7__["default"])(timestamp, step, {
-          nextStep: nextStep,
-          prevStep: prevStep,
-          now: now,
-          future: future,
-          round: round
-        });
-        return [formattedDate, timeToNextUpdate];
-      }
-
-      return formattedDate;
-    }
-  }, {
-    key: "formatDateForStep",
-    value: function formatDateForStep(timestamp, step, secondsPassed, _ref2) {
-      var _this = this;
-
-      var labels = _ref2.labels,
-          labelsType = _ref2.labelsType,
-          nowLabel = _ref2.nowLabel,
-          now = _ref2.now,
-          future = _ref2.future,
-          round = _ref2.round;
-
-      // If no step matches, then output an empty string.
-      if (!step) {
-        return;
-      }
-
-      if (step.format) {
-        return step.format(timestamp, this.locale, {
-          formatAs: function formatAs(unit, value) {
-            // Mimicks `Intl.RelativeTimeFormat.format()`.
-            return _this.formatValue(value, unit, {
-              labels: labels,
-              future: future
-            });
-          },
-          now: now,
-          future: future
-        });
-      } // "unit" is now called "formatAs".
-
-
-      var unit = step.unit || step.formatAs;
-
-      if (!unit) {
-        throw new Error("[javascript-time-ago] Each step must define either `formatAs` or `format()`. Step: ".concat(JSON.stringify(step)));
-      } // `Intl.RelativeTimeFormat` doesn't operate in "now" units.
-      // Therefore, threat "now" as a special case.
-
-
-      if (unit === 'now') {
-        return nowLabel;
-      } // Amount in units.
-
-
-      var amount = Math.abs(secondsPassed) / (0,_steps_getStepDenominator_js__WEBPACK_IMPORTED_MODULE_8__["default"])(step); // Apply granularity to the time amount
-      // (and fallback to the previous step
-      //  if the first level of granularity
-      //  isn't met by this amount)
-      //
-      // `granularity` — (advanced) Time interval value "granularity".
-      // For example, it could be set to `5` for minutes to allow only 5-minute increments
-      // when formatting time intervals: `0 minutes`, `5 minutes`, `10 minutes`, etc.
-      // Perhaps this feature will be removed because there seem to be no use cases
-      // of it in the real world.
-      //
-
-      if (step.granularity) {
-        // Recalculate the amount of seconds passed based on granularity
-        amount = (0,_round_js__WEBPACK_IMPORTED_MODULE_9__.getRoundFunction)(round)(amount / step.granularity) * step.granularity;
-      }
-
-      var valueForFormatting = -1 * Math.sign(secondsPassed) * (0,_round_js__WEBPACK_IMPORTED_MODULE_9__.getRoundFunction)(round)(amount); // By default, this library formats a `0` in "past" mode,
-      // unless `future: true` option is passed.
-      // This is different to `relative-time-format`'s behavior
-      // which formats a `0` in "future" mode by default, unless it's a `-0`.
-      // So, convert `0` to `-0` if `future: true` option wasn't passed.
-      // `=== 0` matches both `0` and `-0`.
-
-      if (valueForFormatting === 0) {
-        if (future) {
-          valueForFormatting = 0;
-        } else {
-          valueForFormatting = -0;
-        }
-      }
-
-      switch (labelsType) {
-        case 'long':
-        case 'short':
-        case 'narrow':
-          // Format the amount using `Intl.RelativeTimeFormat`.
-          return this.getFormatter(labelsType).format(valueForFormatting, unit);
-
-        default:
-          // Format the amount.
-          // (mimicks `Intl.RelativeTimeFormat` behavior for other time label styles)
-          return this.formatValue(valueForFormatting, unit, {
-            labels: labels,
-            future: future
-          });
-      }
-    }
-    /**
-     * Mimicks what `Intl.RelativeTimeFormat` does for additional locale styles.
-     * @param  {number} value
-     * @param  {string} unit
-     * @param  {object} options.labels — Relative time labels.
-     * @param  {boolean} [options.future] — Tells how to format value `0`: as "future" (`true`) or "past" (`false`). Is `false` by default, but should have been `true` actually.
-     * @return {string}
-     */
-
-  }, {
-    key: "formatValue",
-    value: function formatValue(value, unit, _ref3) {
-      var labels = _ref3.labels,
-          future = _ref3.future;
-      return this.getFormattingRule(labels, unit, value, {
-        future: future
-      }).replace('{0}', this.formatNumber(Math.abs(value)));
-    }
-    /**
-     * Returns formatting rule for `value` in `units` (either in past or in future).
-     * @param {object} formattingRules — Relative time labels for different units.
-     * @param {string} unit - Time interval measurement unit.
-     * @param {number} value - Time interval value.
-     * @param  {boolean} [options.future] — Tells how to format value `0`: as "future" (`true`) or "past" (`false`). Is `false` by default.
-     * @return {string}
-     * @example
-     * // Returns "{0} days ago"
-     * getFormattingRule(en.long, "day", -2, 'en')
-     */
-
-  }, {
-    key: "getFormattingRule",
-    value: function getFormattingRule(formattingRules, unit, value, _ref4) {
-      var future = _ref4.future;
-      // Passing the language is required in order to
-      // be able to correctly classify the `value` as a number.
-      var locale = this.locale;
-      formattingRules = formattingRules[unit]; // Check for a special "compacted" rules case:
-      // if formatting rules are the same for "past" and "future",
-      // and also for all possible `value`s, then those rules are
-      // stored as a single string.
-
-      if (typeof formattingRules === 'string') {
-        return formattingRules;
-      } // Choose either "past" or "future" based on time `value` sign.
-      // If "past" is same as "future" then they're stored as "other".
-      // If there's only "other" then it's being collapsed.
-
-
-      var pastOrFuture = value === 0 ? future ? 'future' : 'past' : value < 0 ? 'past' : 'future';
-      var quantifierRules = formattingRules[pastOrFuture] || formattingRules; // Bundle size optimization technique.
-
-      if (typeof quantifierRules === 'string') {
-        return quantifierRules;
-      } // Quantify `value`.
-
-
-      var quantifier = this.getPluralRules().select(Math.abs(value)); // "other" rule is supposed to always be present.
-      // If only "other" rule is present then "rules" is not an object and is a string.
-
-      return quantifierRules[quantifier] || quantifierRules.other;
-    }
-    /**
-     * Formats a number into a string.
-     * Uses `Intl.NumberFormat` when available.
-     * @param  {number} number
-     * @return {string}
-     */
-
-  }, {
-    key: "formatNumber",
-    value: function formatNumber(number) {
-      return this.numberFormat ? this.numberFormat.format(number) : String(number);
-    }
-    /**
-     * Returns an `Intl.RelativeTimeFormat` for a given `labelsType`.
-     * @param {string} labelsType
-     * @return {object} `Intl.RelativeTimeFormat` instance
-     */
-
-  }, {
-    key: "getFormatter",
-    value: function getFormatter(labelsType) {
-      // `Intl.RelativeTimeFormat` instance creation is (hypothetically) assumed
-      // a lengthy operation so the instances are cached and reused.
-      return this.relativeTimeFormatCache.get(this.locale, labelsType) || this.relativeTimeFormatCache.put(this.locale, labelsType, new this.IntlRelativeTimeFormat(this.locale, {
-        style: labelsType
-      }));
-    }
-    /**
-     * Returns an `Intl.PluralRules` instance.
-     * @return {object} `Intl.PluralRules` instance
-     */
-
-  }, {
-    key: "getPluralRules",
-    value: function getPluralRules() {
-      // `Intl.PluralRules` instance creation is (hypothetically) assumed
-      // a lengthy operation so the instances are cached and reused.
-      return this.pluralRulesCache.get(this.locale) || this.pluralRulesCache.put(this.locale, new this.IntlPluralRules(this.locale));
-    }
-    /**
-     * Gets localized labels for this type of labels.
-     *
-     * @param {(string|string[])} labelsType - Relative date/time labels type.
-     *                                     If it's an array then all label types are tried
-     *                                     until a suitable one is found.
-     *
-     * @returns {Object} Returns an object of shape { labelsType, labels }
-     */
-
-  }, {
-    key: "getLabels",
-    value: function getLabels() {
-      var labelsType = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-      // Convert `labels` to an array.
-      if (typeof labelsType === 'string') {
-        labelsType = [labelsType];
-      } // Supports legacy "tiny" and "mini-time" label styles.
-
-
-      labelsType = labelsType.map(function (labelsType) {
-        switch (labelsType) {
-          case 'tiny':
-          case 'mini-time':
-            return 'mini';
-
-          default:
-            return labelsType;
-        }
-      }); // "long" labels type is the default one.
-      // (it's always present for all languages)
-
-      labelsType = labelsType.concat('long'); // Find a suitable labels type.
-
-      var localeData = (0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_1__.getLocaleData)(this.locale);
-
-      for (var _iterator = _createForOfIteratorHelperLoose(labelsType), _step; !(_step = _iterator()).done;) {
-        var _labelsType = _step.value;
-
-        if (localeData[_labelsType]) {
-          return {
-            labelsType: _labelsType,
-            labels: localeData[_labelsType]
-          };
-        }
-      }
-    }
-  }]);
-
-  return TimeAgo;
-}();
-/**
- * Default locale global variable.
- */
-
-
-
-var defaultLocale = 'en';
-/**
- * Gets default locale.
- * @return  {string} locale
- */
-
-TimeAgo.getDefaultLocale = function () {
-  return defaultLocale;
-};
-/**
- * Sets default locale.
- * @param  {string} locale
- */
-
-
-TimeAgo.setDefaultLocale = function (locale) {
-  return defaultLocale = locale;
-};
-/**
- * Adds locale data for a specific locale and marks the locale as default.
- * @param {Object} localeData
- */
-
-
-TimeAgo.addDefaultLocale = function (localeData) {
-  if (defaultLocaleHasBeenSpecified) {
-    return console.error('[javascript-time-ago] `TimeAgo.addDefaultLocale()` can only be called once. To add other locales, use `TimeAgo.addLocale()`.');
-  }
-
-  defaultLocaleHasBeenSpecified = true;
-  TimeAgo.setDefaultLocale(localeData.locale);
-  TimeAgo.addLocale(localeData);
-};
-
-var defaultLocaleHasBeenSpecified;
-/**
- * Adds locale data for a specific locale.
- * @param {Object} localeData
- */
-
-TimeAgo.addLocale = function (localeData) {
-  (0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_1__.addLocaleData)(localeData);
-  relative_time_format__WEBPACK_IMPORTED_MODULE_2__["default"].addLocale(localeData);
-};
-/**
- * (legacy alias)
- * Adds locale data for a specific locale.
- * @param {Object} localeData
- * @deprecated
- */
-
-
-TimeAgo.locale = TimeAgo.addLocale;
-/**
- * Adds custom labels to locale data.
- * @param {string} locale
- * @param {string} name
- * @param {object} labels
- */
-
-TimeAgo.addLabels = function (locale, name, labels) {
-  var localeData = (0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_1__.getLocaleData)(locale);
-
-  if (!localeData) {
-    (0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_1__.addLocaleData)({
-      locale: locale
-    });
-    localeData = (0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_1__.getLocaleData)(locale); // throw new Error(`[javascript-time-ago] No data for locale "${locale}"`)
-  }
-
-  localeData[name] = labels;
-}; // Normalizes `.format()` `time` argument.
-
-
-function getTimestamp(input) {
-  if (input.constructor === Date || isMockedDate(input)) {
-    return input.getTime();
-  }
-
-  if (typeof input === 'number') {
-    return input;
-  } // For some weird reason istanbul doesn't see this `throw` covered.
-
-  /* istanbul ignore next */
-
-
-  throw new Error("Unsupported relative time formatter input: ".concat(_typeof(input), ", ").concat(input));
-} // During testing via some testing libraries `Date`s aren't actually `Date`s.
-// https://github.com/catamphetamine/javascript-time-ago/issues/22
-
-
-function isMockedDate(object) {
-  return _typeof(object) === 'object' && typeof object.getTime === 'function';
-} // Get available time interval measurement units.
-
-
-function getTimeIntervalMeasurementUnits(allowedUnits, labels, nowLabel) {
-  // Get all time interval measurement units that're available
-  // in locale data for a given time labels style.
-  var units = Object.keys(labels); // `now` unit is handled separately and is shipped in its own `now.json` file.
-  // `now.json` isn't present for all locales, so it could be substituted with
-  // ".second.current".
-  // Add `now` unit if it's available in locale data.
-
-  if (nowLabel) {
-    units.push('now');
-  } // If only a specific set of available time measurement units can be used
-  // then only those units are allowed (if they're present in locale data).
-
-
-  if (allowedUnits) {
-    units = allowedUnits.filter(function (unit) {
-      return unit === 'now' || units.indexOf(unit) >= 0;
-    });
-  }
-
-  return units;
-}
-
-function getNowLabel(labels, nowLabels, longLabels, future) {
-  var nowLabel = labels.now || nowLabels && nowLabels.now; // Specific "now" message form extended locale data (if present).
-
-  if (nowLabel) {
-    // Bundle size optimization technique.
-    if (typeof nowLabel === 'string') {
-      return nowLabel;
-    } // Not handling `value === 0` as `localeData.now.current` here
-    // because it wouldn't make sense: "now" is a moment,
-    // so one can't possibly differentiate between a
-    // "previous" moment, a "current" moment and a "next moment".
-    // It can only be differentiated between "past" and "future".
-
-
-    if (future) {
-      return nowLabel.future;
-    } else {
-      return nowLabel.past;
-    }
-  } // Use ".second.current" as "now" message.
-
-
-  if (longLabels && longLabels.second && longLabels.second.current) {
-    return longLabels.second.current;
-  }
-}
-
-function isStyle(variable) {
-  return typeof variable === 'string' || (0,_isStyleObject_js__WEBPACK_IMPORTED_MODULE_10__["default"])(variable);
-}
-//# sourceMappingURL=TimeAgo.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/cache.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/cache.js ***!
-  \***********************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Cache)
-/* harmony export */ });
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-/**
- * A basic in-memory cache.
- *
- * import Cache from 'javascript-time-ago/Cache'
- * const cache = new Cache()
- * const object = cache.get('key1', 'key2', ...) || cache.put('key1', 'key2', ..., createObject())
- */
-var Cache = /*#__PURE__*/function () {
-  function Cache() {
-    _classCallCheck(this, Cache);
-
-    this.cache = {};
-  }
-
-  _createClass(Cache, [{
-    key: "get",
-    value: function get() {
-      var cache = this.cache;
-
-      for (var _len = arguments.length, keys = new Array(_len), _key = 0; _key < _len; _key++) {
-        keys[_key] = arguments[_key];
-      }
-
-      for (var _i = 0, _keys = keys; _i < _keys.length; _i++) {
-        var key = _keys[_i];
-
-        if (_typeof(cache) !== 'object') {
-          return;
-        }
-
-        cache = cache[key];
-      }
-
-      return cache;
-    }
-  }, {
-    key: "put",
-    value: function put() {
-      for (var _len2 = arguments.length, keys = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        keys[_key2] = arguments[_key2];
-      }
-
-      var value = keys.pop();
-      var lastKey = keys.pop();
-      var cache = this.cache;
-
-      for (var _i2 = 0, _keys2 = keys; _i2 < _keys2.length; _i2++) {
-        var key = _keys2[_i2];
-
-        if (_typeof(cache[key]) !== 'object') {
-          cache[key] = {};
-        }
-
-        cache = cache[key];
-      }
-
-      return cache[lastKey] = value;
-    }
-  }]);
-
-  return Cache;
-}();
-
-
-//# sourceMappingURL=cache.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/isStyleObject.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/isStyleObject.js ***!
-  \*******************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ isStyleObject)
-/* harmony export */ });
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function isStyleObject(object) {
-  return isObject(object) && (Array.isArray(object.steps) || // `gradation` property is deprecated: it has been renamed to `steps`.
-  Array.isArray(object.gradation) || // `flavour` property is deprecated: it has been renamed to `labels`.
-  Array.isArray(object.flavour) || typeof object.flavour === 'string' || Array.isArray(object.labels) || typeof object.labels === 'string' || // `units` property is deprecated.
-  Array.isArray(object.units) || // `custom` property is deprecated.
-  typeof object.custom === 'function');
-}
-var OBJECT_CONSTRUCTOR = {}.constructor;
-
-function isObject(object) {
-  return _typeof(object) !== undefined && object !== null && object.constructor === OBJECT_CONSTRUCTOR;
-}
-//# sourceMappingURL=isStyleObject.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/locale.js":
-/*!************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/locale.js ***!
-  \************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ chooseLocale),
-/* harmony export */   intlDateTimeFormatSupported: () => (/* binding */ intlDateTimeFormatSupported),
-/* harmony export */   intlDateTimeFormatSupportedLocale: () => (/* binding */ intlDateTimeFormatSupportedLocale)
-/* harmony export */ });
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _createForOfIteratorHelperLoose(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (it) return (it = it.call(o)).next.bind(it); if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; return function () { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-/**
- * Chooses the most appropriate locale
- * (one of the registered ones)
- * based on the list of preferred `locales` supplied by the user.
- *
- * @param {string[]} locales - the list of preferable locales (in [IETF format](https://en.wikipedia.org/wiki/IETF_language_tag)).
- * @param {Function} isLocaleDataAvailable - tests if a locale is available.
- *
- * @returns {string} The most suitable locale.
- *
- * @example
- * // Returns 'en'
- * chooseLocale(['en-US'], undefined, (locale) => locale === 'ru' || locale === 'en')
- */
-function chooseLocale(locales, isLocaleDataAvailable) {
-  // This is not an intelligent algorithm,
-  // but it will do for this library's case.
-  // `sr-Cyrl-BA` -> `sr-Cyrl` -> `sr`.
-  for (var _iterator = _createForOfIteratorHelperLoose(locales), _step; !(_step = _iterator()).done;) {
-    var locale = _step.value;
-
-    if (isLocaleDataAvailable(locale)) {
-      return locale;
-    }
-
-    var parts = locale.split('-');
-
-    while (parts.length > 1) {
-      parts.pop();
-      locale = parts.join('-');
-
-      if (isLocaleDataAvailable(locale)) {
-        return locale;
-      }
-    }
-  }
-
-  throw new Error("No locale data has been registered for any of the locales: ".concat(locales.join(', ')));
-}
-/**
- * Whether can use `Intl.DateTimeFormat` for these `locales`.
- * Returns the first suitable one.
- * @param  {(string|string[])} locales
- * @return {?string} The first locale that can be used.
- */
-
-function intlDateTimeFormatSupportedLocale(locales) {
-  /* istanbul ignore else */
-  if (intlDateTimeFormatSupported()) {
-    return Intl.DateTimeFormat.supportedLocalesOf(locales)[0];
-  }
-}
-/**
- * Whether can use `Intl.DateTimeFormat`.
- * @return {boolean}
- */
-
-function intlDateTimeFormatSupported() {
-  // Babel transforms `typeof` into some "branches"
-  // so istanbul will show this as "branch not covered".
-
-  /* istanbul ignore next */
-  var isIntlAvailable = (typeof Intl === "undefined" ? "undefined" : _typeof(Intl)) === 'object';
-  return isIntlAvailable && typeof Intl.DateTimeFormat === 'function';
-}
-//# sourceMappingURL=locale.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/round.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/round.js ***!
-  \***********************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   getDiffRatioToNextRoundedNumber: () => (/* binding */ getDiffRatioToNextRoundedNumber),
-/* harmony export */   getRoundFunction: () => (/* binding */ getRoundFunction)
-/* harmony export */ });
-function getRoundFunction(round) {
-  switch (round) {
-    case 'floor':
-      return Math.floor;
-
-    default:
-      return Math.round;
-  }
-} // For non-negative numbers.
-
-function getDiffRatioToNextRoundedNumber(round) {
-  switch (round) {
-    case 'floor':
-      // Math.floor(x) = x
-      // Math.floor(x + 1) = x + 1
-      return 1;
-
-    default:
-      // Math.round(x) = x
-      // Math.round(x + 0.5) = x + 1
-      return 0.5;
-  }
-}
-//# sourceMappingURL=round.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/steps/approximate.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/steps/approximate.js ***!
-  \***********************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _units_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./units.js */ "./node_modules/javascript-time-ago/modules/steps/units.js");
- // "factor" is a legacy property.
-// Developers shouldn't need to use it in their custom steps.
-// "threshold" is a legacy name of "min".
-// Developers should use "min" property name instead of "threshold".
-// "threshold_for_idOrUnit: value" is a legacy way of specifying "min: { id: value }".
-// Developers should use "min" property instead of "threshold".
-// just now
-// 1 minute ago
-// 2 minutes ago
-// 5 minutes ago
-// 10 minutes ago
-// 15 minutes ago
-// 20 minutes ago
-// …
-// 50 minutes ago
-// an hour ago
-// 2 hours ago
-// …
-// 20 hours ago
-// a day ago
-// 2 days ago
-// 5 days ago
-// a week ago
-// 2 weeks ago
-// 3 weeks ago
-// a month ago
-// 2 months ago
-// 4 months ago
-// a year ago
-// 2 years ago
-// …
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{
-  // This step returns the amount of seconds
-  // by dividing the amount of seconds by `1`.
-  factor: 1,
-  // "now" labels are used for formatting the output.
-  unit: 'now'
-}, {
-  // When the language doesn't support `now` unit,
-  // the first step is ignored, and it uses this `second` unit.
-  threshold: 1,
-  // `threshold_for_now` should be the same as `threshold` on minutes.
-  threshold_for_now: 45.5,
-  // This step returns the amount of seconds
-  // by dividing the amount of seconds by `1`.
-  factor: 1,
-  // "second" labels are used for formatting the output.
-  unit: 'second'
-}, {
-  // `threshold` should be the same as `threshold_for_now` on seconds.
-  threshold: 45.5,
-  // Return the amount of minutes by dividing the amount
-  // of seconds by the amount of seconds in a minute.
-  factor: _units_js__WEBPACK_IMPORTED_MODULE_0__.minute,
-  // "minute" labels are used for formatting the output.
-  unit: 'minute'
-}, {
-  // This step is effective starting from 2.5 minutes.
-  threshold: 2.5 * _units_js__WEBPACK_IMPORTED_MODULE_0__.minute,
-  // Allow only 5-minute increments of minutes starting from 2.5 minutes.
-  // `granularity` — (advanced) Time interval value "granularity".
-  // For example, it could be set to `5` for minutes to allow only 5-minute increments
-  // when formatting time intervals: `0 minutes`, `5 minutes`, `10 minutes`, etc.
-  // Perhaps this feature will be removed because there seem to be no use cases
-  // of it in the real world.
-  granularity: 5,
-  // Return the amount of minutes by dividing the amount
-  // of seconds by the amount of seconds in a minute.
-  factor: _units_js__WEBPACK_IMPORTED_MODULE_0__.minute,
-  // "minute" labels are used for formatting the output.
-  unit: 'minute'
-}, {
-  // This step is effective starting from 22.5 minutes.
-  threshold: 22.5 * _units_js__WEBPACK_IMPORTED_MODULE_0__.minute,
-  // Return the amount of minutes by dividing the amount
-  // of seconds by the amount of seconds in  half-an-hour.
-  factor: 0.5 * _units_js__WEBPACK_IMPORTED_MODULE_0__.hour,
-  // "half-hour" labels are used for formatting the output.
-  // (if available, which is no longer the case)
-  unit: 'half-hour'
-}, {
-  // This step is effective starting from 42.5 minutes.
-  threshold: 42.5 * _units_js__WEBPACK_IMPORTED_MODULE_0__.minute,
-  threshold_for_minute: 52.5 * _units_js__WEBPACK_IMPORTED_MODULE_0__.minute,
-  // Return the amount of minutes by dividing the amount
-  // of seconds by the amount of seconds in an hour.
-  factor: _units_js__WEBPACK_IMPORTED_MODULE_0__.hour,
-  // "hour" labels are used for formatting the output.
-  unit: 'hour'
-}, {
-  // This step is effective starting from 20.5 hours.
-  threshold: 20.5 / 24 * _units_js__WEBPACK_IMPORTED_MODULE_0__.day,
-  // Return the amount of minutes by dividing the amount
-  // of seconds by the amount of seconds in a day.
-  factor: _units_js__WEBPACK_IMPORTED_MODULE_0__.day,
-  // "day" labels are used for formatting the output.
-  unit: 'day'
-}, {
-  // This step is effective starting from 5.5 days.
-  threshold: 5.5 * _units_js__WEBPACK_IMPORTED_MODULE_0__.day,
-  // Return the amount of minutes by dividing the amount
-  // of seconds by the amount of seconds in a week.
-  factor: _units_js__WEBPACK_IMPORTED_MODULE_0__.week,
-  // "week" labels are used for formatting the output.
-  unit: 'week'
-}, {
-  // This step is effective starting from 3.5 weeks.
-  threshold: 3.5 * _units_js__WEBPACK_IMPORTED_MODULE_0__.week,
-  // Return the amount of minutes by dividing the amount
-  // of seconds by the amount of seconds in a month.
-  factor: _units_js__WEBPACK_IMPORTED_MODULE_0__.month,
-  // "month" labels are used for formatting the output.
-  unit: 'month'
-}, {
-  // This step is effective starting from 10.5 months.
-  threshold: 10.5 * _units_js__WEBPACK_IMPORTED_MODULE_0__.month,
-  // Return the amount of minutes by dividing the amount
-  // of seconds by the amount of seconds in a year.
-  factor: _units_js__WEBPACK_IMPORTED_MODULE_0__.year,
-  // "year" labels are used for formatting the output.
-  unit: 'year'
-}]);
-//# sourceMappingURL=approximate.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/steps/getStep.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/steps/getStep.js ***!
-  \*******************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ getStep)
-/* harmony export */ });
-/* harmony import */ var _getStepDenominator_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getStepDenominator.js */ "./node_modules/javascript-time-ago/modules/steps/getStepDenominator.js");
-/* harmony import */ var _getStepMinTime_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getStepMinTime.js */ "./node_modules/javascript-time-ago/modules/steps/getStepMinTime.js");
-/* harmony import */ var _round_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../round.js */ "./node_modules/javascript-time-ago/modules/round.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-
-/**
- * Finds an appropriate `step` of `steps` for the time interval (in seconds).
- *
- * @param {Object[]} steps - Time formatting steps.
- *
- * @param {number} secondsPassed - Time interval (in seconds).
- *                                 `< 0` for past dates and `> 0` for future dates.
- *
- * @param {number} options.now - Current timestamp.
- *
- * @param {boolean} [options.future] - Whether the date should be formatted as a future one
- *                                     instead of a past one.
- *
- * @param {string} [options.round] - (undocumented) Rounding mechanism.
- *
- * @param {string[]} [options.units] - A list of allowed time units.
- *                                     (Example: ['second', 'minute', 'hour', …])
- *
- * @param {boolean} [options.getNextStep] - Pass true to return `[step, nextStep]` instead of just `step`.
- *
- * @return {Object|Object[]} [step] — Either a `step` or `[prevStep, step, nextStep]`.
- */
-
-function getStep(steps, secondsPassed, _ref) {
-  var now = _ref.now,
-      future = _ref.future,
-      round = _ref.round,
-      units = _ref.units,
-      getNextStep = _ref.getNextStep;
-  // Ignore steps having not-supported time units in `formatAs`.
-  steps = filterStepsByUnits(steps, units);
-
-  var step = _getStep(steps, secondsPassed, {
-    now: now,
-    future: future,
-    round: round
-  });
-
-  if (getNextStep) {
-    if (step) {
-      var prevStep = steps[steps.indexOf(step) - 1];
-      var nextStep = steps[steps.indexOf(step) + 1];
-      return [prevStep, step, nextStep];
-    }
-
-    return [undefined, undefined, steps[0]];
-  }
-
-  return step;
-}
-
-function _getStep(steps, secondsPassed, _ref2) {
-  var now = _ref2.now,
-      future = _ref2.future,
-      round = _ref2.round;
-
-  // If no steps fit the conditions then return nothing.
-  if (steps.length === 0) {
-    return;
-  } // Find the most appropriate step.
-
-
-  var i = getStepIndex(steps, secondsPassed, {
-    now: now,
-    future: future || secondsPassed < 0,
-    round: round
-  }); // If no step is applicable the return nothing.
-
-  if (i === -1) {
-    return;
-  }
-
-  var step = steps[i]; // Apply granularity to the time amount
-  // (and fall back to the previous step
-  //  if the first level of granularity
-  //  isn't met by this amount)
-
-  if (step.granularity) {
-    // Recalculate the amount of seconds passed based on `granularity`.
-    var secondsPassedGranular = (0,_round_js__WEBPACK_IMPORTED_MODULE_0__.getRoundFunction)(round)(Math.abs(secondsPassed) / (0,_getStepDenominator_js__WEBPACK_IMPORTED_MODULE_1__["default"])(step) / step.granularity) * step.granularity; // If the granularity for this step is too high,
-    // then fall back to the previous step.
-    // (if there is any previous step)
-
-    if (secondsPassedGranular === 0 && i > 0) {
-      return steps[i - 1];
-    }
-  }
-
-  return step;
-}
-/**
- * Iterates through steps until it finds the maximum one satisfying the `minTime` threshold.
- * @param  {Object} steps - Steps.
- * @param  {number} secondsPassed - How much seconds have passed since the date till `now`.
- * @param  {number} options.now - Current timestamp.
- * @param  {boolean} options.future - Whether the time interval should be formatted as a future one.
- * @param  {number} [i] - Gradation step currently being tested.
- * @return {number} Gradation step index.
- */
-
-
-function getStepIndex(steps, secondsPassed, options) {
-  var i = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
-  var minTime = (0,_getStepMinTime_js__WEBPACK_IMPORTED_MODULE_2__["default"])(steps[i], _objectSpread({
-    prevStep: steps[i - 1],
-    timestamp: options.now - secondsPassed * 1000
-  }, options)); // If `minTime` isn't defined or deduceable for this step, then stop.
-
-  if (minTime === undefined) {
-    return i - 1;
-  } // If the `minTime` threshold for moving from previous step
-  // to this step is too high then return the previous step.
-
-
-  if (Math.abs(secondsPassed) < minTime) {
-    return i - 1;
-  } // If it's the last step then return it.
-
-
-  if (i === steps.length - 1) {
-    return i;
-  } // Move to the next step.
-
-
-  return getStepIndex(steps, secondsPassed, options, i + 1);
-}
-/**
- * Leaves only allowed steps.
- * @param  {Object[]} steps
- * @param  {string[]} units - Allowed time units.
- * @return {Object[]}
- */
-
-
-function filterStepsByUnits(steps, units) {
-  return steps.filter(function (_ref3) {
-    var unit = _ref3.unit,
-        formatAs = _ref3.formatAs;
-    // "unit" is now called "formatAs".
-    unit = unit || formatAs; // If this step has a `unit` defined
-    // then this `unit` must be in the list of allowed `units`.
-
-    if (unit) {
-      return units.indexOf(unit) >= 0;
-    } // A step is not required to specify a `unit`:
-    // alternatively, it could specify `format()`.
-    // (see "twitter" style for an example)
-
-
-    return true;
-  });
-}
-//# sourceMappingURL=getStep.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/steps/getStepDenominator.js":
-/*!******************************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/steps/getStepDenominator.js ***!
-  \******************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ getStepDenominator)
-/* harmony export */ });
-/* harmony import */ var _units_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./units.js */ "./node_modules/javascript-time-ago/modules/steps/units.js");
-
-function getStepDenominator(step) {
-  // `factor` is a legacy property.
-  if (step.factor !== undefined) {
-    return step.factor;
-  } // "unit" is now called "formatAs".
-
-
-  return (0,_units_js__WEBPACK_IMPORTED_MODULE_0__.getSecondsInUnit)(step.unit || step.formatAs) || 1;
-}
-//# sourceMappingURL=getStepDenominator.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/steps/getStepMinTime.js":
-/*!**************************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/steps/getStepMinTime.js ***!
-  \**************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ getStepMinTime)
-/* harmony export */ });
-/* harmony import */ var _units_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./units.js */ "./node_modules/javascript-time-ago/modules/steps/units.js");
-/* harmony import */ var _round_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../round.js */ "./node_modules/javascript-time-ago/modules/round.js");
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-
-
-function getStepMinTime(step, _ref) {
-  var prevStep = _ref.prevStep,
-      timestamp = _ref.timestamp,
-      now = _ref.now,
-      future = _ref.future,
-      round = _ref.round;
-  var minTime; // "threshold_for_xxx" is a legacy property.
-
-  if (prevStep) {
-    if (prevStep.id || prevStep.unit) {
-      minTime = step["threshold_for_".concat(prevStep.id || prevStep.unit)];
-    }
-  }
-
-  if (minTime === undefined) {
-    // "threshold" is a legacy property.
-    if (step.threshold !== undefined) {
-      // "threshold" is a legacy name for "minTime".
-      minTime = step.threshold; // "threshold" function is deprecated.
-
-      if (typeof minTime === 'function') {
-        minTime = minTime(now, future);
-      }
-    }
-  }
-
-  if (minTime === undefined) {
-    minTime = step.minTime;
-  } // A deprecated way of specifying a different threshold
-  // depending on the previous step's unit.
-
-
-  if (_typeof(minTime) === 'object') {
-    if (prevStep && prevStep.id && minTime[prevStep.id] !== undefined) {
-      minTime = minTime[prevStep.id];
-    } else {
-      minTime = minTime["default"];
-    }
-  }
-
-  if (typeof minTime === 'function') {
-    minTime = minTime(timestamp, {
-      future: future,
-      getMinTimeForUnit: function getMinTimeForUnit(toUnit, fromUnit) {
-        return _getMinTimeForUnit(toUnit, fromUnit || prevStep && prevStep.formatAs, {
-          round: round
-        });
-      }
-    });
-  } // Evaluate the `test()` function.
-  // `test()` function is deprecated.
-
-
-  if (minTime === undefined) {
-    if (step.test) {
-      if (step.test(timestamp, {
-        now: now,
-        future: future
-      })) {
-        // `0` threshold always passes.
-        minTime = 0;
-      } else {
-        // `MAX_SAFE_INTEGER` threshold won't ever pass in real life.
-        minTime = 9007199254740991; // Number.MAX_SAFE_INTEGER
-      }
-    }
-  }
-
-  if (minTime === undefined) {
-    if (prevStep) {
-      if (step.formatAs && prevStep.formatAs) {
-        minTime = _getMinTimeForUnit(step.formatAs, prevStep.formatAs, {
-          round: round
-        });
-      }
-    } else {
-      // The first step's `minTime` is `0` by default.
-      minTime = 0;
-    }
-  } // Warn if no `minTime` was defined or could be deduced.
-
-
-  if (minTime === undefined) {
-    console.warn('[javascript-time-ago] A step should specify `minTime`:\n' + JSON.stringify(step, null, 2));
-  }
-
-  return minTime;
-}
-
-function _getMinTimeForUnit(toUnit, fromUnit, _ref2) {
-  var round = _ref2.round;
-  var toUnitAmount = (0,_units_js__WEBPACK_IMPORTED_MODULE_0__.getSecondsInUnit)(toUnit); // if (!fromUnit) {
-  // 	return toUnitAmount;
-  // }
-  // if (!fromUnit) {
-  // 	fromUnit = getPreviousUnitFor(toUnit)
-  // }
-
-  var fromUnitAmount;
-
-  if (fromUnit === 'now') {
-    fromUnitAmount = (0,_units_js__WEBPACK_IMPORTED_MODULE_0__.getSecondsInUnit)(toUnit);
-  } else {
-    fromUnitAmount = (0,_units_js__WEBPACK_IMPORTED_MODULE_0__.getSecondsInUnit)(fromUnit);
-  }
-
-  if (toUnitAmount !== undefined && fromUnitAmount !== undefined) {
-    return toUnitAmount - fromUnitAmount * (1 - (0,_round_js__WEBPACK_IMPORTED_MODULE_1__.getDiffRatioToNextRoundedNumber)(round));
-  }
-}
-//# sourceMappingURL=getStepMinTime.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/steps/getTimeToNextUpdate.js":
-/*!*******************************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/steps/getTimeToNextUpdate.js ***!
-  \*******************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   INFINITY: () => (/* binding */ INFINITY),
-/* harmony export */   "default": () => (/* binding */ getTimeToNextUpdate),
-/* harmony export */   getStepChangesAt: () => (/* binding */ getStepChangesAt),
-/* harmony export */   getTimeToStepChange: () => (/* binding */ getTimeToStepChange)
-/* harmony export */ });
-/* harmony import */ var _getTimeToNextUpdateForUnit_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getTimeToNextUpdateForUnit.js */ "./node_modules/javascript-time-ago/modules/steps/getTimeToNextUpdateForUnit.js");
-/* harmony import */ var _getStepMinTime_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getStepMinTime.js */ "./node_modules/javascript-time-ago/modules/steps/getStepMinTime.js");
-/* harmony import */ var _round_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../round.js */ "./node_modules/javascript-time-ago/modules/round.js");
-
-
- // A thousand years is practically a metaphor for "infinity".
-
-var YEAR = 365 * 24 * 60 * 60 * 1000;
-var INFINITY = 1000 * YEAR;
-/**
- * Gets the time to next update for a date and a step.
- * @param  {number} date — The date passed to `.format()`, converted to a timestamp.
- * @param  {object} step
- * @param  {object} [options.previousStep]
- * @param  {object} [options.nextStep]
- * @param  {number} options.now
- * @param  {boolean} options.future
- * @param  {string} [options.round] - (undocumented) Rounding mechanism.
- * @return {number} [timeToNextUpdate]
- */
-
-function getTimeToNextUpdate(date, step, _ref) {
-  var prevStep = _ref.prevStep,
-      nextStep = _ref.nextStep,
-      now = _ref.now,
-      future = _ref.future,
-      round = _ref.round;
-  var timestamp = date.getTime ? date.getTime() : date;
-
-  var getTimeToNextUpdateForUnit = function getTimeToNextUpdateForUnit(unit) {
-    return (0,_getTimeToNextUpdateForUnit_js__WEBPACK_IMPORTED_MODULE_0__["default"])(unit, timestamp, {
-      now: now,
-      round: round
-    });
-  }; // For future dates, steps move from the last one to the first one,
-  // while for past dates, steps move from the first one to the last one,
-  // due to the fact that time flows in one direction,
-  // and future dates' interval naturally becomes smaller
-  // while past dates' interval naturally grows larger.
-  //
-  // For future dates, it's the transition
-  // from the current step to the previous step,
-  // therefore check the `minTime` of the current step.
-  //
-  // For past dates, it's the transition
-  // from the current step to the next step,
-  // therefore check the `minTime` of the next step.
-  //
-
-
-  var timeToStepChange = getTimeToStepChange(future ? step : nextStep, timestamp, {
-    future: future,
-    now: now,
-    round: round,
-    prevStep: future ? prevStep : step // isFirstStep: future && isFirstStep
-
-  });
-
-  if (timeToStepChange === undefined) {
-    // Can't reliably determine "time to next update"
-    // if not all of the steps provide `minTime`.
-    return;
-  }
-
-  var timeToNextUpdate;
-
-  if (step) {
-    if (step.getTimeToNextUpdate) {
-      timeToNextUpdate = step.getTimeToNextUpdate(timestamp, {
-        getTimeToNextUpdateForUnit: getTimeToNextUpdateForUnit,
-        getRoundFunction: _round_js__WEBPACK_IMPORTED_MODULE_1__.getRoundFunction,
-        now: now,
-        future: future,
-        round: round
-      });
-    }
-
-    if (timeToNextUpdate === undefined) {
-      // "unit" is now called "formatAs".
-      var unit = step.unit || step.formatAs;
-
-      if (unit) {
-        // For some units, like "now", there's no defined amount of seconds in them.
-        // In such cases, `getTimeToNextUpdateForUnit()` returns `undefined`,
-        // and the next step's `minTime` could be used to calculate the update interval:
-        // it will just assume that the label never changes for this step.
-        timeToNextUpdate = getTimeToNextUpdateForUnit(unit);
-      }
-    }
-  }
-
-  if (timeToNextUpdate === undefined) {
-    return timeToStepChange;
-  }
-
-  return Math.min(timeToNextUpdate, timeToStepChange);
-}
-function getStepChangesAt(currentOrNextStep, timestamp, _ref2) {
-  var now = _ref2.now,
-      future = _ref2.future,
-      round = _ref2.round,
-      prevStep = _ref2.prevStep;
-  // The first step's `minTime` is `0` by default.
-  // It doesn't "change" steps at zero point
-  // but it does change the wording when switching
-  // from "future" to "past": "in ..." -> "... ago".
-  // Therefore, the label should be updated at zero-point too.
-  var minTime = (0,_getStepMinTime_js__WEBPACK_IMPORTED_MODULE_2__["default"])(currentOrNextStep, {
-    timestamp: timestamp,
-    now: now,
-    future: future,
-    round: round,
-    prevStep: prevStep
-  });
-
-  if (minTime === undefined) {
-    return;
-  }
-
-  if (future) {
-    // The step changes to the previous step
-    // as soon as `timestamp - now` becomes
-    // less than the `minTime` of the current step:
-    // `timestamp - now === minTime - 1`
-    // => `now === timestamp - minTime + 1`.
-    return timestamp - minTime * 1000 + 1;
-  } else {
-    // The step changes to the next step
-    // as soon as `now - timestamp` becomes
-    // equal to `minTime` of the next step:
-    // `now - timestamp === minTime`
-    // => `now === timestamp + minTime`.
-    // This is a special case when double-update could be skipped.
-    if (minTime === 0 && timestamp === now) {
-      return INFINITY;
-    }
-
-    return timestamp + minTime * 1000;
-  }
-}
-function getTimeToStepChange(step, timestamp, _ref3) {
-  var now = _ref3.now,
-      future = _ref3.future,
-      round = _ref3.round,
-      prevStep = _ref3.prevStep;
-
-  if (step) {
-    var stepChangesAt = getStepChangesAt(step, timestamp, {
-      now: now,
-      future: future,
-      round: round,
-      prevStep: prevStep
-    });
-
-    if (stepChangesAt === undefined) {
-      return;
-    }
-
-    return stepChangesAt - now;
-  } else {
-    if (future) {
-      // No step.
-      // Update right after zero point, when it changes from "future" to "past".
-      return timestamp - now + 1;
-    } else {
-      // The last step doesn't ever change when `date` is in the past.
-      return INFINITY;
-    }
-  }
-}
-//# sourceMappingURL=getTimeToNextUpdate.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/steps/getTimeToNextUpdateForUnit.js":
-/*!**************************************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/steps/getTimeToNextUpdateForUnit.js ***!
-  \**************************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ getTimeToNextUpdateForUnit)
-/* harmony export */ });
-/* harmony import */ var _units_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./units.js */ "./node_modules/javascript-time-ago/modules/steps/units.js");
-/* harmony import */ var _round_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../round.js */ "./node_modules/javascript-time-ago/modules/round.js");
-
-
-/**
- * Gets the time to next update for a step with a time unit defined.
- * @param  {string} unit
- * @param  {number} date — The date passed to `.format()`, converted to a timestamp.
- * @param  {number} options.now
- * @param  {string} [options.round] — (undocumented) Rounding mechanism.
- * @return {number} [timeToNextUpdate]
- */
-
-function getTimeToNextUpdateForUnit(unit, timestamp, _ref) {
-  var now = _ref.now,
-      round = _ref.round;
-
-  // For some units, like "now", there's no defined amount of seconds in them.
-  if (!(0,_units_js__WEBPACK_IMPORTED_MODULE_0__.getSecondsInUnit)(unit)) {
-    // If there's no amount of seconds defined for this unit
-    // then the update interval can't be determined reliably.
-    return;
-  }
-
-  var unitDenominator = (0,_units_js__WEBPACK_IMPORTED_MODULE_0__.getSecondsInUnit)(unit) * 1000;
-  var future = timestamp > now;
-  var preciseAmount = Math.abs(timestamp - now);
-  var roundedAmount = (0,_round_js__WEBPACK_IMPORTED_MODULE_1__.getRoundFunction)(round)(preciseAmount / unitDenominator) * unitDenominator;
-
-  if (future) {
-    if (roundedAmount > 0) {
-      // Amount decreases with time.
-      return preciseAmount - roundedAmount + getDiffToPreviousRoundedNumber(round, unitDenominator);
-    } else {
-      // Refresh right after the zero point,
-      // when "future" changes to "past".
-      return preciseAmount - roundedAmount + 1;
-    }
-  } // Amount increases with time.
-
-
-  return -(preciseAmount - roundedAmount) + getDiffToNextRoundedNumber(round, unitDenominator);
-}
-
-function getDiffToNextRoundedNumber(round, unitDenominator) {
-  return (0,_round_js__WEBPACK_IMPORTED_MODULE_1__.getDiffRatioToNextRoundedNumber)(round) * unitDenominator;
-}
-
-function getDiffToPreviousRoundedNumber(round, unitDenominator) {
-  return (1 - (0,_round_js__WEBPACK_IMPORTED_MODULE_1__.getDiffRatioToNextRoundedNumber)(round)) * unitDenominator + 1;
-}
-//# sourceMappingURL=getTimeToNextUpdateForUnit.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/steps/helpers.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/steps/helpers.js ***!
-  \*******************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   getDate: () => (/* binding */ getDate)
-/* harmony export */ });
-// Looks like this one's deprecated.
-// /**
-//  * Returns a step corresponding to the unit.
-//  * @param  {Object[]} steps
-//  * @param  {string} unit
-//  * @return {?Object}
-//  */
-// export function getStepForUnit(steps, unit) {
-// 	for (const step of steps) {
-// 		if (step.unit === unit) {
-// 			return step
-// 		}
-// 	}
-// }
-// Looks like this one won't be used in the next major version.
-
-/**
- * Converts value to a `Date`
- * @param {(number|Date)} value
- * @return {Date}
- */
-function getDate(value) {
-  return value instanceof Date ? value : new Date(value);
-}
-//# sourceMappingURL=helpers.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/steps/round.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/steps/round.js ***!
-  \*****************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-// just now
-// 1 second ago
-// 2 seconds ago
-// …
-// 59 seconds ago
-// 1 minute ago
-// 2 minutes ago
-// …
-// 59 minutes ago
-// 1 hour ago
-// 2 hours ago
-// …
-// 24 hours ago
-// 1 day ago
-// 2 days ago
-// …
-// 6 days ago
-// 1 week ago
-// 2 weeks ago
-// …
-// 3 weeks ago
-// 1 month ago
-// 2 months ago
-// …
-// 11 months ago
-// 1 year ago
-// 2 years ago
-// …
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{
-  formatAs: 'now'
-}, {
-  formatAs: 'second'
-}, {
-  formatAs: 'minute'
-}, {
-  formatAs: 'hour'
-}, {
-  formatAs: 'day'
-}, {
-  formatAs: 'week'
-}, {
-  formatAs: 'month'
-}, {
-  formatAs: 'year'
-}]);
-//# sourceMappingURL=round.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/steps/units.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/steps/units.js ***!
-  \*****************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   day: () => (/* binding */ day),
-/* harmony export */   getSecondsInUnit: () => (/* binding */ getSecondsInUnit),
-/* harmony export */   hour: () => (/* binding */ hour),
-/* harmony export */   minute: () => (/* binding */ minute),
-/* harmony export */   month: () => (/* binding */ month),
-/* harmony export */   week: () => (/* binding */ week),
-/* harmony export */   year: () => (/* binding */ year)
-/* harmony export */ });
-var minute = 60; // in seconds
-
-var hour = 60 * minute; // in seconds
-
-var day = 24 * hour; // in seconds
-
-var week = 7 * day; // in seconds
-// https://www.quora.com/What-is-the-average-number-of-days-in-a-month
-
-var month = 30.44 * day; // in seconds
-// "400 years have 146097 days (taking into account leap year rules)"
-
-var year = 146097 / 400 * day; // in seconds
-
-function getSecondsInUnit(unit) {
-  switch (unit) {
-    case 'second':
-      return 1;
-
-    case 'minute':
-      return minute;
-
-    case 'hour':
-      return hour;
-
-    case 'day':
-      return day;
-
-    case 'week':
-      return week;
-
-    case 'month':
-      return month;
-
-    case 'year':
-      return year;
-  }
-} // export function getPreviousUnitFor(unit) {
-// 	switch (unit) {
-// 		case 'second':
-// 			return 'now'
-// 		case 'minute':
-// 			return 'second'
-// 		case 'hour':
-// 			return 'minute'
-// 		case 'day':
-// 			return 'hour'
-// 		case 'week':
-// 			return 'day'
-// 		case 'month':
-// 			return 'week'
-// 		case 'year':
-// 			return 'month'
-// 	}
-// }
-//# sourceMappingURL=units.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/style/approximate.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/style/approximate.js ***!
-  \***********************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _steps_approximate_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../steps/approximate.js */ "./node_modules/javascript-time-ago/modules/steps/approximate.js");
- // "gradation" is a legacy name for "steps".
-// It's here just for legacy compatibility.
-// Use "steps" name instead.
-// "flavour" is a legacy name for "labels".
-// It's here just for legacy compatibility.
-// Use "labels" name instead.
-// "units" is a legacy property.
-// It's here just for legacy compatibility.
-// Developers shouldn't need to use it in their custom styles.
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  gradation: _steps_approximate_js__WEBPACK_IMPORTED_MODULE_0__["default"],
-  flavour: 'long',
-  units: ['now', 'minute', 'hour', 'day', 'week', 'month', 'year']
-});
-//# sourceMappingURL=approximate.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/style/approximateTime.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/style/approximateTime.js ***!
-  \***************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _steps_approximate_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../steps/approximate.js */ "./node_modules/javascript-time-ago/modules/steps/approximate.js");
- // "gradation" is a legacy name for "steps".
-// It's here just for legacy compatibility.
-// Use "steps" name instead.
-// "flavour" is a legacy name for "labels".
-// It's here just for legacy compatibility.
-// Use "labels" name instead.
-// "units" is a legacy property.
-// It's here just for legacy compatibility.
-// Developers shouldn't need to use it in their custom styles.
-// Similar to the default style but with "ago" omitted.
-//
-// just now
-// 5 minutes
-// 10 minutes
-// 15 minutes
-// 20 minutes
-// an hour
-// 2 hours
-// …
-// 20 hours
-// 1 day
-// 2 days
-// a week
-// 2 weeks
-// 3 weeks
-// a month
-// 2 months
-// 3 months
-// 4 months
-// a year
-// 2 years
-//
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  gradation: _steps_approximate_js__WEBPACK_IMPORTED_MODULE_0__["default"],
-  flavour: 'long-time',
-  units: ['now', 'minute', 'hour', 'day', 'week', 'month', 'year']
-});
-//# sourceMappingURL=approximateTime.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/style/getStyleByName.js":
-/*!**************************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/style/getStyleByName.js ***!
-  \**************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ getStyleByName)
-/* harmony export */ });
-/* harmony import */ var _round_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./round.js */ "./node_modules/javascript-time-ago/modules/style/round.js");
-/* harmony import */ var _roundMinute_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./roundMinute.js */ "./node_modules/javascript-time-ago/modules/style/roundMinute.js");
-/* harmony import */ var _approximate_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./approximate.js */ "./node_modules/javascript-time-ago/modules/style/approximate.js");
-/* harmony import */ var _approximateTime_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./approximateTime.js */ "./node_modules/javascript-time-ago/modules/style/approximateTime.js");
-/* harmony import */ var _twitter_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./twitter.js */ "./node_modules/javascript-time-ago/modules/style/twitter.js");
-/* harmony import */ var _twitterNow_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./twitterNow.js */ "./node_modules/javascript-time-ago/modules/style/twitterNow.js");
-/* harmony import */ var _twitterMinute_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./twitterMinute.js */ "./node_modules/javascript-time-ago/modules/style/twitterMinute.js");
-/* harmony import */ var _twitterMinuteNow_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./twitterMinuteNow.js */ "./node_modules/javascript-time-ago/modules/style/twitterMinuteNow.js");
-/* harmony import */ var _twitterFirstMinute_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./twitterFirstMinute.js */ "./node_modules/javascript-time-ago/modules/style/twitterFirstMinute.js");
-/* harmony import */ var _mini_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./mini.js */ "./node_modules/javascript-time-ago/modules/style/mini.js");
-/* harmony import */ var _miniNow_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./miniNow.js */ "./node_modules/javascript-time-ago/modules/style/miniNow.js");
-/* harmony import */ var _miniMinute_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./miniMinute.js */ "./node_modules/javascript-time-ago/modules/style/miniMinute.js");
-/* harmony import */ var _miniMinuteNow_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./miniMinuteNow.js */ "./node_modules/javascript-time-ago/modules/style/miniMinuteNow.js");
-
- // `approximate` style is deprecated.
-
- // `approximateTime` style is deprecated.
-
-
-
-
-
-
-
-
-
-
-
-function getStyleByName(style) {
-  switch (style) {
-    // "default" style name is deprecated.
-    case 'default':
-    case 'round':
-      return _round_js__WEBPACK_IMPORTED_MODULE_0__["default"];
-
-    case 'round-minute':
-      return _roundMinute_js__WEBPACK_IMPORTED_MODULE_1__["default"];
-
-    case 'approximate':
-      return _approximate_js__WEBPACK_IMPORTED_MODULE_2__["default"];
-    // "time" style name is deprecated.
-
-    case 'time':
-    case 'approximate-time':
-      return _approximateTime_js__WEBPACK_IMPORTED_MODULE_3__["default"];
-
-    case 'mini':
-      return _mini_js__WEBPACK_IMPORTED_MODULE_4__["default"];
-
-    case 'mini-now':
-      return _miniNow_js__WEBPACK_IMPORTED_MODULE_5__["default"];
-
-    case 'mini-minute':
-      return _miniMinute_js__WEBPACK_IMPORTED_MODULE_6__["default"];
-
-    case 'mini-minute-now':
-      return _miniMinuteNow_js__WEBPACK_IMPORTED_MODULE_7__["default"];
-
-    case 'twitter':
-      return _twitter_js__WEBPACK_IMPORTED_MODULE_8__["default"];
-
-    case 'twitter-now':
-      return _twitterNow_js__WEBPACK_IMPORTED_MODULE_9__["default"];
-
-    case 'twitter-minute':
-      return _twitterMinute_js__WEBPACK_IMPORTED_MODULE_10__["default"];
-
-    case 'twitter-minute-now':
-      return _twitterMinuteNow_js__WEBPACK_IMPORTED_MODULE_11__["default"];
-
-    case 'twitter-first-minute':
-      return _twitterFirstMinute_js__WEBPACK_IMPORTED_MODULE_12__["default"];
-
-    default:
-      // For historical reasons, the default style is "approximate".
-      return _approximate_js__WEBPACK_IMPORTED_MODULE_2__["default"];
-  }
-}
-//# sourceMappingURL=getStyleByName.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/style/mini.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/style/mini.js ***!
-  \****************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  steps: [{
-    formatAs: 'second'
-  }, {
-    formatAs: 'minute'
-  }, {
-    formatAs: 'hour'
-  }, {
-    formatAs: 'day'
-  }, {
-    formatAs: 'month'
-  }, {
-    formatAs: 'year'
-  }],
-  labels: [// "mini" labels are only defined for a few languages.
-  'mini', // "short-time" labels are only defined for a few languages.
-  'short-time', // "narrow" and "short" labels are defined for all languages.
-  // "narrow" labels can sometimes be weird (like "+5d."),
-  // but "short" labels have the " ago" part, so "narrow" seem
-  // more appropriate.
-  // "short" labels would have been more appropriate if they
-  // didn't have the " ago" part, hence the "short-time" above.
-  'narrow', // Since "narrow" labels are always present, "short" element
-  // of this array can be removed.
-  'short']
-});
-//# sourceMappingURL=mini.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/style/miniMinute.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/style/miniMinute.js ***!
-  \**********************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _mini_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mini.js */ "./node_modules/javascript-time-ago/modules/style/mini.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_objectSpread(_objectSpread({}, _mini_js__WEBPACK_IMPORTED_MODULE_0__["default"]), {}, {
-  // Skip "seconds".
-  steps: _mini_js__WEBPACK_IMPORTED_MODULE_0__["default"].steps.filter(function (step) {
-    return step.formatAs !== 'second';
-  })
-}));
-//# sourceMappingURL=miniMinute.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/style/miniMinuteNow.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/style/miniMinuteNow.js ***!
-  \*************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _miniMinute_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./miniMinute.js */ "./node_modules/javascript-time-ago/modules/style/miniMinute.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_objectSpread(_objectSpread({}, _miniMinute_js__WEBPACK_IMPORTED_MODULE_0__["default"]), {}, {
-  // Add "now".
-  steps: [{
-    formatAs: 'now'
-  }].concat(_miniMinute_js__WEBPACK_IMPORTED_MODULE_0__["default"].steps)
-}));
-//# sourceMappingURL=miniMinuteNow.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/style/miniNow.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/style/miniNow.js ***!
-  \*******************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _mini_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mini.js */ "./node_modules/javascript-time-ago/modules/style/mini.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_objectSpread(_objectSpread({}, _mini_js__WEBPACK_IMPORTED_MODULE_0__["default"]), {}, {
-  // Add "now".
-  steps: [{
-    formatAs: 'now'
-  }].concat(_mini_js__WEBPACK_IMPORTED_MODULE_0__["default"].steps)
-}));
-//# sourceMappingURL=miniNow.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/style/round.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/style/round.js ***!
-  \*****************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _steps_round_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../steps/round.js */ "./node_modules/javascript-time-ago/modules/steps/round.js");
- // just now
-// 1 second ago
-// 2 seconds ago
-// …
-// 59 seconds ago
-// 1 minute ago
-// 2 minutes ago
-// …
-// 59 minutes ago
-// 1 minute ago
-// 2 minutes ago
-// …
-// 59 minutes ago
-// 1 hour ago
-// 2 hours ago
-// …
-// 24 hours ago
-// 1 day ago
-// 2 days ago
-// …
-// 6 days ago
-// 1 week ago
-// 2 weeks ago
-// 3 weeks ago
-// 4 weeks ago
-// 1 month ago
-// 2 months ago
-// …
-// 11 months ago
-// 1 year ago
-// 2 years ago
-// …
-//
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  steps: _steps_round_js__WEBPACK_IMPORTED_MODULE_0__["default"],
-  labels: 'long'
-});
-//# sourceMappingURL=round.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/style/roundMinute.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/style/roundMinute.js ***!
-  \***********************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _round_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./round.js */ "./node_modules/javascript-time-ago/modules/style/round.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
- // just now
-// 1 minute ago
-// 2 minutes ago
-// …
-// 59 minutes ago
-// 1 minute ago
-// 2 minutes ago
-// …
-// 59 minutes ago
-// 1 hour ago
-// 2 hours ago
-// …
-// 24 hours ago
-// 1 day ago
-// 2 days ago
-// …
-// 6 days ago
-// 1 week ago
-// 2 weeks ago
-// 3 weeks ago
-// 4 weeks ago
-// 1 month ago
-// 2 months ago
-// …
-// 11 months ago
-// 1 year ago
-// 2 years ago
-// …
-//
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_objectSpread(_objectSpread({}, _round_js__WEBPACK_IMPORTED_MODULE_0__["default"]), {}, {
-  // Skip "seconds".
-  steps: _round_js__WEBPACK_IMPORTED_MODULE_0__["default"].steps.filter(function (step) {
-    return step.formatAs !== 'second';
-  })
-}));
-//# sourceMappingURL=roundMinute.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/style/twitter.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/style/twitter.js ***!
-  \*******************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _steps_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../steps/index.js */ "./node_modules/javascript-time-ago/modules/steps/helpers.js");
-/* harmony import */ var _locale_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../locale.js */ "./node_modules/javascript-time-ago/modules/locale.js");
-
- // For compatibility with the old versions of this library.
-
- // Twitter-style relative date/time formatting.
-// ("1m", "2h", "Mar 3", "Apr 4, 2012").
-//
-// Seconds, minutes or hours are shown for shorter intervals,
-// and longer intervals are formatted using full date format.
-
-var steps = [{
-  formatAs: 'second'
-}, {
-  formatAs: 'minute'
-}, {
-  formatAs: 'hour'
-}]; // A cache for `Intl.DateTimeFormat` formatters
-// for various locales (is a global variable).
-
-var formatters = {}; // Starting from day intervals, output month and day.
-
-var monthAndDay = {
-  minTime: function minTime(timestamp, _ref) {
-    var future = _ref.future,
-        getMinTimeForUnit = _ref.getMinTimeForUnit;
-    // Returns `23.5 * 60 * 60` when `round` is "round",
-    // and `24 * 60 * 60` when `round` is "floor".
-    return getMinTimeForUnit('day');
-  },
-  format: function format(value, locale) {
-    /* istanbul ignore else */
-    if (!formatters[locale]) {
-      formatters[locale] = {};
-    }
-    /* istanbul ignore else */
-
-
-    if (!formatters[locale].dayMonth) {
-      // "Apr 11" (MMMd)
-      formatters[locale].dayMonth = new Intl.DateTimeFormat(locale, {
-        month: 'short',
-        day: 'numeric'
-      });
-    } // Output month and day.
-
-
-    return formatters[locale].dayMonth.format((0,_steps_index_js__WEBPACK_IMPORTED_MODULE_0__.getDate)(value));
-  }
-}; // If the `date` happened/happens outside of current year,
-// then output day, month and year.
-// The interval should be such that the `date` lies outside of the current year.
-
-var yearMonthAndDay = {
-  minTime: function minTime(timestamp, _ref2) {
-    var future = _ref2.future;
-
-    if (future) {
-      // January 1, 00:00, of the `date`'s year is right after
-      // the maximum `now` for formatting a future date:
-      // When `now` is before that date, the `date` is formatted as "day/month/year" (this step),
-      // When `now` is equal to or after that date, the `date` is formatted as "day/month" (another step).
-      // After that, it's hours, minutes, seconds, and after that it's no longer `future`.
-      // The date is right after the maximum `now` for formatting a future date,
-      // so subtract 1 millisecond from it.
-      var maxFittingNow = new Date(new Date(timestamp).getFullYear(), 0).getTime() - 1; // Return `minTime` (in seconds).
-
-      return (timestamp - maxFittingNow) / 1000;
-    } else {
-      // January 1, 00:00, of the year following the `date`'s year
-      // is the minimum `now` for formatting a past date:
-      // When `now` is before that date, the `date` is formatted as "day/month" (another step),
-      // When `now` is equal to or after that date, the `date` is formatted as "day/month/year" (this step).
-      // After that, it's hours, minutes, seconds, and after that it's no longer `future`.
-      var minFittingNow = new Date(new Date(timestamp).getFullYear() + 1, 0).getTime(); // Return `minTime` (in seconds).
-
-      return (minFittingNow - timestamp) / 1000;
-    }
-  },
-  format: function format(value, locale) {
-    /* istanbul ignore if */
-    if (!formatters[locale]) {
-      formatters[locale] = {};
-    }
-    /* istanbul ignore else */
-
-
-    if (!formatters[locale].dayMonthYear) {
-      // "Apr 11, 2017" (yMMMd)
-      formatters[locale].dayMonthYear = new Intl.DateTimeFormat(locale, {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      });
-    } // Output day, month and year.
-
-
-    return formatters[locale].dayMonthYear.format((0,_steps_index_js__WEBPACK_IMPORTED_MODULE_0__.getDate)(value));
-  }
-}; // If `Intl.DateTimeFormat` is supported,
-// then longer time intervals will be formatted as dates.
-
-/* istanbul ignore else */
-
-if ((0,_locale_js__WEBPACK_IMPORTED_MODULE_1__.intlDateTimeFormatSupported)()) {
-  steps.push(monthAndDay, yearMonthAndDay);
-} // Otherwise, if `Intl.DateTimeFormat` is not supported,
-// which could be the case when using Internet Explorer,
-// then simply mimick "round" steps.
-else {
-  steps.push({
-    formatAs: 'day'
-  }, {
-    formatAs: 'week'
-  }, {
-    formatAs: 'month'
-  }, {
-    formatAs: 'year'
-  });
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  steps: steps,
-  labels: [// "mini" labels are only defined for a few languages.
-  'mini', // "short-time" labels are only defined for a few languages.
-  'short-time', // "narrow" and "short" labels are defined for all languages.
-  // "narrow" labels can sometimes be weird (like "+5d."),
-  // but "short" labels have the " ago" part, so "narrow" seem
-  // more appropriate.
-  // "short" labels would have been more appropriate if they
-  // didn't have the " ago" part, hence the "short-time" above.
-  'narrow', // Since "narrow" labels are always present, "short" element
-  // of this array can be removed.
-  'short']
-});
-//# sourceMappingURL=twitter.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/style/twitterFirstMinute.js":
-/*!******************************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/style/twitterFirstMinute.js ***!
-  \******************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _steps_units_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../steps/units.js */ "./node_modules/javascript-time-ago/modules/steps/units.js");
-/* harmony import */ var _twitter_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./twitter.js */ "./node_modules/javascript-time-ago/modules/style/twitter.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_objectSpread(_objectSpread({}, _twitter_js__WEBPACK_IMPORTED_MODULE_0__["default"]), {}, {
-  // Skip "seconds".
-  steps: _twitter_js__WEBPACK_IMPORTED_MODULE_0__["default"].steps.filter(function (step) {
-    return step.formatAs !== 'second';
-  }) // Start showing `1m` from the first minute.
-  .map(function (step) {
-    return step.formatAs === 'minute' ? _objectSpread(_objectSpread({}, step), {}, {
-      minTime: _steps_units_js__WEBPACK_IMPORTED_MODULE_1__.minute
-    }) : step;
-  })
-}));
-//# sourceMappingURL=twitterFirstMinute.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/style/twitterMinute.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/style/twitterMinute.js ***!
-  \*************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _twitter_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./twitter.js */ "./node_modules/javascript-time-ago/modules/style/twitter.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_objectSpread(_objectSpread({}, _twitter_js__WEBPACK_IMPORTED_MODULE_0__["default"]), {}, {
-  // Skip "seconds".
-  steps: _twitter_js__WEBPACK_IMPORTED_MODULE_0__["default"].steps.filter(function (step) {
-    return step.formatAs !== 'second';
-  })
-}));
-//# sourceMappingURL=twitterMinute.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/style/twitterMinuteNow.js":
-/*!****************************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/style/twitterMinuteNow.js ***!
-  \****************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _twitterMinute_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./twitterMinute.js */ "./node_modules/javascript-time-ago/modules/style/twitterMinute.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_objectSpread(_objectSpread({}, _twitterMinute_js__WEBPACK_IMPORTED_MODULE_0__["default"]), {}, {
-  // Add "now".
-  steps: [{
-    formatAs: 'now'
-  }].concat(_twitterMinute_js__WEBPACK_IMPORTED_MODULE_0__["default"].steps)
-}));
-//# sourceMappingURL=twitterMinuteNow.js.map
-
-/***/ }),
-
-/***/ "./node_modules/javascript-time-ago/modules/style/twitterNow.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/javascript-time-ago/modules/style/twitterNow.js ***!
-  \**********************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _twitter_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./twitter.js */ "./node_modules/javascript-time-ago/modules/style/twitter.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_objectSpread(_objectSpread({}, _twitter_js__WEBPACK_IMPORTED_MODULE_0__["default"]), {}, {
-  // Add "now".
-  steps: [{
-    formatAs: 'now'
-  }].concat(_twitter_js__WEBPACK_IMPORTED_MODULE_0__["default"].steps)
-}));
-//# sourceMappingURL=twitterNow.js.map
-
-/***/ }),
-
-/***/ "./node_modules/relative-time-format/modules/LocaleDataStore.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/relative-time-format/modules/LocaleDataStore.js ***!
-  \**********************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   addLocaleData: () => (/* binding */ addLocaleData),
-/* harmony export */   getDefaultLocale: () => (/* binding */ getDefaultLocale),
-/* harmony export */   getLocaleData: () => (/* binding */ getLocaleData),
-/* harmony export */   resolveLocale: () => (/* binding */ resolveLocale),
-/* harmony export */   setDefaultLocale: () => (/* binding */ setDefaultLocale)
-/* harmony export */ });
-// Fallback locale.
-// (when not a single one of the supplied "preferred" locales is available)
-var defaultLocale = 'en'; // For all locales added
-// their relative time formatter messages will be stored here.
-
-var localesData = {}; // According to the spec BCP 47 language tags are case-insensitive.
-// https://tools.ietf.org/html/rfc5646
-
-var lowercaseLocaleLookup = {};
-function getDefaultLocale() {
-  return defaultLocale;
-}
-function setDefaultLocale(locale) {
-  defaultLocale = locale;
-}
-/**
- * Gets locale data previously added by `addLocaleData()`.
- * @return  {object} [localeData]
- */
-
-function getLocaleData(locale) {
-  return localesData[locale];
-}
-/**
- * Adds locale data.
- * Is called by `RelativeTimeFormat.addLocale(...)`.
- * @param  {object} localeData
- */
-
-function addLocaleData(localeData) {
-  if (!localeData) {
-    throw new Error('No locale data passed');
-  } // This locale data is stored in a global variable
-  // and later used when calling `.format(time)`.
-
-
-  localesData[localeData.locale] = localeData;
-  lowercaseLocaleLookup[localeData.locale.toLowerCase()] = localeData.locale;
-}
-/**
- * Returns a locale for which locale data has been added
- * via `RelativeTimeFormat.addLocale(...)`.
- * @param  {string} locale
- * @return {string} [locale]
- */
-
-function resolveLocale(locale) {
-  if (localesData[locale]) {
-    return locale;
-  }
-
-  if (lowercaseLocaleLookup[locale.toLowerCase()]) {
-    return lowercaseLocaleLookup[locale.toLowerCase()];
-  }
-}
-//# sourceMappingURL=LocaleDataStore.js.map
-
-/***/ }),
-
-/***/ "./node_modules/relative-time-format/modules/PluralRuleFunctions.js":
-/*!**************************************************************************!*\
-  !*** ./node_modules/relative-time-format/modules/PluralRuleFunctions.js ***!
-  \**************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-// (this file was autogenerated by `generate-locales`)
-// "plural rules" functions are not stored in locale JSON files because they're not strings.
-// This file isn't big — it's about 5 kilobytes in size (minified).
-// Alternatively, the pluralization rules for each locale could be stored
-// in their JSON files in a non-parsed form and later parsed via `make-plural` library.
-// But `make-plural` library itself is relatively big in size:
-// `make-plural.min.js` is about 6 kilobytes (https://unpkg.com/make-plural/).
-// So, it's more practical to bypass runtime `make-plural` pluralization rules compilation
-// and just include the already compiled pluarlization rules for all locales in the library code.
-var $ = {
-  af: function af(n) {
-    return n == 1 ? 'one' : 'other';
-  },
-  am: function am(n) {
-    return n >= 0 && n <= 1 ? 'one' : 'other';
-  },
-  ar: function ar(n) {
-    var s = String(n).split('.'),
-        t0 = Number(s[0]) == n,
-        n100 = t0 && s[0].slice(-2);
-    return n == 0 ? 'zero' : n == 1 ? 'one' : n == 2 ? 'two' : n100 >= 3 && n100 <= 10 ? 'few' : n100 >= 11 && n100 <= 99 ? 'many' : 'other';
-  },
-  ast: function ast(n) {
-    var s = String(n).split('.'),
-        v0 = !s[1];
-    return n == 1 && v0 ? 'one' : 'other';
-  },
-  be: function be(n) {
-    var s = String(n).split('.'),
-        t0 = Number(s[0]) == n,
-        n10 = t0 && s[0].slice(-1),
-        n100 = t0 && s[0].slice(-2);
-    return n10 == 1 && n100 != 11 ? 'one' : n10 >= 2 && n10 <= 4 && (n100 < 12 || n100 > 14) ? 'few' : t0 && n10 == 0 || n10 >= 5 && n10 <= 9 || n100 >= 11 && n100 <= 14 ? 'many' : 'other';
-  },
-  br: function br(n) {
-    var s = String(n).split('.'),
-        t0 = Number(s[0]) == n,
-        n10 = t0 && s[0].slice(-1),
-        n100 = t0 && s[0].slice(-2),
-        n1000000 = t0 && s[0].slice(-6);
-    return n10 == 1 && n100 != 11 && n100 != 71 && n100 != 91 ? 'one' : n10 == 2 && n100 != 12 && n100 != 72 && n100 != 92 ? 'two' : (n10 == 3 || n10 == 4 || n10 == 9) && (n100 < 10 || n100 > 19) && (n100 < 70 || n100 > 79) && (n100 < 90 || n100 > 99) ? 'few' : n != 0 && t0 && n1000000 == 0 ? 'many' : 'other';
-  },
-  bs: function bs(n) {
-    var s = String(n).split('.'),
-        i = s[0],
-        f = s[1] || '',
-        v0 = !s[1],
-        i10 = i.slice(-1),
-        i100 = i.slice(-2),
-        f10 = f.slice(-1),
-        f100 = f.slice(-2);
-    return v0 && i10 == 1 && i100 != 11 || f10 == 1 && f100 != 11 ? 'one' : v0 && i10 >= 2 && i10 <= 4 && (i100 < 12 || i100 > 14) || f10 >= 2 && f10 <= 4 && (f100 < 12 || f100 > 14) ? 'few' : 'other';
-  },
-  ca: function ca(n) {
-    var s = String(n).split('.'),
-        i = s[0],
-        v0 = !s[1],
-        i1000000 = i.slice(-6);
-    return n == 1 && v0 ? 'one' : i != 0 && i1000000 == 0 && v0 ? 'many' : 'other';
-  },
-  ceb: function ceb(n) {
-    var s = String(n).split('.'),
-        i = s[0],
-        f = s[1] || '',
-        v0 = !s[1],
-        i10 = i.slice(-1),
-        f10 = f.slice(-1);
-    return v0 && (i == 1 || i == 2 || i == 3) || v0 && i10 != 4 && i10 != 6 && i10 != 9 || !v0 && f10 != 4 && f10 != 6 && f10 != 9 ? 'one' : 'other';
-  },
-  cs: function cs(n) {
-    var s = String(n).split('.'),
-        i = s[0],
-        v0 = !s[1];
-    return n == 1 && v0 ? 'one' : i >= 2 && i <= 4 && v0 ? 'few' : !v0 ? 'many' : 'other';
-  },
-  cy: function cy(n) {
-    return n == 0 ? 'zero' : n == 1 ? 'one' : n == 2 ? 'two' : n == 3 ? 'few' : n == 6 ? 'many' : 'other';
-  },
-  da: function da(n) {
-    var s = String(n).split('.'),
-        i = s[0],
-        t0 = Number(s[0]) == n;
-    return n == 1 || !t0 && (i == 0 || i == 1) ? 'one' : 'other';
-  },
-  dsb: function dsb(n) {
-    var s = String(n).split('.'),
-        i = s[0],
-        f = s[1] || '',
-        v0 = !s[1],
-        i100 = i.slice(-2),
-        f100 = f.slice(-2);
-    return v0 && i100 == 1 || f100 == 1 ? 'one' : v0 && i100 == 2 || f100 == 2 ? 'two' : v0 && (i100 == 3 || i100 == 4) || f100 == 3 || f100 == 4 ? 'few' : 'other';
-  },
-  dz: function dz(n) {
-    return 'other';
-  },
-  es: function es(n) {
-    var s = String(n).split('.'),
-        i = s[0],
-        v0 = !s[1],
-        i1000000 = i.slice(-6);
-    return n == 1 ? 'one' : i != 0 && i1000000 == 0 && v0 ? 'many' : 'other';
-  },
-  ff: function ff(n) {
-    return n >= 0 && n < 2 ? 'one' : 'other';
-  },
-  fr: function fr(n) {
-    var s = String(n).split('.'),
-        i = s[0],
-        v0 = !s[1],
-        i1000000 = i.slice(-6);
-    return n >= 0 && n < 2 ? 'one' : i != 0 && i1000000 == 0 && v0 ? 'many' : 'other';
-  },
-  ga: function ga(n) {
-    var s = String(n).split('.'),
-        t0 = Number(s[0]) == n;
-    return n == 1 ? 'one' : n == 2 ? 'two' : t0 && n >= 3 && n <= 6 ? 'few' : t0 && n >= 7 && n <= 10 ? 'many' : 'other';
-  },
-  gd: function gd(n) {
-    var s = String(n).split('.'),
-        t0 = Number(s[0]) == n;
-    return n == 1 || n == 11 ? 'one' : n == 2 || n == 12 ? 'two' : t0 && n >= 3 && n <= 10 || t0 && n >= 13 && n <= 19 ? 'few' : 'other';
-  },
-  he: function he(n) {
-    var s = String(n).split('.'),
-        i = s[0],
-        v0 = !s[1];
-    return i == 1 && v0 || i == 0 && !v0 ? 'one' : i == 2 && v0 ? 'two' : 'other';
-  },
-  is: function is(n) {
-    var s = String(n).split('.'),
-        i = s[0],
-        t = (s[1] || '').replace(/0+$/, ''),
-        t0 = Number(s[0]) == n,
-        i10 = i.slice(-1),
-        i100 = i.slice(-2);
-    return t0 && i10 == 1 && i100 != 11 || t % 10 == 1 && t % 100 != 11 ? 'one' : 'other';
-  },
-  ksh: function ksh(n) {
-    return n == 0 ? 'zero' : n == 1 ? 'one' : 'other';
-  },
-  lt: function lt(n) {
-    var s = String(n).split('.'),
-        f = s[1] || '',
-        t0 = Number(s[0]) == n,
-        n10 = t0 && s[0].slice(-1),
-        n100 = t0 && s[0].slice(-2);
-    return n10 == 1 && (n100 < 11 || n100 > 19) ? 'one' : n10 >= 2 && n10 <= 9 && (n100 < 11 || n100 > 19) ? 'few' : f != 0 ? 'many' : 'other';
-  },
-  lv: function lv(n) {
-    var s = String(n).split('.'),
-        f = s[1] || '',
-        v = f.length,
-        t0 = Number(s[0]) == n,
-        n10 = t0 && s[0].slice(-1),
-        n100 = t0 && s[0].slice(-2),
-        f100 = f.slice(-2),
-        f10 = f.slice(-1);
-    return t0 && n10 == 0 || n100 >= 11 && n100 <= 19 || v == 2 && f100 >= 11 && f100 <= 19 ? 'zero' : n10 == 1 && n100 != 11 || v == 2 && f10 == 1 && f100 != 11 || v != 2 && f10 == 1 ? 'one' : 'other';
-  },
-  mk: function mk(n) {
-    var s = String(n).split('.'),
-        i = s[0],
-        f = s[1] || '',
-        v0 = !s[1],
-        i10 = i.slice(-1),
-        i100 = i.slice(-2),
-        f10 = f.slice(-1),
-        f100 = f.slice(-2);
-    return v0 && i10 == 1 && i100 != 11 || f10 == 1 && f100 != 11 ? 'one' : 'other';
-  },
-  mt: function mt(n) {
-    var s = String(n).split('.'),
-        t0 = Number(s[0]) == n,
-        n100 = t0 && s[0].slice(-2);
-    return n == 1 ? 'one' : n == 2 ? 'two' : n == 0 || n100 >= 3 && n100 <= 10 ? 'few' : n100 >= 11 && n100 <= 19 ? 'many' : 'other';
-  },
-  pa: function pa(n) {
-    return n == 0 || n == 1 ? 'one' : 'other';
-  },
-  pl: function pl(n) {
-    var s = String(n).split('.'),
-        i = s[0],
-        v0 = !s[1],
-        i10 = i.slice(-1),
-        i100 = i.slice(-2);
-    return n == 1 && v0 ? 'one' : v0 && i10 >= 2 && i10 <= 4 && (i100 < 12 || i100 > 14) ? 'few' : v0 && i != 1 && (i10 == 0 || i10 == 1) || v0 && i10 >= 5 && i10 <= 9 || v0 && i100 >= 12 && i100 <= 14 ? 'many' : 'other';
-  },
-  pt: function pt(n) {
-    var s = String(n).split('.'),
-        i = s[0],
-        v0 = !s[1],
-        i1000000 = i.slice(-6);
-    return i == 0 || i == 1 ? 'one' : i != 0 && i1000000 == 0 && v0 ? 'many' : 'other';
-  },
-  ro: function ro(n) {
-    var s = String(n).split('.'),
-        v0 = !s[1],
-        t0 = Number(s[0]) == n,
-        n100 = t0 && s[0].slice(-2);
-    return n == 1 && v0 ? 'one' : !v0 || n == 0 || n != 1 && n100 >= 1 && n100 <= 19 ? 'few' : 'other';
-  },
-  ru: function ru(n) {
-    var s = String(n).split('.'),
-        i = s[0],
-        v0 = !s[1],
-        i10 = i.slice(-1),
-        i100 = i.slice(-2);
-    return v0 && i10 == 1 && i100 != 11 ? 'one' : v0 && i10 >= 2 && i10 <= 4 && (i100 < 12 || i100 > 14) ? 'few' : v0 && i10 == 0 || v0 && i10 >= 5 && i10 <= 9 || v0 && i100 >= 11 && i100 <= 14 ? 'many' : 'other';
-  },
-  se: function se(n) {
-    return n == 1 ? 'one' : n == 2 ? 'two' : 'other';
-  },
-  si: function si(n) {
-    var s = String(n).split('.'),
-        i = s[0],
-        f = s[1] || '';
-    return n == 0 || n == 1 || i == 0 && f == 1 ? 'one' : 'other';
-  },
-  sl: function sl(n) {
-    var s = String(n).split('.'),
-        i = s[0],
-        v0 = !s[1],
-        i100 = i.slice(-2);
-    return v0 && i100 == 1 ? 'one' : v0 && i100 == 2 ? 'two' : v0 && (i100 == 3 || i100 == 4) || !v0 ? 'few' : 'other';
-  }
-};
-$.as = $.am;
-$.az = $.af;
-$.bg = $.af;
-$.bn = $.am;
-$.brx = $.af;
-$.ce = $.af;
-$.chr = $.af;
-$.de = $.ast;
-$.ee = $.af;
-$.el = $.af;
-$.en = $.ast;
-$.et = $.ast;
-$.eu = $.af;
-$.fa = $.am;
-$.fi = $.ast;
-$.fil = $.ceb;
-$.fo = $.af;
-$.fur = $.af;
-$.fy = $.ast;
-$.gl = $.ast;
-$.gu = $.am;
-$.ha = $.af;
-$.hi = $.am;
-$.hr = $.bs;
-$.hsb = $.dsb;
-$.hu = $.af;
-$.hy = $.ff;
-$.ia = $.ast;
-$.id = $.dz;
-$.ig = $.dz;
-$.it = $.ca;
-$.ja = $.dz;
-$.jgo = $.af;
-$.jv = $.dz;
-$.ka = $.af;
-$.kea = $.dz;
-$.kk = $.af;
-$.kl = $.af;
-$.km = $.dz;
-$.kn = $.am;
-$.ko = $.dz;
-$.ks = $.af;
-$.ku = $.af;
-$.ky = $.af;
-$.lb = $.af;
-$.lkt = $.dz;
-$.lo = $.dz;
-$.ml = $.af;
-$.mn = $.af;
-$.mr = $.af;
-$.ms = $.dz;
-$.my = $.dz;
-$.nb = $.af;
-$.ne = $.af;
-$.nl = $.ast;
-$.nn = $.af;
-$.no = $.af;
-$.or = $.af;
-$.pcm = $.am;
-$.ps = $.af;
-$.rm = $.af;
-$.sah = $.dz;
-$.sc = $.ast;
-$.sd = $.af;
-$.sk = $.cs;
-$.so = $.af;
-$.sq = $.af;
-$.sr = $.bs;
-$.su = $.dz;
-$.sv = $.ast;
-$.sw = $.ast;
-$.ta = $.af;
-$.te = $.af;
-$.th = $.dz;
-$.ti = $.pa;
-$.tk = $.af;
-$.to = $.dz;
-$.tr = $.af;
-$.ug = $.af;
-$.uk = $.ru;
-$.ur = $.ast;
-$.uz = $.af;
-$.vi = $.dz;
-$.wae = $.af;
-$.wo = $.dz;
-$.xh = $.af;
-$.yi = $.ast;
-$.yo = $.dz;
-$.yue = $.dz;
-$.zh = $.dz;
-$.zu = $.am;
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ($);
-//# sourceMappingURL=PluralRuleFunctions.js.map
-
-/***/ }),
-
-/***/ "./node_modules/relative-time-format/modules/PluralRules.js":
-/*!******************************************************************!*\
-  !*** ./node_modules/relative-time-format/modules/PluralRules.js ***!
-  \******************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ PluralRules)
-/* harmony export */ });
-/* harmony import */ var _PluralRuleFunctions_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PluralRuleFunctions.js */ "./node_modules/relative-time-format/modules/PluralRuleFunctions.js");
-/* harmony import */ var _getPluralRulesLocale_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getPluralRulesLocale.js */ "./node_modules/relative-time-format/modules/getPluralRulesLocale.js");
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-// Importing `PluralRule` polyfill from a separate package
-// results in a bundle that is larger by 1kB for some reason.
-// export { default as default } from 'intl-plural-rules-polyfill/cardinal'
-
-
-/**
- * `Intl.PluralRules` polyfill.
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/PluralRules
- */
-
-var PluralRules = /*#__PURE__*/function () {
-  function PluralRules(locale, options) {
-    _classCallCheck(this, PluralRules);
-
-    var locales = PluralRules.supportedLocalesOf(locale);
-
-    if (locales.length === 0) {
-      throw new RangeError("Unsupported locale: " + locale);
-    }
-
-    if (options && options.type !== "cardinal") {
-      throw new RangeError("Only \"cardinal\" \"type\" is supported");
-    }
-
-    this.$ = _PluralRuleFunctions_js__WEBPACK_IMPORTED_MODULE_0__["default"][(0,_getPluralRulesLocale_js__WEBPACK_IMPORTED_MODULE_1__["default"])(locales[0])];
-  }
-
-  _createClass(PluralRules, [{
-    key: "select",
-    value: function select(number) {
-      return this.$(number);
-    }
-  }], [{
-    key: "supportedLocalesOf",
-    value: function supportedLocalesOf(locales) {
-      if (typeof locales === "string") {
-        locales = [locales];
-      }
-
-      return locales.filter(function (locale) {
-        return _PluralRuleFunctions_js__WEBPACK_IMPORTED_MODULE_0__["default"][(0,_getPluralRulesLocale_js__WEBPACK_IMPORTED_MODULE_1__["default"])(locale)];
-      });
-    }
-  }]);
-
-  return PluralRules;
-}();
-
-
-//# sourceMappingURL=PluralRules.js.map
-
-/***/ }),
-
-/***/ "./node_modules/relative-time-format/modules/RelativeTimeFormat.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/relative-time-format/modules/RelativeTimeFormat.js ***!
-  \*************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   UNITS: () => (/* binding */ UNITS),
-/* harmony export */   "default": () => (/* binding */ RelativeTimeFormat)
-/* harmony export */ });
-/* harmony import */ var _LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LocaleDataStore.js */ "./node_modules/relative-time-format/modules/LocaleDataStore.js");
-/* harmony import */ var _resolveLocale_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./resolveLocale.js */ "./node_modules/relative-time-format/modules/resolveLocale.js");
-/* harmony import */ var _PluralRules_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PluralRules.js */ "./node_modules/relative-time-format/modules/PluralRules.js");
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-
-
- // Importing `PluralRule` polyfill from a separate package
-// results in a bundle that is larger by 1kB for some reason.
-// import PluralRules from 'intl-plural-rules-polyfill/cardinal'
-// Valid time units.
-
-var UNITS = ["second", "minute", "hour", "day", "week", "month", "quarter", "year"]; // Valid values for the `numeric` option.
-
-var NUMERIC_VALUES = ["auto", "always"]; // Valid values for the `style` option.
-
-var STYLE_VALUES = ["long", "short", "narrow"]; // Valid values for the `localeMatcher` option.
-
-var LOCALE_MATCHER_VALUES = ["lookup", "best fit"];
-/**
- * Polyfill for `Intl.RelativeTimeFormat` proposal.
- * https://github.com/tc39/proposal-intl-relative-time
- * https://github.com/tc39/proposal-intl-relative-time/issues/55
- */
-
-var RelativeTimeFormat = /*#__PURE__*/function () {
-  /**
-   * @param {(string|string[])} [locales] - Preferred locales (or locale).
-   * @param {Object} [options] - Formatting options.
-   * @param {string} [options.style="long"] - One of: "long", "short", "narrow".
-   * @param {string} [options.numeric="always"] - (Version >= 2) One of: "always", "auto".
-   * @param {string} [options.localeMatcher="lookup"] - One of: "lookup", "best fit". Currently only "lookup" is supported.
-   */
-  function RelativeTimeFormat() {
-    var locales = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-    _classCallCheck(this, RelativeTimeFormat);
-
-    var numeric = options.numeric,
-        style = options.style,
-        localeMatcher = options.localeMatcher;
-    this.numeric = "always";
-    this.style = "long";
-    this.localeMatcher = "lookup"; // Set `numeric` option.
-
-    if (numeric !== undefined) {
-      if (NUMERIC_VALUES.indexOf(numeric) < 0) {
-        throw new RangeError("Invalid \"numeric\" option: ".concat(numeric));
-      }
-
-      this.numeric = numeric;
-    } // Set `style` option.
-
-
-    if (style !== undefined) {
-      if (STYLE_VALUES.indexOf(style) < 0) {
-        throw new RangeError("Invalid \"style\" option: ".concat(style));
-      }
-
-      this.style = style;
-    } // Set `localeMatcher` option.
-
-
-    if (localeMatcher !== undefined) {
-      if (LOCALE_MATCHER_VALUES.indexOf(localeMatcher) < 0) {
-        throw new RangeError("Invalid \"localeMatcher\" option: ".concat(localeMatcher));
-      }
-
-      this.localeMatcher = localeMatcher;
-    } // Set `locale`.
-    // Convert `locales` to an array.
-
-
-    if (typeof locales === 'string') {
-      locales = [locales];
-    } // Add default locale.
-
-
-    locales.push((0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_0__.getDefaultLocale)()); // Choose the most appropriate locale.
-
-    this.locale = RelativeTimeFormat.supportedLocalesOf(locales, {
-      localeMatcher: this.localeMatcher
-    })[0];
-
-    if (!this.locale) {
-      throw new Error("No supported locale was found");
-    } // Construct an `Intl.PluralRules` instance (polyfill).
-
-
-    if (_PluralRules_js__WEBPACK_IMPORTED_MODULE_1__["default"].supportedLocalesOf(this.locale).length > 0) {
-      this.pluralRules = new _PluralRules_js__WEBPACK_IMPORTED_MODULE_1__["default"](this.locale);
-    } else {
-      console.warn("\"".concat(this.locale, "\" locale is not supported"));
-    } // Use `Intl.NumberFormat` for formatting numbers (when available).
-
-
-    if (typeof Intl !== 'undefined' && Intl.NumberFormat) {
-      this.numberFormat = new Intl.NumberFormat(this.locale);
-      this.numberingSystem = this.numberFormat.resolvedOptions().numberingSystem;
-    } else {
-      this.numberingSystem = 'latn';
-    }
-
-    this.locale = (0,_resolveLocale_js__WEBPACK_IMPORTED_MODULE_2__["default"])(this.locale, {
-      localeMatcher: this.localeMatcher
-    });
-  }
-  /**
-   * Formats time `number` in `units` (either in past or in future).
-   * @param {number} number - Time interval value.
-   * @param {string} unit - Time interval measurement unit.
-   * @return {string}
-   * @throws {RangeError} If unit is not one of "second", "minute", "hour", "day", "week", "month", "quarter".
-   * @example
-   * // Returns "2 days ago"
-   * rtf.format(-2, "day")
-   * // Returns "in 5 minutes"
-   * rtf.format(5, "minute")
-   */
-
-
-  _createClass(RelativeTimeFormat, [{
-    key: "format",
-    value: function format() {
-      var _parseFormatArgs = parseFormatArgs(arguments),
-          _parseFormatArgs2 = _slicedToArray(_parseFormatArgs, 2),
-          number = _parseFormatArgs2[0],
-          unit = _parseFormatArgs2[1];
-
-      return this.getRule(number, unit).replace('{0}', this.formatNumber(Math.abs(number)));
-    }
-    /**
-     * Formats time `number` in `units` (either in past or in future).
-     * @param {number} number - Time interval value.
-     * @param {string} unit - Time interval measurement unit.
-     * @return {Object[]} The parts (`{ type, value, unit? }`).
-     * @throws {RangeError} If unit is not one of "second", "minute", "hour", "day", "week", "month", "quarter".
-     * @example
-     * // Version 1 (deprecated).
-     * // Returns [
-     * //   { type: "literal", value: "in " },
-     * //   { type: "day", value: "100" },
-     * //   { type: "literal", value: " days" }
-     * // ]
-     * rtf.formatToParts(100, "day")
-     * //
-     * // Version 2.
-     * // Returns [
-     * //   { type: "literal", value: "in " },
-     * //   { type: "integer", value: "100", unit: "day" },
-     * //   { type: "literal", value: " days" }
-     * // ]
-     * rtf.formatToParts(100, "day")
-     */
-
-  }, {
-    key: "formatToParts",
-    value: function formatToParts() {
-      var _parseFormatArgs3 = parseFormatArgs(arguments),
-          _parseFormatArgs4 = _slicedToArray(_parseFormatArgs3, 2),
-          number = _parseFormatArgs4[0],
-          unit = _parseFormatArgs4[1];
-
-      var rule = this.getRule(number, unit);
-      var valueIndex = rule.indexOf("{0}"); // "yesterday"/"today"/"tomorrow".
-
-      if (valueIndex < 0) {
-        return [{
-          type: "literal",
-          value: rule
-        }];
-      }
-
-      var parts = [];
-
-      if (valueIndex > 0) {
-        parts.push({
-          type: "literal",
-          value: rule.slice(0, valueIndex)
-        });
-      }
-
-      parts = parts.concat(this.formatNumberToParts(Math.abs(number)).map(function (part) {
-        return _objectSpread(_objectSpread({}, part), {}, {
-          unit: unit
-        });
-      }));
-
-      if (valueIndex + "{0}".length < rule.length - 1) {
-        parts.push({
-          type: "literal",
-          value: rule.slice(valueIndex + "{0}".length)
-        });
-      }
-
-      return parts;
-    }
-    /**
-     * Returns formatting rule for `value` in `units` (either in past or in future).
-     * @param {number} value - Time interval value.
-     * @param {string} unit - Time interval measurement unit.
-     * @return {string}
-     * @throws {RangeError} If unit is not one of "second", "minute", "hour", "day", "week", "month", "quarter".
-     * @example
-     * // Returns "{0} days ago"
-     * getRule(-2, "day")
-     */
-
-  }, {
-    key: "getRule",
-    value: function getRule(value, unit) {
-      // Get locale-specific time interval formatting rules
-      // of a given `style` for the given value of measurement `unit`.
-      //
-      // E.g.:
-      //
-      // ```json
-      // {
-      //  "past": {
-      //    "one": "a second ago",
-      //    "other": "{0} seconds ago"
-      //  },
-      //  "future": {
-      //    "one": "in a second",
-      //    "other": "in {0} seconds"
-      //  }
-      // }
-      // ```
-      //
-      var unitMessages = (0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_0__.getLocaleData)(this.locale)[this.style][unit]; // Bundle size optimization technique for styles like
-      // "tiny" in `javascript-time-ago`: "1m", "2h", "3d"...
-
-      if (typeof unitMessages === 'string') {
-        return unitMessages;
-      } // Special case for "yesterday"/"today"/"tomorrow".
-
-
-      if (this.numeric === "auto") {
-        // "yesterday", "the day before yesterday", etc.
-        if (value === -2 || value === -1) {
-          var message = unitMessages["previous".concat(value === -1 ? '' : '-' + Math.abs(value))];
-
-          if (message) {
-            return message;
-          }
-        } // "tomorrow", "the day after tomorrow", etc.
-        else if (value === 1 || value === 2) {
-          var _message = unitMessages["next".concat(value === 1 ? '' : '-' + Math.abs(value))];
-
-          if (_message) {
-            return _message;
-          }
-        } // "today"
-        else if (value === 0) {
-          if (unitMessages.current) {
-            return unitMessages.current;
-          }
-        }
-      } // Choose either "past" or "future" based on time `value` sign.
-      // If there's only "other" then it's being collapsed.
-      // (the resulting bundle size optimization technique)
-
-
-      var pluralizedMessages = unitMessages[isNegative(value) ? "past" : "future"]; // Bundle size optimization technique for styles like "narrow"
-      // having messages like "in {0} d." or "{0} d. ago".
-
-      if (typeof pluralizedMessages === "string") {
-        return pluralizedMessages;
-      } // Quantify `value`.
-      // There seems to be no such locale in CLDR
-      // for which "plural rules" function is missing.
-
-
-      var quantifier = this.pluralRules && this.pluralRules.select(Math.abs(value)) || 'other'; // "other" rule is supposed to be always present.
-      // If only "other" rule is present then "rules" is not an object and is a string.
-
-      return pluralizedMessages[quantifier] || pluralizedMessages.other;
-    }
-    /**
-     * Formats a number into a string.
-     * Uses `Intl.NumberFormat` when available.
-     * @param  {number} number
-     * @return {string}
-     */
-
-  }, {
-    key: "formatNumber",
-    value: function formatNumber(number) {
-      return this.numberFormat ? this.numberFormat.format(number) : String(number);
-    }
-    /**
-     * Formats a number into a list of parts.
-     * Uses `Intl.NumberFormat` when available.
-     * @param  {number} number
-     * @return {object[]}
-     */
-
-  }, {
-    key: "formatNumberToParts",
-    value: function formatNumberToParts(number) {
-      // `Intl.NumberFormat.formatToParts()` is not present, for example,
-      // in Node.js 8.x while `Intl.NumberFormat` itself is present.
-      return this.numberFormat && this.numberFormat.formatToParts ? this.numberFormat.formatToParts(number) : [{
-        type: "integer",
-        value: this.formatNumber(number)
-      }];
-    }
-    /**
-     * Returns a new object with properties reflecting the locale and date and time formatting options computed during initialization of this DateTimeFormat object.
-     * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat/resolvedOptions
-     * @return {Object}
-     */
-
-  }, {
-    key: "resolvedOptions",
-    value: function resolvedOptions() {
-      return {
-        locale: this.locale,
-        style: this.style,
-        numeric: this.numeric,
-        numberingSystem: this.numberingSystem
-      };
-    }
-  }]);
-
-  return RelativeTimeFormat;
-}();
-/**
- * Returns an array containing those of the provided locales
- * that are supported in collation without having to fall back
- * to the runtime's default locale.
- * @param {(string|string[])} locale - A string with a BCP 47 language tag, or an array of such strings. For the general form of the locales argument, see the Intl page.
- * @param {Object} [options] - An object that may have the following property:
- * @param {string} [options.localeMatcher="lookup"] - The locale matching algorithm to use. Possible values are "lookup" and "best fit". Currently only "lookup" is supported.
- * @return {string[]} An array of strings representing a subset of the given locale tags that are supported in collation without having to fall back to the runtime's default locale.
- * @example
- * var locales = ['ban', 'id-u-co-pinyin', 'es-PY']
- * var options = { localeMatcher: 'lookup' }
- * // Returns ["id", "es-PY"]
- * Intl.RelativeTimeFormat.supportedLocalesOf(locales, options)
- */
-
-
-
-
-RelativeTimeFormat.supportedLocalesOf = function (locales) {
-  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-  // Convert `locales` to an array.
-  if (typeof locales === 'string') {
-    locales = [locales];
-  } else if (!Array.isArray(locales)) {
-    throw new TypeError('Invalid "locales" argument');
-  }
-
-  return locales.filter(function (locale) {
-    return (0,_resolveLocale_js__WEBPACK_IMPORTED_MODULE_2__["default"])(locale, options);
-  });
-};
-/**
- * Adds locale data for a specific locale.
- * @param {Object} localeData
- */
-
-
-RelativeTimeFormat.addLocale = _LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_0__.addLocaleData;
-/**
- * Sets default locale.
- * @param  {string} locale
- */
-
-RelativeTimeFormat.setDefaultLocale = _LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_0__.setDefaultLocale;
-/**
- * Gets default locale.
- * @return  {string} locale
- */
-
-RelativeTimeFormat.getDefaultLocale = _LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_0__.getDefaultLocale;
-/**
- * Export `Intl.PluralRules` just in case it's used somewhere else.
- */
-
-RelativeTimeFormat.PluralRules = _PluralRules_js__WEBPACK_IMPORTED_MODULE_1__["default"]; // The specification allows units to be in plural form.
-// Convert plural to singular.
-// Example: "seconds" -> "second".
-
-var UNIT_ERROR = 'Invalid "unit" argument';
-
-function parseUnit(unit) {
-  if (_typeof(unit) === 'symbol') {
-    throw new TypeError(UNIT_ERROR);
-  }
-
-  if (typeof unit !== 'string') {
-    throw new RangeError("".concat(UNIT_ERROR, ": ").concat(unit));
-  }
-
-  if (unit[unit.length - 1] === 's') {
-    unit = unit.slice(0, unit.length - 1);
-  }
-
-  if (UNITS.indexOf(unit) < 0) {
-    throw new RangeError("".concat(UNIT_ERROR, ": ").concat(unit));
-  }
-
-  return unit;
-} // Converts `value` to a `Number`.
-// The specification allows value to be a non-number.
-// For example, "-0" is supposed to be treated as `-0`.
-// Also checks if `value` is a finite number.
-
-
-var NUMBER_ERROR = 'Invalid "number" argument';
-
-function parseNumber(value) {
-  value = Number(value);
-
-  if (Number.isFinite) {
-    if (!Number.isFinite(value)) {
-      throw new RangeError("".concat(NUMBER_ERROR, ": ").concat(value));
-    }
-  }
-
-  return value;
-}
-/**
- * Tells `0` from `-0`.
- * https://stackoverflow.com/questions/7223359/are-0-and-0-the-same
- * @param  {number} number
- * @return {Boolean}
- * @example
- * isNegativeZero(0); // false
- * isNegativeZero(-0); // true
- */
-
-
-function isNegativeZero(number) {
-  return 1 / number === -Infinity;
-}
-
-function isNegative(number) {
-  return number < 0 || number === 0 && isNegativeZero(number);
-}
-
-function parseFormatArgs(args) {
-  if (args.length < 2) {
-    throw new TypeError("\"unit\" argument is required");
-  }
-
-  return [parseNumber(args[0]), parseUnit(args[1])];
-}
-//# sourceMappingURL=RelativeTimeFormat.js.map
-
-/***/ }),
-
-/***/ "./node_modules/relative-time-format/modules/getPluralRulesLocale.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/relative-time-format/modules/getPluralRulesLocale.js ***!
-  \***************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ getPluralRulesLocale)
-/* harmony export */ });
-/**
- * Returns a `locale` for which a function exists in `./PluralRuleFunctions.js`.
- * @param  {string} locale
- * @return {string}
- * @example
- * getPluralRulesLocale("ru-RU-Cyrl") // Returns "ru".
- */
-function getPluralRulesLocale(locale) {
-  // "pt" language is the only one having different pluralization rules
-  // for the one ("pt") (Portuguese) locale and the other ("pt-PT") (European Portuguese).
-  // http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html
-  // (see the entries for "pt" and "pt_PT" there)
-  if (locale === 'pt-PT') {
-    return locale;
-  }
-
-  return getLanguageFromLanguageTag(locale);
-}
-/**
- * Extracts language from an IETF BCP 47 language tag.
- * @param {string} languageTag - IETF BCP 47 language tag.
- * @return {string}
- * @example
- * // Returns "he"
- * getLanguageFromLanguageTag("he-IL-u-ca-hebrew-tz-jeruslm")
- * // Returns "ar"
- * getLanguageFromLanguageTag("ar-u-nu-latn")
- */
-
-var LANGUAGE_REG_EXP = /^([a-z0-9]+)/i;
-
-function getLanguageFromLanguageTag(languageTag) {
-  var match = languageTag.match(LANGUAGE_REG_EXP);
-
-  if (!match) {
-    throw new TypeError("Invalid locale: ".concat(languageTag));
-  }
-
-  return match[1];
-}
-//# sourceMappingURL=getPluralRulesLocale.js.map
-
-/***/ }),
-
-/***/ "./node_modules/relative-time-format/modules/resolveLocale.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/relative-time-format/modules/resolveLocale.js ***!
-  \********************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ resolveLocale),
-/* harmony export */   resolveLocaleLookup: () => (/* binding */ resolveLocaleLookup)
-/* harmony export */ });
-/* harmony import */ var _LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LocaleDataStore.js */ "./node_modules/relative-time-format/modules/LocaleDataStore.js");
-
-/**
- * Resolves a locale to a supported one (if any).
- * @param  {string} locale
- * @param {Object} [options] - An object that may have the following property:
- * @param {string} [options.localeMatcher="lookup"] - The locale matching algorithm to use. Possible values are "lookup" and "best fit". Currently only "lookup" is supported.
- * @return {string} [locale]
- * @example
- * // Returns "sr"
- * resolveLocale("sr-Cyrl-BA")
- * // Returns `undefined`
- * resolveLocale("xx-Latn")
- */
-
-function resolveLocale(locale) {
-  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var localeMatcher = options.localeMatcher || 'lookup';
-
-  switch (localeMatcher) {
-    case 'lookup':
-      return resolveLocaleLookup(locale);
-    // "best fit" locale matching is not supported.
-    // https://github.com/catamphetamine/relative-time-format/issues/2
-
-    case 'best fit':
-      // return resolveLocaleBestFit(locale)
-      return resolveLocaleLookup(locale);
-
-    default:
-      throw new RangeError("Invalid \"localeMatcher\" option: ".concat(localeMatcher));
-  }
-}
-/**
- * Resolves a locale to a supported one (if any).
- * Starts from the most specific locale and gradually
- * falls back to less specific ones.
- * This is a basic implementation of the "lookup" algorithm.
- * https://tools.ietf.org/html/rfc4647#section-3.4
- * @param  {string} locale
- * @return {string} [locale]
- * @example
- * // Returns "sr"
- * resolveLocaleLookup("sr-Cyrl-BA")
- * // Returns `undefined`
- * resolveLocaleLookup("xx-Latn")
- */
-
-function resolveLocaleLookup(locale) {
-  var resolvedLocale = (0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_0__.resolveLocale)(locale);
-
-  if (resolvedLocale) {
-    return resolvedLocale;
-  } // `sr-Cyrl-BA` -> `sr-Cyrl` -> `sr`.
-
-
-  var parts = locale.split('-');
-
-  while (locale.length > 1) {
-    parts.pop();
-    locale = parts.join('-');
-
-    var _resolvedLocale = (0,_LocaleDataStore_js__WEBPACK_IMPORTED_MODULE_0__.resolveLocale)(locale);
-
-    if (_resolvedLocale) {
-      return _resolvedLocale;
-    }
-  }
-}
-//# sourceMappingURL=resolveLocale.js.map
+/***/ "?b254":
+/*!************************!*\
+  !*** crypto (ignored) ***!
+  \************************/
+/***/ (() => {
+
+/* (ignored) */
 
 /***/ })
 
@@ -78056,12 +78095,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _random_data_generator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./random-data-generator */ "./src/js/random-data-generator.js");
 /* harmony import */ var javascript_time_ago__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! javascript-time-ago */ "./node_modules/javascript-time-ago/modules/TimeAgo.js");
 /* harmony import */ var javascript_time_ago_locale_en__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! javascript-time-ago/locale/en */ "./node_modules/javascript-time-ago/locale/en.json.js");
-/* global Buffer, TextDecoder, BUILD_VERSION, gtag */
-// gtag('event', <action>, {
-//   'event_category': <category>,
-//   'event_label': <label>,
-//   'value': <value>
-// });
+// Copyright © 2019-2025 Google LLC.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
 
 
 
@@ -78075,7 +78122,6 @@ __webpack_require__.r(__webpack_exports__);
 
 javascript_time_ago__WEBPACK_IMPORTED_MODULE_7__["default"].addDefaultLocale(javascript_time_ago_locale_en__WEBPACK_IMPORTED_MODULE_8__["default"]);
 
-//const html5AppId = "2084664E-BF2B-4C76-BD5F-1087502F580B";
 const html5AppId = "41bd71c8-2643-4e17-bc14-c8c48e37eb0f";
 
 const storage = _LocalStorage_js__WEBPACK_IMPORTED_MODULE_5___default().init(html5AppId);
@@ -78096,7 +78142,7 @@ const datamodel = {
   "sel-expiry": 10,
   "chk-iat": true,
   "chk-typ": true,
-  "chk-darkmode": true
+  "chk-darkmode": true,
 };
 
 const tenMinutesInSeconds = 10 * 60;
@@ -78109,16 +78155,16 @@ const PBKDF2_SALT_DEFAULT = "abcdefghijkl",
 const re = {
   signed: {
     jwt: new RegExp("^([^\\.]+)\\.([^\\.]+)\\.([^\\.]+)$"),
-    cm: new RegExp("^([^\\.]+)(\\.)([^\\.]+)(\\.)([^\\.]+)$")
+    cm: new RegExp("^([^\\.]+)(\\.)([^\\.]+)(\\.)([^\\.]+)$"),
   },
   encrypted: {
     jwt: new RegExp(
-      "^([^\\.]+)\\.([^\\.]*)\\.([^\\.]+)\\.([^\\.]+)\\.([^\\.]+)$"
+      "^([^\\.]+)\\.([^\\.]*)\\.([^\\.]+)\\.([^\\.]+)\\.([^\\.]+)$",
     ),
     cm: new RegExp(
-      "^([^\\.]+)(\\.)([^\\.]*)(\\.)([^\\.]+)(\\.)([^\\.]+)(\\.)([^\\.]+)$"
-    )
-  }
+      "^([^\\.]+)(\\.)([^\\.]*)(\\.)([^\\.]+)(\\.)([^\\.]+)(\\.)([^\\.]+)$",
+    ),
+  },
 };
 
 const $sel = (query) => document.querySelector(query),
@@ -78135,7 +78181,7 @@ const $sel = (query) => document.querySelector(query),
 function algPermutations(prefixes) {
   return prefixes.reduce(
     (a, v) => [...a, ...[256, 384, 512].map((x) => v + x)],
-    []
+    [],
   );
 }
 
@@ -78148,7 +78194,7 @@ const rsaSigningAlgs = algPermutations(["RS", "PS"]),
   pbes2KeyEncryptionAlgs = [
     "PBES2-HS256+A128KW",
     "PBES2-HS384+A192KW",
-    "PBES2-HS512+A256KW"
+    "PBES2-HS512+A256KW",
   ],
   kwKeyEncryptionAlgs = ["A128KW", "A256KW", "A128GCMKW", "A256GCMKW"],
   keyEncryptionAlgs = [
@@ -78156,13 +78202,13 @@ const rsaSigningAlgs = algPermutations(["RS", "PS"]),
     ...pbes2KeyEncryptionAlgs,
     ...kwKeyEncryptionAlgs,
     ...ecdhKeyEncryptionAlgs,
-    "dir"
+    "dir",
   ],
   contentEncryptionAlgs = [
     "A128CBC-HS256",
     "A256CBC-HS512",
     "A128GCM",
-    "A256GCM"
+    "A256GCM",
   ];
 
 const editors = {}; // codemirror editors
@@ -78172,7 +78218,7 @@ codemirror_lib_codemirror_js__WEBPACK_IMPORTED_MODULE_1___default().defineSimple
     {
       regex: re.signed.cm,
       sol: true,
-      token: ["jwt-header", "", "jwt-payload", "", "jwt-signature"]
+      token: ["jwt-header", "", "jwt-payload", "", "jwt-signature"],
     },
     {
       regex: re.encrypted.cm,
@@ -78186,10 +78232,10 @@ codemirror_lib_codemirror_js__WEBPACK_IMPORTED_MODULE_1___default().defineSimple
         "",
         "jwt-payload",
         "",
-        "jwt-authtag"
-      ]
-    }
-  ]
+        "jwt-authtag",
+      ],
+    },
+  ],
 });
 
 const curry =
@@ -78289,7 +78335,7 @@ function getPbkdf2IterationCount() {
 function getPbkdf2SaltBuffer() {
   const saltText = $sel("#ta_pbkdf2_salt").value.trim(),
     coding = $sel(
-      ".sel-symkey-pbkdf2-salt-coding"
+      ".sel-symkey-pbkdf2-salt-coding",
     ).selectedOptions[0].text.toLowerCase(),
     knownCodecs = ["utf-8", "base64", "hex"];
 
@@ -78341,12 +78387,12 @@ function getBufferForSymmetricKey(item, alg) {
     const kdfParams = {
       salt: getPbkdf2SaltBuffer(),
       iterations: getPbkdf2IterationCount(),
-      length: requiredKeyBitsForAlg(alg) / 8
+      length: requiredKeyBitsForAlg(alg) / 8,
     };
     return node_jose__WEBPACK_IMPORTED_MODULE_4___default().JWA.derive(
       getPbkdf2HashForAlg(alg),
       Buffer.from(keyvalue, "utf-8"),
-      kdfParams
+      kdfParams,
     );
   }
 
@@ -78410,7 +78456,7 @@ function getPublicKey(header, options) {
   }
 
   return node_jose__WEBPACK_IMPORTED_MODULE_4___default().JWK.asKeyStore(fieldValue).then((keystore) =>
-    keystore.get(header)
+    keystore.get(header),
   );
 }
 
@@ -78433,7 +78479,7 @@ function copyToClipboard(event) {
 
   gtag("event", "copyToClipboard", {
     event_category: "click",
-    event_label: sourceElement
+    event_label: sourceElement,
   });
 
   const sourceType = $source.tagName;
@@ -78471,14 +78517,14 @@ function copyToClipboard(event) {
       $divToFlash.classList.remove("copy-to-clipboard-flash-bg");
       setTimeout(
         (_) => $divToFlash.classList.add("copy-to-clipboard-flash-bg"),
-        6
+        6,
       );
     } else {
       // no codemirror (probably the secretkey field, which is just an input)
       $source.classList.add("copy-to-clipboard-flash-bg");
       setTimeout(
         (_) => $source.classList.remove("copy-to-clipboard-flash-bg"),
-        1800
+        1800,
       );
     }
   } catch (_e) {
@@ -78545,14 +78591,14 @@ function retrieveCryptoKey(header, options) {
     header.p2s = getPbkdf2SaltBuffer().toString("base64");
 
     return getBufferForSymmetricKey("symmetrickey", header.alg).then(
-      (keyBuffer) => node_jose__WEBPACK_IMPORTED_MODULE_4___default().JWK.asKey({ kty: "oct", k: keyBuffer, use: "enc" })
+      (keyBuffer) => node_jose__WEBPACK_IMPORTED_MODULE_4___default().JWK.asKey({ kty: "oct", k: keyBuffer, use: "enc" }),
     );
   }
   if (kwKeyEncryptionAlgs.indexOf(header.alg) >= 0) {
     return getBufferForSymmetricKey("symmetrickey", header.alg)
       .then((keyBuffer) => checkKeyLength(header.alg, true, keyBuffer))
       .then((keyBuffer) =>
-        node_jose__WEBPACK_IMPORTED_MODULE_4___default().JWK.asKey({ kty: "oct", k: keyBuffer, use: "enc" })
+        node_jose__WEBPACK_IMPORTED_MODULE_4___default().JWK.asKey({ kty: "oct", k: keyBuffer, use: "enc" }),
       );
   }
 
@@ -78564,8 +78610,8 @@ function retrieveCryptoKey(header, options) {
           kty: "oct",
           k: keyBuffer,
           use: "enc",
-          alg: header.enc
-        })
+          alg: header.enc,
+        }),
       );
   }
 
@@ -78610,7 +78656,7 @@ function encodeJwt(_event) {
     delete payload.exp;
   } else {
     const matches = new RegExp("^([1-9][0-9]*) (minutes|seconds)$").exec(
-      desiredExpiryOverride
+      desiredExpiryOverride,
     );
     if (matches && matches.length == 3) {
       const now = Math.floor(new Date().valueOf() / 1000),
@@ -78632,21 +78678,21 @@ function encodeJwt(_event) {
       (encryptingKey) => {
         if (!isAppropriateEncryptingAlg(header.alg, encryptingKey)) {
           throw new Error(
-            "the alg specified in the header is not compatible with the provided key. Maybe generate a fresh one?"
+            "the alg specified in the header is not compatible with the provided key. Maybe generate a fresh one?",
           );
         }
         const encryptOptions = {
             alg: header.alg,
             fields: header,
-            format: "compact"
+            format: "compact",
           },
           // createEncrypt will automatically inject the kid, unless I pass reference:false
           cipher = node_jose__WEBPACK_IMPORTED_MODULE_4___default().JWE.createEncrypt(encryptOptions, [
-            { key: encryptingKey, reference: false }
+            { key: encryptingKey, reference: false },
           ]);
         cipher.update(JSON.stringify(payload), "utf8");
         return cipher.final();
-      }
+      },
     );
   } else {
     // create signed JWT
@@ -78654,7 +78700,7 @@ function encodeJwt(_event) {
       p = getBufferForSymmetricKey("symmetrickey", header.alg)
         .then((keyBuffer) => checkKeyLength(header.alg, false, keyBuffer))
         .then((keyBuffer) =>
-          node_jose__WEBPACK_IMPORTED_MODULE_4___default().JWK.asKey({ kty: "oct", k: keyBuffer, use: "sig" })
+          node_jose__WEBPACK_IMPORTED_MODULE_4___default().JWK.asKey({ kty: "oct", k: keyBuffer, use: "sig" }),
         );
     } else {
       p = getPrivateKey();
@@ -78665,17 +78711,17 @@ function encodeJwt(_event) {
       }
       if (!isAppropriateSigningAlg(header.alg, signingKey)) {
         throw new Error(
-          "the alg specified in the header is not compatible with the provided key. Maybe generate a fresh one?"
+          "the alg specified in the header is not compatible with the provided key. Maybe generate a fresh one?",
         );
       }
       const signOptions = {
         alg: header.alg,
         fields: header,
-        format: "compact"
+        format: "compact",
       };
       // use reference:false to omit the kid from the header
       const signer = node_jose__WEBPACK_IMPORTED_MODULE_4___default().JWS.createSign(signOptions, [
-        { key: signingKey, reference: false }
+        { key: signingKey, reference: false },
       ]);
       signer.update(JSON.stringify(payload), "utf8");
       return signer.final();
@@ -78685,16 +78731,15 @@ function encodeJwt(_event) {
   return p
     .then((jwt) => {
       //editors.encodedjwt.setValue(jwt);
-      $sel(
-        "#panel_encoded > p > span.length"
-      ).textContent = `(${jwt.length} bytes)`;
+      $sel("#panel_encoded > p > span.length").textContent =
+        `(${jwt.length} bytes)`;
       editors.encodedjwt.setValue(jwt);
       editors.encodedjwt.save();
       if (header.enc) {
         // re-format the decoded JSON, incl added or modified properties like kid, alg
         showDecoded(true);
         editors["token-decoded-payload"].setValue(
-          JSON.stringify(payload, null, 2)
+          JSON.stringify(payload, null, 2),
         );
         setAlert("an encrypted JWT", "info");
       } else {
@@ -78734,7 +78779,7 @@ function checkValidityReasons(pHeader, pPayload, acceptableAlgorithms) {
       timeUnit = quantify(delta, "seconds");
     if (delta > 0) {
       reasons.push(
-        `the expiry time (${expiresString}) is in the past, ${delta} ${timeUnit} ago`
+        `the expiry time (${expiresString}) is in the past, ${delta} ${timeUnit} ago`,
       );
     }
   }
@@ -78747,7 +78792,7 @@ function checkValidityReasons(pHeader, pPayload, acceptableAlgorithms) {
       timeUnit = quantify(delta, "seconds");
     if (delta > 0) {
       reasons.push(
-        `the not-before time (${notBeforeString}) is in the future, in ${delta} ${timeUnit}`
+        `the not-before time (${notBeforeString}) is in the future, in ${delta} ${timeUnit}`,
       );
     }
   }
@@ -78761,7 +78806,7 @@ function checkValidityReasons(pHeader, pPayload, acceptableAlgorithms) {
         timeUnit = quantify(delta, "seconds");
       if (delta > 0) {
         reasons.push(
-          `the issued-at time (${issuedAtString}) is in the future, in ${delta} ${timeUnit}`
+          `the issued-at time (${issuedAtString}) is in the future, in ${delta} ${timeUnit}`,
         );
       }
     }
@@ -78774,18 +78819,18 @@ function verifyJwt(event) {
   editors.publickey.save();
   const tokenString = editors.encodedjwt.getValue();
   const getValidationOptions = (header) => {
-        // always implicitly handle ("ignore") crit headers
-        let validationOptions = [];
-        if (header.crit && Array.isArray(header.crit)) {
-          validationOptions.handlers = {};
-          let f = (val) => val;
-          // tell node-jose that the crit header is known & handled
-          header.crit.forEach( name => {
-            validationOptions.handlers[name] = f;
-          });
-        }
-        return validationOptions;
-      };
+    // always implicitly handle ("ignore") crit headers
+    let validationOptions = [];
+    if (header.crit && Array.isArray(header.crit)) {
+      validationOptions.handlers = {};
+      let f = (val) => val;
+      // tell node-jose that the crit header is known & handled
+      header.crit.forEach((name) => {
+        validationOptions.handlers[name] = f;
+      });
+    }
+    return validationOptions;
+  };
   let matches = re.signed.jwt.exec(tokenString);
 
   // verify a signed JWT
@@ -78798,19 +78843,18 @@ function verifyJwt(event) {
 
     gtag("event", "verifyJwt", {
       event_category: "click",
-      event_label: `signed ${header.alg}`
+      event_label: `signed ${header.alg}`,
     });
 
     if (isSymmetric(header.alg)) {
       p = getBufferForSymmetricKey("symmetrickey", header.alg)
         .then((keyBuffer) => checkKeyLength(header.alg, false, keyBuffer))
         .then((keyBuffer) =>
-          node_jose__WEBPACK_IMPORTED_MODULE_4___default().JWK.asKey({ kty: "oct", k: keyBuffer, use: "sig" })
+          node_jose__WEBPACK_IMPORTED_MODULE_4___default().JWK.asKey({ kty: "oct", k: keyBuffer, use: "sig" }),
         );
     } else {
       p = getPublicKey(header);
     }
-
 
     p = p
       .then((key) =>
@@ -78827,7 +78871,7 @@ function verifyJwt(event) {
               reasons = checkValidityReasons(
                 result.header,
                 parsedPayload,
-                getAcceptableSigningAlgs(key)
+                getAcceptableSigningAlgs(key),
               );
             if (reasons.length == 0) {
               const message =
@@ -78848,7 +78892,7 @@ function verifyJwt(event) {
                   ": " +
                   reasons.join(", and ") +
                   ".",
-                "warning"
+                "warning",
               );
             }
           })
@@ -78858,7 +78902,7 @@ function verifyJwt(event) {
             } else {
               setAlert("could not verify. " + e.message);
             }
-          })
+          }),
       )
       .catch((e) => {
         setAlert(e);
@@ -78874,12 +78918,15 @@ function verifyJwt(event) {
     const header = JSON.parse(json);
     gtag("event", "verifyJwt", {
       event_category: "click",
-      event_label: `encrypted ${header.alg}`
+      event_label: `encrypted ${header.alg}`,
     });
 
     return retrieveCryptoKey(header, { direction: "decrypt" })
       .then(async (decryptionKey) => {
-        const decrypter = await node_jose__WEBPACK_IMPORTED_MODULE_4___default().JWE.createDecrypt(decryptionKey, getValidationOptions(header))
+        const decrypter = await node_jose__WEBPACK_IMPORTED_MODULE_4___default().JWE.createDecrypt(
+          decryptionKey,
+          getValidationOptions(header),
+        );
         const result = await decrypter.decrypt(tokenString);
         // {result} is a Object with:
         // *  header: the combined 'protected' and 'unprotected' header members
@@ -78901,14 +78948,13 @@ function verifyJwt(event) {
             reasons = checkValidityReasons(
               result.header,
               parsedPayload,
-              getAcceptableEncryptionAlgs(decryptionKey)
+              getAcceptableEncryptionAlgs(decryptionKey),
             ),
             elementId = "token-decoded-payload",
             flavor = "payload";
           editors[elementId].setValue(prettyPrintedJson);
-          $sel(
-            `#${flavor} > p > .length`
-          ).textContent = `( ${stringPayload.length} bytes)`;
+          $sel(`#${flavor} > p > .length`).textContent =
+            `( ${stringPayload.length} bytes)`;
 
           if (reasons.length == 0) {
             const message =
@@ -78926,7 +78972,7 @@ function verifyJwt(event) {
                 ": " +
                 reasons.join(", and ") +
                 ".",
-              "warning"
+              "warning",
             );
           }
           return {};
@@ -78936,9 +78982,8 @@ function verifyJwt(event) {
         const elementId = "token-decoded-payload",
           flavor = "payload";
         editors[elementId].setValue(stringPayload);
-        $sel(
-          `#${flavor} > p > .length`
-        ).textContent = `( ${stringPayload.length} bytes)`;
+        $sel(`#${flavor} > p > .length`).textContent =
+          `( ${stringPayload.length} bytes)`;
 
         return null;
       })
@@ -79018,7 +79063,7 @@ function getGenKeyParams(alg) {
       name: "RSASSA-PKCS1-v1_5", // this name also works for RSA-PSS !
       modulusLength: 2048, //can be 1024, 2048, or 4096
       publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
-      hash: { name: "SHA-256" }
+      hash: { name: "SHA-256" },
     };
   // signing with EC keys
   if (alg == "ES256") return { name: "ECDSA", namedCurve: "P-256" };
@@ -79032,32 +79077,32 @@ function getGenKeyParams(alg) {
 
 function maybeNewKey() {
   const sel = $sel(".sel-alg"),
-        options = sel.selectedOptions,
-        options0 = options && options[0],
-        alg = options0 && options0.text;
+    options = sel.selectedOptions,
+    options0 = options && options[0],
+    alg = options0 && options0.text;
 
-  if (alg){
-  if (alg === "dir") {
-    if (!$sel("#ta_directkey").value) {
-      return newKey(null);
+  if (alg) {
+    if (alg === "dir") {
+      if (!$sel("#ta_directkey").value) {
+        return newKey(null);
+      }
+    } else if (
+      alg.startsWith("HS") ||
+      alg.startsWith("PB") ||
+      alg.startsWith("A")
+    ) {
+      if (!$sel("#ta_symmetrickey").value) {
+        return newKey(null);
+      }
+    } else {
+      editors.privatekey.save();
+      editors.publickey.save();
+      const privatekey = $sel("#ta_privatekey").value.trim(),
+        publickey = $sel("#ta_publickey").value.trim();
+      if (!privatekey || !publickey) {
+        return newKey(null);
+      }
     }
-  } else if (
-    alg.startsWith("HS") ||
-    alg.startsWith("PB") ||
-    alg.startsWith("A")
-  ) {
-    if (!$sel("#ta_symmetrickey").value) {
-      return newKey(null);
-    }
-  } else {
-    editors.privatekey.save();
-    editors.publickey.save();
-    const privatekey = $sel("#ta_privatekey").value.trim(),
-      publickey = $sel("#ta_publickey").value.trim();
-    if (!privatekey || !publickey) {
-      return newKey(null);
-    }
-  }
   }
   return Promise.resolve({});
 }
@@ -79070,7 +79115,7 @@ function newKey(event) {
 
   gtag("event", "newKey", {
     event_category: event ? "click" : "implicit",
-    event_label: alg
+    event_label: alg,
   });
 
   if (
@@ -79082,7 +79127,7 @@ function newKey(event) {
     const domid = alg === "dir" ? "directkey" : "symmetrickey",
       $ta = $sel(`#${domid} .ta-key`),
       coding = $sel(
-        `#${$ta.getAttribute("data-coding")}`
+        `#${$ta.getAttribute("data-coding")}`,
       ).selectedOptions[0].text.toLowerCase();
     let keyString = null;
     if (coding == "pbkdf2") {
@@ -79117,12 +79162,12 @@ function newKey(event) {
       window.crypto.subtle
         .exportKey("spki", key.publicKey)
         .then((keydata) =>
-          updateAsymmetricKeyValue("public", key2pem("PUBLIC", keydata))
+          updateAsymmetricKeyValue("public", key2pem("PUBLIC", keydata)),
         )
         .then(() => window.crypto.subtle.exportKey("pkcs8", key.privateKey))
         .then((keydata) =>
-          updateAsymmetricKeyValue("private", key2pem("PRIVATE", keydata))
-        )
+          updateAsymmetricKeyValue("private", key2pem("PRIVATE", keydata)),
+        ),
     )
     .then(() => {
       $sel("#mainalert").classList.remove("show");
@@ -79171,13 +79216,12 @@ function showDecoded(skipEncryptedPayload) {
   let matches = re.signed.jwt.exec(tokenString);
 
   gtag("event", "decode", {
-    event_category: "click"
+    event_category: "click",
   });
 
   saveSetting("encodedjwt", tokenString); // for reload
-  $sel(
-    "#panel_encoded > p > span.length"
-  ).textContent = `(${tokenString.length} bytes)`;
+  $sel("#panel_encoded > p > span.length").textContent =
+    `(${tokenString.length} bytes)`;
 
   if (matches && matches.length == 4) {
     setAlert("looks like a signed JWT", "info");
@@ -79198,9 +79242,8 @@ function showDecoded(skipEncryptedPayload) {
           prettyPrintedJson = JSON.stringify(obj, null, 2),
           flatJson = JSON.stringify(obj);
         editors[elementId].setValue(prettyPrintedJson);
-        $sel(
-          `#${flavor} > p > .length`
-        ).textContent = `(${flatJson.length} bytes)`;
+        $sel(`#${flavor} > p > .length`).textContent =
+          `(${flatJson.length} bytes)`;
 
         if (flavor == "header" && obj.alg) {
           selectAlgorithm(obj.alg);
@@ -79238,9 +79281,8 @@ function showDecoded(skipEncryptedPayload) {
         // Must decrypt the ciphertext payload to display claims,
         // and it's not possible to decrypt just now.
         editors["token-decoded-payload"].setValue("?ciphertext?");
-        $sel(
-          "#payload > p > .length"
-        ).textcontent = `(${matches[2].length} bytes)`;
+        $sel("#payload > p > .length").textcontent =
+          `(${matches[2].length} bytes)`;
       }
       if (obj.alg) {
         selectAlgorithm(obj.alg);
@@ -79264,7 +79306,7 @@ function showDecoded(skipEncryptedPayload) {
 function populateEncSelectOptions() {
   const select = $sel(".sel-enc");
   contentEncryptionAlgs.forEach((text) =>
-    select.options.add(new Option(text, text))
+    select.options.add(new Option(text, text)),
   );
 }
 
@@ -79471,9 +79513,8 @@ async function onKeyTextChange(_event) {
         realAlg = $sel(cls).selectedOptions[0].text,
         benchmark = requiredKeyBitsForAlg(realAlg) / 8,
         requirement = variant == "encrypted" ? "required" : "minimum";
-      target.parentElement.querySelector(
-        "p > span.length"
-      ).textContent = `(${buf.byteLength} bytes, ${requirement}: ${benchmark})`;
+      target.parentElement.querySelector("p > span.length").textContent =
+        `(${buf.byteLength} bytes, ${requirement}: ${benchmark})`;
     } else {
       // there is no minimum with PBKDF2...
     }
@@ -79492,7 +79533,7 @@ function onChangeEnc(event) {
   }
   gtag("event", "changeEnc", {
     event_category: "click",
-    event_label: `${previousSelection} -> ${newSelection}`
+    event_label: `${previousSelection} -> ${newSelection}`,
   });
   if (alg == "dir" || alg.startsWith("PB")) {
     $all(".ta-key").forEach(($ta) => $ta.dispatchEvent(new Event("change")));
@@ -79505,7 +79546,7 @@ function onChangeEnc(event) {
       headerObj = getHeaderFromForm();
       headerObj.enc = newSelection;
       editors["token-decoded-header"].setValue(
-        JSON.stringify(headerObj, null, 2)
+        JSON.stringify(headerObj, null, 2),
       );
       saveSetting("sel-enc", newSelection);
     } catch (e) {
@@ -79523,7 +79564,7 @@ function onChangeAlg(event) {
   const updateHeader = () => {
     try {
       editors["token-decoded-header"].setValue(
-        JSON.stringify(headerObj, null, 2)
+        JSON.stringify(headerObj, null, 2),
       );
     } catch (e) {
       /* gulp */
@@ -79536,7 +79577,7 @@ function onChangeAlg(event) {
   }
   gtag("event", "changeAlg", {
     event_category: "click",
-    event_label: `${previousSelection} -> ${newSelection}`
+    event_label: `${previousSelection} -> ${newSelection}`,
   });
 
   editors["token-decoded-header"].save();
@@ -79599,7 +79640,7 @@ function onChangeVariant(event) {
 
   gtag("event", "changeVariant", {
     event_category: "click",
-    event_label: `${previousSelection} -> ${newSelection}`
+    event_label: `${previousSelection} -> ${newSelection}`,
   });
   if (newSelection != previousSelection) {
     try {
@@ -79623,7 +79664,7 @@ function onChangeVariant(event) {
         // alg will get set later
       }
       editors["token-decoded-header"].setValue(
-        JSON.stringify(headerObj, null, 2)
+        JSON.stringify(headerObj, null, 2),
       );
     } catch (_e) {
       /* gulp */
@@ -79634,7 +79675,8 @@ function onChangeVariant(event) {
   populateAlgorithmSelectOptions();
 
   // still need this?
-  if ( priorAlgSelection &&
+  if (
+    priorAlgSelection &&
     !priorAlgSelection.startsWith("PS") &&
     !priorAlgSelection.startsWith("RS")
   ) {
@@ -79654,7 +79696,7 @@ function contriveJson(segment) {
         sub,
         aud,
         iat: nowSeconds,
-        exp: nowSeconds + tenMinutesInSeconds
+        exp: nowSeconds + tenMinutesInSeconds,
       };
     if (_random_data_generator__WEBPACK_IMPORTED_MODULE_6__["default"].boolean()) {
       const propname = _random_data_generator__WEBPACK_IMPORTED_MODULE_6__["default"].propertyName();
@@ -79739,7 +79781,7 @@ function decoratePayload(_instance) {
           console.log(`found invalid time value while decoding ${value}`);
           return "looks like an invalid time value";
         }
-      }
+      },
     });
 
     const maybeDismiss = () =>
@@ -79801,7 +79843,7 @@ function applyState() {
 
   // need the variant to be applied first
   keys.sort((a, b) =>
-    a == "sel-variant" ? -1 : b == "sel-variant" ? 1 : a.localeCompare(b)
+    a == "sel-variant" ? -1 : b == "sel-variant" ? 1 : a.localeCompare(b),
   );
   keys.forEach((key) => {
     const value = datamodel[key];
@@ -79896,18 +79938,18 @@ function changeDarkmode(event) {
 
   // Apply the theme to all CodeMirror instances
   Object.keys(editors).forEach((editorKey) =>
-    editors[editorKey].setOption("theme", desiredTheme)
+    editors[editorKey].setOption("theme", desiredTheme),
   );
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  $sel("#version_id").textContent = "1.1.4.103\n";
+  $sel("#version_id").textContent = "1.1.5.106\n";
 
   $all(".btn-copy").forEach((btn) =>
-    btn.addEventListener("click", copyToClipboard)
+    btn.addEventListener("click", copyToClipboard),
   );
   $all(".btn-clear").forEach((btn) =>
-    btn.addEventListener("click", clearTextarea)
+    btn.addEventListener("click", clearTextarea),
   );
   $sel(".btn-encode").addEventListener("click", encodeJwt);
   $sel(".btn-decode").addEventListener("click", showDecoded);
@@ -79919,7 +79961,7 @@ document.addEventListener("DOMContentLoaded", function () {
   populateEncSelectOptions();
 
   $all(".sel-key-coding").forEach((sel) =>
-    sel.addEventListener("change", changeKeyCoding)
+    sel.addEventListener("change", changeKeyCoding),
   );
   $sel("#mainalert").classList.add("fade");
   $sel("#mainalert").addEventListener("close.bs.alert", closeAlert);
@@ -79930,8 +79972,8 @@ document.addEventListener("DOMContentLoaded", function () {
     {
       mode: "encodedjwt",
       lineWrapping: true,
-      singleCursorHeightPerLine: false
-    }
+      singleCursorHeightPerLine: false,
+    },
   );
   editors.encodedjwt.on("inputRead", function (_cm, event) {
     /* event -> object{
@@ -79944,7 +79986,7 @@ document.addEventListener("DOMContentLoaded", function () {
        } */
     if (event.origin == "paste") {
       gtag("event", "paste", {
-        event_category: "encodedJwt"
+        event_category: "encodedJwt",
       });
 
       setTimeout(() => {
@@ -79964,12 +80006,12 @@ document.addEventListener("DOMContentLoaded", function () {
       {
         mode: "encodedjwt", // not really, its just plaintext
         lineWrapping: true,
-        singleCursorHeightPerLine: false
-      }
+        singleCursorHeightPerLine: false,
+      },
     );
     editors[keytype].on("inputRead", function (_cm, event) {
       gtag("event", "paste", {
-        event_category: keytype
+        event_category: keytype,
       });
       if (event.origin == "paste") {
         setTimeout(function () {
@@ -80006,10 +80048,10 @@ document.addEventListener("DOMContentLoaded", function () {
           indentWithTabs: false,
           statementIndent: 2,
           indentUnit: 2,
-          tabSize: 2
+          tabSize: 2,
         },
-        singleCursorHeightPerLine: false
-      }
+        singleCursorHeightPerLine: false,
+      },
     );
   });
 
@@ -80032,7 +80074,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   $all(".ta-key").forEach(($ta) => {
     ["change", "keyup", "input"].forEach((eventname) =>
-      $ta.addEventListener(eventname, onKeyTextChange)
+      $ta.addEventListener(eventname, onKeyTextChange),
     );
     $ta.dispatchEvent(new Event("change"));
   });
@@ -80050,7 +80092,7 @@ document.addEventListener("DOMContentLoaded", function () {
   } else if (datamodel.encodedjwt) {
     maybeNewKey();
   } else {
-    if ($sel('.sel-alg').selectedOptions.length == 0) {
+    if ($sel(".sel-alg").selectedOptions.length == 0) {
       // no options, maybe first time, need to trigger event to display the Signed options
       onChangeVariant.call(document.querySelector("#sel-variant"), null);
     }
