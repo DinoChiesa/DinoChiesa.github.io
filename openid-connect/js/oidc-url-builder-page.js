@@ -146,10 +146,7 @@ function updateLink() {
 
   if (copy.audience_or_resource !== "none" && copy.audience) {
     link +=
-      "&" +
-      copy.audience_or_resource +
-      "=" +
-      encodeURIComponent(copy.audience);
+      "&" + copy.audience_or_resource + "=" + encodeURIComponent(copy.audience);
   }
 
   // I cannot remember why this is here. But it breaks the redirect uri
@@ -190,10 +187,9 @@ function updateConfigNameDisplay() {
   if (!configNameElt) return;
 
   if (lastLoadedConfigName) {
-    let text = `(${lastLoadedConfigName}${isConfigDirty ? "*" : ""})`;
+    let text = `(config: ${lastLoadedConfigName}${isConfigDirty ? "*" : ""})`;
     configNameElt.textContent = text;
     configNameElt.style.color = isConfigDirty ? "darkred" : "darkgrey";
-    configNameElt.style.fontSize = "1rem";
   } else {
     configNameElt.textContent = "";
   }
