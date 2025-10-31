@@ -1,7 +1,7 @@
 form .form-group > label,
 form .form-group > div {
   float: left;
-  width: 178px;
+  width: 212px;
   margin: 2px 0;
 }
 
@@ -9,7 +9,7 @@ form > .form-group > select,
 form > .form-group > div ul, /* chosen */
 form > .form-group > input {
   float: left;
-  max-width: 660px;
+  max-width: 640px;
   margin: 2px 0;
 }
 
@@ -164,7 +164,7 @@ body {
 }
 
 form .form-group > div > .btn-reload,
-form .form-group > div > .form-check-input {
+form .form-group > div > .select-modifier {
   float: right;
   top: 4px;
   position: relative;

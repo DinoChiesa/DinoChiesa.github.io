@@ -81,19 +81,6 @@
         </div>
         <div class="form-group">
           <div>
-            <label for="audience">Audience:</label>
-            <input class="form-check-input" type="checkbox" id="use_audience" />
-          </div>
-          <input
-            type="text"
-            class="form-control"
-            id="audience"
-            placeholder="api://your-api-identifier"
-            title="The audience for the token"
-          />
-        </div>
-        <div class="form-group">
-          <div>
             <label for="state">state</label>
             <button
               type="button"
@@ -130,16 +117,6 @@
           />
         </div>
         <div class="form-group">
-          <label for="tokenpath">Token Path:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="tokenpath"
-            value="/token"
-            title="eg, /oauth2/token"
-          />
-        </div>
-        <div class="form-group">
           <label for="rtype">response type:</label>
           <select
             multiple
@@ -156,7 +133,6 @@
             <option value="invalid_option">invalid_option</option>
           </select>
         </div>
-
         <div class="form-group">
           <label for="scope">scope:</label>
           <select
@@ -173,6 +149,33 @@
             <option value="email">email</option>
             <option value="invalid_option">invalid_option</option>
           </select>
+        </div>
+        <div class="form-group">
+          <div>
+            <label for="audience">Audience:</label>
+            <select class="select-modifier" id="audience_or_resource">
+              <option value="none">None</option>
+              <option value="audience" selected>audience</option>
+              <option value="resource">resource</option>
+            </select>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            id="audience"
+            placeholder="api://your-api-identifier"
+            title="The audience for the token"
+          />
+        </div>
+        <div class="form-group">
+          <label for="tokenpath">Token Path:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="tokenpath"
+            value="/token"
+            title="eg, /oauth2/token"
+          />
         </div>
         <div class="form-group">
           <div>

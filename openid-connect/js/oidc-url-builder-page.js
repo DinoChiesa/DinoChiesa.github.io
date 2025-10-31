@@ -54,7 +54,7 @@ let model = {
   rtype: [],
   scope: [],
   audience: "",
-  use_audience: false,
+  audience_or_resource: "audience",
 };
 let saveModal;
 let loadModal;
@@ -143,8 +143,12 @@ function updateLink() {
     }
   });
 
-  if (copy.use_audience && copy.audience) {
-    link += "&audience=" + encodeURIComponent(copy.audience);
+  if (copy.audience_or_resource !== "none" && copy.audience) {
+    link +=
+      "&" +
+      copy.audience_or_resource +
+      "=" +
+      encodeURIComponent(copy.audience);
   }
 
   // I cannot remember why this is here. But it breaks the redirect uri
@@ -193,19 +197,19 @@ function updateStoredValue(key) {
   }
 }
 
-function handleUseAudienceChange() {
-  const useAudienceCheckbox = $("use_audience"),
+function handleAudienceControlChange() {
+  const audienceChoice = $("audience_or_resource"),
     audienceInput = $("audience");
-  if (useAudienceCheckbox && audienceInput) {
-    audienceInput.disabled = !useAudienceCheckbox.checked;
+  if (audienceChoice && audienceInput) {
+    audienceInput.disabled = audienceChoice.value === "none";
   }
 }
 
 function onInputChanged() {
   model[this.id] = this.type === "checkbox" ? this.checked : this.value;
   updateStoredValue(this.id);
-  if (this.id === "use_audience") {
-    handleUseAudienceChange();
+  if (this.id === "audience_or_resource") {
+    handleAudienceControlChange();
   }
   if (!initializing) {
     updateLink();
@@ -334,7 +338,7 @@ function applySettingsToForm(settings) {
     model.code = "";
   }
 
-  handleUseAudienceChange();
+  handleAudienceControlChange();
   updateLink();
 }
 
@@ -515,13 +519,13 @@ document.addEventListener("DOMContentLoaded", () => {
     elt.addEventListener("click", reloadRandomValue),
   );
 
-  $all("form input[type='text'], form input[type='checkbox']").forEach(
-    (elt) => {
-      if (elt.id) {
-        elt.addEventListener("change", onInputChanged);
-      }
-    },
-  );
+  $all(
+    "form input[type='text'], form input[type='checkbox'], form #audience_or_resource",
+  ).forEach((elt) => {
+    if (elt.id) {
+      elt.addEventListener("change", onInputChanged);
+    }
+  });
 
   $all("form select").forEach((elt) =>
     elt.addEventListener("change", onSelectChanged),
@@ -558,7 +562,7 @@ document.addEventListener("DOMContentLoaded", () => {
     false,
   );
   populateFormFields();
-  handleUseAudienceChange();
+  handleAudienceControlChange();
   fixChoices("rtype");
   fixChoices("scope");
 
