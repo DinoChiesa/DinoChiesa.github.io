@@ -225,6 +225,7 @@ function onInputChanged() {
   if (!initializing) {
     if (this.id !== "state" && this.id !== "nonce" && this.id !== "code") {
       isConfigDirty = true;
+      window.localStorage.setItem(APP_ID + ".isConfigDirty", isConfigDirty);
       updateConfigNameDisplay();
     }
     updateLink();
@@ -275,6 +276,7 @@ function onSelectChanged() {
   updateStoredValue(selectElt.name);
   if (!initializing) {
     isConfigDirty = true;
+    window.localStorage.setItem(APP_ID + ".isConfigDirty", isConfigDirty);
     updateConfigNameDisplay();
     updateLink();
   }
@@ -376,6 +378,11 @@ function handleSaveConfig() {
 
   lastLoadedConfigName = name;
   isConfigDirty = false;
+  window.localStorage.setItem(
+    APP_ID + ".lastLoadedConfigName",
+    lastLoadedConfigName,
+  );
+  window.localStorage.setItem(APP_ID + ".isConfigDirty", isConfigDirty);
   updateConfigNameDisplay();
   saveModal.hide();
 }
@@ -474,6 +481,13 @@ document.addEventListener("DOMContentLoaded", () => {
   saveModal = new bootstrap.Modal($("saveConfigModal"));
   loadModal = new bootstrap.Modal($("loadConfigModal"));
 
+  lastLoadedConfigName = window.localStorage.getItem(
+    APP_ID + ".lastLoadedConfigName",
+  );
+  isConfigDirty =
+    window.localStorage.getItem(APP_ID + ".isConfigDirty") === "true";
+  updateConfigNameDisplay();
+
   const btnRedeem = $("btn-redeem");
   if (btnRedeem) btnRedeem.addEventListener("click", invokeRedemption);
 
@@ -534,6 +548,11 @@ document.addEventListener("DOMContentLoaded", () => {
     applySettingsToForm(selectedConfig.settings);
     lastLoadedConfigName = selectedConfig.name;
     isConfigDirty = false;
+    window.localStorage.setItem(
+      APP_ID + ".lastLoadedConfigName",
+      lastLoadedConfigName,
+    );
+    window.localStorage.setItem(APP_ID + ".isConfigDirty", isConfigDirty);
     updateConfigNameDisplay();
     loadModal.hide();
   });
