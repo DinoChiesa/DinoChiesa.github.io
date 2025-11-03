@@ -525,6 +525,21 @@ function handleDeleteConfig() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  const darkModeToggle = $("dark-mode-toggle");
+  const darkModeKey = APP_ID + ".darkModeEnabled";
+  if (darkModeToggle) {
+    // on page load, check local storage
+    if (localStorage.getItem(darkModeKey) === "true") {
+      document.body.classList.add("dark-mode");
+      darkModeToggle.checked = true;
+    }
+
+    darkModeToggle.addEventListener("change", function () {
+      document.body.classList.toggle("dark-mode", this.checked);
+      localStorage.setItem(darkModeKey, this.checked);
+    });
+  }
+
   saveModal = new bootstrap.Modal($("saveConfigModal"));
   loadModal = new bootstrap.Modal($("loadConfigModal"));
   deleteModal = new bootstrap.Modal($("deleteConfigModal"));

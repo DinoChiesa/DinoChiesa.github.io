@@ -31,7 +31,20 @@
   <body>
     <!-- build the URL ======================================================= -->
     <div style="margin: 10px">
-      <h3>Build link for OIDC Sign-in</h3>
+      <h3>
+        Build link for OIDC Sign-in
+        <div class="form-check form-switch dm-switch mt-3">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="dark-mode-toggle"
+          />
+          <label class="form-check-label" for="dark-mode-toggle"
+            >Dark Mode</label
+          >
+        </div>
+      </h3>
       <div class="d-flex mb-2">
         <div class="dropdown" style="margin-right: 6px">
           <button
@@ -391,5 +404,6 @@
         </div>
       </div>
     </div>
+
   </body>
 </html>

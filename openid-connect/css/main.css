@@ -3,6 +3,14 @@ body {
   margin: 14px 18px;
 }
 
+.dm-switch {
+  display: inline-block;
+  font-size: 49%;
+  position: relative;
+  top: -4px;
+  margin-left: 20px;
+}
+
 form .form-group > label,
 form .form-group > div {
   float: left;
@@ -228,6 +236,12 @@ form .form-group > div > .select-modifier {
 
 form .form-group > div.choices {
   width: 448px;
+  margin-bottom: 4px;
+  margin-top: 0;
+}
+
+.choices__inner {
+  border-radius: 0.375rem;
 }
 
 .choices__list--multiple .choices__item {
@@ -239,4 +253,76 @@ form .form-group > div.choices {
   font-size: 75%;
   top: 4px;
   border-radius: 4px;
+}
+
+/* -------------------------------------------------------------------- */
+/* Dark Mode */
+
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+body.dark-mode .form-control,
+body.dark-mode .form-select {
+  background-color: #333;
+  color: #f8f8f2;
+  border-color: #75715e;
+}
+body.dark-mode .form-control::placeholder {
+  color: #999;
+}
+body.dark-mode label,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode p {
+  color: #f8f8f2;
+}
+body.dark-mode .text-muted {
+  color: #75715e !important;
+}
+body.dark-mode .btn-outline-secondary {
+  color: #f8f8f2;
+  border-color: #f8f8f2;
+}
+body.dark-mode .btn-outline-secondary:hover {
+  background-color: #f8f8f2;
+  color: #272822;
+}
+body.dark-mode .modal-content {
+  background-color: #272822;
+}
+body.dark-mode .modal-header,
+body.dark-mode .modal-footer {
+  border-color: #75715e;
+}
+body.dark-mode .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+body.dark-mode .dropdown-menu {
+  background-color: #333;
+}
+body.dark-mode .dropdown-item {
+  color: #f8f8f2;
+}
+body.dark-mode .dropdown-item:hover {
+  background-color: #75715e;
+}
+body.dark-mode a#authzlink {
+  color: #66d9ef;
+}
+body.dark-mode #preBox {
+  background-color: #333;
+  color: #f8f8f2;
+  border: 1px solid #75715e;
+}
+body.dark-mode .choices__inner {
+  background-color: #333;
+  border-color: #75715e;
+}
+body.dark-mode .choices__list--dropdown {
+  background-color: #333;
+}
+body.dark-mode .choices__item {
+  color: #f8f8f2;
 }
