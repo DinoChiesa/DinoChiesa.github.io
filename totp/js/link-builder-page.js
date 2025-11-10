@@ -1,7 +1,10 @@
 // link-builder-page.js
 // ------------------------------------------------------------------
 /* jshint esversion: 9 */
-/* global $, base32 */
+/* global base32, Choices */
+
+const $ = (id) => document.getElementById(id),
+  $all = (query) => document.querySelectorAll(query);
 
 const model = {
   baseurl: "",
@@ -9,24 +12,27 @@ const model = {
   label: "",
   secret: "",
   base32secret: "",
-  issuer: "",
+  issuer: ""
 };
+
+const choices = {};
+let notesModal;
 
 const html5AppId = "5FADBB91-0C35-49F6-BE3F-220B632874C3"; // for localstorage
 
 function updateLink() {
-  const baselink = `${model.baseurl}?size=${model.bcsize}&Caption=Scan%20Me&cht=qr&text=@@CHL@@`;
+  let baselink = `${model.baseurl}?size=${model.bcsize}&Caption=Scan%20Me&cht=qr&text=@@CHL@@`;
   model.base32secret = base32.rfc4648.encode(model.secret);
   const chl = `otpauth://totp/${model.label}?secret=${model.base32secret}&issuer=${model.issuer}`;
-  const link = baselink.replace("@@CHL@@", encodeURIComponent(chl));
+  let link = baselink.replace("@@CHL@@", encodeURIComponent(chl));
   const extraneousDoubleSlashFinder = new RegExp("^(https?://[^/]+)//(.+)$");
   const m = extraneousDoubleSlashFinder.exec(link);
   if (m) {
     link = m[1] + "/" + m[2];
   }
-
-  $("#totplink").text(link);
-  $("#totplink").attr("href", link);
+  const totplink = $("totplink");
+  totplink.textContent = link;
+  totplink.href = link;
 }
 
 function saveSetting(key, value) {
@@ -34,31 +40,28 @@ function saveSetting(key, value) {
 }
 
 function onInputChanged() {
-  var $$ = $(this),
-    name = $$.attr("id"),
-    value = $$.val();
+  const name = this.id;
+  const value = this.value;
   model[name] = value;
   saveSetting(name, value);
   updateLink();
 }
 
 function onSelectChanged() {
-  var $$ = $(this),
-    name = $$.attr("name"),
-    values = [];
-  $$.find("option:selected").each(function () {
-    values.push($(this).text());
-  });
-  model[name] = values;
-  saveSetting(name, values[0]);
+  const name = this.name;
+  const value = this.value;
+  model[name] = value;
+  saveSetting(name, value);
   updateLink();
 }
 
 function updateModel(event) {
-  Object.keys(model).forEach(key => {
-    const $item = $("#" + key);
-    const value = $item.val();
-    model[key] = value;
+  Object.keys(model).forEach((key) => {
+    const item = $(key);
+    if (item) {
+      const value = item.value;
+      model[key] = value;
+    }
   });
   updateLink();
   if (event) event.preventDefault();
@@ -74,16 +77,17 @@ function populateFormFields() {
     .filter(excludeTransientFields)
     .forEach((key) => {
       const value = window.localStorage.getItem(`${html5AppId}.model.${key}`);
-      const $item = $("#" + key);
-      if ($item.length > 0) {
+      const item = $(key);
+      if (item) {
         if (value && value !== "") {
-          if ($item[0].tagName === "SELECT") {
-            // it's a select/option
-            $item.find(`option[value='${value}']`).prop("selected", "selected");
-            $item.trigger("chosen:updated");
+          if (item.tagName === "SELECT") {
+            // it's a select/option with Choices.js
+            if(choices[key]) {
+              choices[key].setChoiceByValue(value);
+            }
           } else {
             // simple string
-            $item.val(value);
+            item.value = value;
           }
         }
       }
@@ -91,34 +95,42 @@ function populateFormFields() {
 }
 
 function resetEverything(event) {
-  $("#barcodeResult").html("");
+  $("barcodeResult").innerHTML = "";
   updateModel();
   if (event) event.preventDefault();
 }
 
 function showBarcode(event) {
-  $("#barcodeResult").html(`<img src="${$("#totplink").attr("href")}">`);
+  $("barcodeResult").innerHTML = `<img src="${$("totplink").href}">`;
   if (event) event.preventDefault();
 }
 
-$(document).ready(function () {
-  $("#bcsize").chosen({
-    disable_search: true,
-    no_results_text: "No matching size...",
-    allow_single_deselect: true,
+document.addEventListener("DOMContentLoaded", () => {
+  choices.bcsize = new Choices($("bcsize"), {
+    searchEnabled: false,
+    removeItemButton: true
   });
-  $("#baseurl").chosen({
-    disable_search: true,
-    no_results_text: "No matching size...",
-    allow_single_deselect: true,
+  choices.baseurl = new Choices($("baseurl"), {
+    searchEnabled: false,
+    removeItemButton: true
   });
 
-  $("form input[type='text']").change(onInputChanged);
-  $("form select").change(onSelectChanged);
-  $("form button").submit(updateModel);
+  $all("form input[type='text']").forEach((elt) =>
+    elt.addEventListener("change", onInputChanged)
+  );
+  $all("form select").forEach((elt) =>
+    elt.addEventListener("change", onSelectChanged)
+  );
+  const form = document.querySelector("form");
+  if(form) {
+    form.addEventListener("submit", updateModel);
+  }
 
-  $("#show-barcode").click(showBarcode);
-  $("#reset-everything").click(resetEverything);
+  $("show-barcode").addEventListener("click", showBarcode);
+  $("reset-everything").addEventListener("click", resetEverything);
+
+  notesModal = new bootstrap.Modal($("notes-modal"));
+  $("show-notes").addEventListener("click", () => notesModal.show());
 
   populateFormFields();
 
