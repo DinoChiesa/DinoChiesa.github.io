@@ -531,6 +531,16 @@ function handleDeleteConfig() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  window.addEventListener("message", (event) => {
+    if (event.data && event.data.code) {
+      const codeElt = $("code");
+      if (codeElt) {
+        codeElt.value = event.data.code;
+        onInputChanged.call(codeElt);
+      }
+    }
+  });
+
   const darkModeToggle = $("dark-mode-toggle");
   const darkModeKey = APP_ID + ".darkModeEnabled";
   if (darkModeToggle) {
@@ -653,6 +663,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   $("btn-do-delete-config").addEventListener("click", handleDeleteConfig);
+
+  $("btn-signin").addEventListener("click", () => {
+    const authzlink = $("authzlink");
+    if (authzlink && authzlink.href) {
+      window.open(authzlink.href, "oidc-signin", "width=800,height=600");
+    }
+  });
 
   $all(".btn-reload").forEach((elt) =>
     elt.addEventListener("click", reloadRandomValue),

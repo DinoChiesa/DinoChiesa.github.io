@@ -4,7 +4,7 @@
 // for callback-handler.html
 //
 // created: Thu Oct  1 13:37:31 2015
-// last saved: <2025-July-08 22:49:00>
+// last saved: <2025-November-13 21:36:25>
 
 /* jshint esversion: 9 */
 /* global atob */
@@ -160,6 +160,14 @@ document.addEventListener("DOMContentLoaded", function () {
       copyToClipboard.call(copyButton);
     }
   });
+
+  if (window.opener && hash.code) {
+    window.opener.postMessage(
+      { code: hash.code, state: hash.state, scope: hash.scope },
+      "*",
+    );
+    setTimeout(() => window.close(), 2500);
+  }
 
   setTimeout(formatIdToken, 2100);
 });
