@@ -54,7 +54,7 @@ let model = {
   rtype: [],
   scope: [],
   audience: "",
-  audience_or_resource: "audience",
+  "audience-or-resource": "audience",
 };
 let saveModal;
 let loadModal;
@@ -131,6 +131,15 @@ function freshCopyOfModel() {
 
 const wrapInSingleQuote = (s) => `'${s}'`;
 
+const getTokenPath = () =>
+  model.tokenpath.startsWith("/")
+    ? (() => {
+        const url = new URL(model.baseloginurl);
+        url.pathname = model.tokenpath;
+        return url.toString();
+      })()
+    : model.tokenpath;
+
 function updateLink() {
   let link = linkTemplate,
     copy = freshCopyOfModel(); // i don't remember why I wanted to copy this
@@ -146,12 +155,11 @@ function updateLink() {
   });
 
   if (
-    copy.audience_or_resource &&
-    copy.audience_or_resource !== "none" &&
+    copy["audience-or-resource"] &&
+    copy["audience-or-resource"] !== "none" &&
     copy.audience
   ) {
-    link +=
-      "&" + copy.audience_or_resource + "=" + encodeURIComponent(copy.audience);
+    link += `&${copy["audience-or-resource"]}=${encodeURIComponent(copy.audience)}`;
   }
 
   // I cannot remember why this is here. But it breaks the redirect uri
@@ -173,10 +181,9 @@ function updateLink() {
     };
     const preBox = $("preBox");
     if (preBox) {
-      let tokenPath = model.baseloginurl.replace("/authorize", model.tokenpath);
       preBox.innerHTML =
         "<pre>curl -X POST -H content-type:application/x-www-form-urlencoded " +
-        wrapInSingleQuote(tokenPath) +
+        wrapInSingleQuote(getTokenPath()) +
         " -d " +
         wrapInSingleQuote(new URLSearchParams(payload).toString()) +
         "</pre>";
@@ -223,7 +230,7 @@ function updateStoredValue(key) {
 }
 
 function handleAudienceControlChange() {
-  const audienceChoice = $("audience_or_resource"),
+  const audienceChoice = $("audience-or-resource"),
     audienceInput = $("audience");
   if (audienceChoice && audienceInput) {
     audienceInput.disabled = audienceChoice.value === "none";
@@ -233,7 +240,7 @@ function handleAudienceControlChange() {
 function onInputChanged() {
   model[this.id] = this.type === "checkbox" ? this.checked : this.value;
   updateStoredValue(this.id);
-  if (this.id === "audience_or_resource") {
+  if (this.id === "audience-or-resource") {
     handleAudienceControlChange();
   }
   if (!initializing) {
@@ -424,8 +431,7 @@ function invokeRedemption(event) {
   };
 
   // NB: This call MAY fail if the server does not include CORS headers in the response
-  let tokenPath = model.baseloginurl.replace("/authorize", model.tokenpath);
-  fetch(tokenPath, {
+  fetch(getTokenPath(), {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -652,13 +658,17 @@ document.addEventListener("DOMContentLoaded", () => {
     elt.addEventListener("click", reloadRandomValue),
   );
 
-  $all(
-    "form input[type='text'], form input[type='checkbox'], form #audience_or_resource",
-  ).forEach((elt) => {
-    if (elt.id) {
-      elt.addEventListener("change", onInputChanged);
-    }
-  });
+  [
+    "form input[type='text']",
+    "form input[type='checkbox']",
+    "form #audience-or-resource",
+  ].forEach((query) =>
+    $all(query).forEach((elt) => {
+      if (elt.id) {
+        elt.addEventListener("change", onInputChanged);
+      }
+    }),
+  );
 
   $all("form select").forEach((elt) =>
     elt.addEventListener("change", onSelectChanged),
