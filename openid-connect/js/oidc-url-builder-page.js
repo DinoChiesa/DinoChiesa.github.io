@@ -414,6 +414,8 @@ function resetRedemption(event) {
   const code = $("code");
   if (code) code.value = "";
   updateStoredValue("code");
+  // make the div disappear
+  $("authzRedemption").style.display = "none";
   if (event) event.preventDefault();
 }
 
