@@ -2,7 +2,6 @@ body {
   font-size: 180%;
 }
 body > div {
-  display: flex;
   height: auto;
   margin: 0 auto;
   max-width: 1440px;
@@ -66,13 +65,13 @@ form > div.form-group {
 .encodedresults {
   overflow-x: hidden;
 }
-#key.notshown,
-#keylabel.notshown,
+#secretkey.notshown,
+#secretkeylabel.notshown,
 #output.notshown > div > div {
   display: none;
 }
-#key.shown,
-#keylabel.shown,
+#secretkey.shown,
+#secretkeylabel.shown,
 #output.shown > div > div {
   display: block;
 }
@@ -103,7 +102,9 @@ input[type="radio"] + div {
   margin-left: 166px;
 }
 input[type="checkbox"] {
-  margin-top: 14px;
+  transform: scale(1.8);
+  margin-top: 18px;
+  margin-left: 4px;
   vertical-align: middle;
 }
 form > div > select {
