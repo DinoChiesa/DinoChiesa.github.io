@@ -49,6 +49,8 @@ html, body {
 
 /* ---------------- Card Container ---------------- */
 .card {
+  position: relative;
+  overflow: hidden;
   background: var(--color-card);
   border: 1px solid rgba(15, 23, 42, 0.06);
   border-radius: var(--radius-card);
@@ -60,6 +62,22 @@ html, body {
   flex-direction: column;
   align-items: center;
   text-align: center;
+}
+
+.progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--color-primary), #e6b870);
+  opacity: 0;
+  transition: width 0.15s linear, opacity 0.25s ease;
+  z-index: 10;
+}
+
+.progress-bar.active {
+  opacity: 1;
 }
 
 .card-header {

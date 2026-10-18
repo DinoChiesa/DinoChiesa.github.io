@@ -275,13 +275,31 @@ function indexOfCellToClick(fromState, toState) {
 }
 
 async function animateSolution(indexes) {
-  $sel('#notes').innerHTML = `solution steps: ${indexes.length - 1}`;
+  const progressBar = $sel('#progress');
+  const totalSteps = indexes.length - 1;
+  if (progressBar) {
+    progressBar.style.width = '0%';
+    progressBar.classList.add('active');
+  }
+
+  $sel('#notes').innerHTML = `solution steps: ${totalSteps}`;
   await delay(800);
   for (let i = 1; i < indexes.length; i++) {
     await delay(160);
     move(indexes[i - 1]);
-    $sel('#notes').innerHTML = `step: ${i}/${indexes.length - 1}`;
+    if (progressBar) {
+      progressBar.style.width = `${Math.round((i / totalSteps) * 100)}%`;
+    }
+    $sel('#notes').innerHTML = `step: ${i}/${totalSteps}`;
   }
+
+  if (progressBar) {
+    await delay(350);
+    progressBar.classList.remove('active');
+    await delay(250);
+    progressBar.style.width = '0%';
+  }
+
   isSolving = false;
   checkVictory();
 }
