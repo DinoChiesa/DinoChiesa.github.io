@@ -352,28 +352,13 @@ function shuffleGrid() {
 }
 
 
-/**
- * @param {String} url - address for the HTML to fetch
- * @return {String} the resulting HTML string fragment
- */
-async function fetchHtmlAsText(url) {
-  return await (await fetch(url)).text();
-}
-
 function dismissExplanation() {
   const contentDiv = document.getElementById("explanation");
   setElementVisibility(contentDiv, false);
 }
 
-async function showExplanation() {
+function showExplanation() {
   const contentDiv = document.getElementById("explanation");
-  if (!contentDiv.innerHTML.trim()) {
-    try {
-      contentDiv.innerHTML = await fetchHtmlAsText("about.htm");
-    } catch (e) {
-      console.log(e);
-    }
-  }
   $('#dismiss').off('click').on('click', dismissExplanation);
   setElementVisibility(contentDiv, true);
 }
