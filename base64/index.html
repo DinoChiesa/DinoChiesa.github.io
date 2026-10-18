@@ -1,120 +1,257 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <title>Base64 encoder/decoder</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/base-min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
-    <script type='text/javascript'
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="css/main.css">
-    <script type='text/javascript' src='js/page.js'></script>
+    <title>Base64 Encoder &amp; Decoder</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/main.css" />
+    <script type="text/javascript" src="js/page.js"></script>
   </head>
 
-  <!-- ======================================================= -->
-
   <body>
+    <main class="page-container">
+      <div class="card app-card">
+        <header class="card-header">
+          <span class="kicker">Encoding Utility</span>
+          <h1 class="title">Base64 Encoder &amp; Decoder</h1>
+          <p class="subtitle">Convert text to and from standard Base64 and URL-safe Base64 (base64url) directly in your browser.</p>
+        </header>
 
-    <div>
-    <div style='margin: 10px;'>
-      <h3>Encode or decode base64</h3>
+        <form role="form" id="form1" accept-charset="UTF-8">
+          <div class="controls-row">
+            <div>
+              <label class="form-label">Operation</label>
+              <div class="mode-selector" role="radiogroup" aria-label="Base64 Operation">
+                <button type="button" class="mode-btn active" data-op="encode">Encode</button>
+                <button type="button" class="mode-btn" data-op="decode">Decode</button>
+              </div>
+              <select name="operation" id="operation" class="hidden">
+                <option value="encode" selected>encode</option>
+                <option value="decode">decode</option>
+              </select>
+            </div>
+          </div>
 
-      <form role='form' id='form1' accept-charset='UTF-8'>
-        <div class="form-group">
-          <label for="operation">operation:</label>
-          <select name="operation" id="operation" class="form-control">
-            <option value="encode" >encode</option>
-            <option value="decode" >decode</option>
-          </select>
+          <div class="form-group">
+            <label for="text" class="form-label" id="text-label">Message to Encode</label>
+            <textarea
+              class="form-control"
+              rows="6"
+              id="text"
+              spellcheck="false"
+              placeholder="-currently blank; insert your message here-"
+              title="The message to encode or decode. This data never leaves your browser."
+            ></textarea>
+          </div>
+        </form>
+
+        <div id="output_encoded" class="output notshown">
+          <div class="results-header">
+            <span class="results-title">Encoded Results</span>
+            <span class="badge badge-accent">Live computation</span>
+          </div>
+
+          <div class="result-cards">
+            <div class="result-card">
+              <div class="result-card-header">
+                <span class="result-label">Base64</span>
+                <button
+                  type="button"
+                  class="btn-copy copyIconHolder"
+                  data-target="resultB64"
+                  title="Click to copy Base64 result"
+                >
+                  <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                  <span class="copy-text">Copy</span>
+                </button>
+              </div>
+              <div
+                id="resultB64"
+                class="code"
+                title="base64 encoding is case-sensitive"
+              ></div>
+            </div>
+
+            <div class="result-card">
+              <div class="result-card-header">
+                <span class="result-label">Base64Url</span>
+                <button
+                  type="button"
+                  class="btn-copy copyIconHolder"
+                  data-target="resultB64url"
+                  title="Click to copy Base64Url result"
+                >
+                  <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                  <span class="copy-text">Copy</span>
+                </button>
+              </div>
+              <div
+                id="resultB64url"
+                class="code"
+                title="base64url encoding is case-sensitive"
+              ></div>
+            </div>
+          </div>
         </div>
 
-        <div class='form-group'>
-          <label for='text'>text:</label>
-          <textarea class="form-control" rows="5" id='text' spellcheck="false"
-                 placeholder="-currently blank; insert your message here-"
-                    title='The message to encode or decode. This data never leaves your browser.'></textarea>
-        </div>
+        <div id="output_decoded" class="output notshown">
+          <div class="results-header">
+            <span class="results-title">Decoded Plaintext</span>
+            <span class="badge badge-accent">Live computation</span>
+          </div>
 
-        <div class='form-group'>
-          <div style='color:#DCDCDC;font-size:80%;'>(Computation is automatic)</div>
-        </div>
-      </form>
-
-      <div id='output_encoded' class='output notshown'>
-        Encoded results:
-        <div>
-          <span>Base64:</span>
-          <div class='copyIconHolder' title='click to copy'></div>
-          <div id='resultB64' class='code' title='base64 encoding is case-sensitive'></div>
-        </div>
-        <div>
-          <span>Base64Url:</span>
-          <div class='copyIconHolder' title='click to copy'></div>
-          <div id='resultB64url' class='code' title='base64url encoding is case-sensitive'></div>
+          <div class="result-cards">
+            <div class="result-card">
+              <div class="result-card-header">
+                <span class="result-label">Decoded String</span>
+                <button
+                  type="button"
+                  class="btn-copy copyIconHolder"
+                  data-target="resultPlain"
+                  title="Click to copy decoded text"
+                >
+                  <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                  <span class="copy-text">Copy</span>
+                </button>
+              </div>
+              <div
+                id="resultPlain"
+                class="code"
+                title="base64 decoding does not always produce a string"
+              ></div>
+            </div>
+          </div>
         </div>
       </div>
-      <div id='output_decoded' class='output notshown'>
-        Decoded results:
-        <div>
-          <div class='copyIconHolder' title='click to copy'></div>
-          <div id='resultPlain' class='code' title='base64 decoding does not always produce a string'></div>
+
+      <div id="testcases" class="card testcases-card">
+        <div class="accordion-header-row">
+          <div class="accordion-title">
+            <span class="kicker" style="margin-bottom: 0;">Verification</span>
+            <span>Test Vectors</span>
+          </div>
+          <div>
+            <button type="button" class="toggle-btn expand" title="Show test vectors">
+              <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+              <span>Show Vectors</span>
+            </button>
+            <button type="button" class="toggle-btn collapse" title="Hide test vectors">
+              <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6 1.41 1.41z"/></svg>
+              <span>Hide Vectors</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="testcases testcases-wrapper">
+          <table class="testcases-table">
+            <thead>
+              <tr>
+                <th>Operation</th>
+                <th>Message</th>
+                <th>Expected Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <strong>Encode</strong><br />
+                  <button type="button" class="apply-test" data-op="encode" data-msg="abc">
+                    apply
+                  </button>
+                </td>
+                <td>abc</td>
+                <td>
+                  <span style="color: var(--color-slate-500); font-size: 11px;">(b64)</span>
+                  <span class="code">YWJj</span><br />
+                  <span style="color: var(--color-slate-500); font-size: 11px;">(b64url)</span>
+                  <span class="code">YWJj</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Encode</strong><br />
+                  <button type="button" class="apply-test" data-op="encode" data-msg="This-is-a-secret">
+                    apply
+                  </button>
+                </td>
+                <td>This-is-a-secret</td>
+                <td>
+                  <span style="color: var(--color-slate-500); font-size: 11px;">(b64)</span>
+                  <span class="code">VGhpcy1pcy1hLXNlY3JldA==</span><br />
+                  <span style="color: var(--color-slate-500); font-size: 11px;">(b64url)</span>
+                  <span class="code">VGhpcy1pcy1hLXNlY3JldA</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Encode</strong><br />
+                  <button type="button" class="apply-test" data-op="encode" data-msg='{"kid":"cb24a396-4414-4793-b4ce","typ":"JWT","alg":"HS256"}'>
+                    apply
+                  </button>
+                </td>
+                <td>{"kid":"cb24a396-4414-4793-b4ce","typ":"JWT","alg":"HS256"}</td>
+                <td>
+                  <span style="color: var(--color-slate-500); font-size: 11px;">(b64)</span>
+                  <span class="code">eyJraWQiOiJjYjI0YTM5Ni00NDE0LTQ3OTMtYjRjZSIsInR5cCI6IkpXVCIsImFsZyI6IkhTMjU2In0=</span><br />
+                  <span style="color: var(--color-slate-500); font-size: 11px;">(b64url)</span>
+                  <span class="code">eyJraWQiOiJjYjI0YTM5Ni00NDE0LTQ3OTMtYjRjZSIsInR5cCI6IkpXVCIsImFsZyI6IkhTMjU2In0</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Decode</strong><br />
+                  <button type="button" class="apply-test" data-op="decode" data-msg="VGhpcy1pcy1hLXNlY3JldA">
+                    apply
+                  </button>
+                </td>
+                <td>VGhpcy1pcy1hLXNlY3JldA (b64url)</td>
+                <td>
+                  <span style="color: var(--color-slate-500); font-size: 11px;">(plain)</span>
+                  <span class="code">This-is-a-secret</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
-      <div class='notes'>
-        Notes:
+      <div id="notes" class="card notes-card">
+        <span class="kicker">Documentation</span>
+        <h2>Usage &amp; Encoding Notes</h2>
         <ol>
-          <li>The page decodes or encodes in your browser.
-            Any data you enter on this page stays in the browser, and is never sent back to a server site, nor
-            to any third-party site.
-            </li>
-          <li>Here are a few test cases:
-            <table class='testcases pure-table pure-table-bordered'>
-              <thead>
-                <tr><th>Op</th><th>message</th><th>result</th></tr>
-              </thead>
-              <tbody>
-
-                <tr>
-                  <td rowspan='3'>Encode</td>
-                  <td>abc</td>
-                  <td>
-                  (b64) <span class='code'>YWJj</span><br/>
-                    (b64url) <span class='code'>YWJj</span></td>
-                </tr>
-                <tr>
-                  <td>This-is-a-secret</td>
-                  <td>
-                  (b64) <span class='code'>VGhpcy1pcy1hLXNlY3JldA==</span><br/>
-                  (b64url) <span class='code'>VGhpcy1pcy1hLXNlY3JldA</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>{"kid":"cb24a396-4414-4793-b4ce","typ":"JWT","alg":"HS256"}</td>
-                  <td>
-                  (b64) <span class='code'>eyJraWQiOiJjYjI0YTM5Ni00NDE0LTQ3OTMtYjRjZSIsInR5cCI6IkpXVCIsImFsZyI6IkhTMjU2In0=</span><br/>
-                  (b64url) <span class='code'>eyJraWQiOiJjYjI0YTM5Ni00NDE0LTQ3OTMtYjRjZSIsInR5cCI6IkpXVCIsImFsZyI6IkhTMjU2In0</span></td></tr>
-
-              </tbody>
-            </table>
+          <li>
+            This page decodes and encodes text locally in your browser.
+            Any data you enter stays on your machine and is never sent to any server.
           </li>
-          <li>base64-encoded values are case sensitive. This is characteristic of the encodings, not particular to this page.</li>
-          <li>When encoding message content:
-            <ol type='a'>
-              <li>Unicode is ok.</li>
-              <li>Whitespace in the content is significant. For example, the encoding for 'abc\n' is different from the encoding for 'abc'.</li>
-              <li>This page does not strip trailing newlines. </li>
-              <li>This page does convert line-breaks in your message to newline (\n). It's not possible to include a carriage-return (CR) in the text value, because the logic on this page strips them.</li>
+          <li>
+            Base64-encoded values are case sensitive. This is a fundamental characteristic of the encoding.
+          </li>
+          <li>
+            When encoding message content:
+            <ol type="a">
+              <li>Unicode characters and emojis are fully supported via UTF-8 byte serialization.</li>
+              <li>Whitespace in the content is significant. For example, the encoding for <code>abc\n</code> is different from <code>abc</code>.</li>
+              <li>Trailing newlines are preserved.</li>
+              <li>Line-breaks are converted to standard newlines (<code>\n</code>).</li>
             </ol>
           </li>
-          <li>When decoding, not all values that can be encoded in base64 will result in printable/displayable strings.</li>
+          <li>
+            When decoding, not all binary sequences can be decoded into printable UTF-8 strings.
+          </li>
+          <li>
+            Written by
+            <a href="https://github.com/DinoChiesa/" target="_blank" rel="noopener noreferrer">DinoChiesa</a>.
+            Contact via GitHub or
+            <a
+              href="https://bsky.app/profile/ionicshade.bsky.social"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="bsky-share-button"
+              >Bluesky</a
+            >.
+          </li>
         </ol>
       </div>
-    </div>
-    </div>
+    </main>
   </body>
-
 </html>
