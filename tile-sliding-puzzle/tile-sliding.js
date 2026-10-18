@@ -27,9 +27,10 @@
 // last saved: <2022-December-06 15:42:11>
 
 /* jshint esversion:9, node:false, browser:true, strict:implied */
-/* global console, jQuery */
+/* global console */
 
-const $ = jQuery;
+const $sel = (query) => document.querySelector(query),
+      $all = (query) => document.querySelectorAll(query);
 const EMPTY ='&nbsp;';
 let datamodel = '123456789abcdef0';
 
@@ -54,35 +55,36 @@ const adjacentTiles = [
       ];
 
 function initializeGrid() {
-  let $main = $('#main');
-  for(let i = 0; i < 4; i++) {
-    let $rowdiv = $(`<div class='row' data-row="${i}"></div>\n`);
-    for(let j = 0; j < 4; j++) {
+  let main = $sel('#main');
+  let html = '';
+  for (let i = 0; i < 4; i++) {
+    html += `<div class='row' data-row="${i}">\n`;
+    for (let j = 0; j < 4; j++) {
       let ix = i * 4 + j;
-      let value = parseInt(datamodel.substr(ix,1), 16);
+      let value = parseInt(datamodel.substr(ix, 1), 16);
       let content = EMPTY;
-      let $celldiv = $(`<div class='cell' data-col="${j}"><div data-col="${j}" data-row="${i}"id='c-${i}-${j}' class='data'>${content}</div></div>\n`);
-      $rowdiv.append($celldiv);
+      html += `<div class='cell' data-col="${j}"><div data-col="${j}" data-row="${i}" id='c-${i}-${j}' class='data'>${content}</div></div>\n`;
     }
-    $main.append($rowdiv);
+    html += `</div>\n`;
   }
+  main.innerHTML = html;
 }
 
 function paintGrid() {
-  for(let i = 0; i < 4; i++) {
-    for(let j = 0; j < 4; j++) {
+  for (let i = 0; i < 4; i++) {
+    for (let j = 0; j < 4; j++) {
       let ix = i * 4 + j;
-      let value = parseInt(datamodel.substr(ix,1), 16);
+      let value = parseInt(datamodel.substr(ix, 1), 16);
       let id = `c-${i}-${j}`;
-      let $dataCell = $(`#${id}`);
-      let currentContent = $dataCell.html();
-      if (value == 0){
+      let dataCell = document.getElementById(id);
+      let currentContent = dataCell.innerHTML;
+      if (value == 0) {
         if (currentContent != EMPTY) {
-          $dataCell.html(EMPTY);
+          dataCell.innerHTML = EMPTY;
         }
       }
       else if (value != Number(currentContent)) {
-          $dataCell.html(value);
+        dataCell.innerHTML = value;
       }
     }
   }
@@ -123,10 +125,9 @@ function move(index, open) {
   paintGrid();
 }
 
-function cellClick(event) {
-  let $dataDiv = $(this),
-      row = Number($dataDiv.data('row')),
-      col = Number($dataDiv.data('col')),
+function cellClick(_event) {
+  let row = Number(this.dataset.row),
+      col = Number(this.dataset.col),
       clickedIndex = row * 4 + col;
 
   let openCell = findAdjacentOpenCell(clickedIndex);
@@ -136,7 +137,7 @@ function cellClick(event) {
 }
 
 function updateDistance() {
-  $('#distance').html('<span>distance: ' + aggregateManhattanDistance(datamodel) + '</span>');
+  $sel('#distance').innerHTML = '<span>distance: ' + aggregateManhattanDistance(datamodel) + '</span>';
 }
 
 function targetPosition(model, cell) {
@@ -237,8 +238,8 @@ function indexOfCellToClick(fromState, toState) {
 }
 
 function solve() {
-  $('#solveit').prop('disabled', true);
-  $('#notes').html('thinking...');
+  $sel('#solveit').disabled = true;
+  $sel('#notes').innerHTML = 'thinking...';
 
   let goal = '123456789abcdef0';
   let openCell = getOpenCell();
@@ -304,21 +305,22 @@ function solve() {
 
 function doReset() {
   return shuffleGrid()
-    .then (_ => {
+    .then(_ => {
       updateDistance();
-      $('#solveit').prop('disabled', false);
+      $sel('#solveit').disabled = false;
     });
 }
 
 function animateSolution(indexes) {
-  $('#notes')
-    .html(`solution steps: ${indexes.length-1}`);
+  $sel('#notes').innerHTML = `solution steps: ${indexes.length - 1}`;
   let p = delay(1800);
   for (let i = 1; i < indexes.length; i++) {
     p = p
       .then(_ => delay(180))
       .then(_ => move(indexes[i - 1]))
-      .then(_ => $('#notes').html(`solution steps: ${i}/${indexes.length-1}`));
+      .then(_ => {
+        $sel('#notes').innerHTML = `solution steps: ${i}/${indexes.length - 1}`;
+      });
   }
   return p.then(doReset);
 }
@@ -342,13 +344,17 @@ function shuffleGrid() {
     });
 
   let p = delay(2000)
-    .then(_ => $('#notes').html('shuffling...'));
+    .then(_ => {
+      $sel('#notes').innerHTML = 'shuffling...';
+    });
   for (let i = 0; i < NUM_MOVES; i++) {
     p = p
       .then(_ => delay(DELAY_BETWEEN_MOVES))
       .then(swapOne);
   }
-  return p.then(_ => $('#notes').html('ready.'));
+  return p.then(_ => {
+    $sel('#notes').innerHTML = 'ready.';
+  });
 }
 
 
@@ -359,7 +365,6 @@ function dismissExplanation() {
 
 function showExplanation() {
   const contentDiv = document.getElementById("explanation");
-  $('#dismiss').off('click').on('click', dismissExplanation);
   setElementVisibility(contentDiv, true);
 }
 
@@ -370,16 +375,17 @@ function setElementVisibility(element, visible) {
   }
 }
 
-$(document).ready(function() {
+document.addEventListener("DOMContentLoaded", (_event) => {
   initializeGrid();
   paintGrid();
+  $sel('#dismiss').addEventListener('click', dismissExplanation);
   shuffleGrid()
-    .then (_ => {
+    .then(_ => {
       updateDistance();
-      $('.data').on('click', cellClick);
-      $('#solveit').on('click', solve);
-      $('#explain').on('click', showExplanation);
-      $('#solveit').prop('disabled', false);
-      $('#explain').prop('disabled', false);
+      $all('.data').forEach(el => el.addEventListener('click', cellClick));
+      $sel('#solveit').addEventListener('click', solve);
+      $sel('#explain').addEventListener('click', showExplanation);
+      $sel('#solveit').disabled = false;
+      $sel('#explain').disabled = false;
     });
 });
