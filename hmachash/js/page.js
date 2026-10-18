@@ -1,153 +1,186 @@
-// page.js
+// page.js - Hash and HMAC Calculator Controller
 // ------------------------------------------------------------------
-
 /* jshint esversion:9, node:false, strict:implied */
-/* global window, console, Blob, TextEncoder, TextDecoder, crypto, md5 */
+/* global window, document, TextEncoder, TextDecoder, crypto, md5 */
 
 (function () {
-  const $ = (id) => document.getElementById(id),
-    $all = (query) => document.querySelectorAll(query),
-    $sel = (query) => document.querySelector(query);
+  "use strict";
 
-  const newlineRegex = new RegExp("(\r\n|\n)", "g"),
-    utf8Encoder = new TextEncoder(),
-    appId = "63894937-8A1F-40F0-8C4C-6656B3B9C056";
+  // =========================================================================
+  // 1. Constants, DOM Helpers & State Store
+  // =========================================================================
+
+  const $ = (id) => document.getElementById(id);
+  const $all = (query) => document.querySelectorAll(query);
+  const $sel = (query) => document.querySelector(query);
+
+  const utf8Encoder = new TextEncoder();
+  const utf8Decoder = new TextDecoder("utf-8", { fatal: true });
+  const newlineRegex = /\r\n|\r|\n/g;
   let settingUp = true;
 
+  const Store = {
+    prefix: "63894937-8A1F-40F0-8C4C-6656B3B9C056.model.",
+    get(name, fallback = "") {
+      const val = window.localStorage.getItem(this.prefix + name);
+      return val !== null ? val : fallback;
+    },
+    set(name, value) {
+      window.localStorage.setItem(this.prefix + name, String(value));
+    },
+  };
+
   const getHashName = () => $("sel-function").value.toUpperCase();
+  const getSaltEncoding = () => $("sel-pbkdf2-salt-coding").value;
+
+  function debounce(fn, delay = 100) {
+    let timer;
+    return function (...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => fn.apply(this, args), delay);
+    };
+  }
+
+  // =========================================================================
+  // 2. Binary, Hex & Base64 Codec Helpers
+  // =========================================================================
 
   function hexStringToArray(hex) {
-    // convert hex string to bytes
     const bytes = [];
-    for (let c = 0; c < hex.length; c += 2)
+    for (let c = 0; c < hex.length; c += 2) {
       bytes.push(parseInt(hex.substr(c, 2), 16));
+    }
     return new Uint8Array(bytes).buffer;
   }
 
-  // function arrayToHexString_FOR_SOME_REASON_THIS_FAILS_AT_INDEX_9_IN_SOME_CASES(hashArray) {
-  //   // convert bytes to hex string
-  //   const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  //   return hashHex;
-  // }
+  function bufferToHexString(bufferOrU8) {
+    const bytes = bufferOrU8 instanceof Uint8Array ? bufferOrU8 : new Uint8Array(bufferOrU8);
+    return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
+  }
 
-  // convert bytes to hex string
-  const arrayToHexString = (hashArray) =>
-    hashArray.map((i) => i.toString(16).padStart(2, "0")).join("");
+  function bufferToBase64(bufferOrU8) {
+    const bytes = bufferOrU8 instanceof Uint8Array ? bufferOrU8 : new Uint8Array(bufferOrU8);
+    let binary = "";
+    for (let i = 0; i < bytes.byteLength; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+  }
 
-  const arrayToB64String = (u8) =>
-    window.btoa(String.fromCharCode.apply(null, u8));
+  function b64StringToBytes(str) {
+    const binary = window.atob(str);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    return bytes;
+  }
 
-  const b64StringToArray = (str) =>
-    window
-      .atob(str)
-      .split("")
-      .map((c) => c.charCodeAt(0));
+  function b64ToB64url(text) {
+    return text.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  }
 
   function arrayToStr(value, coding) {
-    if (coding == "utf-8") {
-      return new TextDecoder("utf-8", { fatal: true }).decode(value);
+    if (coding === "utf-8") {
+      return utf8Decoder.decode(value);
     }
-    if (coding == "hex") {
-      return arrayToHexString(value);
+    if (coding === "hex") {
+      return bufferToHexString(value);
     }
-    if (coding == "base64") {
-      return arrayToB64String(value);
+    if (coding === "base64") {
+      return bufferToBase64(value);
     }
-    throw new Error("unsupported key encoding: " + coding);
+    throw new Error(`Unsupported key encoding: ${coding}`);
   }
 
   function strToArray(value, coding) {
-    if (coding == "utf-8") {
+    if (coding === "utf-8") {
       return utf8Encoder.encode(value);
     }
-    if (coding == "hex") {
+    if (coding === "hex") {
       return hexStringToArray(value);
     }
-    if (coding == "base64") {
-      return b64StringToArray(value);
+    if (coding === "base64") {
+      return b64StringToBytes(value);
     }
-    throw new Error("unsupported key encoding: " + coding);
+    throw new Error(`Unsupported key encoding: ${coding}`);
   }
 
-  const getSaltArray = () =>
-    strToArray($("pbkdf2-salt").value, getSaltEncoding());
+  const getSaltArray = () => strToArray($("pbkdf2-salt").value, getSaltEncoding());
 
-  function getKeyArray(options) {
-    // returns a Promise which will be fulfilled with a Uint8Array containing the key.
+  // =========================================================================
+  // 3. Cryptographic Operations (PBKDF2, Digest, HMAC)
+  // =========================================================================
+
+  async function getKeyArray(options) {
     const knownCodecs = ["utf-8", "base64", "hex"];
 
-    if (knownCodecs.indexOf(options.coding) >= 0) {
-      let b = null;
+    if (knownCodecs.includes(options.coding)) {
       try {
-        b = strToArray(options.keyvalue, options.coding);
-      } catch (e) {
-        // bad coding: either bad length, invalid chars for the given coding, etc.
-        b = [];
+        const bytes = strToArray(options.keyvalue, options.coding);
+        return new Uint8Array(bytes);
+      } catch (_e) {
+        return new Uint8Array([]);
       }
-      return Promise.resolve(new Uint8Array(b));
     }
 
-    if (options.coding == "pbkdf2") {
-      const keyUsages = ["deriveBits", "deriveKey"];
-      return window.crypto.subtle
-        .importKey(
-          "raw",
-          utf8Encoder.encode(options.keyvalue),
-          { name: "PBKDF2" },
-          false, // extractable,
-          keyUsages,
-        )
-        .then((keyMaterial) =>
-          window.crypto.subtle.deriveKey(
-            {
-              name: "PBKDF2",
-              salt: getSaltArray(),
-              iterations: Number($("pbkdf2-iterations").value),
-              hash: "SHA-256",
-            },
-            keyMaterial,
-            { name: "AES-GCM", length: 256 },
-            true,
-            ["encrypt", "decrypt"],
-          ),
-        )
-        .then((key) => window.crypto.subtle.exportKey("raw", key))
-        .then((a) => new Uint8Array(a))
-        .then((u8) => {
-          $("pbkdf2-derived-key").value = arrayToHexString(u8);
-          return u8;
-        });
+    if (options.coding === "pbkdf2") {
+      const keyMaterial = await window.crypto.subtle.importKey(
+        "raw",
+        utf8Encoder.encode(options.keyvalue),
+        { name: "PBKDF2" },
+        false,
+        ["deriveBits", "deriveKey"],
+      );
+
+      const derivedKey = await window.crypto.subtle.deriveKey(
+        {
+          name: "PBKDF2",
+          salt: getSaltArray(),
+          iterations: Number($("pbkdf2-iterations").value),
+          hash: "SHA-256",
+        },
+        keyMaterial,
+        { name: "AES-GCM", length: 256 },
+        true,
+        ["encrypt", "decrypt"],
+      );
+
+      const rawKeyBuffer = await window.crypto.subtle.exportKey("raw", derivedKey);
+      const u8 = new Uint8Array(rawKeyBuffer);
+      $("pbkdf2-derived-key").value = bufferToHexString(u8);
+      return u8;
     }
 
-    throw new Error("unknown key encoding: " + options.coding); // will not happen
+    throw new Error(`Unknown key encoding: ${options.coding}`);
   }
 
-  function getHash(message) {
-    const algo = getHashName();
-    if (algo == "MD-5") {
-      const r = md5(message); // md5('abc') = 900150983cd24fb0d6963f7d28e17f72
-      return Promise.resolve(hexStringToArray(r));
-    }
+  async function convertKeyForHmac() {
+    const keyArray = await getKeyArray({
+      keyvalue: $("secretkey").value,
+      coding: $("sel-key-coding").value,
+    });
 
+    return window.crypto.subtle.importKey(
+      "raw",
+      keyArray,
+      {
+        name: "HMAC",
+        hash: { name: getHashName() },
+      },
+      false,
+      ["sign", "verify"],
+    );
+  }
+
+  async function getHash(message) {
+    const algo = getHashName();
+    if (algo === "MD-5") {
+      const r = md5(message);
+      return hexStringToArray(r);
+    }
     const data = utf8Encoder.encode(message);
     return crypto.subtle.digest(algo, data);
-    // The result is a Promise that  returns an ArrayBuffer
-  }
-
-  // function eraseResults() {
-  //   $("#resultB16").text("");
-  //   $("#resultB64").text("");
-  //   $("#output").addClass("notshown").removeClass("shown");
-  // }
-
-  const arrayToBase64 = (bytes) =>
-    window.btoa(bytes.map((b) => String.fromCharCode(b)).join(""));
-
-  function b64ToB64url(text) {
-    return text
-      .replace(new RegExp("\\+", "g"), "-")
-      .replace(new RegExp("/", "g"), "_")
-      .replace(new RegExp("=+$"), "");
   }
 
   function publishResults(resultBuffer, errorMessage) {
@@ -156,64 +189,52 @@
       $("resultB64").textContent = "error";
       $("resultB64url").textContent = "error";
     } else if (resultBuffer) {
-      // convert buffer to byte array
-      const hashArray = Array.from(new Uint8Array(resultBuffer));
-      const hashInBase16 = arrayToHexString(hashArray);
-      $("resultB16").textContent = hashInBase16;
-      const hashInBase64 = arrayToBase64(hashArray);
-      $("resultB64").textContent = hashInBase64;
-      $("resultB64url").textContent = b64ToB64url(hashInBase64);
+      const hashHex = bufferToHexString(resultBuffer);
+      $("resultB16").textContent = hashHex;
+
+      const hashB64 = bufferToBase64(resultBuffer);
+      $("resultB64").textContent = hashB64;
+      $("resultB64url").textContent = b64ToB64url(hashB64);
     }
+
     const output = $("output");
     output.classList.add("shown");
     output.classList.remove("notshown");
   }
 
-  function getSaltEncoding() {
-    const label = "sel-pbkdf2-salt-coding";
-    return $(label).value;
-  }
-
-  async function convertKeyForHmac(key) {
-    const keyArray = await getKeyArray({
-      keyvalue: $("secretkey").value,
-      coding: $("sel-key-coding").value,
-    });
-    return window.crypto.subtle.importKey(
-      "raw", // raw format of the key - should be Uint8Array
-      keyArray,
-      {
-        // algorithm details
-        name: "HMAC",
-        hash: { name: getHashName() },
-      },
-      false, // export = false
-      ["sign", "verify"], // what this key can do
-    );
-  }
-
-  function calcHmac() {
-    let message = $("message").value;
+  async function calcHmac() {
+    const message = $("message").value;
     const key = $("secretkey").value;
-    if (message != null && key) {
-      message = utf8Encoder.encode(message.replace(newlineRegex, "\n"));
-      return convertKeyForHmac(key)
-        .then((key) => crypto.subtle.sign("HMAC", key, message))
-        .then((arrayBuffer) => publishResults(arrayBuffer))
-        .catch((e) => publishResults(null, e));
-    } else {
-      publishResults(null, "You must specify a message and a key");
+
+    if (!key) {
+      publishResults(null, "Please specify a secret key for HMAC computation.");
+      return;
+    }
+
+    if (getHashName() === "MD-5") {
+      publishResults(null, "WebCrypto does not support HMAC with MD-5. Please select SHA-1, SHA-256, SHA-384, or SHA-512.");
+      return;
+    }
+
+    try {
+      const normalizedMessage = message ? message.replace(newlineRegex, "\n") : "";
+      const encodedMessage = utf8Encoder.encode(normalizedMessage);
+      const cryptoKey = await convertKeyForHmac();
+      const hmacBuffer = await crypto.subtle.sign("HMAC", cryptoKey, encodedMessage);
+      publishResults(hmacBuffer);
+    } catch (e) {
+      publishResults(null, e.message || String(e));
     }
   }
 
-  function calcHash() {
-    let message = $("message").value;
-    if (message != null) {
-      const re1 = new RegExp("(\r\n|\n)", "g");
-      message = message.replace(re1, "\n");
-      getHash(message)
-        .then((hashBuffer) => publishResults(hashBuffer))
-        .catch((e) => publishResults(null, e));
+  async function calcHash() {
+    const message = $("message").value;
+    try {
+      const normalizedMessage = message ? message.replace(newlineRegex, "\n") : "";
+      const hashBuffer = await getHash(normalizedMessage);
+      publishResults(hashBuffer);
+    } catch (e) {
+      publishResults(null, e.message || String(e));
     }
   }
 
@@ -222,44 +243,38 @@
     $("hmac").checked ? calcHmac() : calcHash();
   }
 
+  // =========================================================================
+  // 4. Change Handlers & Coding Conversions
+  // =========================================================================
+
   function changeText(_event) {
-    const message = $("message").value;
-    window.localStorage.setItem(appId + ".model.message", message);
+    Store.set("message", $("message").value);
     if (getHashName()) {
       calcResult();
     }
   }
 
   function changeKey(_event) {
-    const key = $("secretkey").value;
-    window.localStorage.setItem(appId + ".model.secretkey", key);
+    Store.set("secretkey", $("secretkey").value);
     if (getHashName()) {
       calcResult();
     }
   }
 
   function changeFunction(event) {
-    if (event) {
-      event.preventDefault();
-    }
-    window.localStorage.setItem(appId + ".model.sel-function", getHashName());
+    if (event) event.preventDefault();
+    Store.set("sel-function", getHashName());
     calcResult();
   }
 
   function changeHmac(event) {
-    if (event) {
-      event.preventDefault();
-    }
-
+    if (event) event.preventDefault();
     const isChecked = $("hmac").checked;
-    window.localStorage.setItem(appId + ".model.hmac", "" + isChecked);
-    // display or hide the key as appropriate
-    $all(".hmac").forEach(
-      (elt) => (elt.style.display = isChecked ? "" : "none"),
-    );
-    $all(".not-hmac").forEach(
-      (elt) => (elt.style.display = !isChecked ? "" : "none"),
-    );
+    Store.set("hmac", isChecked);
+
+    $all(".hmac").forEach((elt) => (elt.style.display = isChecked ? "" : "none"));
+    $all(".not-hmac").forEach((elt) => (elt.style.display = !isChecked ? "" : "none"));
+
     if (isChecked) {
       changeKeyEncoding();
     }
@@ -267,26 +282,22 @@
   }
 
   async function changeInputCoding($elt, $target, newCoding, previousCoding) {
-    if (newCoding != previousCoding) {
-      // When the coding changes, try to re-encode the existing key.
-      // This will not always work nicely when switching to UTF-8.
-      // It may result in a utf-8 string with unicode escape sequences, eg \u000b.
-      if (newCoding == "utf-8" && previousCoding == "pbkdf2") {
-        // do nothing - just keep the existing text key
+    if (newCoding !== previousCoding) {
+      if (newCoding === "utf-8" && previousCoding === "pbkdf2") {
+        // Keep existing plain text key
       } else {
         const existingKey = await getKeyArray({
           keyvalue: $target.value,
           coding: previousCoding,
         });
-        if (newCoding == "pbkdf2") {
+
+        if (newCoding === "pbkdf2") {
           $target.value = arrayToStr(existingKey, "utf-8");
         } else {
           try {
-            const value = arrayToStr(existingKey, newCoding);
-            $target.value = value;
+            $target.value = arrayToStr(existingKey, newCoding);
           } catch (_exc1) {
-            // Not possible to convert all hex-encoded keys to UTF-8.
-            // do nothing
+            // Hex bytes that cannot map directly to UTF-8 are left untouched
           }
         }
       }
@@ -295,75 +306,50 @@
   }
 
   async function changeKeyEncoding(event) {
-    if (event) {
-      event.preventDefault();
-    }
-    // handle coding switch to keep the key the same
-    const elt = $("sel-key-coding"),
-      newCoding = elt.value,
-      previousCoding = elt.dataset.prev;
+    if (event) event.preventDefault();
 
-    window.localStorage.setItem(`${appId}.model.sel-key-coding`, newCoding);
-    $all(".pbkdf2").forEach(
-      (e) => (e.style.display = newCoding == "pbkdf2" ? "" : "none"),
-    );
+    const elt = $("sel-key-coding");
+    const newCoding = elt.value;
+    const previousCoding = elt.dataset.prev;
 
-    const newKeyValue = await changeInputCoding(
-      elt,
-      $("secretkey"),
-      newCoding,
-      previousCoding,
-    );
+    Store.set("sel-key-coding", newCoding);
+    $all(".pbkdf2").forEach((e) => (e.style.display = newCoding === "pbkdf2" ? "" : "none"));
+
+    const newKeyValue = await changeInputCoding(elt, $("secretkey"), newCoding, previousCoding);
     if (newKeyValue) {
-      window.localStorage.setItem(appId + ".model.secretkey", newKeyValue);
+      Store.set("secretkey", newKeyValue);
     }
     elt.dataset.prev = newCoding;
-    // In the ideal case, the hmac result does not change with a key coding change,
-    // but in some cases a coding change is not possible and the key changes.
-    // So update the result.
     calcResult();
   }
 
-  function changeIterations(event) {
-    let label = "pbkdf2-iterations",
-      iterations = $(label).value;
-    window.localStorage.setItem(`${appId}.model.${label}`, iterations);
+  function changeIterations(_event) {
+    Store.set("pbkdf2-iterations", $("pbkdf2-iterations").value);
     calcResult();
   }
 
-  function changeSalt(event) {
-    const label = "pbkdf2-salt",
-      salt = $(label).value;
-    window.localStorage.setItem(`${appId}.model.${label}`, salt);
+  function changeSalt(_event) {
+    Store.set("pbkdf2-salt", $("pbkdf2-salt").value);
     calcResult();
   }
 
   async function changeSaltEncoding(event) {
-    if (event) {
-      event.preventDefault();
-    }
-    const elt = this,
-      id = elt.id,
-      newCoding = elt.value,
-      previousCoding = elt.dataset.prev;
+    if (event) event.preventDefault();
+    const elt = this;
+    const newCoding = elt.value;
+    const previousCoding = elt.dataset.prev;
 
-    window.localStorage.setItem(`${appId}.model.${id}`, newCoding);
-    // await getKeyArray({
-    //   keyvalue : $('key').value,
-    //   coding: $('sel-key-coding').value
-    // });
-    const label = "pbkdf2-salt",
-      newSaltValue = await changeInputCoding(
-        elt,
-        $(label),
-        newCoding,
-        previousCoding,
-      );
+    Store.set(elt.id, newCoding);
+    const newSaltValue = await changeInputCoding(elt, $("pbkdf2-salt"), newCoding, previousCoding);
     if (newSaltValue) {
-      window.localStorage.setItem(`${appId}.model.${label}`, newSaltValue);
+      Store.set("pbkdf2-salt", newSaltValue);
     }
     elt.dataset.prev = newCoding;
   }
+
+  // =========================================================================
+  // 5. Test Vectors, Copy-to-Clipboard & Settings Persistence
+  // =========================================================================
 
   function applySettings() {
     const propNames = [
@@ -376,11 +362,12 @@
       "pbkdf2-salt",
       "sel-pbkdf2-salt-coding",
     ];
+
     propNames.forEach((name) => {
-      const value = window.localStorage.getItem(appId + ".model." + name);
+      const value = Store.get(name);
       if (value) {
-        if (name == "hmac") {
-          $(name).checked = value.toLowerCase() == "true";
+        if (name === "hmac") {
+          $(name).checked = value.toLowerCase() === "true";
         } else if (name.startsWith("sel-")) {
           $(name).value = value.toLowerCase();
         } else {
@@ -389,7 +376,6 @@
       }
     });
 
-    // record previous
     ["sel-key-coding", "sel-pbkdf2-salt-coding"].forEach((name) => {
       const elt = $(name);
       elt.dataset.prev = elt.value;
@@ -397,30 +383,30 @@
   }
 
   function expandAccordion(_event) {
-    const elt = this;
     $sel(".testcases").style.display = "block";
-    elt.nextElementSibling.style.display = "inline-flex";
-    elt.style.display = "none";
+    this.nextElementSibling.style.display = "inline-flex";
+    this.style.display = "none";
   }
 
   function collapseAccordion(_event) {
-    const elt = this;
     $sel(".testcases").style.display = "none";
-    elt.previousElementSibling.style.display = "inline-flex";
-    elt.style.display = "none";
+    this.previousElementSibling.style.display = "inline-flex";
+    this.style.display = "none";
   }
 
   function copyToClipboard(_event) {
-    const elt = this,
-      targetId = elt.dataset.target,
-      textHolder = targetId
-        ? $(targetId)
-        : (elt.closest("span")?.parentElement?.nextElementSibling || elt.parentElement?.querySelector(".code") || elt.closest(".result-card")?.querySelector(".code"));
+    const elt = this;
+    const targetId = elt.dataset.target;
+    const textHolder = targetId
+      ? $(targetId)
+      : (elt.closest("span")?.parentElement?.nextElementSibling ||
+         elt.parentElement?.querySelector(".code") ||
+         elt.closest(".result-card")?.querySelector(".code"));
 
     if (!textHolder) return false;
 
     const textToCopy =
-      textHolder.tagName == "TEXTAREA" || textHolder.tagName == "INPUT"
+      textHolder.tagName === "TEXTAREA" || textHolder.tagName === "INPUT"
         ? textHolder.value
         : textHolder.textContent;
 
@@ -428,14 +414,11 @@
       textHolder.classList.add("copy-to-clipboard-flash-bg");
       const label = elt.querySelector(".copy-text");
       if (label) {
-        const orig = label.textContent;
+        const originalText = label.textContent;
         label.textContent = "Copied!";
-        setTimeout(() => { label.textContent = orig; }, 1200);
+        setTimeout(() => { label.textContent = originalText; }, 1200);
       }
-      setTimeout(
-        () => textHolder.classList.remove("copy-to-clipboard-flash-bg"),
-        1000,
-      );
+      setTimeout(() => textHolder.classList.remove("copy-to-clipboard-flash-bg"), 1000);
     };
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -443,7 +426,6 @@
       return true;
     }
 
-    // Fallback for older browsers
     const temp = document.createElement("textarea");
     document.body.appendChild(temp);
     temp.value = textToCopy;
@@ -451,9 +433,7 @@
     let success = false;
     try {
       success = window.document.execCommand("copy");
-      if (success) {
-        showFlash();
-      }
+      if (success) showFlash();
     } catch (_e) {
       success = false;
     }
@@ -462,13 +442,11 @@
   }
 
   function applyTestCase(event) {
-    if (event) {
-      event.preventDefault();
-    }
-    const btn = this,
-      alg = btn.dataset.alg,
-      msg = btn.dataset.msg,
-      key = btn.dataset.key; // "secret" or ""
+    if (event) event.preventDefault();
+    const btn = this;
+    const alg = btn.dataset.alg;
+    const msg = btn.dataset.msg;
+    const key = btn.dataset.key;
 
     $("sel-function").value = alg;
     changeFunction();
@@ -481,33 +459,24 @@
       $("secretkey").value = key;
       changeKey();
 
-      // Force key encoding to UTF-8
-      const props = {
-        "sel-key-coding": "utf-8",
-        "sel-pbkdf2-salt-coding": "utf-8",
-      };
-
-      // We also strictly set the salt coding to UTF-8, though
-      // strictly speaking it wasn't requested, it's consistent.
-      // But the user ONLY asked for sel-key-coding. I will stick to that.
-
       const codingElt = $("sel-key-coding");
       codingElt.value = "utf-8";
-      // Update dataset.prev to match so future changes don't try to convert from wrong type
       codingElt.dataset.prev = "utf-8";
-      window.localStorage.setItem(`${appId}.model.sel-key-coding`, "utf-8");
+      Store.set("sel-key-coding", "utf-8");
 
-      // Hide PBKDF2 fields if they were shown
       $all(".pbkdf2").forEach((e) => (e.style.display = "none"));
-
       changeHmac();
     } else {
       $("hmac").checked = false;
       changeHmac();
     }
-    // Final calculation to ensure everything is synced
+
     calcResult();
   }
+
+  // =========================================================================
+  // 6. Application Initialization
+  // =========================================================================
 
   document.addEventListener("DOMContentLoaded", () => {
     $("sel-function").addEventListener("change", changeFunction);
@@ -515,26 +484,28 @@
     $("hmac").addEventListener("change", changeHmac);
     $("sel-key-coding").addEventListener("change", changeKeyEncoding);
     $("sel-pbkdf2-salt-coding").addEventListener("change", changeSaltEncoding);
-    $("message").addEventListener("input", changeText);
-    $("secretkey").addEventListener("input", changeKey);
+
+    const debouncedCalc = debounce(calcResult, 80);
+    $("message").addEventListener("input", () => {
+      Store.set("message", $("message").value);
+      debouncedCalc();
+    });
+    $("secretkey").addEventListener("input", () => {
+      Store.set("secretkey", $("secretkey").value);
+      debouncedCalc();
+    });
+
     $("pbkdf2-iterations").addEventListener("input", changeIterations);
     $("pbkdf2-salt").addEventListener("input", changeSalt);
-    $all(".copyIconHolder").forEach((elt) =>
-      elt.addEventListener("click", copyToClipboard),
-    );
-    $all(".expand").forEach((elt) =>
-      elt.addEventListener("click", expandAccordion),
-    );
-    $all(".collapse").forEach((elt) =>
-      elt.addEventListener("click", collapseAccordion),
-    );
-    $all(".apply-test").forEach((elt) =>
-      elt.addEventListener("click", applyTestCase),
-    );
+
+    $all(".copyIconHolder").forEach((elt) => elt.addEventListener("click", copyToClipboard));
+    $all(".expand").forEach((elt) => elt.addEventListener("click", expandAccordion));
+    $all(".collapse").forEach((elt) => elt.addEventListener("click", collapseAccordion));
+    $all(".apply-test").forEach((elt) => elt.addEventListener("click", applyTestCase));
+
     $all(".collapse").forEach((elt) => (elt.style.display = "none"));
     applySettings();
     changeHmac();
-    //changeKeyEncoding();
     $sel(".testcases").style.display = "none";
     settingUp = false;
 
