@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main.css">
     <script src="tile-sliding.js"></script>
-    <title>15-Puzzle Solver</title>
+    <title>Sliding Tile Puzzle</title>
   </head>
 
   <body>
@@ -13,7 +13,7 @@
       <div class="card">
         <header class="card-header">
           <span class="kicker">A* Search Demo</span>
-          <h1 class="title">15-Puzzle</h1>
+          <h1 class="title">Sliding Tile Puzzle</h1>
         </header>
 
         <div class="status-bar">
@@ -39,7 +39,7 @@
     <div id="explanation" class="hidden overlay">
       <div class="modal">
         <div class="modal-header">
-          <h2>About 15-Puzzle Solver</h2>
+          <h2>About Sliding Tile Puzzle</h2>
         </div>
         <div class="modal-body">
           <p>This is an interactive HTML version of the tile sliding puzzle. Click on a tile adjacent to the open space to move it.</p>
@@ -51,6 +51,7 @@
             <li><strong>State representation:</strong> A compact 16-character string representation for the state yields far better performance in JavaScript than 2-D numeric arrays when checking against the &ldquo;closed&rdquo; set.</li>
             <li><strong>Precomputed adjacency:</strong> Tile neighbor adjacencies are precomputed into a static lookup table, avoiding neighbor search overhead at runtime.</li>
           </ol>
+          <p class="attribution">AI was used (via <a href="https://cecli.dev/" target="_blank" rel="noopener noreferrer">cecli</a>) to restyle, and refactor the application, after it was built.</p>
         </div>
         <div class="modal-footer">
           <button id="dismiss" type="button" class="btn btn-primary">Dismiss</button>

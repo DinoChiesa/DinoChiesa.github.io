@@ -318,6 +318,27 @@ html, body {
   border: 1px solid var(--color-slate-200);
 }
 
+.modal-body a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 600;
+  transition: color 0.15s ease;
+}
+
+.modal-body a:hover {
+  color: var(--color-primary-hover);
+}
+
+.modal-body .attribution {
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--color-slate-200);
+  font-size: 13px;
+  color: var(--color-slate-600);
+  font-style: italic;
+}
+
 .modal-footer {
   margin-top: 24px;
   display: flex;
