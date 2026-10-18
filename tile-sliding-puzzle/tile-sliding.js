@@ -193,7 +193,7 @@ function launchConfetti() {
 function checkVictory() {
   const notes = $sel('#notes');
   if (!notes) return;
-  if (!initialLoadComplete) {
+  if (!initialLoadComplete || isShuffling) {
     updateSolveButtonState();
     return;
   }
@@ -512,6 +512,11 @@ async function shuffleGrid(difficulty) {
   wasSolved = false;
   updateSolveButtonState();
   $sel('#notes').innerHTML = 'shuffling...';
+
+  // Reset to solved state before walking out to the target difficulty
+  datamodel = GOAL_STATE;
+  paintGrid();
+
   await delay(120);
 
   let minMoves = 14;
