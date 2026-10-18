@@ -362,15 +362,19 @@ async function fetchHtmlAsText(url) {
 
 function dismissExplanation() {
   const contentDiv = document.getElementById("explanation");
-  contentDiv.innerHTML = '';
   setElementVisibility(contentDiv, false);
 }
 
 async function showExplanation() {
   const contentDiv = document.getElementById("explanation");
-  contentDiv.innerHTML = await fetchHtmlAsText("about.htm");
-  //contentDiv.classList.add('overlay');
-  $('#dismiss').on('click', dismissExplanation);
+  if (!contentDiv.innerHTML.trim()) {
+    try {
+      contentDiv.innerHTML = await fetchHtmlAsText("about.htm");
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  $('#dismiss').off('click').on('click', dismissExplanation);
   setElementVisibility(contentDiv, true);
 }
 
