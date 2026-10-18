@@ -280,15 +280,22 @@ async function move(index, open, animated = false) {
     cellEl.style.transition = 'transform 110ms cubic-bezier(0.2, 0, 0, 1)';
     cellEl.style.transform = `translate(calc(${dCol} * (100% + var(--tile-gap))), calc(${dRow} * (100% + var(--tile-gap))))`;
     await delay(110);
-    cellEl.style.transition = '';
-    cellEl.style.transform = '';
-    cellEl.style.zIndex = '';
   }
 
   datamodel = applyChangeToModel(datamodel, index, open);
   paintGrid();
+
+  if (cellEl) {
+    cellEl.style.transition = 'none';
+    cellEl.style.transform = '';
+    cellEl.style.zIndex = '';
+    void cellEl.offsetWidth;
+    cellEl.style.transition = '';
+  }
+
   isAnimating = false;
   return true;
+
 }
 
 function shakeCell(element) {
@@ -580,7 +587,7 @@ function handleSolveOrShuffle() {
   }
 }
 
-function handleKeyDown(event) {
+async function handleKeyDown(event) {
   // If modal is open, Escape closes it
   const explanation = $sel('#explanation');
   if (explanation && !explanation.classList.contains('hidden')) {
@@ -627,7 +634,7 @@ function handleKeyDown(event) {
   if (targetRow >= 0 && targetRow < 4 && targetCol >= 0 && targetCol < 4) {
     event.preventDefault();
     const targetIndex = targetRow * 4 + targetCol;
-    move(targetIndex, openIndex, true);
+    await move(targetIndex, openIndex, true);
   } else {
     event.preventDefault();
     shakeCell($sel('#main'));
@@ -704,6 +711,7 @@ function setupTouchHandlers() {
     }
 
     if (targetIndex !== null && isAdjacent(targetIndex, openIndex)) {
+      e.preventDefault();
       move(targetIndex, openIndex, true);
     } else {
       shakeCell(board);
