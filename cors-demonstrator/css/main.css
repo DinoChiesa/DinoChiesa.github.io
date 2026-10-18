@@ -1,86 +1,364 @@
-body, html {
-  font-size: 180%;
-  margin-left:10px;
-  height: 100%;
-  display: grid;
+/* ==========================================================================
+   CORS Demonstrator - Namari-Inspired Aesthetic (Presentation / Demonstration Scale)
+   Clean, modern, high-contrast, with deliberately LARGE fonts for live demo visibility
+   ========================================================================== */
+
+:root {
+  --color-canvas: #f8fafc;
+  --color-card: #ffffff;
+  --color-primary: #c59d5f;       /* Namari warm gold accent */
+  --color-primary-hover: #b0894d;
+  --color-primary-light: #fdfaf3;
+  --color-primary-subtle: #fef8ed;
+  --color-slate-900: #0f172a;
+  --color-slate-800: #1e293b;
+  --color-slate-700: #334155;
+  --color-slate-600: #475569;
+  --color-slate-500: #64748b;
+  --color-slate-400: #94a3b8;
+  --color-slate-300: #cbd5e1;
+  --color-slate-200: #e2e8f0;
+  --color-slate-100: #f1f5f9;
+  --color-slate-50: #f8fafc;
+
+  --color-success: #15803d;
+  --color-success-bg: #f0fdf4;
+  --color-success-border: #bbf7d0;
+
+  --color-danger: #b91c1c;
+  --color-danger-bg: #fef2f2;
+  --color-danger-border: #fecaca;
+
+  --radius-card: 16px;
+  --radius-inner: 10px;
+  --radius-input: 8px;
+  --radius-pill: 999px;
+
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", Courier, monospace;
+
+  --shadow-card: 0 20px 40px -15px rgba(15, 23, 42, 0.08), 0 0 1px rgba(15, 23, 42, 0.12);
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
 }
 
-body > div {
-  height: auto;
-  width: auto;
-  font-size: 32px;
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  font-family: var(--font-family);
+  background-color: var(--color-canvas);
+  background-image: radial-gradient(ellipse at 50% 0%, #ffffff 0%, var(--color-canvas) 75%);
+  color: var(--color-slate-800);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding: 40px 20px 60px 20px;
+  max-width: 1040px;
   margin: 0 auto;
 }
-form div label {
-  float: left;
-  width: 178px;
-  margin: 8px 0;
-}
-form > div > select,
-form > div > textarea,
-form > div > input {
-  margin: 2px 0;
-}
-body > div > div {
-  width: 960px;
-  margin: 10px;
-}
-form .form-group {
-  display:inline-block;
-  float:left;
-  margin-right:8px;
-  margin-bottom:1px;
-}
-.form-group.blocks {
-  display:block;
-  float:none;
-  margin-right:8px;
-  overflow:auto;
+
+/* ---------------- Card Container ---------------- */
+.card {
+  background: var(--color-card);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 40px 40px;
+  width: 100%;
+  margin-bottom: 24px;
 }
 
-form > div.last:after {
-  content:"";
-  display:table;
-  clear:both;
+.card-header {
+  margin-bottom: 32px;
+  text-align: center;
+  background: transparent;
+  border-bottom: none;
+  padding: 0;
 }
 
-form > div.form-group > select.form-control {
-  width: 720px;
+.kicker {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--color-primary);
+  margin-bottom: 8px;
 }
 
+.title {
+  margin: 0 0 10px 0;
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--color-slate-900);
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  margin: 0 auto;
+  font-size: 16px;
+  color: var(--color-slate-500);
+  max-width: 680px;
+}
+
+/* ---------------- Form Elements (LARGE for demonstrations) ---------------- */
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-label {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--color-slate-700);
+  margin-bottom: 8px;
+}
+
+.form-control,
+.form-select,
 .txt {
-  width: 720px;
-  font-size: 80%;
+  display: block;
+  width: 100%;
+  font-family: inherit;
+  font-size: 18px;                /* LARGE font for demo readability */
+  color: var(--color-slate-900);
+  background-color: #ffffff;
+  border: 1.5px solid var(--color-slate-300);
+  border-radius: var(--radius-input);
+  padding: 12px 16px;            /* Generous touch/click target */
+  line-height: 1.5;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-#output {
-  display:block;
-  border: none;
-  min-width: 680px;
-  height: 744px;
-  padding: 0px 0px;
+.form-control:focus,
+.form-select:focus,
+.txt:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3.5px rgba(197, 157, 95, 0.22);
 }
 
-body .notshown,
-body .form-group.blocks.notshown {
-  display:none;
+::placeholder {
+  color: var(--color-slate-400);
+  font-style: italic;
+  font-size: 16px;
 }
-.results {
-  border:1px solid #a6a6a6;
-  height:100%;
-  width:100%;
-  font-size:75%;
+
+textarea.form-control,
+textarea.txt {
+  font-family: var(--font-mono);
+  font-size: 16px;                /* Clean, legible monospace for headers/payload */
   resize: vertical;
+  line-height: 1.55;
+  min-height: 90px;
+}
 
+/* ---------------- Grid Rows ---------------- */
+.url-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
 }
-#output > div {
-  margin-top: 16px;
+
+.verb-grid {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 16px;
 }
-.code {
-  font-family: "Consolas", "Courier New", Courier, monospace;
+
+@media (max-width: 768px) {
+  .url-grid,
+  .verb-grid {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    padding: 24px 20px;
+  }
+  .title {
+    font-size: 28px;
+  }
 }
-.disabled {
-  color:  #010101;
-  background: none repeat scroll 0 0 #DCDCDC;
-  cursor: default !important;
+
+/* ---------------- Action Buttons (LARGE) ---------------- */
+.actions-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-slate-100);
+}
+
+.btn {
+  font-family: inherit;
+  font-size: 16px;                /* Large, punchy button text */
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 13px 30px;
+  border-radius: var(--radius-input);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+  box-shadow: 0 2px 6px rgba(197, 157, 95, 0.25);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(197, 157, 95, 0.35);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-slate-700);
+  border-color: var(--color-slate-300);
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-slate-800);
+  background-color: var(--color-slate-800);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* ---------------- Output Section (LARGE for demonstration) ---------------- */
+#output {
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid var(--color-slate-200);
+}
+
+.output-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;                /* Large status line */
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+}
+
+.status-success {
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
+  border: 1.5px solid var(--color-success-border);
+}
+
+.status-error {
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger);
+  border: 1.5px solid var(--color-danger-border);
+}
+
+.btn-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--color-slate-600);
+  background: #ffffff;
+  border: 1px solid var(--color-slate-300);
+  border-radius: var(--radius-pill);
+  padding: 7px 16px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-copy:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.btn-copy svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+.results-display {
+  width: 100%;
+  background: var(--color-slate-50);
+  border: 1.5px solid var(--color-slate-300);
+  border-radius: var(--radius-inner);
+  padding: 20px 22px;
+  font-family: var(--font-mono);
+  font-size: 16px;                /* Large, easy-to-read response block */
+  line-height: 1.6;
+  color: var(--color-slate-900);
+  white-space: pre-wrap;
+  word-break: break-all;
+  min-height: 200px;
+  max-height: 550px;
+  overflow-y: auto;
+}
+
+/* Flash animation on copy */
+.copy-to-clipboard-flash-bg {
+  animation: flashbg 1s ease-out;
+}
+
+@keyframes flashbg {
+  0% {
+    background-color: rgba(197, 157, 95, 0.35);
+  }
+  100% {
+    background-color: var(--color-slate-50);
+  }
+}
+
+/* ---------------- Utilities ---------------- */
+.notshown {
+  display: none !important;
+}
+
+.shown {
+  display: block !important;
 }
