@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>TOTP Link Builder</title>
+    <title>TOTP Link &amp; Barcode Generator</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -28,73 +28,140 @@
     <script type="text/javascript" src="js/link-builder-page.js"></script>
   </head>
   <body>
-    <!-- ======================================================= -->
-    <div style="margin: 10px">
-      <h3>
-        Get a TOTP barcode (<a href="https://tools.ietf.org/html/rfc6238"
-          >IETF RFC 6238</a
-        >)
-      </h3>
-      <form role="form">
-        <div class="form-group">
-          <label for="baseurl">Base URL:</label>
-          <select
-            name="baseurl"
-            id="baseurl"
-            class="form-control"
-            data-placeholder="baseurl"
-            required
-          >
-            <option value=""></option>
-            <option value="https://quickchart.io/qr">
-              https://quickchart.io/qr
-            </option>
-          </select>
-        </div>
+    <main class="page-container">
+      <div class="card app-card">
+        <header class="card-header">
+          <span class="kicker">Authentication Utility</span>
+          <h1 class="title">
+            TOTP Link &amp; Barcode Generator
+          </h1>
+          <p class="subtitle">
+            Construct RFC 6238-compliant authenticator URI links (<code>otpauth://</code>) and generate scannable QR barcodes for mobile authenticator apps.
+          </p>
+        </header>
 
-        <div class="form-group">
-          <label for="bcsize">size:</label>
-          <select
-            name="bcsize"
-            id="bcsize"
-            class="form-control"
-            data-placeholder="bcsize"
-            required
-          >
-            <option value=""></option>
-            <option value="200">200</option>
-            <option value="320">320</option>
-            <option value="480">480</option>
-          </select>
-        </div>
+        <form role="form">
+          <div class="form-group">
+            <div class="grid-two-col">
+              <div>
+                <label for="baseurl" class="form-label">Base QR Service URL</label>
+                <select
+                  name="baseurl"
+                  id="baseurl"
+                  class="form-control"
+                  data-placeholder="baseurl"
+                  required
+                >
+                  <option value=""></option>
+                  <option value="https://quickchart.io/qr">
+                    https://quickchart.io/qr
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label for="bcsize" class="form-label">Barcode Size (px)</label>
+                <select
+                  name="bcsize"
+                  id="bcsize"
+                  class="form-control"
+                  data-placeholder="bcsize"
+                  required
+                >
+                  <option value=""></option>
+                  <option value="200">200</option>
+                  <option value="320">320</option>
+                  <option value="480">480</option>
+                </select>
+              </div>
+            </div>
+          </div>
 
-        <div class="form-group">
-          <label for="label">Label:</label>
-          <input type="text" class="form-control" id="label" />
-        </div>
+          <div class="form-group">
+            <label for="label" class="form-label">Account Label</label>
+            <input
+              type="text"
+              class="form-control"
+              id="label"
+              placeholder="e.g. user@example.com"
+            />
+          </div>
 
-        <div class="form-group">
-          <label for="secret">Secret:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="secret"
-            title="Be careful. This page does not store or log the secret, but you can never be too sure, can you?"
-          />
-        </div>
+          <div class="form-group">
+            <label for="secret" class="form-label">Shared Secret</label>
+            <input
+              type="text"
+              class="form-control"
+              id="secret"
+              placeholder="Insert your secret key (encoded automatically to Base32)"
+              title="Be careful. This page does not store or log the secret, but you can never be too sure, can you?"
+            />
+          </div>
 
-        <div class="form-group">
-          <label for="issuer">Issuer:</label>
-          <input type="text" class="form-control" id="issuer" />
-        </div>
+          <div class="form-group">
+            <label for="issuer" class="form-label">Issuer Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="issuer"
+              placeholder="e.g. Google, Apigee, MyService"
+            />
+          </div>
 
-        <div>
-          <button type="submit" class="btn btn-default" style="display: none">
-            Submit
-          </button>
-        </div>
-      </form>
+          <div>
+            <button type="submit" class="btn btn-default" style="display: none">
+              Submit
+            </button>
+          </div>
+        </form>
 
+        <div id="output">
+          <div class="result-card">
+            <div class="result-card-header">
+              <span class="result-label">Generated OTPAuth URI Link</span>
+              <button
+                type="button"
+                class="btn-copy"
+                id="btn-copy-link"
+                title="Copy OTPAuth URI"
+              >
+                <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                <span class="copy-text">Copy Link</span>
+              </button>
+            </div>
+            <div id="totplinkholder">
+              <a href="" id="totplink" target="_blank" rel="noopener noreferrer"></a>
+            </div>
+          </div>
+
+          <div id="buttons">
+            <button
+              type="button"
+              class="btn-namari btn-namari-primary show-btn"
+              id="show-barcode"
+              title="Show the barcode"
+            >
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M4 4h6v6H4V4zm2 2v2h2V6H6zm8-2h6v6h-6V4zm2 2v2h2V6h-2zM4 14h6v6H4v-6zm2 2v2h2v-2H6zm10-2h2v2h-2v-2zm-2 2h2v2h-2v-2zm4 0h2v2h-2v-2zm-2 2h2v2h-2v-2zm2 2h2v2h-2v-2z"/></svg>
+              Show Barcode
+            </button>
+            <button type="button" class="btn-namari btn-namari-secondary" id="reset-everything">
+              Reset
+            </button>
+            <button
+              type="button"
+              class="btn-namari btn-namari-secondary"
+              id="show-notes"
+              title="Show notes"
+            >
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+              Notes
+            </button>
+          </div>
+
+          <div id="barcodeResult"></div>
+        </div>
+      </div>
+
+      <!-- Notes Modal -->
       <div
         class="modal fade"
         id="notes-modal"
@@ -102,135 +169,61 @@
         aria-labelledby="notesModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Notes</h5>
+              <h5 class="modal-title" id="notesModalLabel">Usage &amp; Security Notes</h5>
               <button
                 type="button"
-                class="close"
+                class="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
+              ></button>
             </div>
             <div class="modal-body">
               <ol>
                 <li>
                   <p>
-                    This page generates a QR code (barcode) that can be used for
-                    an authenticator app that generates and display Time-based
-                    One Time Passwords (TOTP). Such apps include
-                    <a
-                      href="https://www.google.com/search?q=google+authenticator"
-                      >Google Authenticator</a
-                    >,
-                    <a
-                      href="https://www.google.com/search?q=microsoft+authenticator"
-                      >Microsoft Authenticator</a
-                    >, and numerous others. The basic idea is that you, as a
-                    user, visit a website, the website challenges you for the
-                    one-time passcode, and you open the authenticator app on
-                    your phone and see the code. Websites generate a unique QR
-                    code as the way to "install" the TOTP generator particular
-                    for that user&amp;website combination on your mobile device.
+                    This page generates a QR code (barcode) that can be scanned into an authenticator app that generates Time-based One Time Passwords (TOTP) compliant with <a href="https://tools.ietf.org/html/rfc6238" target="_blank" rel="noopener noreferrer">IETF RFC 6238</a>. Such apps include
+                    <a href="https://www.google.com/search?q=google+authenticator" target="_blank" rel="noopener noreferrer">Google Authenticator</a>,
+                    <a href="https://www.google.com/search?q=microsoft+authenticator" target="_blank" rel="noopener noreferrer">Microsoft Authenticator</a>, and numerous others.
                   </p>
                 </li>
-
                 <li>
                   <p>
-                    This webpage lets you generate a QR codes by assembling the
-                    data you enter here for Label, Secret, and Issuer, into a
-                    URL, that then gets sent to quickchart.io. You can then scan
-                    the generated code with your mobile device, to install the
-                    TOTP generator in your preferred authenticator app. But
-                    <strong
-                      >you should use this only for demonstrations.</strong
-                    >
+                    This tool constructs an <code>otpauth://totp/...</code> URI from your Label, Secret, and Issuer, and sends the payload to an online chart renderer (such as quickchart.io) to generate the barcode image. <strong>You should use this only for demonstrations or testing.</strong>
                   </p>
                 </li>
-
                 <li>
                   <p>
-                    The QR code you generate here should be used for example or
-                    demonstration purposes only. This is because the combination
-                    of {Label, Secret, and Issuer} are sufficient information
-                    for any holder to generate their own QR code, and thus
-                    "impersonate you". By using this webpage to generate a
-                    barcode, you are sharing your keys with quickchart.io (or
-                    whatever service you use). In other words, never use an
-                    online tool to generate a QR code for TOTP. For a more
-                    detailed explanation, see
-                    <a href="https://stackoverflow.com/a/56737468/48082"
-                      >this stackoverflow answer</a
-                    >.
+                    The combination of {Label, Secret, Issuer} is sufficient to generate matching one-time codes and impersonate an account. Never use an online tool to generate QR codes for sensitive production secrets. For more details, see <a href="https://stackoverflow.com/a/56737468/48082" target="_blank" rel="noopener noreferrer">this Stack Overflow answer</a>.
                   </p>
                 </li>
-
                 <li>
                   <p>
-                    This webpage does not provide a way to validate a TOTP
-                    generated from your app, sorry.
+                    This tool runs entirely in the browser using client-side JavaScript.
                   </p>
                 </li>
-
                 <li>
                   <p>
-                    This tool uses EcmaScript (JavaScript) for interactivity,
-                    and
-                    <a
-                      href="https://getbootstrap.com/docs/5.3/getting-started/introduction/"
-                      >Bootstrap v5</a
-                    >
-                    for styling. It will run only on modern, current browsers.
-                  </p>
-                </li>
-
-                <li>
-                  <p>
-                    Written by
-                    <a href="https://github.com/DinoChiesa/">Dino Chiesa</a>.
-                    Contact me with questions, suggestions, or kudos via
-                    <a href="https://bsky.app/profile/ionicshade.bsky.social"
-                      >Bsky</a
-                    >.
+                    Written by <a href="https://github.com/DinoChiesa/" target="_blank" rel="noopener noreferrer">Dino Chiesa</a>.
+                    Contact via GitHub or <a href="https://bsky.app/profile/ionicshade.bsky.social" target="_blank" rel="noopener noreferrer">Bluesky</a>.
                   </p>
                 </li>
               </ol>
             </div>
-
             <div class="modal-footer">
               <button
                 type="button"
-                class="btn btn-secondary"
+                class="btn-namari btn-namari-primary"
                 data-bs-dismiss="modal"
               >
                 Close
               </button>
-              <!--        <button type="button" class="btn btn-primary">Save changes</button> -->
             </div>
           </div>
         </div>
       </div>
-
-      <div id="output">
-        <div id="totplinkholder"><a href="" id="totplink"></a></div>
-        <div id="buttons">
-          <button
-            class="btn btn-default show-btn"
-            id="show-barcode"
-            title="Show the barcode"
-          >
-            Show
-          </button>
-          <button class="btn btn-default" id="reset-everything">Reset</button>
-          <button class="btn btn-default" id="show-notes" title="show notes">
-            Notes
-          </button>
-        </div>
-        <div id="barcodeResult"></div>
-      </div>
-    </div>
+    </main>
   </body>
 </html>

@@ -1,108 +1,433 @@
-form div label {
-  float: left;
-  width: 148px;
-  margin: 8px 0;
+/* ==========================================================================
+   TOTP Link & Barcode Generator - Namari-Inspired Aesthetic
+   Clean, modern, high-contrast, refined typography and palette
+   ========================================================================== */
+
+:root {
+  --color-canvas: #f8fafc;
+  --color-card: #ffffff;
+  --color-primary: #c59d5f;       /* Namari warm gold accent */
+  --color-primary-hover: #b0894d;
+  --color-primary-light: #fdfaf3;
+  --color-primary-subtle: #fef8ed;
+  --color-slate-900: #0f172a;
+  --color-slate-800: #1e293b;
+  --color-slate-700: #334155;
+  --color-slate-600: #475569;
+  --color-slate-500: #64748b;
+  --color-slate-400: #94a3b8;
+  --color-slate-300: #cbd5e1;
+  --color-slate-200: #e2e8f0;
+  --color-slate-100: #f1f5f9;
+  --color-slate-50: #f8fafc;
+  --radius-card: 16px;
+  --radius-inner: 10px;
+  --radius-input: 8px;
+  --radius-pill: 999px;
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", Courier, monospace;
+  --shadow-card: 0 20px 40px -15px rgba(15, 23, 42, 0.07), 0 0 1px rgba(15, 23, 42, 0.1);
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
 }
 
-div.choices {
-  max-width: 660px;
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-form > div > select,
-form > div > input {
-  float: left;
-  max-width: 660px;
-  margin: 2px 0;
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  font-family: var(--font-family);
+  background-color: var(--color-canvas);
+  background-image: radial-gradient(ellipse at 50% 0%, #ffffff 0%, var(--color-canvas) 75%);
+  color: var(--color-slate-800);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-form > div > div.chosen-container-multi > ul.chosen-choices li.search-field {
-  margin: 3px 5px 3px 12px;
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding: 40px 16px 60px 16px;
+  max-width: 960px;
+  margin: 0 auto;
 }
-form > div > div.chosen-container-multi > ul.chosen-choices li.search-choice {
-  margin: 6px 5px 5px 1px;
+
+/* ---------------- Card Containers ---------------- */
+.card {
+  background: var(--color-card);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 36px 36px;
+  width: 100%;
+  margin-bottom: 24px;
 }
-.form-group {
-  margin-bottom: 2px;
+
+.card-header {
+  margin-bottom: 28px;
+  text-align: center;
+  background: transparent;
+  border-bottom: none;
+  padding: 0;
 }
-form > div > div.chosen-container {
-  margin: 2px 0;
-  max-width: 440px;
-}
-form > div,
-form > div.form-group {
+
+.kicker {
   display: block;
-  clear: both;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--color-primary);
+  margin-bottom: 6px;
 }
-div.divider {
-  border-top: 1px solid Black;
+
+.title {
+  margin: 0 0 8px 0;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--color-slate-900);
+  letter-spacing: -0.5px;
 }
+
+.title a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.subtitle {
+  margin: 0 auto;
+  font-size: 14px;
+  color: var(--color-slate-500);
+  max-width: 640px;
+}
+
+/* ---------------- Form Elements & Controls ---------------- */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--color-slate-600);
+  margin-bottom: 7px;
+}
+
+.form-control,
+.form-select {
+  display: block;
+  width: 100%;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--color-slate-800);
+  background-color: #ffffff;
+  border: 1px solid var(--color-slate-300);
+  border-radius: var(--radius-input);
+  padding: 10px 14px;
+  line-height: 1.5;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(197, 157, 95, 0.2);
+}
+
+::placeholder {
+  color: var(--color-slate-400);
+  font-style: italic;
+}
+
+.grid-two-col {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .grid-two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------- Choices.js Overrides for Namari Aesthetic ---------------- */
+.choices {
+  margin-bottom: 0;
+}
+
+.choices__inner {
+  background-color: #ffffff !important;
+  border: 1px solid var(--color-slate-300) !important;
+  border-radius: var(--radius-input) !important;
+  padding: 5px 10px !important;
+  min-height: 44px !important;
+  font-family: inherit !important;
+  font-size: 14px !important;
+  color: var(--color-slate-800) !important;
+}
+
+.is-focused .choices__inner {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px rgba(197, 157, 95, 0.2) !important;
+}
+
+.choices__list--dropdown {
+  border: 1px solid var(--color-slate-200) !important;
+  border-radius: var(--radius-input) !important;
+  box-shadow: var(--shadow-card) !important;
+  font-family: inherit !important;
+  font-size: 14px !important;
+}
+
+.choices__list--dropdown .choices__item--selectable.is-highlighted {
+  background-color: var(--color-primary) !important;
+  color: #ffffff !important;
+}
+
+/* ---------------- Output Container & Link Card ---------------- */
 #output {
   margin-top: 28px;
-  font-size: 160%;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-slate-100);
 }
-#output .error {
-  color: Red;
+
+.result-card {
+  background: #ffffff;
+  border: 1px solid var(--color-slate-200);
+  border-radius: var(--radius-inner);
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
 }
-#output > div {
-  margin-top: 18px;
+
+.result-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background-color: var(--color-slate-50);
+  border-bottom: 1px solid var(--color-slate-200);
 }
-#totplinkholder {
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  -ms-word-break: break-all;
-  word-break: break-word;
+
+.result-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--color-primary);
 }
-#buttons {
-  /*border: 1px dotted Grey;*/
+
+.btn-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--color-slate-600);
+  background: #ffffff;
+  border: 1px solid var(--color-slate-300);
+  border-radius: var(--radius-pill);
   padding: 4px 12px;
-}
-#buttons > button {
-  margin: 4px 12px;
-}
-
-#buttons > button.btn-default {
-  border: 1px dotted grey;
-}
-#buttons > button.btn-default:hover {
-  background-color: #b0c4de;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
-.modal-dialog {
-  max-width: 720px;
+.btn-copy:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+  transform: translateY(-1px);
 }
 
-body {
-  font-size: 132%;
+.btn-copy svg {
+  width: 13px;
+  height: 13px;
+  fill: currentColor;
 }
 
-.cb-element {
-  /* max-width: 880px;*/
-  display: block;
-}
-
-.cb-element:after {
-  /* clearfix */
-  content: " ";
-  display: block;
-  height: 0;
-  clear: both;
-}
-
-.cb-element .cb-label {
-  float: left;
-  width: 180px;
-}
-.cb-element .cb-value {
-  float: left;
-  max-width: 600px;
-
-  /* all below, to handle really long JWTs */
-  white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
-  white-space: -pre-wrap; /* Opera 4-6 */
-  white-space: -o-pre-wrap; /* Opera 7 */
-  white-space: pre-wrap; /* css-3 */
-  word-wrap: break-word; /* Internet Explorer 5.5+ */
-  white-space: -webkit-pre-wrap; /* Newer versions of Chrome/Safari*/
+#totplinkholder {
+  padding: 14px 16px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-slate-800);
   word-break: break-all;
-  white-space: normal;
+  background: #ffffff;
+}
+
+#totplinkholder a {
+  color: var(--color-slate-800);
+  text-decoration: none;
+}
+
+#totplinkholder a:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+/* ---------------- Action Buttons ---------------- */
+#buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.btn-namari {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 11px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-namari-primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+  box-shadow: 0 2px 4px rgba(197, 157, 95, 0.2);
+}
+
+.btn-namari-primary:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(197, 157, 95, 0.35);
+}
+
+.btn-namari-secondary {
+  background-color: transparent;
+  color: var(--color-slate-700);
+  border-color: var(--color-slate-300);
+}
+
+.btn-namari-secondary:hover {
+  border-color: var(--color-slate-800);
+  background-color: var(--color-slate-800);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* ---------------- Barcode Result Image Container ---------------- */
+#barcodeResult {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+#barcodeResult:not(:empty) {
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid var(--color-slate-200);
+  border-radius: var(--radius-inner);
+  box-shadow: var(--shadow-sm);
+  display: inline-flex;
+  margin: 0 auto;
+}
+
+#barcodeResult img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* ---------------- Copy Flash Animation ---------------- */
+.copy-to-clipboard-flash-bg {
+  animation: flashbg 1s ease-out;
+}
+
+@keyframes flashbg {
+  0% {
+    background-color: rgba(197, 157, 95, 0.35);
+  }
+  100% {
+    background-color: #ffffff;
+  }
+}
+
+/* ---------------- Modal Styling ---------------- */
+.modal-content {
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  border-radius: var(--radius-card) !important;
+  box-shadow: var(--shadow-card) !important;
+  padding: 10px;
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--color-slate-100) !important;
+  padding: 18px 24px !important;
+}
+
+.modal-title {
+  font-weight: 700 !important;
+  font-size: 18px !important;
+  color: var(--color-slate-900) !important;
+}
+
+.modal-body {
+  padding: 20px 24px !important;
+  font-size: 14px !important;
+  line-height: 1.65 !important;
+  color: var(--color-slate-600) !important;
+}
+
+.modal-body ol {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.modal-body li {
+  margin-bottom: 12px;
+}
+
+.modal-body li:last-child {
+  margin-bottom: 0;
+}
+
+.modal-body a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.modal-body a:hover {
+  color: var(--color-primary-hover);
+  text-decoration: underline;
+}
+
+.modal-footer {
+  border-top: 1px solid var(--color-slate-100) !important;
+  padding: 14px 24px !important;
 }

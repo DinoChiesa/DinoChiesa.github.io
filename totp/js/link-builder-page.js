@@ -101,8 +101,44 @@ function resetEverything(event) {
 }
 
 function showBarcode(event) {
-  $("barcodeResult").innerHTML = `<img src="${$("totplink").href}">`;
+  $("barcodeResult").innerHTML = `<img src="${$("totplink").href}" alt="TOTP Barcode">`;
   if (event) event.preventDefault();
+}
+
+function copyToClipboard(event) {
+  if (event) event.preventDefault();
+  const btn = $("btn-copy-link");
+  const totplink = $("totplink");
+  if (!totplink || !totplink.href) return;
+
+  const textToCopy = totplink.href;
+
+  const showFlash = () => {
+    $("totplinkholder").classList.add("copy-to-clipboard-flash-bg");
+    if (btn) {
+      const label = btn.querySelector(".copy-text");
+      if (label) {
+        const orig = label.textContent;
+        label.textContent = "Copied!";
+        setTimeout(() => { label.textContent = orig; }, 1200);
+      }
+    }
+    setTimeout(() => $("totplinkholder").classList.remove("copy-to-clipboard-flash-bg"), 1000);
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(textToCopy).then(showFlash).catch(() => {});
+    return;
+  }
+
+  const temp = document.createElement("textarea");
+  document.body.appendChild(temp);
+  temp.value = textToCopy;
+  temp.select();
+  try {
+    if (document.execCommand("copy")) showFlash();
+  } catch (_e) {}
+  temp.remove();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -115,9 +151,10 @@ document.addEventListener("DOMContentLoaded", () => {
     removeItemButton: true
   });
 
-  $all("form input[type='text']").forEach((elt) =>
-    elt.addEventListener("change", onInputChanged)
-  );
+  $all("form input[type='text']").forEach((elt) => {
+    elt.addEventListener("input", onInputChanged);
+    elt.addEventListener("change", onInputChanged);
+  });
   $all("form select").forEach((elt) =>
     elt.addEventListener("change", onSelectChanged)
   );
@@ -128,6 +165,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   $("show-barcode").addEventListener("click", showBarcode);
   $("reset-everything").addEventListener("click", resetEverything);
+
+  const copyBtn = $("btn-copy-link");
+  if (copyBtn) {
+    copyBtn.addEventListener("click", copyToClipboard);
+  }
 
   notesModal = new bootstrap.Modal($("notes-modal"));
   $("show-notes").addEventListener("click", () => notesModal.show());
