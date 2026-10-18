@@ -63,7 +63,7 @@ function initializeGrid() {
       let ix = i * 4 + j;
       let value = parseInt(datamodel.substr(ix, 1), 16);
       let content = EMPTY;
-      html += `<div class='cell' data-col="${j}"><div data-col="${j}" data-row="${i}" id='c-${i}-${j}' class='data'>${content}</div></div>\n`;
+      html += `<div class='cell' data-col="${j}"><div data-col="${j}" data-row="${i}" id='c-${i}-${j}' class='data empty'>${content}</div></div>\n`;
     }
     html += `</div>\n`;
   }
@@ -82,9 +82,13 @@ function paintGrid() {
         if (currentContent != EMPTY) {
           dataCell.innerHTML = EMPTY;
         }
+        dataCell.classList.add('empty');
       }
-      else if (value != Number(currentContent)) {
-        dataCell.innerHTML = value;
+      else {
+        if (value != Number(currentContent)) {
+          dataCell.innerHTML = value;
+        }
+        dataCell.classList.remove('empty');
       }
     }
   }

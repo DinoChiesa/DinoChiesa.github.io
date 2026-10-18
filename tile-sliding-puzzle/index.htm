@@ -1,58 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main.css">
     <script src="tile-sliding.js"></script>
-    <title>index.htm</title>
-
+    <title>15-Puzzle Solver</title>
   </head>
 
-  <!-- ======================================================= -->
-
   <body>
+    <main class="page-container">
+      <div class="card">
+        <header class="card-header">
+          <span class="kicker">A* Search Demo</span>
+          <h1 class="title">15-Puzzle</h1>
+        </header>
 
-    <div id='main'>
-    </div>
+        <div class="status-bar">
+          <div id="distance" class="badge">distance: --</div>
+          <div id="notes" class="badge badge-accent">Hi.</div>
+        </div>
 
-    <div id='distance'>??</div>
-    <div id='notes'>Hi.</div>
-    <button id='solveit' type='button' disabled='true'>
-      Solve it for me
-    </button>
-    <button id='explain' type='button' disabled='true'>
-      Explain
-    </button>
-    <div id='explanation' class='hidden overlay'>
-      <pre>
-# Tile Sliding puzzle
+        <div class="board-wrapper">
+          <div id="main"></div>
+        </div>
 
-This is an HTML version of the tile sliding puzzle.  It has an interactive
-"solve it manually" behavior. Click on a tile to move it to the open space.
+        <div class="actions">
+          <button id="solveit" type="button" class="btn btn-primary" disabled>
+            Solve It
+          </button>
+          <button id="explain" type="button" class="btn btn-secondary" disabled>
+            Explain
+          </button>
+        </div>
+      </div>
+    </main>
 
-What might be more interesting is that it has an auto-solver, which uses
-Djikstra's A-star algorithm to find the path to solution.
-
-What I found.
-
-1. For a heuristic, Manhattan distance + linear conflict works better than
-   simple Manhattan distance.
-
-2. The search takes a while, with many iterations. To avoid the "this web
-   page is hung" message, we need to unwrap and "asynchronize" the loop
-   with setTimeout().
-
-3. Using a string representation for the "state" results in much better
-   performance than using an array of integers. In Javascript anyway,
-   checking for a string match in the "closed" list is much faster than
-   checking for the match of an array of integers within a 2-D array.
-
-4. Pre-computing the adjacent tiles helps with performance too.
-   No searching necessary at runtime. I could've used a memoize for
-   this as well, but didn't.
-      </pre>
-
-      <button id='dismiss' type='button'>Dismiss</button>
+    <div id="explanation" class="hidden overlay">
+      <div class="modal">
+        <div class="modal-header">
+          <h2>About 15-Puzzle Solver</h2>
+        </div>
+        <div class="modal-body">
+          <p>This is an interactive HTML version of the tile sliding puzzle. Click on a tile adjacent to the open space to move it.</p>
+          <p>The auto-solver uses Dijkstra's A* heuristic search to find the optimal sequence of moves to the solved state.</p>
+          <h3>Key Findings &amp; Optimizations</h3>
+          <ol>
+            <li><strong>Heuristic:</strong> Manhattan distance combined with linear conflict works substantially better than simple Manhattan distance alone.</li>
+            <li><strong>Asynchronous search loop:</strong> The search explores thousands of nodes. To avoid freezing the browser, the loop is unrolled and made asynchronous with <code>setTimeout()</code>.</li>
+            <li><strong>State representation:</strong> A compact 16-character string representation for the state yields far better performance in JavaScript than 2-D numeric arrays when checking against the &ldquo;closed&rdquo; set.</li>
+            <li><strong>Precomputed adjacency:</strong> Tile neighbor adjacencies are precomputed into a static lookup table, avoiding neighbor search overhead at runtime.</li>
+          </ol>
+        </div>
+        <div class="modal-footer">
+          <button id="dismiss" type="button" class="btn btn-primary">Dismiss</button>
+        </div>
+      </div>
     </div>
   </body>
-
 </html>
