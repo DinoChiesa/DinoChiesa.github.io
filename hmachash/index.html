@@ -1,189 +1,237 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Hash and HMAC calculator</title>
+    <title>Hash and HMAC Calculator</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-
     <link rel="stylesheet" href="css/main.css" />
-
     <script type="text/javascript" src="js/MD5.js"></script>
     <script type="text/javascript" src="js/page.js"></script>
   </head>
 
-  <!-- ======================================================= -->
-
   <body>
-    <div class="container mt-3">
-      <h3 id="pageHead">Calculate a Message Digest, or HMAC</h3>
+    <main class="page-container">
+      <div class="card app-card">
+        <header class="card-header">
+          <span class="kicker">WebCrypto Utility</span>
+          <h1 class="title">Hash &amp; HMAC Calculator</h1>
+          <p class="subtitle">Compute client-side cryptographic message digests and keyed-hash message authentication codes in real time.</p>
+        </header>
 
-      <form role="form" id="form1" accept-charset="UTF-8">
-        <div class="mb-3">
-          <label for="sel-function">function:</label>
-          <select name="function" id="sel-function" class="form-control">
-            <option value="md-5">md-5</option>
-            <option value="sha-1">sha-1</option>
-            <option value="sha-256">sha-256</option>
-            <option value="sha-384">sha-384</option>
-            <option value="sha-512">sha-512</option>
-          </select>
-        </div>
+        <form role="form" id="form1" accept-charset="UTF-8">
+          <div class="controls-row">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="sel-function" class="form-label">Algorithm</label>
+              <select name="function" id="sel-function" class="form-select">
+                <option value="md-5">MD-5</option>
+                <option value="sha-1">SHA-1</option>
+                <option value="sha-256">SHA-256</option>
+                <option value="sha-384">SHA-384</option>
+                <option value="sha-512">SHA-512</option>
+              </select>
+            </div>
 
-        <div class="mb-3">
-          <label for="hmac">hmac?:</label>
-          <input type="checkbox" name="hmac" id="hmac" checked />
-        </div>
-
-        <div class="mb-3 hmac">
-          <label for="secretkey">secret key:</label>
-          <input
-            type="text"
-            id="secretkey"
-            class="form-control"
-            placeholder="-insert your secret key-"
-            spellcheck="false"
-            title="The key or password for the HMAC. This data never leaves your browser."
-          />
-        </div>
-
-        <div class="mb-3 hmac">
-          <label for="sel-key-coding">key coding:</label>
-          <select
-            id="sel-key-coding"
-            data-target="ta_symmetrickey"
-            class="form-control"
-          >
-            <option value="utf-8">UTF-8</option>
-            <option value="hex">Hex</option>
-            <option value="base64">Base64</option>
-            <option value="pbkdf2">PBKDF2</option>
-          </select>
-        </div>
-
-        <div class="mb-3 pbkdf2 hmac">
-          <label for="pbkdf2-iterations">iterations:</label>
-          <input
-            type="number"
-            id="pbkdf2-iterations"
-            class="form-control"
-            value="10000"
-          />
-        </div>
-        <div class="mb-3 pbkdf2 hmac">
-          <label for="pbkdf2-salt">salt:</label>
-          <input
-            type="text"
-            id="pbkdf2-salt"
-            class="form-control"
-            value="abcdefghijkl"
-          />
-        </div>
-        <div class="mb-3 pbkdf2 hmac">
-          <label for="sel-pbkdf2-salt-coding">salt coding:</label>
-          <select id="sel-pbkdf2-salt-coding" class="form-control">
-            <option value="utf-8">UTF-8</option>
-            <option value="hex">Hex</option>
-            <option value="base64">Base64</option>
-          </select>
-        </div>
-
-        <div class="mb-3 pbkdf2 hmac">
-          <label for="pbkdf2-derived-key">derived key:</label>
-          <input
-            type="text"
-            id="pbkdf2-derived-key"
-            placeholder="-the derived secret key-"
-            spellcheck="false"
-            class="form-control"
-            disabled
-          />
-        </div>
-
-        <div class="mb-3">
-          <label for="message">message:</label>
-          <textarea
-            class="form-control"
-            rows="7"
-            id="message"
-            spellcheck="false"
-            placeholder="-currently blank; insert your message here-"
-            title="The message to use in the function. This data never leaves your browser."
-          ></textarea>
-        </div>
-
-        <div class="mb-3"></div>
-      </form>
-
-      <div id="output">
-        Encoded results:
-        <span
-          style="color: #dcdcdc; font-size: 60%; top: -2px; position: relative"
-          >(Computation is automatic)</span
-        >
-
-        <div>
-          <div>
-            <span>Base16:</span>
-            <span class="copyIconHolder" title="click to copy"></span>
+            <div class="switch-wrapper">
+              <label class="switch-label-container" for="hmac">
+                <input type="checkbox" name="hmac" id="hmac" class="switch-input" checked />
+                <span class="switch-slider"></span>
+                <span class="switch-text">Enable HMAC</span>
+              </label>
+            </div>
           </div>
-          <div
-            id="resultB16"
-            class="code encodedresults"
-            title="hex encoding is case-insensitive"
-          ></div>
-        </div>
-        <div>
-          <div>
-            <span>Base64:</span>
-            <span class="copyIconHolder" title="click to copy"></span>
+
+          <div class="form-group hmac">
+            <div class="key-coding-row">
+              <div>
+                <label for="secretkey" class="form-label">Secret Key</label>
+                <input
+                  type="text"
+                  id="secretkey"
+                  class="form-control"
+                  placeholder="-insert your secret key-"
+                  spellcheck="false"
+                  title="The key or password for the HMAC. This data never leaves your browser."
+                />
+              </div>
+              <div>
+                <label for="sel-key-coding" class="form-label">Key Encoding</label>
+                <select
+                  id="sel-key-coding"
+                  data-target="ta_symmetrickey"
+                  class="form-select"
+                >
+                  <option value="utf-8">UTF-8</option>
+                  <option value="hex">Hex</option>
+                  <option value="base64">Base64</option>
+                  <option value="pbkdf2">PBKDF2</option>
+                </select>
+              </div>
+            </div>
           </div>
-          <div
-            id="resultB64"
-            class="code encodedresults"
-            title="base64 encoding is case-sensitive"
-          ></div>
-        </div>
-        <div>
-          <div>
-            <span>Base64Url:</span>
-            <span class="copyIconHolder" title="click to copy"></span>
+
+          <div class="pbkdf2-container pbkdf2 hmac">
+            <div class="pbkdf2-header">
+              <span class="pbkdf2-badge">PBKDF2 Key Derivation Options</span>
+            </div>
+            <div class="pbkdf2-grid">
+              <div>
+                <label for="pbkdf2-iterations" class="form-label">Iterations</label>
+                <input
+                  type="number"
+                  id="pbkdf2-iterations"
+                  class="form-control"
+                  value="10000"
+                />
+              </div>
+              <div>
+                <label for="pbkdf2-salt" class="form-label">Salt</label>
+                <input
+                  type="text"
+                  id="pbkdf2-salt"
+                  class="form-control"
+                  value="abcdefghijkl"
+                />
+              </div>
+              <div>
+                <label for="sel-pbkdf2-salt-coding" class="form-label">Salt Encoding</label>
+                <select id="sel-pbkdf2-salt-coding" class="form-select">
+                  <option value="utf-8">UTF-8</option>
+                  <option value="hex">Hex</option>
+                  <option value="base64">Base64</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label for="pbkdf2-derived-key" class="form-label">Derived Key (Hex)</label>
+              <input
+                type="text"
+                id="pbkdf2-derived-key"
+                class="form-control"
+                placeholder="-the derived secret key-"
+                spellcheck="false"
+                disabled
+              />
+            </div>
           </div>
-          <div
-            id="resultB64url"
-            class="code encodedresults"
-            title="base64url encoding is case-sensitive"
-          ></div>
+
+          <div class="form-group">
+            <label for="message" class="form-label">Message</label>
+            <textarea
+              class="form-control"
+              rows="6"
+              id="message"
+              spellcheck="false"
+              placeholder="-currently blank; insert your message here-"
+              title="The message to use in the function. This data never leaves your browser."
+            ></textarea>
+          </div>
+        </form>
+
+        <div id="output">
+          <div class="results-header">
+            <span class="results-title">Encoded Results</span>
+            <span class="badge badge-accent">Live computation</span>
+          </div>
+
+          <div class="result-cards">
+            <div class="result-card">
+              <div class="result-card-header">
+                <span class="result-label">Base16 (Hex)</span>
+                <button
+                  type="button"
+                  class="btn-copy copyIconHolder"
+                  data-target="resultB16"
+                  title="Click to copy Base16 result"
+                >
+                  <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                  <span class="copy-text">Copy</span>
+                </button>
+              </div>
+              <div
+                id="resultB16"
+                class="code encodedresults"
+                title="hex encoding is case-insensitive"
+              ></div>
+            </div>
+
+            <div class="result-card">
+              <div class="result-card-header">
+                <span class="result-label">Base64</span>
+                <button
+                  type="button"
+                  class="btn-copy copyIconHolder"
+                  data-target="resultB64"
+                  title="Click to copy Base64 result"
+                >
+                  <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                  <span class="copy-text">Copy</span>
+                </button>
+              </div>
+              <div
+                id="resultB64"
+                class="code encodedresults"
+                title="base64 encoding is case-sensitive"
+              ></div>
+            </div>
+
+            <div class="result-card">
+              <div class="result-card-header">
+                <span class="result-label">Base64Url</span>
+                <button
+                  type="button"
+                  class="btn-copy copyIconHolder"
+                  data-target="resultB64url"
+                  title="Click to copy Base64Url result"
+                >
+                  <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                  <span class="copy-text">Copy</span>
+                </button>
+              </div>
+              <div
+                id="resultB64url"
+                class="code encodedresults"
+                title="base64url encoding is case-sensitive"
+              ></div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div id="testcases" class="notes">
-        Test cases:
-        <span class="expand" title="expand/collapse">toggle</span>
-        <span class="collapse" title="expand/collapse">toggle</span>
-        <div class="testcases">
-          <table class="testcases table table-bordered">
+      <div id="testcases" class="card testcases-card">
+        <div class="accordion-header-row">
+          <div class="accordion-title">
+            <span class="kicker" style="margin-bottom: 0;">Verification</span>
+            <span>Test Vectors</span>
+          </div>
+          <div>
+            <button type="button" class="toggle-btn expand" title="Show test vectors">
+              <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+              <span>Show Vectors</span>
+            </button>
+            <button type="button" class="toggle-btn collapse" title="Hide test vectors">
+              <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6 1.41 1.41z"/></svg>
+              <span>Hide Vectors</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="testcases testcases-wrapper">
+          <table class="testcases-table">
             <thead>
               <tr>
-                <th>Alg</th>
-                <th>message</th>
-                <th>key</th>
-                <th>result</th>
+                <th>Algorithm</th>
+                <th>Message</th>
+                <th>Key</th>
+                <th>Expected Result</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>
-                  SHA-1<br />
+                  <strong>SHA-1</strong><br />
                   <button
                     type="button"
-                    class="btn btn-sm btn-outline-primary apply-test"
-                    style="font-size: 80%; text-transform: uppercase"
+                    class="apply-test"
                     data-alg="sha-1"
                     data-msg=""
                     data-key=""
@@ -192,26 +240,22 @@
                   </button>
                 </td>
                 <td>
-                  <span style="color: #dcdcdc; font-style: italic"
-                    >-blank-</span
-                  >
+                  <span style="color: var(--color-slate-400); font-style: italic">-blank-</span>
                 </td>
                 <td>--</td>
                 <td>
-                  (b16)
-                  <span class="code"
-                    >da39a3ee5e6b4b0d3255bfef95601890afd80709</span
-                  ><br />
-                  (b64) <span class="code">2jmj7l5rSw0yVb/vlWAYkK/YBwk=</span>
+                  <span style="color: var(--color-slate-500); font-size: 11px;">(b16)</span>
+                  <span class="code">da39a3ee5e6b4b0d3255bfef95601890afd80709</span><br />
+                  <span style="color: var(--color-slate-500); font-size: 11px;">(b64)</span>
+                  <span class="code">2jmj7l5rSw0yVb/vlWAYkK/YBwk=</span>
                 </td>
               </tr>
               <tr>
                 <td>
-                  SHA-1<br />
+                  <strong>SHA-1</strong><br />
                   <button
                     type="button"
-                    class="btn btn-sm btn-outline-primary apply-test"
-                    style="font-size: 80%; text-transform: uppercase"
+                    class="apply-test"
                     data-alg="sha-1"
                     data-msg="abc"
                     data-key=""
@@ -222,20 +266,18 @@
                 <td>abc</td>
                 <td>--</td>
                 <td>
-                  (b16)
-                  <span class="code"
-                    >a9993e364706816aba3e25717850c26c9cd0d89d</span
-                  ><br />
-                  (b64) <span class="code">qZk+NkcGgWq6PiVxeFDCbJzQ2J0=</span>
+                  <span style="color: var(--color-slate-500); font-size: 11px;">(b16)</span>
+                  <span class="code">a9993e364706816aba3e25717850c26c9cd0d89d</span><br />
+                  <span style="color: var(--color-slate-500); font-size: 11px;">(b64)</span>
+                  <span class="code">qZk+NkcGgWq6PiVxeFDCbJzQ2J0=</span>
                 </td>
               </tr>
               <tr>
                 <td>
-                  SHA-256<br />
+                  <strong>SHA-256</strong><br />
                   <button
                     type="button"
-                    class="btn btn-sm btn-outline-primary apply-test"
-                    style="font-size: 80%; text-transform: uppercase"
+                    class="apply-test"
                     data-alg="sha-256"
                     data-msg=""
                     data-key=""
@@ -244,29 +286,22 @@
                   </button>
                 </td>
                 <td>
-                  <span style="color: #dcdcdc; font-style: italic"
-                    >-blank-</span
-                  >
+                  <span style="color: var(--color-slate-400); font-style: italic">-blank-</span>
                 </td>
                 <td>--</td>
                 <td>
-                  (b16)
-                  <span class="code"
-                    >e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</span
-                  ><br />
-                  (b64)
-                  <span class="code"
-                    >47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=</span
-                  >
+                  <span style="color: var(--color-slate-500); font-size: 11px;">(b16)</span>
+                  <span class="code">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</span><br />
+                  <span style="color: var(--color-slate-500); font-size: 11px;">(b64)</span>
+                  <span class="code">47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=</span>
                 </td>
               </tr>
               <tr>
                 <td>
-                  SHA-256<br />
+                  <strong>SHA-256</strong><br />
                   <button
                     type="button"
-                    class="btn btn-sm btn-outline-primary apply-test"
-                    style="font-size: 80%; text-transform: uppercase"
+                    class="apply-test"
                     data-alg="sha-256"
                     data-msg="abc"
                     data-key=""
@@ -277,24 +312,18 @@
                 <td>abc</td>
                 <td>--</td>
                 <td>
-                  (b16)
-                  <span class="code"
-                    >ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad</span
-                  ><br />
-                  (b64)
-                  <span class="code"
-                    >ungWv48Bz+pBQUDeXa4iI7ADYaOWF3qctBD/YfIAFa0=</span
-                  >
+                  <span style="color: var(--color-slate-500); font-size: 11px;">(b16)</span>
+                  <span class="code">ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad</span><br />
+                  <span style="color: var(--color-slate-500); font-size: 11px;">(b64)</span>
+                  <span class="code">ungWv48Bz+pBQUDeXa4iI7ADYaOWF3qctBD/YfIAFa0=</span>
                 </td>
               </tr>
-
               <tr>
                 <td>
-                  HMAC-sha256<br />
+                  <strong>HMAC-SHA256</strong><br />
                   <button
                     type="button"
-                    class="btn btn-sm btn-outline-primary apply-test"
-                    style="font-size: 80%; text-transform: uppercase"
+                    class="apply-test"
                     data-alg="sha-256"
                     data-msg=""
                     data-key="secret"
@@ -303,30 +332,22 @@
                   </button>
                 </td>
                 <td>
-                  <span style="color: #dcdcdc; font-style: italic"
-                    >-blank-</span
-                  >
+                  <span style="color: var(--color-slate-400); font-style: italic">-blank-</span>
                 </td>
                 <td>secret</td>
                 <td>
-                  (b16)
-                  <span class="code"
-                    >f9e66e179b6747ae54108f82f8ade8b3c25d76fd30afde6c395822c530196169</span
-                  ><br />
-                  (b64)
-                  <span class="code"
-                    >+eZuF5tnR65UEI+C+K3os8Jddv0wr95sOVgixTAZYWk=</span
-                  >
+                  <span style="color: var(--color-slate-500); font-size: 11px;">(b16)</span>
+                  <span class="code">f9e66e179b6747ae54108f82f8ade8b3c25d76fd30afde6c395822c530196169</span><br />
+                  <span style="color: var(--color-slate-500); font-size: 11px;">(b64)</span>
+                  <span class="code">+eZuF5tnR65UEI+C+K3os8Jddv0wr95sOVgixTAZYWk=</span>
                 </td>
               </tr>
-
               <tr>
                 <td>
-                  HMAC-sha256<br />
+                  <strong>HMAC-SHA256</strong><br />
                   <button
                     type="button"
-                    class="btn btn-sm btn-outline-primary apply-test"
-                    style="font-size: 80%; text-transform: uppercase"
+                    class="apply-test"
                     data-alg="sha-256"
                     data-msg="abc"
                     data-key="secret"
@@ -337,77 +358,65 @@
                 <td>abc</td>
                 <td>secret</td>
                 <td>
-                  (b16)
-                  <span class="code"
-                    >9946dad4e00e913fc8be8e5d3f7e110a4a9e832f83fb09c345285d78638d8a0e</span
-                  ><br />
-                  (b64)
-                  <span class="code"
-                    >mUba1OAOkT/Ivo5dP34RCkqegy+D+wnDRShdeGONig4=</span
-                  >
+                  <span style="color: var(--color-slate-500); font-size: 11px;">(b16)</span>
+                  <span class="code">9946dad4e00e913fc8be8e5d3f7e110a4a9e832f83fb09c345285d78638d8a0e</span><br />
+                  <span style="color: var(--color-slate-500); font-size: 11px;">(b64)</span>
+                  <span class="code">mUba1OAOkT/Ivo5dP34RCkqegy+D+wnDRShdeGONig4=</span>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-      <div id="notes" class="notes">
-        Notes:
+
+      <div id="notes" class="card notes-card">
+        <span class="kicker">Documentation</span>
+        <h2>Usage &amp; Cryptographic Notes</h2>
         <ol>
           <li>
             This page uses
             <a
               href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API"
+              target="_blank"
+              rel="noopener noreferrer"
               >the WebCrypto library</a
-            >, for the hash and HMACs computation.
-          </li>
-
-          <li>
-            Any data you enter on this page stays in the browser, and is never
-            sent to any third-party site. The hash computation is performed in
-            your browser. If you specify a key for HMAC, the key is used only
-            for HMAC calculation, and never leaves your browser. Data does get
-            stored in localStorage. Having said that, you should always take
-            care to not enter sensitive information or keys into untrusted web
-            pages.
-          </li>
-
-          <li>
-            The results shown by this page are different encodings that
-            represent the same value. And, Base16 encoding is sometimes called
-            "Hex encoding". Just a reminder, base64-encoded values are case
-            sensitive, base16-encoded results are not. This is characteristic of
-            the encodings, not special to this page, or to hash functions or
-            HMACs.
-          </li>
-
-          <li>
-            For message content, whitespace in the content is significant. This
-            page converts line-breaks to newline (\n). It's not possible to
-            include a carriage-return (CR) in the text value, because the logic
-            on this page strips them. This page does not strip trailing
-            newlines. Also good to remember: the hash for 'abc\n' is completely
-            different from the hash for 'abc'. The hash for 'abc\r\n' is
-            completely different from the hash for 'abc\n'.
-          </li>
-
-          <li>
-            Unicode is ok. The calculator will encode the string as UTF-8 bytes
-            before computing the checksum. UTF-8 ought to be good enough for
-            anybody. :)
+            >
+            for hash and HMAC computation.
           </li>
           <li>
-            This was written by
-            <a href="https://github.com/DinoChiesa/">DinoChiesa</a>. Contact me
-            with questions, suggestions, or kudos via Github or
+            Any data you enter on this page stays in the browser and is never
+            sent to any server. The hash computation is performed locally in
+            your browser. If you specify a key for HMAC, the key never leaves
+            your browser. Inputs are saved in <code>localStorage</code> for your convenience.
+          </li>
+          <li>
+            The results shown represent different encodings of the same digest
+            byte array. Base16 (Hex) is case-insensitive, while Base64 and
+            Base64Url are case-sensitive.
+          </li>
+          <li>
+            For message content, whitespace is significant. This page converts
+            line-breaks to newline (<code>\n</code>). Trailing newlines are preserved:
+            the hash for <code>abc\n</code> is completely different from the hash for <code>abc</code>.
+          </li>
+          <li>
+            Unicode is fully supported. The calculator encodes text strings as
+            UTF-8 bytes prior to computing checksums.
+          </li>
+          <li>
+            Written by
+            <a href="https://github.com/DinoChiesa/" target="_blank" rel="noopener noreferrer">DinoChiesa</a>.
+            Contact via GitHub or
             <a
               href="https://bsky.app/profile/ionicshade.bsky.social"
+              target="_blank"
+              rel="noopener noreferrer"
               class="bsky-share-button"
               >Bluesky</a
             >.
           </li>
         </ol>
       </div>
-    </div>
+    </main>
   </body>
 </html>

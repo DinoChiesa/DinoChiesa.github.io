@@ -398,44 +398,61 @@
 
   function expandAccordion(_event) {
     const elt = this;
-    //$elt.next('div').slideDown();
     $sel(".testcases").style.display = "block";
-    elt.nextElementSibling.style.display = "inline";
+    elt.nextElementSibling.style.display = "inline-flex";
     elt.style.display = "none";
   }
 
   function collapseAccordion(_event) {
     const elt = this;
-    //$elt.next('div').slideUp();
     $sel(".testcases").style.display = "none";
-    elt.previousElementSibling.style.display = "inline";
+    elt.previousElementSibling.style.display = "inline-flex";
     elt.style.display = "none";
   }
 
   function copyToClipboard(_event) {
     const elt = this,
-      textHolder = elt.closest("span").parentElement.nextElementSibling,
-      // Create a temporary hidden textarea.
-      temp = document.createElement("textarea");
+      targetId = elt.dataset.target,
+      textHolder = targetId
+        ? $(targetId)
+        : (elt.closest("span")?.parentElement?.nextElementSibling || elt.parentElement?.querySelector(".code") || elt.closest(".result-card")?.querySelector(".code"));
+
+    if (!textHolder) return false;
 
     const textToCopy =
       textHolder.tagName == "TEXTAREA" || textHolder.tagName == "INPUT"
         ? textHolder.value
         : textHolder.textContent;
 
+    const showFlash = () => {
+      textHolder.classList.add("copy-to-clipboard-flash-bg");
+      const label = elt.querySelector(".copy-text");
+      if (label) {
+        const orig = label.textContent;
+        label.textContent = "Copied!";
+        setTimeout(() => { label.textContent = orig; }, 1200);
+      }
+      setTimeout(
+        () => textHolder.classList.remove("copy-to-clipboard-flash-bg"),
+        1000,
+      );
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(textToCopy).then(showFlash).catch(() => {});
+      return true;
+    }
+
+    // Fallback for older browsers
+    const temp = document.createElement("textarea");
     document.body.appendChild(temp);
     temp.value = textToCopy;
     temp.select();
-    let success;
+    let success = false;
     try {
       success = window.document.execCommand("copy");
       if (success) {
-        // Animation to indicate copy.
-        textHolder.classList.add("copy-to-clipboard-flash-bg");
-        setTimeout(
-          () => textHolder.classList.remove("copy-to-clipboard-flash-bg"),
-          1000,
-        );
+        showFlash();
       }
     } catch (_e) {
       success = false;
