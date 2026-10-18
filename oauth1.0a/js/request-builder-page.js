@@ -174,7 +174,7 @@ function produceSignature(event) {
   else {
     storeFormFieldValues();
     let $output = $('#output'),
-     $table = $('<table id="sigtable" class="table table-hover table-mc-light-blue table-bordered"></table>'),
+     $table = $('<table id="sigtable" class="sigtable"></table>'),
      normalized = computeNormalizedParameters(nonce, timestamp),
      baseString = computeBaseString(normalized),
      key = $('#consumersecret').val() + '&',
@@ -185,33 +185,42 @@ function produceSignature(event) {
      url = $('#targurl').val(),
      qparams = getQueryParams();
     if (qparams.length > 0) { url += '?' + qparams.join('&'); }
-    $table.append('<tr><th>Normalized parameters</th><td style="overflow-wrap:break-word;">'+ normalized +'</td></tr>');
-    $table.append('<tr><th>Signature base string</th><td style="overflow-wrap:break-word;">'+ baseString +'</td></tr>');
-    $table.append('<tr><th>Key</th><td>'+ key +'</td></tr>');
+    $table.append('<tr><th>Normalized parameters</th><td>'+ normalized +'</td></tr>');
+    $table.append('<tr><th>Signature base string</th><td>'+ baseString +'</td></tr>');
+    $table.append('<tr><th>Signing key</th><td>'+ key +'</td></tr>');
     $table.append('<tr><th>Signature</th><td>'+ signature +'</td></tr>');
-    $table.append('<tr><th>Authorization Header</th><td style="overflow-wrap:break-word;">'+ header +'</td></tr>');
-    $table.append('<tr><th>curl command' +
-                  '<button class="btn btn-default no-padding" id="btn-copy" type="button">'+
-                  '<span class="glyphicon glyphicon-copy" aria-hidden="true"></span>' +
-                  '</button>' +
-                  '<button class="btn btn-default no-padding" id="btn-execute" type="button">'+
-                  '<span class="glyphicon glyphicon-play" aria-hidden="true" title="This call will fail if the server does not include CORS headers in the response"></span>' +
-                  '</button>' +
-                  '</th><td id="curlcmd" style="overflow-wrap:break-word;">curl -i -X '+ getRequestMethod() +
+    $table.append('<tr><th>Authorization Header</th><td>'+ header +'</td></tr>');
+    $table.append('<tr><th>cURL Command<div class="output-btn-group">' +
+                  '<button class="btn-copy-small" id="btn-copy" type="button">Copy</button>' +
+                  '<button class="btn-execute-small" id="btn-execute" type="button">Execute</button>' +
+                  '</div></th><td id="curlcmd">curl -i -X '+ getRequestMethod() +
                   ' -H \'Authorization: '+ header + '\' \'' + url +
                   '\'</td></tr>');
-    new Clipboard('#btn-copy', {
-      target: function(trigger) { return document.getElementById( "curlcmd" ); }
-    });
     $output.html('');
     $output.append($table);
-    // attach data
+
     let $curlcmd = $('#curlcmd');
     $curlcmd.data('authzHeader', header);
     $curlcmd.data('url', url);
     $curlcmd.data('method', getRequestMethod());
 
-    $( "#btn-execute" ).click(invokeRequest);
+    $('#btn-copy').click(function(e) {
+      e.preventDefault();
+      const text = $('#curlcmd').text();
+      const btn = $(this);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          btn.text('Copied!');
+          $('#curlcmd').addClass('copy-to-clipboard-flash-bg');
+          setTimeout(() => {
+            btn.text('Copy');
+            $('#curlcmd').removeClass('copy-to-clipboard-flash-bg');
+          }, 1000);
+        });
+      }
+    });
+
+    $("#btn-execute").click(invokeRequest);
   }
   if (event)
     event.preventDefault();
@@ -305,20 +314,22 @@ function resetForm(event){
 }
 
 function addQueryOrFormParam(type, event) {
-  event.preventDefault();
-  var divClass = (type == 'query')? 'qparam' : 'fparam';
-  var $params = $('div.form-group.' + divClass);
+  if (event) event.preventDefault();
+  var divClass = (type === 'query') ? 'qparam' : 'fparam';
+  var container = $('#' + (type === 'query' ? 'qparams-container' : 'fparams-container'));
+  var $params = container.find('.' + divClass);
   var max_num_fields = 10;
-  if($params.length < max_num_fields) {
+  if ($params.length < max_num_fields) {
     var x = $params.length + 1;
     var keyid = divClass + '_key_' + x;
     var valueid = divClass + '_val_' + x;
-    var $containingDiv = $(event.target).parent().parent();
-    $containingDiv.next('div').before('<div class="form-group ' + divClass + '">' +
-                               '<label><button class="btn btn-default remove-param no-padding" type="button" class="btn btn-default">X</button></label>' +
-                               '<input class="form-control" title="parameter name" id="'+keyid+'"/>' +
-                               '<input class="form-control" title="parameter value" id="'+valueid+'"/>' +
-                               '</div>');
+    container.append(
+      '<div class="param-row ' + divClass + '">' +
+        '<input class="form-control" placeholder="Param Name" title="parameter name" id="' + keyid + '"/>' +
+        '<input class="form-control" placeholder="Param Value" title="parameter value" id="' + valueid + '"/>' +
+        '<button class="btn-icon-small remove-param" type="button" title="Remove parameter">&times;</button>' +
+      '</div>'
+    );
   }
 }
 
@@ -330,9 +341,9 @@ function addFormParam(event) {
   return addQueryOrFormParam('form', event);
 }
 
-function removeParam(event){
-  event.preventDefault();
-  var $containingDiv = $(event.target).parent().parent();
+function removeParam(event) {
+  if (event) event.preventDefault();
+  var $containingDiv = $(event.target).closest('.param-row');
   $containingDiv.remove();
 }
 
@@ -391,10 +402,6 @@ function invokeRequest(event) {
 
 
 $(document).ready(function() {
-  $('.reqmethod-chosen').chosen({
-    no_results_text: 'No matching method...',
-    allow_single_deselect: true
-  });
 
   $( '#btn-timestamp' ).click(insertNow);
   $( '#btn-nonce' ).click(insertNonce);
