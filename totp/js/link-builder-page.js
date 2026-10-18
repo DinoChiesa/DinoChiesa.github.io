@@ -16,7 +16,6 @@ const model = {
 };
 
 const choices = {};
-let notesModal;
 
 const html5AppId = "5FADBB91-0C35-49F6-BE3F-220B632874C3"; // for localstorage
 
@@ -171,8 +170,40 @@ document.addEventListener("DOMContentLoaded", () => {
     copyBtn.addEventListener("click", copyToClipboard);
   }
 
-  notesModal = new bootstrap.Modal($("notes-modal"));
-  $("show-notes").addEventListener("click", () => notesModal.show());
+  function showNotes(e) {
+    if (e) e.preventDefault();
+    const modal = $("notes-modal");
+    if (modal) {
+      modal.classList.remove("notshown");
+      modal.classList.add("shown");
+    }
+  }
+
+  function closeNotes(e) {
+    if (e) e.preventDefault();
+    const modal = $("notes-modal");
+    if (modal) {
+      modal.classList.add("notshown");
+      modal.classList.remove("shown");
+    }
+  }
+
+  $("show-notes").addEventListener("click", showNotes);
+  const closeBtn = $("btn-close-notes");
+  if (closeBtn) closeBtn.addEventListener("click", closeNotes);
+  const dismissBtn = $("btn-dismiss-notes");
+  if (dismissBtn) dismissBtn.addEventListener("click", closeNotes);
+
+  const notesModalEl = $("notes-modal");
+  if (notesModalEl) {
+    notesModalEl.addEventListener("click", (e) => {
+      if (e.target === notesModalEl) closeNotes(e);
+    });
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeNotes(e);
+  });
 
   populateFormFields();
 
