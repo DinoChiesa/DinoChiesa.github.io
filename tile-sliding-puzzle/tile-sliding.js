@@ -311,7 +311,7 @@ function solve() {
   $sel('#notes').innerHTML = 'thinking...';
 
   let open = [],
-      closed = [];
+      closed = new Set();
 
   open.push(new Node(datamodel));
 
@@ -320,9 +320,8 @@ function solve() {
       // choose next node to minimize cost
       let chosen = open.reduce((acc, item) => (acc.f > item.f) ? item : acc);
 
-      // place this chosen node on the closed list.
-      chosen.closed = true;
-      closed.push(chosen);
+      // place this chosen node on the closed set
+      closed.add(chosen.state);
       open = open.filter(item => !item.equals(chosen));
 
       if (chosen.isState(GOAL_STATE)) {
@@ -350,7 +349,7 @@ function solve() {
       let possible = possibleNextStates(chosen.state);
 
       possible.forEach(state => {
-        if (!closed.find(a => a.isState(state))) {
+        if (!closed.has(state)) {
           // not already traversed
           let g = chosen.g + 1;
           if (!open.find(openitem => (openitem.isState(state) && g > openitem.g))) {
