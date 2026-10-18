@@ -274,24 +274,31 @@ async function move(index, open, animated = false) {
   const dRow = toRow - fromRow;
   const dCol = toCol - fromCol;
 
-  const cellEl = document.getElementById(`c-${fromRow}-${fromCol}`);
-  if (cellEl) {
-    cellEl.style.zIndex = '5';
-    cellEl.style.transition = 'transform 110ms cubic-bezier(0.2, 0, 0, 1)';
-    cellEl.style.transform = `translate(calc(${dCol} * (100% + var(--tile-gap))), calc(${dRow} * (100% + var(--tile-gap))))`;
+  const fromEl = document.getElementById(`c-${fromRow}-${fromCol}`);
+  const toEl = document.getElementById(`c-${toRow}-${toCol}`);
+
+  if (fromEl) {
+    fromEl.style.zIndex = '5';
+    fromEl.style.transition = 'transform 110ms cubic-bezier(0.2, 0, 0, 1)';
+    fromEl.style.transform = `translate(calc(${dCol} * (100% + var(--tile-gap))), calc(${dRow} * (100% + var(--tile-gap))))`;
     await delay(110);
   }
 
-  datamodel = applyChangeToModel(datamodel, index, open);
-  paintGrid();
+  if (fromEl && toEl) {
+    fromEl.style.transition = 'none';
+    fromEl.style.transform = '';
+    fromEl.style.zIndex = '';
+    fromEl.innerHTML = EMPTY;
+    fromEl.classList.add('empty');
 
-  if (cellEl) {
-    cellEl.style.transition = 'none';
-    cellEl.style.transform = '';
-    cellEl.style.zIndex = '';
-    void cellEl.offsetWidth;
-    cellEl.style.transition = '';
+    const tileVal = parseInt(datamodel.substr(index, 1), 16);
+    toEl.innerHTML = tileVal;
+    toEl.classList.remove('empty');
   }
+
+  datamodel = applyChangeToModel(datamodel, index, open);
+  updateDistance();
+  checkVictory();
 
   isAnimating = false;
   return true;

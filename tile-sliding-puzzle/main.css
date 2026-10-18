@@ -244,13 +244,13 @@ html, body {
   -webkit-tap-highlight-color: transparent;
   will-change: transform;
   position: relative;
-  transition: box-shadow 0.1s ease, background-color 0.15s ease;
 }
 
 .data:hover:not(.empty) {
   transform: translateY(-2px);
   box-shadow: 0 5px 0 var(--color-slate-900), 0 6px 12px rgba(15, 23, 42, 0.15);
   background-color: #2b3a51;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.12s ease;
 }
 
 .data:active:not(.empty) {
@@ -259,9 +259,11 @@ html, body {
 }
 
 .data.empty {
-  background: transparent;
-  box-shadow: none;
+  background: transparent !important;
+  box-shadow: none !important;
   cursor: default;
+  pointer-events: none;
+  transition: none !important;
 }
 
 /* ---------------- Action Buttons ---------------- */
