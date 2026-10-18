@@ -1,26 +1,45 @@
+body {
+  font-size: 132%;
+  margin: 14px 18px;
+}
+
+.dm-switch {
+  display: inline-block;
+  font-size: 49%;
+  position: relative;
+  top: -4px;
+  margin-left: 20px;
+}
+
 form .form-group > label,
 form .form-group > div {
   float: left;
-  width: 168px;
-  margin: 2px 0;
+  width: 212px;
+  margin: 4px 0;
+  position: relative;
+  top: 4px;
 }
 
 form > .form-group > select,
 form > .form-group > div ul, /* chosen */
 form > .form-group > input {
   float: left;
-  max-width: 660px;
+  max-width: 640px;
   margin: 2px 0;
 }
+
 form > div > div.chosen-container-multi > ul.chosen-choices li.search-field {
   margin: 3px 5px 3px 12px;
 }
+
 form > div > div.chosen-container-multi > ul.chosen-choices li.search-choice {
   margin: 6px 5px 5px 1px;
 }
+
 .form-group {
   margin-bottom: 2px;
 }
+
 form > div > div.chosen-container {
   margin: 2px 0;
   max-width: 440px;
@@ -32,35 +51,43 @@ form .form-group input::placeholder {
   font-style: italic;
 }
 
-form > div,
-form > div.form-group {
+form > div.form-group,
+form > div {
   display: block;
   clear: both;
 }
+
 div.divider {
   border-top: 1px solid Black;
 }
+
 #output {
   margin-top: 20px;
   font-size: 100%;
 }
+
 #output .error {
   color: Red;
 }
+
 #output > div {
   margin-top: 18px;
 }
+
 #authzlink {
   overflow-wrap: break-word;
 }
+
 #authzRedemption {
   border: 1px dotted Grey;
   padding: 4px 12px;
   font-size: 80%;
 }
+
 #authzRedemption > button {
   margin: 4px 12px;
 }
+
 #redeemCode,
 #redeemResult {
   font-family: "Lucida Console", Monaco, monospace;
@@ -70,12 +97,9 @@ div.divider {
   border-radius: 2px;
   background-color: aliceblue;
 }
-body {
-  font-size: 132%;
-}
 
 .cb-element {
-  /* max-width: 880px;*/
+  /* max-width: 880px; */
   display: block;
 }
 
@@ -107,6 +131,7 @@ body {
   word-break: break-all;
   white-space: normal;
 }
+
 .cb-element .jwt-decoded {
   float: left;
   margin-left: 14px;
@@ -117,6 +142,7 @@ body {
 .jwt-decoded > div {
   position: relative;
 }
+
 .jwt-decoded .btn-copy {
   position: absolute;
   top: 4px;
@@ -136,9 +162,11 @@ body {
 .jwt-header {
   color: #fa003a;
 }
+
 .jwt-payload {
   color: #b100ff;
 }
+
 .jwt-signature {
   color: #3184fb;
 }
@@ -147,7 +175,7 @@ body {
   padding: 2px 6px;
   margin: 0 4px;
   float: right;
-  top: 12px;
+  /* top: 12px; */ /* why? in oidc-callback-handler it wants to be 0 */
   position: relative;
 }
 
@@ -161,12 +189,10 @@ body {
   width: 192px;
 }
 
-form .form-group > div > button {
+form .form-group > div > .btn-reload,
+form .form-group > div > .select-modifier {
   float: right;
-}
-
-.form-group > div .btn-reload {
-  top: 4px;
+  top: -2px;
   position: relative;
   margin-right: 6px;
 }
@@ -206,4 +232,97 @@ form .form-group > div > button {
   margin-right: 12px;
   background-color: #ebebeb;
   padding: 12px;
+}
+
+form .form-group > div.choices {
+  width: 448px;
+  margin-bottom: 4px;
+  margin-top: 0;
+}
+
+.choices__inner {
+  border-radius: 0.375rem;
+}
+
+.choices__list--multiple .choices__item {
+  background-color: #305f65;
+  border: 1px solid #325257;
+}
+
+#audience-or-resource {
+  font-size: 75%;
+  top: 4px;
+  border-radius: 4px;
+}
+
+/* -------------------------------------------------------------------- */
+/* Dark Mode */
+
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+body.dark-mode .form-control,
+body.dark-mode .form-select {
+  background-color: #333;
+  color: #f8f8f2;
+  border-color: #75715e;
+}
+body.dark-mode .form-control::placeholder {
+  color: #999;
+}
+body.dark-mode label,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode p {
+  color: #f8f8f2;
+}
+body.dark-mode .text-muted {
+  color: #75715e !important;
+}
+body.dark-mode .btn-outline-secondary {
+  color: #f8f8f2;
+  border-color: #f8f8f2;
+}
+body.dark-mode .btn-outline-secondary:hover {
+  background-color: #f8f8f2;
+  color: #272822;
+}
+body.dark-mode .modal-content {
+  background-color: #272822;
+}
+body.dark-mode .modal-header,
+body.dark-mode .modal-footer {
+  border-color: #75715e;
+}
+body.dark-mode .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+body.dark-mode .dropdown-menu {
+  background-color: #333;
+}
+body.dark-mode .dropdown-item {
+  color: #f8f8f2;
+}
+body.dark-mode .dropdown-item:hover {
+  background-color: #75715e;
+}
+body.dark-mode a#authzlink {
+  color: #66d9ef;
+}
+body.dark-mode #preBox {
+  background-color: #333;
+  color: #f8f8f2;
+  border: 1px solid #75715e;
+}
+body.dark-mode .choices__inner {
+  background-color: #333;
+  border-color: #75715e;
+}
+body.dark-mode .choices__list--dropdown {
+  background-color: #333;
+}
+body.dark-mode .choices__item {
+  color: #f8f8f2;
 }

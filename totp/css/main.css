@@ -4,8 +4,11 @@ form div label {
   margin: 8px 0;
 }
 
+div.choices {
+  max-width: 660px;
+}
+
 form > div > select,
-form > div > div ul, /* chosen */
 form > div > input {
   float: left;
   max-width: 660px;
