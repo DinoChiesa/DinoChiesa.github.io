@@ -40,6 +40,7 @@ let isShuffling = false;
 let isAnimating = false;
 let currentDifficulty = 'medium';
 let wasSolved = false;
+let initialLoadComplete = false;
 
 // the precomputed list of adjacent tiles.
 const adjacentTiles = [
@@ -192,6 +193,10 @@ function launchConfetti() {
 function checkVictory() {
   const notes = $sel('#notes');
   if (!notes) return;
+  if (!initialLoadComplete) {
+    updateSolveButtonState();
+    return;
+  }
   const solved = isSolved();
   if (solved) {
     notes.innerHTML = 'Solved! 🎉';
@@ -739,5 +744,6 @@ document.addEventListener("DOMContentLoaded", (_event) => {
   // Initial shuffle on load
   shuffleGrid().then(_ => {
     $sel('#explain').disabled = false;
+    initialLoadComplete = true;
   });
 });
