@@ -37,6 +37,9 @@ let datamodel = GOAL_STATE;
 
 let isSolving = false;
 let isShuffling = false;
+let isAnimating = false;
+let currentDifficulty = 'medium';
+let wasSolved = false;
 
 // the precomputed list of adjacent tiles.
 const adjacentTiles = [
@@ -78,7 +81,18 @@ function isSolved() {
   return datamodel === GOAL_STATE;
 }
 
+function updateDifficultyButtons() {
+  $all('.diff-btn').forEach(btn => {
+    const diff = btn.dataset.difficulty;
+    const isActive = diff === currentDifficulty;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-checked', isActive ? 'true' : 'false');
+    btn.disabled = isSolving || isShuffling;
+  });
+}
+
 function updateSolveButtonState() {
+  updateDifficultyButtons();
   const btn = $sel('#solveit');
   if (!btn) return;
   if (isSolving) {
@@ -96,14 +110,99 @@ function updateSolveButtonState() {
   }
 }
 
+let confettiAnimationId = null;
+
+function launchConfetti() {
+  const canvas = $sel('#confetti');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  const rect = canvas.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+
+  if (confettiAnimationId) {
+    cancelAnimationFrame(confettiAnimationId);
+    confettiAnimationId = null;
+  }
+
+  const colors = ['#c59d5f', '#e6b870', '#10b981', '#3b82f6', '#f59e0b', '#ec4899', '#8b5cf6'];
+  const particleCount = 70;
+  const particles = [];
+  const originX = rect.width / 2;
+  const originY = rect.height * 0.42;
+
+  for (let i = 0; i < particleCount; i++) {
+    const angle = (Math.random() * Math.PI * 1.6) + (Math.PI * 0.7);
+    const speed = Math.random() * 6 + 3.5;
+    particles.push({
+      x: originX,
+      y: originY,
+      vx: Math.cos(angle) * speed + (Math.random() - 0.5) * 2,
+      vy: Math.sin(angle) * speed - 1.5,
+      w: Math.random() * 8 + 5,
+      h: Math.random() * 5 + 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      rotation: Math.random() * 360,
+      vRotation: (Math.random() - 0.5) * 12,
+      opacity: 1,
+      decay: Math.random() * 0.009 + 0.007,
+      gravity: 0.16
+    });
+  }
+
+  function frame() {
+    ctx.clearRect(0, 0, rect.width, rect.height);
+    let activeParticles = 0;
+
+    for (const p of particles) {
+      if (p.opacity <= 0) continue;
+      activeParticles++;
+
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += p.gravity;
+      p.vx *= 0.985;
+      p.rotation += p.vRotation;
+      p.opacity -= p.decay;
+
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, p.opacity);
+      ctx.translate(p.x, p.y);
+      ctx.rotate((p.rotation * Math.PI) / 180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+    }
+
+    if (activeParticles > 0) {
+      confettiAnimationId = requestAnimationFrame(frame);
+    } else {
+      ctx.clearRect(0, 0, rect.width, rect.height);
+      confettiAnimationId = null;
+    }
+  }
+
+  confettiAnimationId = requestAnimationFrame(frame);
+}
+
 function checkVictory() {
   const notes = $sel('#notes');
   if (!notes) return;
-  if (isSolved()) {
+  const solved = isSolved();
+  if (solved) {
     notes.innerHTML = 'Solved! 🎉';
     notes.classList.add('badge-victory');
+    if (!wasSolved && !isShuffling) {
+      launchConfetti();
+    }
+    wasSolved = true;
   } else {
     notes.classList.remove('badge-victory');
+    wasSolved = false;
   }
   updateSolveButtonState();
 }
@@ -150,9 +249,41 @@ function applyChangeToModel(model, index, openIndex) {
   return swapTwoChars(model, index, openIndex);
 }
 
-function move(index, open) {
+async function move(index, open, animated = false) {
+  open = (typeof open === 'number') ? open : datamodel.indexOf('0');
+  if (index === open || !isAdjacent(index, open)) return false;
+
+  if (!animated) {
+    datamodel = applyChangeToModel(datamodel, index, open);
+    paintGrid();
+    return true;
+  }
+
+  if (isAnimating) return false;
+  isAnimating = true;
+
+  const fromRow = Math.floor(index / 4);
+  const fromCol = index % 4;
+  const toRow = Math.floor(open / 4);
+  const toCol = open % 4;
+  const dRow = toRow - fromRow;
+  const dCol = toCol - fromCol;
+
+  const cellEl = document.getElementById(`c-${fromRow}-${fromCol}`);
+  if (cellEl) {
+    cellEl.style.zIndex = '5';
+    cellEl.style.transition = 'transform 110ms cubic-bezier(0.2, 0, 0, 1)';
+    cellEl.style.transform = `translate(calc(${dCol} * (100% + var(--tile-gap))), calc(${dRow} * (100% + var(--tile-gap))))`;
+    await delay(110);
+    cellEl.style.transition = '';
+    cellEl.style.transform = '';
+    cellEl.style.zIndex = '';
+  }
+
   datamodel = applyChangeToModel(datamodel, index, open);
   paintGrid();
+  isAnimating = false;
+  return true;
 }
 
 function shakeCell(element) {
@@ -162,12 +293,12 @@ function shakeCell(element) {
   element.classList.add('shake');
 }
 
-function cellClick(_event) {
-  if (isSolving || isShuffling) return;
+async function cellClick(_event) {
+  if (isSolving || isShuffling || isAnimating) return;
   let clickedIndex = Number(this.dataset.index);
   let openCell = findAdjacentOpenCell(clickedIndex);
   if (typeof openCell == 'number') {
-    move(clickedIndex, openCell);
+    await move(clickedIndex, openCell, true);
   } else if (!this.classList.contains('empty')) {
     shakeCell(this);
   }
@@ -285,12 +416,12 @@ async function animateSolution(indexes) {
   $sel('#notes').innerHTML = `solution steps: ${totalSteps}`;
   await delay(800);
   for (let i = 1; i < indexes.length; i++) {
-    await delay(160);
-    move(indexes[i - 1]);
+    await move(indexes[i - 1], undefined, true);
     if (progressBar) {
       progressBar.style.width = `${Math.round((i / totalSteps) * 100)}%`;
     }
     $sel('#notes').innerHTML = `step: ${i}/${totalSteps}`;
+    await delay(40);
   }
 
   if (progressBar) {
@@ -367,17 +498,38 @@ function solve() {
   step();
 }
 
-async function shuffleGrid() {
+async function shuffleGrid(difficulty) {
   if (isSolving || isShuffling) return;
+  if (difficulty && ['easy', 'medium', 'hard'].includes(difficulty)) {
+    currentDifficulty = difficulty;
+  }
   isShuffling = true;
+  wasSolved = false;
   updateSolveButtonState();
   $sel('#notes').innerHTML = 'shuffling...';
   await delay(120);
 
-  const numMoves = Math.floor(Math.random() * 25) + 60;
-  let lastMove = -1;
+  let minMoves = 14;
+  let maxMoves = 24;
+  let targetMinDist = 10;
+  let targetMaxDist = 16;
 
-  for (let i = 0; i < numMoves; i++) {
+  if (currentDifficulty === 'medium') {
+    minMoves = 60;
+    maxMoves = 85;
+    targetMinDist = 24;
+    targetMaxDist = 32;
+  } else if (currentDifficulty === 'hard') {
+    minMoves = 150;
+    maxMoves = 350;
+    targetMinDist = 38;
+    targetMaxDist = 50;
+  }
+
+  let lastMove = -1;
+  let moves = 0;
+
+  while (moves < maxMoves) {
     const openIndex = datamodel.indexOf('0');
     let possible = adjacentTiles[openIndex];
     if (possible.length > 1 && lastMove !== -1) {
@@ -386,7 +538,21 @@ async function shuffleGrid() {
     }
     const chosenMove = possible[Math.floor(Math.random() * possible.length)];
     lastMove = openIndex;
-    move(chosenMove, openIndex);
+    move(chosenMove, openIndex, false);
+    moves++;
+
+    if (moves >= minMoves) {
+      const currentDist = aggregateManhattanDistance(datamodel);
+      if (currentDifficulty === 'easy' && currentDist >= targetMinDist && currentDist <= targetMaxDist) {
+        break;
+      }
+      if (currentDifficulty === 'hard' && currentDist >= targetMinDist) {
+        break;
+      }
+      if (currentDifficulty === 'medium' && moves >= minMoves) {
+        break;
+      }
+    }
     await delay(6);
   }
 
@@ -414,7 +580,7 @@ function handleKeyDown(event) {
     return;
   }
 
-  if (isSolving || isShuffling) return;
+  if (isSolving || isShuffling || isAnimating) return;
 
   const openIndex = datamodel.indexOf('0');
   const openRow = Math.floor(openIndex / 4);
@@ -451,7 +617,7 @@ function handleKeyDown(event) {
   if (targetRow >= 0 && targetRow < 4 && targetCol >= 0 && targetCol < 4) {
     event.preventDefault();
     const targetIndex = targetRow * 4 + targetCol;
-    move(targetIndex, openIndex);
+    move(targetIndex, openIndex, true);
   } else {
     event.preventDefault();
     shakeCell($sel('#main'));
@@ -475,6 +641,66 @@ function setElementVisibility(element, visible) {
   }
 }
 
+function setupTouchHandlers() {
+  const board = $sel('#main');
+  if (!board) return;
+
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  board.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 1) return;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  board.addEventListener('touchend', (e) => {
+    if (isSolving || isShuffling || isAnimating) return;
+    if (e.changedTouches.length !== 1) return;
+
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    const absX = Math.abs(dx);
+    const absY = Math.abs(dy);
+    const minSwipe = 24;
+
+    if (absX < minSwipe && absY < minSwipe) {
+      return; // Handled by click
+    }
+
+    const openIndex = datamodel.indexOf('0');
+    const openRow = Math.floor(openIndex / 4);
+    const openCol = openIndex % 4;
+    let targetIndex = null;
+
+    if (absX > absY) {
+      // Horizontal swipe
+      if (dx > 0) {
+        // Swiped right -> tile left of empty slot moves right
+        if (openCol > 0) targetIndex = openRow * 4 + (openCol - 1);
+      } else {
+        // Swiped left -> tile right of empty slot moves left
+        if (openCol < 3) targetIndex = openRow * 4 + (openCol + 1);
+      }
+    } else {
+      // Vertical swipe
+      if (dy > 0) {
+        // Swiped down -> tile above empty slot moves down
+        if (openRow > 0) targetIndex = (openRow - 1) * 4 + openCol;
+      } else {
+        // Swiped up -> tile below empty slot moves up
+        if (openRow < 3) targetIndex = (openRow + 1) * 4 + openCol;
+      }
+    }
+
+    if (targetIndex !== null && isAdjacent(targetIndex, openIndex)) {
+      move(targetIndex, openIndex, true);
+    } else {
+      shakeCell(board);
+    }
+  }, { passive: true });
+}
+
 document.addEventListener("DOMContentLoaded", (_event) => {
   initializeGrid();
   paintGrid();
@@ -493,6 +719,18 @@ document.addEventListener("DOMContentLoaded", (_event) => {
 
   // Keyboard navigation (Arrow keys, WASD, Escape)
   window.addEventListener('keydown', handleKeyDown);
+
+  // Mobile touch swipe gestures
+  setupTouchHandlers();
+
+  // Difficulty selector
+  $all('.diff-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (isSolving || isShuffling) return;
+      const diff = btn.dataset.difficulty;
+      shuffleGrid(diff);
+    });
+  });
 
   $all('.data').forEach(el => el.addEventListener('click', cellClick));
   $sel('#solveit').addEventListener('click', handleSolveOrShuffle);

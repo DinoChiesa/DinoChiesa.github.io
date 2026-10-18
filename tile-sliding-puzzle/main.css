@@ -80,6 +80,16 @@ html, body {
   opacity: 1;
 }
 
+.confetti-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 25;
+}
+
 .card-header {
   margin-bottom: 18px;
 }
@@ -100,6 +110,48 @@ html, body {
   font-weight: 700;
   color: var(--color-slate-800);
   letter-spacing: -0.5px;
+}
+
+/* ---------------- Difficulty Selector ---------------- */
+.difficulty-picker {
+  display: inline-flex;
+  background: var(--color-slate-100);
+  border: 1px solid var(--color-slate-200);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 2px;
+  margin-bottom: 18px;
+}
+
+.diff-btn {
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 5px 14px;
+  border: none;
+  background: transparent;
+  color: var(--color-slate-600);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.diff-btn:hover:not(.active):not(:disabled) {
+  color: var(--color-slate-900);
+}
+
+.diff-btn.active {
+  background: var(--color-card);
+  color: var(--color-slate-900);
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12), 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+
+.diff-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 /* ---------------- Status Bar Badges ---------------- */
@@ -154,6 +206,10 @@ html, body {
   flex-direction: column;
   gap: var(--tile-gap);
   box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.06);
+  touch-action: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .row {
@@ -184,7 +240,11 @@ html, body {
   box-shadow: 0 3px 0 var(--color-slate-900), 0 4px 6px rgba(15, 23, 42, 0.12);
   cursor: pointer;
   user-select: none;
-  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.15s ease;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  will-change: transform;
+  position: relative;
+  transition: box-shadow 0.1s ease, background-color 0.15s ease;
 }
 
 .data:hover:not(.empty) {
