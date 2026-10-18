@@ -31,8 +31,12 @@
 
 const $sel = (query) => document.querySelector(query),
       $all = (query) => document.querySelectorAll(query);
-const EMPTY ='&nbsp;';
-let datamodel = '123456789abcdef0';
+const GOAL_STATE = '123456789abcdef0';
+const EMPTY = '&nbsp;';
+let datamodel = GOAL_STATE;
+
+let isSolving = false;
+let isShuffling = false;
 
 // the precomputed list of adjacent tiles.
 const adjacentTiles = [
@@ -63,11 +67,45 @@ function initializeGrid() {
       let ix = i * 4 + j;
       let value = parseInt(datamodel.substr(ix, 1), 16);
       let content = EMPTY;
-      html += `<div class='cell' data-col="${j}"><div data-col="${j}" data-row="${i}" id='c-${i}-${j}' class='data empty'>${content}</div></div>\n`;
+      html += `<div class='cell' data-col="${j}"><div data-col="${j}" data-row="${i}" data-index="${ix}" id='c-${i}-${j}' class='data empty'>${content}</div></div>\n`;
     }
     html += `</div>\n`;
   }
   main.innerHTML = html;
+}
+
+function isSolved() {
+  return datamodel === GOAL_STATE;
+}
+
+function updateSolveButtonState() {
+  const btn = $sel('#solveit');
+  if (!btn) return;
+  if (isSolving) {
+    btn.textContent = 'Solving...';
+    btn.disabled = true;
+  } else if (isShuffling) {
+    btn.textContent = 'Shuffling...';
+    btn.disabled = true;
+  } else if (isSolved()) {
+    btn.textContent = 'Shuffle';
+    btn.disabled = false;
+  } else {
+    btn.textContent = 'Solve It';
+    btn.disabled = false;
+  }
+}
+
+function checkVictory() {
+  const notes = $sel('#notes');
+  if (!notes) return;
+  if (isSolved()) {
+    notes.innerHTML = 'Solved! 🎉';
+    notes.classList.add('badge-victory');
+  } else {
+    notes.classList.remove('badge-victory');
+  }
+  updateSolveButtonState();
 }
 
 function paintGrid() {
@@ -93,23 +131,11 @@ function paintGrid() {
     }
   }
   updateDistance();
+  checkVictory();
 }
 
 function isAdjacent(a, b) {
   return adjacentTiles[a].indexOf(b)>=0;
-}
-
-function getOpenCell(model) {
-  model = model || datamodel;
-  for(let i = 0; i < 4; i++) {
-    for(let j = 0; j < 4; j++) {
-      let ix = i * 4 + j;
-      let value = model[ix];
-      if (value == '0') {
-        return {row:i, col:j};
-      }
-    }
-  }
 }
 
 function findAdjacentOpenCell(reference) {
@@ -129,14 +155,21 @@ function move(index, open) {
   paintGrid();
 }
 
-function cellClick(_event) {
-  let row = Number(this.dataset.row),
-      col = Number(this.dataset.col),
-      clickedIndex = row * 4 + col;
+function shakeCell(element) {
+  if (!element) return;
+  element.classList.remove('shake');
+  void element.offsetWidth; // trigger reflow
+  element.classList.add('shake');
+}
 
+function cellClick(_event) {
+  if (isSolving || isShuffling) return;
+  let clickedIndex = Number(this.dataset.index);
   let openCell = findAdjacentOpenCell(clickedIndex);
   if (typeof openCell == 'number') {
     move(clickedIndex, openCell);
+  } else if (!this.classList.contains('empty')) {
+    shakeCell(this);
   }
 }
 
@@ -216,7 +249,7 @@ function possibleTilesToMove(model, openIndex) {
   return adjacentTiles[openIndex];
 }
 
-const delay = (interval)  => new Promise(resolve => setTimeout(resolve, interval));
+const delay = (interval) => new Promise(resolve => setTimeout(resolve, interval));
 
 class Node {
   constructor(state) {
@@ -241,12 +274,23 @@ function indexOfCellToClick(fromState, toState) {
   return idx;
 }
 
-function solve() {
-  $sel('#solveit').disabled = true;
-  $sel('#notes').innerHTML = 'thinking...';
+async function animateSolution(indexes) {
+  $sel('#notes').innerHTML = `solution steps: ${indexes.length - 1}`;
+  await delay(800);
+  for (let i = 1; i < indexes.length; i++) {
+    await delay(160);
+    move(indexes[i - 1]);
+    $sel('#notes').innerHTML = `step: ${i}/${indexes.length - 1}`;
+  }
+  isSolving = false;
+  checkVictory();
+}
 
-  let goal = '123456789abcdef0';
-  let openCell = getOpenCell();
+function solve() {
+  if (isSolving || isShuffling) return;
+  isSolving = true;
+  updateSolveButtonState();
+  $sel('#notes').innerHTML = 'thinking...';
 
   let open = [],
       closed = [];
@@ -263,7 +307,7 @@ function solve() {
       closed.push(chosen);
       open = open.filter(item => !item.equals(chosen));
 
-      if (chosen.isState(goal)) {
+      if (chosen.isState(GOAL_STATE)) {
         // follow chosen parents to the beginning
         let current = chosen;
         let nodes = [current];
@@ -273,7 +317,7 @@ function solve() {
         }
         nodes.reverse();
 
-        // now, convert those state changes into "moves."
+        // convert state changes into moves
         let indexes = nodes
           .map(node => node.state)
           .map((state, ix, a) => {
@@ -288,11 +332,10 @@ function solve() {
       let possible = possibleNextStates(chosen.state);
 
       possible.forEach(state => {
-        if ( ! closed.find(a => a.isState(state))) {
+        if (!closed.find(a => a.isState(state))) {
           // not already traversed
           let g = chosen.g + 1;
-          if ( ! open.find(openitem =>
-                           (openitem.isState(state) && g > openitem.g))) {
+          if (!open.find(openitem => (openitem.isState(state) && g > openitem.g))) {
             let child = new Node(state);
             child.parent = chosen;
             child.h = aggregateManhattanDistance(child.state);
@@ -307,60 +350,96 @@ function solve() {
   step();
 }
 
-function doReset() {
-  return shuffleGrid()
-    .then(_ => {
-      updateDistance();
-      $sel('#solveit').disabled = false;
-    });
-}
+async function shuffleGrid() {
+  if (isSolving || isShuffling) return;
+  isShuffling = true;
+  updateSolveButtonState();
+  $sel('#notes').innerHTML = 'shuffling...';
+  await delay(120);
 
-function animateSolution(indexes) {
-  $sel('#notes').innerHTML = `solution steps: ${indexes.length - 1}`;
-  let p = delay(1800);
-  for (let i = 1; i < indexes.length; i++) {
-    p = p
-      .then(_ => delay(180))
-      .then(_ => move(indexes[i - 1]))
-      .then(_ => {
-        $sel('#notes').innerHTML = `solution steps: ${i}/${indexes.length - 1}`;
-      });
+  const numMoves = Math.floor(Math.random() * 25) + 60;
+  let lastMove = -1;
+
+  for (let i = 0; i < numMoves; i++) {
+    const openIndex = datamodel.indexOf('0');
+    let possible = adjacentTiles[openIndex];
+    if (possible.length > 1 && lastMove !== -1) {
+      const filtered = possible.filter(ix => ix !== lastMove);
+      if (filtered.length > 0) possible = filtered;
+    }
+    const chosenMove = possible[Math.floor(Math.random() * possible.length)];
+    lastMove = openIndex;
+    move(chosenMove, openIndex);
+    await delay(6);
   }
-  return p.then(doReset);
+
+  isShuffling = false;
+  $sel('#notes').innerHTML = 'ready.';
+  updateDistance();
+  updateSolveButtonState();
 }
 
-function shuffleGrid() {
-  // Cannot just randomly shuffle values. That can result in unsolvable
-  // puzzles. About half of the arrangements are unsolvable.  So we shuffle by
-  // mimicing a tile move, and animating the same.
-
-  // With a thorough shuffle, it takes a long time to find the solution.
-  // Sometimes it takes 160 moves or more.
-
-  const NUM_MOVES = Math.floor(Math.random() * 306) + 525,
-        DELAY_BETWEEN_MOVES = 5;
-  const swapOne =
-    () => new Promise(resolve => {
-      let possibleTiles = possibleTilesToMove();
-      let chosenMoveIdx = Math.floor(Math.random() * possibleTiles.length);
-      let tileToMove = possibleTiles[chosenMoveIdx];
-      resolve(move(tileToMove));
-    });
-
-  let p = delay(2000)
-    .then(_ => {
-      $sel('#notes').innerHTML = 'shuffling...';
-    });
-  for (let i = 0; i < NUM_MOVES; i++) {
-    p = p
-      .then(_ => delay(DELAY_BETWEEN_MOVES))
-      .then(swapOne);
+function handleSolveOrShuffle() {
+  if (isSolved()) {
+    shuffleGrid();
+  } else {
+    solve();
   }
-  return p.then(_ => {
-    $sel('#notes').innerHTML = 'ready.';
-  });
 }
 
+function handleKeyDown(event) {
+  // If modal is open, Escape closes it
+  const explanation = $sel('#explanation');
+  if (explanation && !explanation.classList.contains('hidden')) {
+    if (event.key === 'Escape') {
+      dismissExplanation();
+    }
+    return;
+  }
+
+  if (isSolving || isShuffling) return;
+
+  const openIndex = datamodel.indexOf('0');
+  const openRow = Math.floor(openIndex / 4);
+  const openCol = openIndex % 4;
+
+  let targetRow = openRow;
+  let targetCol = openCol;
+
+  switch (event.key) {
+    case 'ArrowUp':
+    case 'w':
+    case 'W':
+      targetRow = openRow + 1;
+      break;
+    case 'ArrowDown':
+    case 's':
+    case 'S':
+      targetRow = openRow - 1;
+      break;
+    case 'ArrowLeft':
+    case 'd':
+    case 'D':
+      targetCol = openCol + 1;
+      break;
+    case 'ArrowRight':
+    case 'a':
+    case 'A':
+      targetCol = openCol - 1;
+      break;
+    default:
+      return;
+  }
+
+  if (targetRow >= 0 && targetRow < 4 && targetCol >= 0 && targetCol < 4) {
+    event.preventDefault();
+    const targetIndex = targetRow * 4 + targetCol;
+    move(targetIndex, openIndex);
+  } else {
+    event.preventDefault();
+    shakeCell($sel('#main'));
+  }
+}
 
 function dismissExplanation() {
   const contentDiv = document.getElementById("explanation");
@@ -382,14 +461,28 @@ function setElementVisibility(element, visible) {
 document.addEventListener("DOMContentLoaded", (_event) => {
   initializeGrid();
   paintGrid();
+
   $sel('#dismiss').addEventListener('click', dismissExplanation);
-  shuffleGrid()
-    .then(_ => {
-      updateDistance();
-      $all('.data').forEach(el => el.addEventListener('click', cellClick));
-      $sel('#solveit').addEventListener('click', solve);
-      $sel('#explain').addEventListener('click', showExplanation);
-      $sel('#solveit').disabled = false;
-      $sel('#explain').disabled = false;
+
+  // Close modal when clicking on dark backdrop
+  const overlay = $sel('#explanation');
+  if (overlay) {
+    overlay.addEventListener('click', (event) => {
+      if (event.target === overlay) {
+        dismissExplanation();
+      }
     });
+  }
+
+  // Keyboard navigation (Arrow keys, WASD, Escape)
+  window.addEventListener('keydown', handleKeyDown);
+
+  $all('.data').forEach(el => el.addEventListener('click', cellClick));
+  $sel('#solveit').addEventListener('click', handleSolveOrShuffle);
+  $sel('#explain').addEventListener('click', showExplanation);
+
+  // Initial shuffle on load
+  shuffleGrid().then(_ => {
+    $sel('#explain').disabled = false;
+  });
 });

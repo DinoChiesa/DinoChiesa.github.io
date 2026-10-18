@@ -15,7 +15,7 @@
   --color-slate-300: #cbd5e1;
   --color-slate-200: #e2e8f0;      /* Recessed board well */
   --color-slate-100: #f1f5f9;
-  --tile-size: clamp(54px, 14vw, 68px);
+  --tile-size: clamp(68px, 18vw, 86px);
   --tile-gap: 8px;
   --radius-card: 16px;
   --radius-tile: 8px;
@@ -55,7 +55,7 @@ html, body {
   box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.07), 0 0 1px rgba(15, 23, 42, 0.1);
   padding: 32px 28px;
   width: 100%;
-  max-width: 400px;
+  max-width: 480px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -115,6 +115,13 @@ html, body {
   border-color: #fce8cc;
 }
 
+.badge-victory {
+  background: #ecfdf5 !important;
+  color: #047857 !important;
+  border-color: #a7f3d0 !important;
+  font-weight: 700;
+}
+
 /* ---------------- Board & Tiles ---------------- */
 .board-wrapper {
   margin: 0 auto 24px auto;
@@ -153,7 +160,7 @@ html, body {
   justify-content: center;
   background-color: var(--color-slate-800);
   color: #ffffff;
-  font-size: 24px;
+  font-size: 30px;
   font-weight: 700;
   border-radius: var(--radius-tile);
   box-shadow: 0 3px 0 var(--color-slate-900), 0 4px 6px rgba(15, 23, 42, 0.12);
@@ -347,4 +354,15 @@ html, body {
 
 .modal-footer .btn {
   max-width: 140px;
+}
+
+/* ---------------- Shake Animation for Invalid Move ---------------- */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+
+.shake {
+  animation: shake 0.22s ease-in-out;
 }
