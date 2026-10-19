@@ -1,107 +1,420 @@
-body {
-  font-size: 100%;
-  font-family: Roboto, Arial;
+/* ==========================================================================
+   Google Sign-In Widget - Namari-Inspired Aesthetic
+   Clean, modern, high-contrast, refined typography and palette
+   ========================================================================== */
+
+:root {
+  --color-canvas: #f8fafc;
+  --color-card: #ffffff;
+  --color-primary: #c59d5f;       /* Namari warm gold accent */
+  --color-primary-hover: #b0894d;
+  --color-primary-light: #fdfaf3;
+  --color-primary-subtle: #fef8ed;
+  --color-slate-900: #0f172a;
+  --color-slate-800: #1e293b;
+  --color-slate-700: #334155;
+  --color-slate-600: #475569;
+  --color-slate-500: #64748b;
+  --color-slate-400: #94a3b8;
+  --color-slate-300: #cbd5e1;
+  --color-slate-200: #e2e8f0;
+  --color-slate-100: #f1f5f9;
+  --color-slate-50: #f8fafc;
+  --radius-card: 16px;
+  --radius-inner: 10px;
+  --radius-input: 8px;
+  --radius-pill: 999px;
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", Courier, monospace;
+  --shadow-card: 0 20px 40px -15px rgba(15, 23, 42, 0.07), 0 0 1px rgba(15, 23, 42, 0.1);
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
 }
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  font-family: var(--font-family);
+  background-color: var(--color-canvas);
+  background-image: radial-gradient(ellipse at 50% 0%, #ffffff 0%, var(--color-canvas) 75%);
+  color: var(--color-slate-800);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding: 40px 16px 60px 16px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* ---------------- Card Containers ---------------- */
+.card {
+  background: var(--color-card);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 36px 36px;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.card-header {
+  margin-bottom: 28px;
+  text-align: center;
+  background: transparent;
+  border-bottom: none;
+  padding: 0;
+}
+
+.kicker {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--color-primary);
+  margin-bottom: 6px;
+}
+
+.title {
+  margin: 0 0 8px 0;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--color-slate-900);
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  margin: 0 auto;
+  font-size: 14px;
+  color: var(--color-slate-500);
+  max-width: 620px;
+  line-height: 1.6;
+}
+
+/* ---------------- Sign-In Action Panel ---------------- */
+.signin-panel {
+  background: var(--color-slate-50);
+  border: 1px dashed var(--color-slate-300);
+  border-radius: var(--radius-inner);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.signin-prompt {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-slate-600);
+  margin: 0;
+}
+
 #signin-button {
-  max-width: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 44px;
 }
-form div label {
-  float: left;
-  width: 148px;
-  margin: 8px 0;
-}
-form > div > select,
-form > div > div ul, /* chosen */
-form > div > input {
-  float: left;
-  max-width: 660px;
-  margin: 2px 0;
-}
-form > div,
-form > div.form-group {
-  display:block;
-  clear:both;
-}
-div.divider {
-  border-top: 1px solid Black;
-}
+
+/* ---------------- Output Section ---------------- */
 #output {
   margin-top: 28px;
-  font-size: 160%;
-}
-#output .error {
-  color: Red;
-}
-#output > div {
-  margin-top: 8px;
-  margin-bottom: 4px;
-  border: 1px dotted Grey;
-  padding: 4px;
-}
-#output .label {
-  float:left;
-  width: 20%;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-slate-100);
 }
 
-#output .value {
-  float:left;
-  max-width: 78%;
-  /* all below, to handle display of really long data */
-  white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
-  white-space: -pre-wrap;      /* Opera 4-6 */
-  white-space: -o-pre-wrap;    /* Opera 7 */
-  white-space: pre-wrap;       /* css-3 */
-  word-wrap: break-word;       /* Internet Explorer 5.5+ */
-  white-space: -webkit-pre-wrap; /* Newer versions of Chrome/Safari*/
+.output-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-slate-200);
+}
+
+.output-heading {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--color-slate-600);
+  margin: 0;
+}
+
+.badge-success {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.badge-success::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #10b981;
+}
+
+/* ---------------- Result Cards ---------------- */
+.result-card,
+.item {
+  background: #ffffff;
+  border: 1px solid var(--color-slate-200);
+  border-radius: var(--radius-inner);
+  overflow: hidden;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.result-card:hover,
+.item:hover {
+  border-color: var(--color-slate-300);
+}
+
+.result-card-header,
+.item > .label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 14px;
+  background-color: var(--color-slate-50);
+  border-bottom: 1px solid var(--color-slate-200);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--color-primary);
+  margin: 0;
+  width: 100%;
+  float: none;
+}
+
+.result-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--color-primary);
+}
+
+.btn-copy,
+.icon.icon-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--color-slate-600);
+  background: #ffffff;
+  border: 1px solid var(--color-slate-300);
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  float: none;
+  margin: 0;
+  line-height: normal;
+}
+
+.btn-copy:hover,
+.icon.icon-copy:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.btn-copy svg {
+  width: 13px;
+  height: 13px;
+  fill: currentColor;
+}
+
+.btn-copy img,
+.icon img {
+  width: 13px;
+  height: 13px;
+  display: inline-block;
+}
+
+.value {
+  padding: 14px 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-slate-800);
   word-break: break-all;
-  white-space: normal;
+  white-space: pre-wrap;
+  width: 100%;
+  max-width: 100%;
+  float: none;
+  background: #ffffff;
 }
 
-#output > .item:after {
-  /* clearfix */
-   content: " ";
-   display: block;
-   height: 0;
-   clear: both;
+.value.token {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.7;
+  letter-spacing: 0.3px;
+  background-color: var(--color-slate-50);
 }
 
-.visible {
-  display:block;
-}
-.hidden {
-  display:none;
-}
-
-#output .value.token {
-  font-size: 48%;
-}
-
+/* ---------------- JWT Token Highlight Colors ---------------- */
 .jwt-header {
-  color: #fa003a;
-  margin: 0px;
+  color: #e11d48;
+  font-weight: 600;
 }
 
 .jwt-payload {
-  color: #b100ff;
-  margin: 0px;
+  color: #7c3aed;
+  font-weight: 600;
 }
 
 .jwt-signature {
-  color: #3184fb;
+  color: #2563eb;
+  font-weight: 600;
 }
 
-.value pre.jwt-header, .value pre.jwt-payload {
-  font-size:80%;
+.value pre.jwt-header,
+.value pre.jwt-payload {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0;
+  padding: 12px 14px;
+  background: #ffffff;
+  border-radius: 6px;
+  border: 1px solid var(--color-slate-200);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 
-.item .icon {
+/* ---------------- User Avatar Image ---------------- */
+.value img {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--color-slate-200);
+  box-shadow: var(--shadow-sm);
   display: block;
-  max-width: 25px;
-  cursor: pointer;
-  float: right;
-  margin-right: 10px;
 }
 
-.item .icon img {
-  max-width: 25px;
+/* ---------------- Copy Flash Animation ---------------- */
+.copy-to-clipboard-flash-bg {
+  animation: flashbg 1s ease-out;
+}
+
+@keyframes flashbg {
+  0% {
+    background-color: rgba(197, 157, 95, 0.35);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+/* ---------------- Documentation / Notes Card ---------------- */
+.notes-card {
+  padding: 28px 32px;
+}
+
+.notes-card h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-slate-900);
+  margin: 0 0 14px 0;
+  letter-spacing: -0.3px;
+}
+
+.notes-card ol {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.notes-card li {
+  margin-bottom: 10px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--color-slate-600);
+}
+
+.notes-card li:last-child {
+  margin-bottom: 0;
+}
+
+.notes-card strong {
+  color: var(--color-slate-800);
+}
+
+.notes-card code {
+  background: var(--color-slate-100);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12.5px;
+  color: var(--color-slate-800);
+  border: 1px solid var(--color-slate-200);
+  font-family: var(--font-mono);
+}
+
+.notes-card a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 600;
+  transition: color 0.15s ease;
+}
+
+.notes-card a:hover {
+  color: var(--color-primary-hover);
+}
+
+/* ---------------- Utilities ---------------- */
+.hidden {
+  display: none !important;
+}
+
+.visible {
+  display: block !important;
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: 24px 20px;
+  }
+  .title {
+    font-size: 24px;
+  }
+  .page-container {
+    padding: 20px 12px 40px 12px;
+  }
 }

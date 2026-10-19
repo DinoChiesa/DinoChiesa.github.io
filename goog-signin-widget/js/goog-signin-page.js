@@ -22,9 +22,9 @@
 
   function oneDiv(label, value) {
     const isToken = label.match(/token/i),
-      isImage = label.match(/Image/),
+      isImage = label.match(/Image|Picture/i),
       elementId = randomString();
-    let copySpan = "",
+    let copyButton = "",
       valueClasses = ["value"];
     if (isToken) {
       valueClasses.push("token");
@@ -32,15 +32,16 @@
     valueClasses = valueClasses.join(" ");
 
     if (!isImage) {
-      copySpan =
-        `  <span class="icon icon-copy" data-target="${elementId}">` +
-        `     <img src="./img/copyicon.png" title="Click to Copy">` +
-        `  </span>`;
+      copyButton =
+        `<button type="button" class="btn-copy" data-target="${elementId}" title="Click to copy">` +
+        `<svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>` +
+        `<span>Copy</span>` +
+        `</button>`;
     }
 
     return (
-      '<div class="item">' +
-      `  <div class="label">${label}${copySpan}</div>` +
+      '<div class="result-card">' +
+      `  <div class="result-card-header"><span class="result-label">${label}</span>${copyButton}</div>` +
       `  <div id="${elementId}" class="${valueClasses}">${value}</div>` +
       `</div>`
     );
@@ -70,7 +71,7 @@
         const json = atob(item),
           obj = JSON.parse(json);
         html += oneDiv(
-          styles[index],
+          "Decoded " + styles[index].charAt(0).toUpperCase() + styles[index].slice(1),
           '<pre class="jwt-' +
             styles[index] +
             '">' +
@@ -104,23 +105,35 @@
     // Everything below here is done for demonstration purposes,
     // to show the decoded token.
     const elt = document.getElementById("output");
-    elt.innerHTML = renderIdToken(credential);
 
-    elt.innerHTML =
+    let outputHtml =
+      '<div class="output-header">' +
+      '  <h3 class="output-heading">Authentication Results</h3>' +
+      '  <span class="badge-success">Authenticated</span>' +
+      "</div>";
+
+    outputHtml +=
       oneDiv(
         "Full Name",
-        jwtPayload.given_name + " " + jwtPayload.family_name
+        (jwtPayload.given_name || "") + " " + (jwtPayload.family_name || "")
       ) +
       oneDiv("Email", jwtPayload.email) +
-      oneDiv("Image", '<img src="' + jwtPayload.picture + '">') +
+      (jwtPayload.picture
+        ? oneDiv(
+            "Profile Picture",
+            '<img src="' + jwtPayload.picture + '" alt="Profile picture">'
+          )
+        : "") +
       renderIdToken(credential) +
-      oneDiv("issued", new Date(jwtPayload.iat * 1000).toISOString()) +
-      oneDiv("expires", new Date(jwtPayload.exp * 1000).toISOString());
+      oneDiv("Issued At", new Date(jwtPayload.iat * 1000).toISOString()) +
+      oneDiv("Expires At", new Date(jwtPayload.exp * 1000).toISOString());
+
+    elt.innerHTML = outputHtml;
 
     // attach click listeners for all the copy buttons
-    const nodes = getElementsByTagAndClass(document, "span", "icon-copy");
-    Array.prototype.forEach.call(nodes, (span) => {
-      span.addEventListener("click", copyToClipboard);
+    const nodes = document.querySelectorAll(".btn-copy");
+    nodes.forEach((btn) => {
+      btn.addEventListener("click", copyToClipboard);
     });
   }
 

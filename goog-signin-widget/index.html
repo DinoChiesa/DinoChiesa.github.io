@@ -1,25 +1,75 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <!-- - Google's "sign in with Google" logic -->
+    <title>Google Sign-In Widget</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google Identity Services client -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
-    <!-- this JS is just for the purposes of THIS demo. -->
-    <script type='text/javascript' src='js/copy-to-clipboard.js'></script>
+    <!-- Clipboard utility -->
+    <script type="text/javascript" src="js/copy-to-clipboard.js"></script>
 
-    <!-- the backend JS for this page. -->
-    <script type='text/javascript' src='js/goog-signin-page.js'></script>
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <link rel="stylesheet" type="text/css" href="css/copy-to-clipboard.css">
+    <!-- Page logic -->
+    <script type="text/javascript" src="js/goog-signin-page.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/copy-to-clipboard.css" />
   </head>
   <body>
-    <h2>This page allows a user to Sign-in with Google</h2>
-    <p>Clicking the button kicks off the Google-provided user experience.
-      The return value provides a JWT containing user information.</p>
-    <!-- this will hold the rendered button -->
-    <div id='signin-button' class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
-    <a id='signout' class='hidden' href="#" onclick="signOut();">Sign out</a>
-    <div id='output'>
-    </div>
+    <main class="page-container">
+      <div class="card app-card">
+        <header class="card-header">
+          <span class="kicker">Identity &amp; Authentication</span>
+          <h1 class="title">Google Sign-In Widget</h1>
+          <p class="subtitle">
+            Authenticate with Google Identity Services to inspect the returned OpenID Connect ID token (JWT) and user profile claims directly in your browser.
+          </p>
+        </header>
+
+        <section class="signin-panel">
+          <p class="signin-prompt">Click below to initiate the Google-provided sign-in experience:</p>
+          <!-- Google Identity Services renders button here -->
+          <div id="signin-button"></div>
+        </section>
+
+        <div id="output"></div>
+      </div>
+
+      <div id="notes" class="card notes-card">
+        <span class="kicker">Documentation</span>
+        <h2>About Google Sign-In &amp; ID Tokens</h2>
+        <ol>
+          <li>
+            <strong>Google Identity Services (GIS):</strong> This page uses Google's official Sign-In SDK (<code>https://accounts.google.com/gsi/client</code>) to initiate client-side OAuth 2.0 / OpenID Connect authentication.
+          </li>
+          <li>
+            <strong>ID Token (JWT):</strong> When authentication succeeds, Google returns a cryptographically signed JSON Web Token (JWT) called an ID token.
+          </li>
+          <li>
+            <strong>Token Anatomy:</strong> The token consists of three Base64URL-encoded segments separated by periods: the <span class="jwt-header">Header</span> (signing algorithm &amp; key ID), the <span class="jwt-payload">Payload</span> (user identity claims), and the <span class="jwt-signature">Signature</span>.
+          </li>
+          <li>
+            <strong>Identity Claims:</strong> The decoded payload contains standard OIDC claims including <code>sub</code> (unique Google account ID), <code>email</code>, <code>given_name</code>, <code>family_name</code>, <code>picture</code>, <code>iat</code> (issued at), and <code>exp</code> (expiration).
+          </li>
+          <li>
+            <strong>Privacy &amp; Security:</strong> Token inspection and Base64URL decoding occur strictly client-side within your browser. Credentials and profile data are never logged or transmitted to an external server.
+          </li>
+          <li>
+            Written by
+            <a href="https://github.com/DinoChiesa/" target="_blank" rel="noopener noreferrer">DinoChiesa</a>.
+            Contact via GitHub or
+            <a
+              href="https://bsky.app/profile/ionicshade.bsky.social"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="bsky-share-button"
+              >Bluesky</a
+            >.
+          </li>
+        </ol>
+      </div>
+    </main>
   </body>
 </html>
