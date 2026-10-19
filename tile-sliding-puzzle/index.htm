@@ -56,6 +56,7 @@
           <ol>
             <li><strong>Heuristic:</strong> Manhattan distance combined with linear conflict works substantially better than simple Manhattan distance alone.</li>
             <li><strong>Asynchronous search loop:</strong> The search explores thousands of nodes. To avoid freezing the browser, the loop is unrolled and made asynchronous with <code>setTimeout()</code>.</li>
+            <li><strong>Past-to-future ratio:</strong> Standard A* weights past moves and estimated remaining moves equally (1:1), causing an exponential node explosion on a 15-puzzle. Biasing the search toward future progress (a 3:1 to 4:1 ratio) prevents the browser from stalling and quickly yields near-optimal solutions.</li>
             <li><strong>State representation:</strong> A compact 16-character string representation for the state yields far better performance in JavaScript than 2-D numeric arrays when checking against the &ldquo;closed&rdquo; set.</li>
             <li><strong>Precomputed adjacency:</strong> Tile neighbor adjacencies are precomputed into a static lookup table, avoiding neighbor search overhead at runtime.</li>
           </ol>
