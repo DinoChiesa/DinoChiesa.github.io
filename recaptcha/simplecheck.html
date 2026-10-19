@@ -1,47 +1,67 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <title>reCAPTCHA demonstrator</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/base-min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
-    <link rel="stylesheet" type="text/css"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>reCAPTCHA v3 Simple Check</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <script src='https://www.google.com/recaptcha/api.js?render=6LeEA3gUAAAAAPRenCnqy8K4IuLepRPAPLNIKOY_'></script>
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"</script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-    <link rel="stylesheet" href="css/main.css">
-    <script src='js/simplecheck.js'></script>
-
+    <script src="https://www.google.com/recaptcha/api.js?render=6LeEA3gUAAAAAPRenCnqy8K4IuLepRPAPLNIKOY_"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/simplecheck.js"></script>
   </head>
-
-  <!-- ======================================================= -->
-
   <body>
+    <main class="page-container">
+      <a href="./" class="nav-back">
+        <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back to reCAPTCHA Demos
+      </a>
 
-    <div>
-      <div style='margin: 10px;'>
-        <h3>reCAPTCHA v3</h3>
+      <div class="card app-card">
+        <header class="card-header">
+          <span class="kicker">reCAPTCHA v3</span>
+          <h1 class="title">Simple Score Check</h1>
+          <p class="subtitle">
+            Execute Google reCAPTCHA v3 on the client side, send the verification token to an Apigee backend proxy, and inspect the risk score returned by Google.
+          </p>
+        </header>
 
-        <form role='form' id='form1' accept-charset='UTF-8'>
-          <div class='form-group'>
-            <input type='submit' value='check' class='button' id='check'/>
+        <form role="form" id="form1" accept-charset="UTF-8">
+          <p style="font-size: 14px; color: var(--color-slate-600); margin-top: 0; margin-bottom: 20px;">
+            Click <strong>Check Score</strong> to execute the <code>homepage</code> action. A token will be generated in the background and verified against the backend assessment endpoint.
+          </p>
+
+          <div class="actions-row">
+            <input type="submit" value="Check Score" class="btn-namari btn-namari-primary button" id="check" />
+            <div class="notshown">
+              <input type="submit" value="Clear Output" class="btn-namari btn-namari-secondary button" id="clear" />
+            </div>
           </div>
-          <div class='form-group notshown'>
-            <input type='submit' value='clear' class='button' id='clear'/>
-          </div>
-          <div class='last'></div>
+          <div class="last"></div>
         </form>
 
-        <div id='output' class='notshown'>
-        </div>
-
+        <div id="output" class="notshown"></div>
       </div>
-    </div>
-  </body>
 
+      <div id="notes" class="card notes-card">
+        <span class="kicker">Documentation</span>
+        <h2>How This Check Works</h2>
+        <ol>
+          <li>
+            <strong>Token Generation:</strong> <code>grecaptcha.execute()</code> requests an encrypted verification token associated with this demo site key and the <code>homepage</code> action.
+          </li>
+          <li>
+            <strong>Backend Postback:</strong> The token is POSTed as JSON to an Apigee API proxy (<code>https://gaccelerate3-test.apigee.net/recaptcha-v3/check</code>).
+          </li>
+          <li>
+            <strong>Assessment:</strong> The Apigee proxy forwards the token and site secret to Google's <code>siteverify</code> API and returns the assessment response containing <code>success</code>, <code>score</code>, <code>action</code>, and <code>challenge_ts</code>.
+          </li>
+          <li>
+            <strong>Score Interpretation:</strong> <code>1.0</code> represents a very high likelihood of a human user; <code>0.0</code> represents an automated bot or high-risk interaction.
+          </li>
+        </ol>
+      </div>
+    </main>
+  </body>
 </html>

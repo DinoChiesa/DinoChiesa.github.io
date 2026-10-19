@@ -1,54 +1,87 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <title>reCAPTCHA Enterprise demonstrator</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/base-min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
-    <link rel="stylesheet" type="text/css"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>reCAPTCHA Enterprise Assessment Check</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"</script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
 
-    <link rel="stylesheet" href="css/main.css">
-    <script src='js/simplecheck-enterprise.js'></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/simplecheck-enterprise.js"></script>
   </head>
-
-  <!-- ======================================================= -->
-
   <body>
+    <main class="page-container">
+      <a href="./" class="nav-back">
+        <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back to reCAPTCHA Demos
+      </a>
 
-    <div>
+      <div class="card app-card">
+        <header class="card-header">
+          <span class="kicker">reCAPTCHA Enterprise</span>
+          <h1 class="title">Enterprise Assessment</h1>
+          <p class="subtitle">
+            Execute Google reCAPTCHA Enterprise on the client side, send the verification token to your Apigee backend proxy, and inspect the risk score and assessment reasons.
+          </p>
+        </header>
 
-      <div>
-        <h3>reCAPTCHA Enterprise</h3>
+        <form role="form" id="form1" accept-charset="UTF-8">
+          <div class="grid-two-col">
+            <div class="form-group">
+              <label for="txt-baseurl" class="form-label">Apigee Base URL</label>
+              <input
+                id="txt-baseurl"
+                name="txt-baseurl"
+                class="form-control txt"
+                spellcheck="false"
+                placeholder="e.g. https://my-apigee.example.net"
+                title="Base URL of your Apigee backend proxy"
+              />
+            </div>
+            <div class="form-group">
+              <label for="txt-sitekey" class="form-label">Enterprise Site Key</label>
+              <input
+                id="txt-sitekey"
+                name="txt-sitekey"
+                class="form-control txt"
+                type="password"
+                placeholder="Paste your reCAPTCHA Enterprise site key"
+                title="Your Google Cloud reCAPTCHA Enterprise site key"
+              />
+            </div>
+          </div>
 
-        <form role='form' id='form1' accept-charset='UTF-8'>
-          <div class='form-group blocks'>
-            <label for='txt-baseurl'>Base URL</label>
-            <input id='txt-baseurl' name='txt-baseurl' class='txt' spellcheck="false" title='eg, https://my-apigee.example.com'/>
+          <div class="actions-row">
+            <input type="submit" value="Check Assessment" class="btn-namari btn-namari-primary button" id="check" />
+            <div class="notshown">
+              <input type="submit" value="Clear Output" class="btn-namari btn-namari-secondary button" id="clear" />
+            </div>
           </div>
-          <div class='form-group blocks'>
-            <label for='txt-sitekey'>Site key</label>
-            <input id='txt-sitekey' name='txt-sitekey' class='txt' type="password"/>
-          </div>
-          <div class='form-group' style='clear:both;'>
-            <input type='submit' value='check' class='button' id='check'/>
-          </div>
-          <div class='form-group notshown'>
-            <input type='submit' value='clear' class='button' id='clear'/>
-          </div>
-          <div class='last'></div>
+          <div class="last"></div>
         </form>
 
-        <div id='output' class='notshown'>
-        </div>
-
+        <div id="output" class="notshown"></div>
       </div>
-    </div>
-  </body>
 
+      <div id="notes" class="card notes-card">
+        <span class="kicker">Documentation</span>
+        <h2>How Enterprise Assessment Works</h2>
+        <ol>
+          <li>
+            <strong>Dynamic Script Injection:</strong> The page dynamically injects the Google Cloud reCAPTCHA Enterprise script (<code>https://www.google.com/recaptcha/enterprise.js?render=...</code>) using the site key you provide.
+          </li>
+          <li>
+            <strong>Local Storage:</strong> Your Base URL and Site Key are remembered in <code>window.localStorage</code> for convenient re-testing, scoped strictly to this browser session.
+          </li>
+          <li>
+            <strong>Assessment API:</strong> When submitted, the token is sent to <code>${baseurl}/recaptcha-enterprise/assess</code>. The Apigee backend calls Google Cloud reCAPTCHA Enterprise API to retrieve score and reason codes.
+          </li>
+          <li>
+            <strong>Reason Codes:</strong> In addition to a score from <code>0.0</code> to <code>1.0</code>, Enterprise assessments can return granular reasons such as <code>AUTOMATION</code> or <code>UNEXPECTED_ENVIRONMENT</code>.
+          </li>
+        </ol>
+      </div>
+    </main>
+  </body>
 </html>

@@ -1,31 +1,121 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <title>reCAPTCHA demonstrations</title>
-
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <style>
-     body { margin: 18px 24px; }
-    </style>
+    <title>Google reCAPTCHA Demonstrations</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
   </head>
-
-  <!-- ======================================================= -->
-
   <body>
+    <main class="page-container">
+      <div class="card app-card">
+        <header class="card-header">
+          <span class="kicker">Security &amp; Bot Defense</span>
+          <h1 class="title">Google reCAPTCHA Demos</h1>
+          <p class="subtitle">
+            Interactive demonstrators illustrating client-side token generation, backend score assessment, and OAuth 2.0 token protection using Google reCAPTCHA v3 and reCAPTCHA Enterprise.
+          </p>
+        </header>
 
-    <div id='main'>
-      <h2>reCAPTCHA free</h2>
-      <ul>
-        <li><a href='simplecheck.html'>Simple check</a></li>
-        <li><a href='check-before-token.html'>check before token issuance</a></li>
-      </ul>
-      
-      <h2>reCAPTCHA Enterprise</h2>
-      <ul>
-        <li><a href='simplecheck-enterprise.html'>Simple check</a></li>
-        <li><a href='check-before-token-enterprise.html'>check before token issuance</a></li>
-      </ul>
-    </div>
+        <div class="demos-section-header">
+          <h2 class="demos-section-title">reCAPTCHA v3 (Standard)</h2>
+        </div>
+
+        <div class="demos-grid">
+          <a href="simplecheck.html" class="demo-card">
+            <div>
+              <span class="demo-card-badge badge-v3">v3 Standard</span>
+              <h3 class="demo-card-title">Simple Check</h3>
+              <p class="demo-card-desc">
+                Executes a frictionless homepage action, generates a v3 token in the browser, and posts to an Apigee backend proxy to inspect the Google risk score.
+              </p>
+            </div>
+            <span class="demo-card-link">
+              Launch Demo
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+
+          <a href="check-before-token.html" class="demo-card">
+            <div>
+              <span class="demo-card-badge badge-v3">v3 Standard</span>
+              <h3 class="demo-card-title">Token Issuance Guard</h3>
+              <p class="demo-card-desc">
+                Guards an OAuth 2.0 Client Credentials token grant by sending a reCAPTCHA v3 token in the request header to verify caller legitimacy before issuing tokens.
+              </p>
+            </div>
+            <span class="demo-card-link">
+              Launch Demo
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+        </div>
+
+        <div class="demos-section-header">
+          <h2 class="demos-section-title">reCAPTCHA Enterprise</h2>
+        </div>
+
+        <div class="demos-grid">
+          <a href="simplecheck-enterprise.html" class="demo-card">
+            <div>
+              <span class="demo-card-badge badge-enterprise">Enterprise</span>
+              <h3 class="demo-card-title">Enterprise Assessment</h3>
+              <p class="demo-card-desc">
+                Configurable demonstration connecting to custom Apigee base URLs and Enterprise site keys to assess user interactions and granular risk reasons.
+              </p>
+            </div>
+            <span class="demo-card-link">
+              Launch Demo
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+
+          <a href="check-before-token-enterprise.html" class="demo-card">
+            <div>
+              <span class="demo-card-badge badge-enterprise">Enterprise</span>
+              <h3 class="demo-card-title">Enterprise Token Guard</h3>
+              <p class="demo-card-desc">
+                Complete enterprise workflow protecting client credentials token issuance with configurable client ID, secret, base URL, and Enterprise site key.
+              </p>
+            </div>
+            <span class="demo-card-link">
+              Launch Demo
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <div id="notes" class="card notes-card">
+        <span class="kicker">Documentation</span>
+        <h2>About Google reCAPTCHA Verification</h2>
+        <ol>
+          <li>
+            <strong>Frictionless Scoring:</strong> Both reCAPTCHA v3 and reCAPTCHA Enterprise run silently in the background without interrupting users with puzzle challenges, returning a risk score between <code>0.0</code> (likely bot) and <code>1.0</code> (likely human).
+          </li>
+          <li>
+            <strong>Action Context:</strong> Actions (e.g. <code>homepage</code>, <code>token</code>, <code>login</code>) specify the user interaction context, enabling Google's adaptive risk engine to detect anomalous behavioral patterns.
+          </li>
+          <li>
+            <strong>Backend Assessment:</strong> Client-side tokens must always be validated by your backend server or API gateway (such as Google Cloud Apigee) using secret credentials; scores should never be evaluated solely in client-side code.
+          </li>
+          <li>
+            <strong>Enterprise Features:</strong> reCAPTCHA Enterprise provides advanced threat analysis, granular reason codes (e.g. automated user agent, suspicious network), password leak detection, and multi-cloud deployment options.
+          </li>
+          <li>
+            Written by
+            <a href="https://github.com/DinoChiesa/" target="_blank" rel="noopener noreferrer">DinoChiesa</a>.
+            Contact via GitHub or
+            <a
+              href="https://bsky.app/profile/ionicshade.bsky.social"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="bsky-share-button"
+              >Bluesky</a
+            >.
+          </li>
+        </ol>
+      </div>
+    </main>
   </body>
 </html>
