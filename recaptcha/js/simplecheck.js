@@ -1,72 +1,87 @@
-// page.js
+// simplecheck.js
 // ------------------------------------------------------------------
 //
 // created: Mon Jun  1 13:00:26 2020
-// last saved: <2021-February-22 09:51:52>
+// last saved: <2026-October-18 20:30:00>
 
-/* jshint esversion:9, node:false, strict:implied */
-/* global jQuery, document, window, console, Buffer, grecaptcha  */
+/* jshint esversion:9, node:false, browser:true, strict:implied */
+/* global grecaptcha */
 
-(function (){
+(function () {
   const reCAPTCHA_site_key = '6LeEA3gUAAAAAPRenCnqy8K4IuLepRPAPLNIKOY_';
-  const postbackEndpoint = 'https://gaccelerate3-test.apigee.net/recaptcha-v3/check',
-        $ = jQuery;
+  const postbackEndpoint = 'https://gaccelerate3-test.apigee.net/recaptcha-v3/check';
 
   function clearOutput(event) {
-    $('#output').addClass('notshown').empty();
-    $('#clear').parent().addClass('notshown');
+    if (event) event.preventDefault();
+    const output = document.getElementById('output');
+    if (output) {
+      output.classList.add('notshown');
+      output.innerHTML = '';
+    }
+    const clear = document.getElementById('clear');
+    if (clear && clear.parentElement) {
+      clear.parentElement.classList.add('notshown');
+    }
   }
 
   function applyRecaptchaAndSubmit(event) {
-    // prevent form submit
-    if (event) { event.preventDefault(); }
+    if (event) event.preventDefault();
 
     try {
-
-      // The browser will show an opaque promise error in this method if this
-      // page is hosted on a domain which does not match the domain set for
-      // the given site_key. The little recaptcha badge will show a warning
-      // message.
-
-      grecaptcha.execute(reCAPTCHA_site_key, {action: 'homepage'})
-        .then(function(recaptchaToken) {
-
-          // post back to an API endpoint. The thing on the other end must call to
-          // google using the site key secret, to ask for the 'score' for this token.
-          var jqxhr = $.ajax({
-                url: postbackEndpoint,
-                method: "POST",
-                data: JSON.stringify({ recaptcha_token: recaptchaToken }),
-                contentType: 'application/json',
-                dataType : 'json' // response
-              })
-            .done(function(responseData) {
-              // The Apigee endpoint just returns what recaptcha said.
-              // Display it on the page.
-              let $ta = $('<textarea>');
-              $ta.attr('class', 'results code');
-              $ta.attr('spellcheck','false');
-              $ta.attr('disabled','true');
-              $ta.text(JSON.stringify(responseData, null, 2));
-              $('#output').empty().removeClass('notshown').append($ta);
-              $('#clear').parent().removeClass('notshown');
+      // The browser will show an opaque promise error if hosted on an unmatched domain
+      grecaptcha
+        .execute(reCAPTCHA_site_key, { action: 'homepage' })
+        .then(function (recaptchaToken) {
+          fetch(postbackEndpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json'
+            },
+            body: JSON.stringify({ recaptcha_token: recaptchaToken })
+          })
+            .then(function (response) {
+              return response.json();
             })
-            .fail(function(response, error, exc) {
-              window.alert( "error: " + exc);
+            .then(function (responseData) {
+              const ta = document.createElement('textarea');
+              ta.className = 'results code';
+              ta.spellcheck = false;
+              ta.disabled = true;
+              ta.value = JSON.stringify(responseData, null, 2);
+
+              const output = document.getElementById('output');
+              output.innerHTML = '';
+              output.classList.remove('notshown');
+              output.appendChild(ta);
+
+              const clear = document.getElementById('clear');
+              if (clear && clear.parentElement) {
+                clear.parentElement.classList.remove('notshown');
+              }
+            })
+            .catch(function (exc) {
+              window.alert('error: ' + exc);
             });
         });
-    }
-    catch (e) {
-      window.alert( "exception: " + e);
+    } catch (e) {
+      window.alert('exception: ' + e);
     }
     return false;
   }
 
-  grecaptcha.ready(function() {
-    $(document).ready(function() {
-      $('#check').on('click', applyRecaptchaAndSubmit);
-      $('#clear').on('click', clearOutput);
-    });
+  grecaptcha.ready(function () {
+    const bindHandlers = function () {
+      const checkBtn = document.getElementById('check');
+      if (checkBtn) checkBtn.addEventListener('click', applyRecaptchaAndSubmit);
+      const clearBtn = document.getElementById('clear');
+      if (clearBtn) clearBtn.addEventListener('click', clearOutput);
+    };
 
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bindHandlers);
+    } else {
+      bindHandlers();
+    }
   });
-}());
+})();

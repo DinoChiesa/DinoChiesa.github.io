@@ -1,67 +1,86 @@
 // check-before-token.js
 // ------------------------------------------------------------------
 
-/* jshint esversion:9, node:false, strict:implied */
-/* global jQuery, document, window, console, Buffer, grecaptcha, btoa */
+/* jshint esversion:9, node:false, browser:true, strict:implied */
+/* global grecaptcha, btoa */
 
-(function (){
+(function () {
   const reCAPTCHA_site_key = '6LeEA3gUAAAAAPRenCnqy8K4IuLepRPAPLNIKOY_',
-        postbackEndpoint = 'https://therealdinochiesa2-eval-test.apigee.net/oauth2-cc-recaptcha/token',
-        client_id = 'V0YrtyrC0gXEtmFc98BigDy5EGaRoMb42EKqyeraOu',
-        client_secret = 'VNtGqla90DaiZFKhojSTpsGXLWnO9SNkuhVBK2ZGudsL5UTG',
-        $ = jQuery;
+    postbackEndpoint = 'https://therealdinochiesa2-eval-test.apigee.net/oauth2-cc-recaptcha/token',
+    client_id = 'V0YrtyrC0gXEtmFc98BigDy5EGaRoMb42EKqyeraOu',
+    client_secret = 'VNtGqla90DaiZFKhojSTpsGXLWnO9SNkuhVBK2ZGudsL5UTG';
 
   function clearOutput(event) {
-    $('#output').addClass('notshown').empty();
-    $('#clear').parent().addClass('notshown');
+    if (event) event.preventDefault();
+    const output = document.getElementById('output');
+    if (output) {
+      output.classList.add('notshown');
+      output.innerHTML = '';
+    }
+    const clear = document.getElementById('clear');
+    if (clear && clear.parentElement) {
+      clear.parentElement.classList.add('notshown');
+    }
   }
 
   function applyRecaptchaAndSubmit(event) {
-    if (event) { event.preventDefault(); }
+    if (event) event.preventDefault();
     try {
-      grecaptcha.execute(reCAPTCHA_site_key, {action: 'token'})
-        .then(function(recaptchaToken) {
-
-          // post back to an API endpoint. The other end must call to google
-          // using the site key secret, to ask for the 'score' for this token.
-          var jqxhr = $.ajax({
-                url: postbackEndpoint,
-                method: "POST",
-                headers: {
-                  "Authorization": "Basic " + btoa(client_id + ":" + client_secret),
-                  "recaptcha-token": recaptchaToken
-                },
-                data: 'grant_type=client_credentials',
-                contentType: 'application/x-www-form-urlencoded',
-                dataType : 'json'
-              })
-            .done(function(responseData) {
-              // The Apigee endpoint returns a token payload.
-              // Display it on the page.
-              let $ta = $('<textarea>');
-              $ta.attr('class', 'results code');
-              $ta.attr('spellcheck','false');
-              $ta.attr('disabled','true');
-              $ta.text(JSON.stringify(responseData, null, 2));
-              $('#output').empty().removeClass('notshown').append($ta);
-              $('#clear').parent().removeClass('notshown');
+      grecaptcha
+        .execute(reCAPTCHA_site_key, { action: 'token' })
+        .then(function (recaptchaToken) {
+          fetch(postbackEndpoint, {
+            method: 'POST',
+            headers: {
+              Authorization: 'Basic ' + btoa(client_id + ':' + client_secret),
+              'recaptcha-token': recaptchaToken,
+              'Content-Type': 'application/x-www-form-urlencoded',
+              Accept: 'application/json'
+            },
+            body: 'grant_type=client_credentials'
+          })
+            .then(function (response) {
+              return response.json();
             })
-            .fail(function(response, error, exc) {
-              window.alert( "error: " + exc);
+            .then(function (responseData) {
+              const ta = document.createElement('textarea');
+              ta.className = 'results code';
+              ta.spellcheck = false;
+              ta.disabled = true;
+              ta.value = JSON.stringify(responseData, null, 2);
+
+              const output = document.getElementById('output');
+              output.innerHTML = '';
+              output.classList.remove('notshown');
+              output.appendChild(ta);
+
+              const clear = document.getElementById('clear');
+              if (clear && clear.parentElement) {
+                clear.parentElement.classList.remove('notshown');
+              }
+            })
+            .catch(function (exc) {
+              window.alert('error: ' + exc);
             });
         });
-    }
-    catch (e) {
-      window.alert( "exception: " + e);
+    } catch (e) {
+      window.alert('exception: ' + e);
     }
     return false;
   }
 
-  grecaptcha.ready(function() {
-    $(document).ready(function() {
-      $('#check').on('click', applyRecaptchaAndSubmit);
-      $('#clear').on('click', clearOutput);
-    });
+  grecaptcha.ready(function () {
+    const bindHandlers = function () {
+      const checkBtn = document.getElementById('check');
+      if (checkBtn) checkBtn.addEventListener('click', applyRecaptchaAndSubmit);
+      const clearBtn = document.getElementById('clear');
+      if (clearBtn) clearBtn.addEventListener('click', clearOutput);
+    };
 
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bindHandlers);
+    } else {
+      bindHandlers();
+    }
   });
-}());
+})();
