@@ -515,7 +515,7 @@ function solve() {
         if (!closed.has(state)) {
           // not already checked
           const g = chosen.g + 1;
-          const futureCostRatio = 4; // Biases search toward goal to prevent node explosion
+          const remainingDistanceWeight = 4; // Biases search toward goal to prevent node explosion
           const existing = open.find((item) => item.isState(state));
 
           if (!existing) {
@@ -524,13 +524,13 @@ function solve() {
             child.parent = chosen;
             child.g = g;
             child.h = aggregateManhattanDistance(child.state);
-            child.f = child.g + futureCostRatio * child.h;
+            child.f = child.g + remainingDistanceWeight * child.h;
             open.push(child);
           } else if (g < existing.g) {
             // Found a shorter path to this state: update existing node
             existing.parent = chosen;
             existing.g = g;
-            existing.f = g + futureCostRatio * existing.h;
+            existing.f = g + remainingDistanceWeight * existing.h;
           }
         }
       });
