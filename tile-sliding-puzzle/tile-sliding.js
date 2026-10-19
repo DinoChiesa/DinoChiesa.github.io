@@ -24,7 +24,7 @@
 
 
 // created: Fri Feb 26 15:54:58 2021
-// last saved: <2022-December-06 15:42:11>
+// last saved: <2026-October-18 17:57:31>
 
 /* jshint esversion:9, node:false, browser:true, strict:implied */
 /* global console */
@@ -502,13 +502,31 @@ function solve() {
         if (!closed.has(state)) {
           // not already traversed
           let g = chosen.g + 1;
-          if (!open.find(openitem => (openitem.isState(state) && g > openitem.g))) {
-            let child = new Node(state);
-            child.parent = chosen;
-            child.h = aggregateManhattanDistance(child.state);
-            child.f = child.g + child.h;
-            open.push(child);
-          }
+  let existing = open.find(item => item.isState(state));
+
+  if (!existing) {
+    let child = new Node(state);
+    child.parent = chosen;
+    child.g = g;
+    child.h = aggregateManhattanDistance(child.state);
+    child.f = child.g + child.h;
+    open.push(child);
+  } else if (g < existing.g) {
+    // Found a shorter path to this state: update existing node
+    existing.parent = chosen;
+    existing.g = g;
+    existing.f = g + existing.h;
+  }
+
+          
+          
+          // if (!open.find(openitem => (openitem.isState(state) && g > openitem.g))) {
+          //   let child = new Node(state);
+          //   child.parent = chosen;
+          //   child.h = aggregateManhattanDistance(child.state);
+          //   child.f = child.g + child.h;
+          //   open.push(child);
+          // }
         }
       });
     }
