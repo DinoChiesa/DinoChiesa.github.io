@@ -1,130 +1,141 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Webpage key gen and download</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="A webpage to generate keypairs for RSA or Elliptic Curve, via webcrypto, and also allow download." />
+    <script type="module" crossorigin src="./js/main.js"></script>
+    <link rel="stylesheet" crossorigin href="./css/main.css">
   </head>
 
   <!-- ======================================================= -->
   <body>
-    <div class='container'>
-      <div class='banner'>
-        <h2>Keypair Generator</h2>
-        <div>Generate and download</div>
-        <div class="alert alert-warning alert-dismissible fade" role="alert" id="mainalert"></div>
+    <main class="page">
+      <header class="card hero">
+        <a class="github-link" href="https://github.com/DinoChiesa/download-keypair-webtool"
+           title="View the source on GitHub" aria-label="View the source on GitHub">
+          <span class="bi bi-github"></span>
+        </a>
+        <span class="kicker">WebCrypto Utility</span>
+        <h1 class="title">Keypair Generator</h1>
+        <p class="subtitle">Generate and download</p>
         <div id='buildversion'>version <span id='version_id'>??</span></div>
+      </header>
+
+      <div class="workbench">
+        <section class="keys">
+          <div class="card" id='privatekey' title='paste in your private key, it does not leave your browser'>
+            <p class="panel-head"><span class="panel-title">Private Key</span>
+              <span class="panel-tools">
+                <button type="button" class="btn-icon btn-copy" data-target="ta-privatekey" title="copy to clipboard">
+                  <span class="bi bi-clipboard"></span>
+                </button>
+              </span>
+            </p>
+            <textarea rows=14 cols=34 id='ta-privatekey' spellcheck='false' class='keytext reform-indent-on-paste'></textarea>
+          </div>
+
+          <div class="card" id='publickey'>
+            <p class="panel-head"><span class="panel-title">Public Key</span>
+              <span class="panel-tools">
+                <button type="button" class="btn-icon btn-copy" data-target="ta-publickey" title="copy to clipboard">
+                  <span class="bi bi-clipboard"></span>
+                </button>
+              </span>
+            </p>
+            <textarea rows=10 cols=34 id='ta-publickey' spellcheck='false' class='keytext reform-indent-on-paste'></textarea>
+          </div>
+
+          <div class="card" id='keyid'>
+            <p class="panel-head"><span class="panel-title">Key ID</span>
+              <span class="panel-tools">
+                <button type="button" class="btn-icon btn-copy" data-target="ta-keyid" title="copy to clipboard">
+                  <span class="bi bi-clipboard"></span>
+                </button>
+              </span>
+            </p>
+            <textarea rows=1 cols=34 id='ta-keyid' spellcheck='false' class='keytext' readonly></textarea>
+          </div>
+        </section>
+
+        <aside class="card actions" id='panel_buttons'>
+          <div class="action-group">
+            <label class="field-label" for="sel-variant">Key type</label>
+            <select class="field sel-variant" id='sel-variant'>
+              <option value='RSA'>RSA</option>
+              <option value='EC'>Elliptic Curve</option>
+            </select>
+            <label class="field-label curve-label" for="sel-curve">Curve</label>
+            <select class="field sel-curve" title='curve' id='sel-curve'>
+              <option value='P-256'>P-256</option>
+              <option value='P-384'>P-384</option>
+              <option value='P-521'>P-521</option>
+            </select>
+            <button type="button" class="btn-action btn-action-primary btn-newkeypair" title='generate a new keypair'>
+              <span class="bi bi-arrow-clockwise"></span><span>New keypair</span>
+            </button>
+          </div>
+
+          <div class="action-group">
+            <span class="group-title">Download</span>
+            <button type="button" class="btn-action btn-download-json" title='download a JSON representation of the keypair'>
+              <span class="bi bi-download"></span><span>JSON keypair</span>
+            </button>
+            <button type="button" class="btn-action btn-download-jwk-private" title='download a JWK for the private key'>
+              <span class="bi bi-download"></span><span>Private JWK</span>
+            </button>
+            <button type="button" class="btn-action btn-download-jwk-public" title='download a JWK for the public key'>
+              <span class="bi bi-download"></span><span>Public JWK</span>
+            </button>
+            <button type="button" class="btn-action btn-download-pem" data-flavor='private' title='download the private key as PEM'>
+              <span class="bi bi-download"></span><span>Private PEM</span>
+            </button>
+            <button type="button" class="btn-action btn-download-pem" data-flavor='public' title='download the public key as PEM'>
+              <span class="bi bi-download"></span><span>Public PEM</span>
+            </button>
+          </div>
+
+          <div class="action-group">
+            <label class="switch-row" for="chk-darkmode">
+              <input type="checkbox" id="chk-darkmode" class="switch">
+              <span>Dark Mode</span>
+            </label>
+          </div>
+        </aside>
       </div>
 
-      <div class='panel-group'>
-        <div class='panel panel-left' id='panel_left'>
-          <div id='privatekey' title='paste in your private key, it does not leave your browser'>
-            <p>Private Key
-              <button type="button" title="copy to clipboard" class="btn btn-outline-secondary btn-md btn-copy"
-                      data-target="ta-privatekey" title="copy to clipboard">
-                <span class="oi oi-clipboard"></span>
-              </button>
+      <section class="card notes-card">
+        <span class="kicker">Colophon</span>
+        <ol>
+          <li><p>This tool uses
+            <a href='https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API'>webcrypto</a>
+            for key generation,
+            <a href='https://developer.mozilla.org/en-US/docs/Web/API/Blob'>Blob</a> for file download,
+            and <a href='https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage'>localStorage</a> for state.</p>
+
+            <p>It will run only on modern, current browsers.</p></li>
+
+          <li>
+            <p>The keys are generated in your browser and are downloaded locally.
+              You should always take care when using websites that are not fully in your
+              control, for key generation.</p></li>
+
+          <li><p>
+            The page uses <a href='https://icons.getbootstrap.com/'>Bootstrap Icons</a>
+            for button symbols.</p></li>
+
+          <li>
+            <p>
+              Written by <a href='https://github.com/DinoChiesa/'>DinoChiesa</a>. Contact me with questions, suggestions, or kudos via <a href='https://github.com/DinoChiesa/'>Github</a> or <a href="https://bsky.app/profile/ionicshade.bsky.social">BlueSky</a>.
             </p>
-            <textarea rows=12 cols=34 id='ta-privatekey' spellcheck='false' class='plaintextvalue reform-indent-on-paste'></textarea>
-          </div>
-          <div id='publickey'>
-            <p>Public Key
-              <button type="button" title="copy to clipboard" class="btn btn-outline-secondary btn-md btn-copy"
-                      data-target="ta-publickey" title="copy to clipboard">
-                <span class="oi oi-clipboard"></span>
-              </button>
-            </p>
-            <textarea rows=12 cols=34 id='ta-publickey' spellcheck='false' class='plaintextvalue reform-indent-on-paste'></textarea>
-          </div>
-          <div id='keyid'>
-            <p>Key ID
-              <button type="button" title="copy to clipboard" class="btn btn-outline-secondary btn-md btn-copy"
-                      data-target="ta-keyid" title="copy to clipboard">
-                <span class="oi oi-clipboard"></span>
-              </button>
-            </p>
-            <textarea rows=1 cols=34 id='ta-keyid' spellcheck='false' class='plaintextvalue' disabled></textarea>
-          </div>
-
-        </div>
-
-        <div class='panel panel-center' id='panel_buttons'>
-          <select class="form-control form-control-sm sel-variant" id='sel-variant'>
-            <option value='RSA'>RSA</option>
-            <option value='EC'>Elliptic Curve</option>
-          </select>
-          <select class="form-control form-control-sm sel-curve" title='curve' id='sel-curve'>
-            <option value='P-256'>P-256</option>
-            <option value='P-384'>P-384</option>
-            <option value='P-521'>P-521</option>
-          </select>
-          <button type="button" class="btn btn-outline-secondary btn-lg btn-newkeypair" title='generate a new keypair'>
-            <span style="display:block;">New</span>
-            <span class="oi oi-reload"></span>
-          </button>
-          <button type="button" class="btn btn-outline-secondary btn-lg btn-download-json" title='download a JSON representation of the keypair'>
-            <span style="display:block;">JSON keypair</span>
-            <span class="oi oi-data-transfer-download"></span>
-          </button>
-
-          <button type="button" class="btn btn-outline-secondary btn-lg btn-download-jwk-private" title='download a JWK for the private key'>
-            <span style="display:block;">Private JWK</span>
-            <span class="oi oi-data-transfer-download"></span>
-          </button>
-
-          <button type="button" class="btn btn-outline-secondary btn-lg btn-download-jwk-public" title='download a JWK for the public key'>
-            <span style="display:block;">Public JWK</span>
-            <span class="oi oi-data-transfer-download"></span>
-          </button>
-
-          <button type="button" class="btn btn-outline-secondary btn-lg btn-download-pem" data-flavor='private' title='download the private key as PEM'>
-            <span style="display:block;">Private PEM</span>
-            <span class="oi oi-data-transfer-download"></span>
-          </button>
-          <button type="button" class="btn btn-outline-secondary btn-lg btn-download-pem" data-flavor='public' title='download the public key as PEM'>
-            <span style="display:block;">Public PEM</span>
-            <span class="oi oi-data-transfer-download"></span>
-          </button>
-        </div>
-
-        <div class='panel panel-right clearfix' id='panel_right'>
-          <div class='footer'>
-            <div>Colophon</div>
-            <ol>
-              <li><p>This tool uses
-              <a href='https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API'>webcrypto</a>
-              for key generation,
-              <a href='https://developer.mozilla.org/en-US/docs/Web/API/Blob'>Blob</a> for file download,
-              and <a href='https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage'>localStorage</a> for state.</p>
-
-                <p>It will run only on modern, current browsers.</p></li>
-
-              <li>
-                <p>The keys are generated in your browser and are downloaded locally.
-                  You should always take care when using websites that are not fully in your
-                  control, for key generation.</p></li>
-
-              <li><p>
-                The page also uses <a href='https://getbootstrap.com/docs/5.0'>Bootstrap 5</a>
-                for styling, and the <a href='https://useiconic.com/open/'>Open Iconic fonts</a>
-                for button symbols. </p></li>
-
-            <li>
-        <p>
-          Written by <A href='https://github.com/DinoChiesa/'>DinoChiesa</a>. Contact me with questions, suggestions, or kudos via <a href="https://twitter.com/intent/tweet?screen_name=dpchiesa&ref_src=twsrc%5Etfw&text=regarding%20RSA%20keypair%20generator%20tool"
-                                                                                                                                      class="twitter-share-button" data-show-count="false">Twitter</a>.
-          <!-- script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script -->
-        </p>
-                    </li>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <script src="js/main.js" charset="utf-8"></script>
+          </li>
+        </ol>
+      </section>
+    </main>
   </body>
 
 </html>
