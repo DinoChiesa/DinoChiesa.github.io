@@ -1,220 +1,268 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Online HTTP Signature tool</title>
+    <title>Online HTTP Message Signatures tool</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="An online tool to perform HTTP Signature computation and verification. HMAC or RSA." />
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-105867635-3"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'UA-105867635-3');
-    </script>
+    <meta name="description" content="An online tool to create and verify HTTP Message Signatures (RFC 9421). RSA, ECDSA, Ed25519 or HMAC." />
+    <script type="module" crossorigin src="./js/main.js"></script>
+    <link rel="stylesheet" crossorigin href="./css/main.css">
   </head>
 
   <!-- ======================================================= -->
   <body>
-    <div class='container'>
-      <div class='banner'>
-        <h2>HTTP Signature Verifier and Generator</h2>
-        <div>For information on HTTP Signature see <a href='https://datatracker.ietf.org/doc/draft-ietf-httpbis-message-signatures/'>the draft specification</a>.</div>
-        <div class="alert alert-warning alert-dismissible fade" role="alert" id="mainalert"></div>
-        <div id='buildversion' class='buildversion'>version <span id='version_id'>??</span></div>
-      </div>
+    <div class="alert alert-warning fade" role="alert" id="mainalert"></div>
 
-      <div class='panel-group'>
-        <div class='panel panel-left' id='panel_left'>
-          <div id='headers'>
-            <p>Headers to sign
-              <button type="button" class="btn btn-outline-secondary btn-md btn-copy" data-target="ta_headerlist" title='copy to clipboard'>
-                <span class="oi oi-clipboard"></span>
-              </button>
+    <main class="page">
+      <header class="card hero">
+        <a class="github-link" href="https://github.com/DinoChiesa/httpsig-webtool"
+           title="View the source on GitHub" aria-label="View the source on GitHub">
+          <span class="bi bi-github"></span>
+        </a>
+        <span class="kicker">WebCrypto Utility</span>
+        <h1 class="title">HTTP Message Signatures: Signer and Verifier</h1>
+        <p class="subtitle">For information on HTTP Message Signatures see <a href='https://www.rfc-editor.org/rfc/rfc9421'>IETF RFC 9421</a>.</p>
+        <div id='buildversion'>version <span id='version_id'>??</span></div>
+      </header>
+
+      <div class="workbench">
+        <section class="column">
+          <div class="card" id='message'>
+            <p class="panel-head"><span class="panel-title">HTTP Message</span>
+              <span class="panel-tools">
+                <button type="button" class="btn-icon btn-digest" title='set Content-Digest from the body (RFC 9530)'>
+                  <span class="bi bi-hash"></span>
+                </button>
+                <button type="button" class="btn-icon btn-copy" data-target="ta_message" title='copy to clipboard'>
+                  <span class="bi bi-clipboard"></span>
+                </button>
+              </span>
             </p>
-            <textarea rows=12 cols=34 id='ta_headerlist' spellcheck='false' class='plaintextvalue'>
-            </textarea>
+            <textarea rows=11 cols=34 id='ta_message' spellcheck='false' class='keytext'></textarea>
           </div>
-          <div id='privatekey' title='paste in your private key, it does not leave your browser'>
-            <p>Private Key
-              <button type="button" title="copy to clipboard" class="btn btn-outline-secondary btn-md btn-copy"
-                      data-target="ta_privatekey" title="copy to clipboard">
-                <span class="oi oi-clipboard"></span>
-              </button>
-              <button type="button" class="btn btn-outline-secondary btn-md btn-newkey"
-                      title='generate a new keypair'>
-                <span class="oi oi-reload"></span>
-              </button>
+
+          <div class="card" id='privatekey' title='paste in your private key, it does not leave your browser'>
+            <p class="panel-head"><span class="panel-title">Private Key</span>
+              <span class="panel-tools">
+                <button type="button" class="btn-icon btn-newkey" title='generate a new keypair'>
+                  <span class="bi bi-arrow-clockwise"></span>
+                </button>
+                <button type="button" class="btn-icon btn-copy" data-target="ta_privatekey" title="copy to clipboard">
+                  <span class="bi bi-clipboard"></span>
+                </button>
+              </span>
             </p>
-            <textarea rows=12 cols=34 id='ta_privatekey' spellcheck='false' class='plaintextvalue'></textarea>
+            <textarea rows=10 cols=34 id='ta_privatekey' spellcheck='false' class='keytext'></textarea>
           </div>
-          <div id='publickey'>
-            <p>Public Key
-              <button type="button" title="copy to clipboard" class="btn btn-outline-secondary btn-md btn-copy"
-                      data-target="ta_publickey" title="copy to clipboard">
-                <span class="oi oi-clipboard"></span>
-              </button>
+
+          <div class="card" id='publickey'>
+            <p class="panel-head"><span class="panel-title">Public Key</span>
+              <span class="panel-tools">
+                <button type="button" class="btn-icon btn-copy" data-target="ta_publickey" title="copy to clipboard">
+                  <span class="bi bi-clipboard"></span>
+                </button>
+              </span>
             </p>
-            <textarea rows=12 cols=34 id='ta_publickey' spellcheck='false' class='plaintextvalue'></textarea>
+            <textarea rows=8 cols=34 id='ta_publickey' spellcheck='false' class='keytext'></textarea>
           </div>
-          <div id='symmetrickey'>
-            <p>Symmetric Key
-              <button type="button" title="copy to clipboard" class="btn btn-outline-secondary btn-md btn-copy"
-                      data-target="ta_symmetrickey" title="copy to clipboard">
-                <span class="oi oi-clipboard"></span>
-              </button>
-              <button type="button" class="btn btn-outline-secondary btn-md btn-newkey"
-                      title='generate a new key'>
-                <span class="oi oi-reload"></span>
-              </button>
+
+          <div class="card" id='symmetrickey'>
+            <p class="panel-head"><span class="panel-title">Shared Secret</span>
+              <span class="panel-tools">
+                <button type="button" class="btn-icon btn-newkey" title='generate a new key'>
+                  <span class="bi bi-arrow-clockwise"></span>
+                </button>
+                <button type="button" class="btn-icon btn-copy" data-target="ta_symmetrickey" title="copy to clipboard">
+                  <span class="bi bi-clipboard"></span>
+                </button>
+              </span>
             </p>
-            <input type='text' id='ta_symmetrickey' class='form-control'
-                   value='Secret1234567890ABCDEFGHIJKLMNOP'
-                   spellcheck='false'>
-            <div>
-              <span>Key Encoding:</span>
-              <select class="form-control form-control-sm sel-symkey-coding" id='sel-symkey-coding'>
-                <option value='UTF-8'>UTF-8</option>
-                <option value='Hex'>Hex</option>
-                <option value='Base64'>Base64</option>
-                <option value='PBKDF2'>PBKDF2</option>
-              </select>
-            </div>
-            <div id='pbkdf2_params'>
+            <input type='text' id='ta_symmetrickey' class='keytext'
+                   value='Secret1234567890ABCDEFGHIJKLMNOP' spellcheck='false'>
+            <div class="key-options">
               <div>
-                <span>iterations:</span>
-                <input type='number' id='ta_pbkdf2_iterations' value='10000'>
-              </div>
-              <div>
-                <span>salt:</span>
-                <input type='text' id='ta_pbkdf2_salt' value='abcdefg'>
-              </div>
-              <div>
-                <span>salt encoding:</span>
-                <select class="form-control form-control-sm sel-symkey-pbkdf2-salt-coding"
-                        id='sel-symkey-pbkdf2-salt-coding'>
+                <label class="field-label" for="sel-symkey-coding">Key Encoding</label>
+                <select class="field sel-symkey-coding" id='sel-symkey-coding'>
                   <option value='UTF-8'>UTF-8</option>
                   <option value='Hex'>Hex</option>
                   <option value='Base64'>Base64</option>
+                  <option value='PBKDF2'>PBKDF2</option>
                 </select>
+              </div>
+              <div id='pbkdf2_params'>
+                <div>
+                  <label class="field-label" for="ta_pbkdf2_iterations">Iterations</label>
+                  <input type='number' id='ta_pbkdf2_iterations' class="field" value='10000'>
+                </div>
+                <div>
+                  <label class="field-label" for="ta_pbkdf2_salt">Salt</label>
+                  <input type='text' id='ta_pbkdf2_salt' class="field" value='abcdefg'>
+                </div>
+                <div>
+                  <label class="field-label" for="sel-symkey-pbkdf2-salt-coding">Salt Encoding</label>
+                  <select class="field sel-symkey-pbkdf2-salt-coding" id='sel-symkey-pbkdf2-salt-coding'>
+                    <option value='UTF-8'>UTF-8</option>
+                    <option value='Hex'>Hex</option>
+                    <option value='Base64'>Base64</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
+        </section>
 
-        </div>
-
-        <div class='panel panel-center' id='panel_buttons'>
-          <select class="form-control form-control-sm sel-alg" id='sel-alg'>
-            <option value='rsa-sha256'>rsa-sha256</option>
-            <option value='hmac-sha256'>hmac-sha256</option>
-            <option value='hs2019 (rsa)'>hs2019 (rsa)</option>
-            <option value='hs2019 (hmac)'>hs2019 (hmac)</option>
-          </select>
-
-
-          <div>
-            <span>keyId:</span>
-            <input type='text' id='ta-keyid' value='abcdefg' class='form-control-sm' spellcheck='false'>
+        <aside class="card actions" id='panel_buttons'>
+          <div class="action-group">
+            <label class="field-label" for="sel-alg">Algorithm</label>
+            <select class="field sel-alg" id='sel-alg'>
+              <option value='rsa-pss-sha512'>rsa-pss-sha512</option>
+              <option value='rsa-v1_5-sha256'>rsa-v1_5-sha256</option>
+              <option value='ecdsa-p256-sha256'>ecdsa-p256-sha256</option>
+              <option value='ecdsa-p384-sha384'>ecdsa-p384-sha384</option>
+              <option value='ed25519'>ed25519</option>
+              <option value='hmac-sha256'>hmac-sha256</option>
+            </select>
           </div>
 
-          <button type="button" class="btn btn-outline-secondary btn-lg btn-generate" title='generate an HTTP Signature header'>
-            <span class="oi oi-arrow-thick-right"></span>
-          </button>
-
-          <button type="button" class="btn btn-outline-secondary btn-lg btn-verify" title='verify a signature'>
-            <span class="oi oi-check"></span>
-          </button>
-          <div id='hs2019-settings'>
-            <span style='margin-right:6px;'>created:</span>
-            <input id='chk-created' type='checkbox' />
-            <div style='margin-bottom:6px;'>expires:</div>
-            <select class="form-control form-control-sm sel-expiry" id='sel-expiry' title='specify expiry.' style='margin-top:6px;'>
+          <div class="action-group">
+            <span class="group-title">Parameters</span>
+            <label class="field-label" for="ta-label">Label</label>
+            <input type='text' id='ta-label' class="field" value='sig1' spellcheck='false'>
+            <label class="field-label" for="ta-keyid">keyid</label>
+            <input type='text' id='ta-keyid' class="field" value='test-key' spellcheck='false'>
+            <label class="field-label" for="ta-tag">tag</label>
+            <input type='text' id='ta-tag' class="field" value='' spellcheck='false'>
+            <label class="field-label" for="sel-expiry">expires</label>
+            <select class="field sel-expiry" id='sel-expiry'>
               <option value='no expiry'>no expiry</option>
               <option value='10 seconds'>10 seconds</option>
               <option value='60 seconds'>60 seconds</option>
               <option value='5 minutes'>5 minutes</option>
               <option value='30 minutes'>30 minutes</option>
             </select>
+            <label class="switch-row" for="chk-created">
+              <input id='chk-created' type='checkbox' class="switch" />
+              <span>created</span>
+            </label>
+            <label class="switch-row" for="chk-alg">
+              <input id='chk-alg' type='checkbox' class="switch" />
+              <span>alg</span>
+            </label>
+            <label class="switch-row" for="chk-nonce">
+              <input id='chk-nonce' type='checkbox' class="switch" />
+              <span>nonce</span>
+            </label>
           </div>
-        </div>
 
-        <div class='panel panel-right clearfix' id='panel_right'>
-          <div id='signature'>
-            <p>Signature
-              <button type="button" title="copy to clipboard" class="btn btn-outline-secondary btn-md btn-copy"
-                      data-target="ta_signature" title="copy to clipboard">
-                <span class="oi oi-clipboard"></span>
-              </button>
+          <div class="action-group">
+            <button type="button" class="btn-action btn-action-primary btn-sign" title='sign the message'>
+              <span class="bi bi-pen"></span><span>Sign</span>
+            </button>
+            <button type="button" class="btn-action btn-verify" title='verify the signature'>
+              <span class="bi bi-check-lg"></span><span>Verify</span>
+            </button>
+          </div>
+
+          <div class="action-group">
+            <label class="switch-row" for="chk-darkmode">
+              <input type="checkbox" id="chk-darkmode" class="switch">
+              <span>Dark Mode</span>
+            </label>
+          </div>
+        </aside>
+
+        <section class="column">
+          <div class="card" id='covered'>
+            <p class="panel-head"><span class="panel-title">Covered Components</span></p>
+            <div id='components'></div>
+          </div>
+
+          <div class="card" id='sigbase'>
+            <p class="panel-head"><span class="panel-title">Signature Base</span>
+              <span class="panel-tools">
+                <button type="button" class="btn-icon btn-copy" data-target="ta_sigbase" title="copy to clipboard">
+                  <span class="bi bi-clipboard"></span>
+                </button>
+              </span>
             </p>
-            <textarea rows=8 cols=34 id='ta_signature' spellcheck='false' class='plaintextvalue'></textarea>
+            <textarea rows=13 cols=34 id='ta_sigbase' spellcheck='false' class='keytext' readonly></textarea>
           </div>
 
-          <div id='httpsigheader'>
-            <p>Header
-              <button type="button" title="copy to clipboard" class="btn btn-outline-secondary btn-md btn-copy"
-                      data-target="ta_httpsigheader" title="copy to clipboard">
-                <span class="oi oi-clipboard"></span>
-              </button>
+          <div class="card" id='siginput'>
+            <p class="panel-head"><span class="panel-title">Signature-Input</span>
+              <span class="panel-tools">
+                <button type="button" class="btn-icon btn-copy" data-target="ta_sig_input" title="copy to clipboard">
+                  <span class="bi bi-clipboard"></span>
+                </button>
+              </span>
             </p>
-            <textarea rows=10 cols=34 id='ta_httpsigheader' spellcheck='false' class='plaintextvalue'></textarea>
+            <textarea rows=4 cols=34 id='ta_sig_input' spellcheck='false' class='keytext'></textarea>
           </div>
 
-        </div>
+          <div class="card" id='signature'>
+            <p class="panel-head"><span class="panel-title">Signature</span>
+              <span class="panel-tools">
+                <button type="button" class="btn-icon btn-copy" data-target="ta_signature" title="copy to clipboard">
+                  <span class="bi bi-clipboard"></span>
+                </button>
+              </span>
+            </p>
+            <textarea rows=5 cols=34 id='ta_signature' spellcheck='false' class='keytext'></textarea>
+          </div>
+        </section>
       </div>
 
-      <div class='footer'>
-        <div>Notes</div>
-        <ol>
-          <li>Information that you paste here, including signatures and keys, whether secret, private or public, never leaves your browser. Information from the decoding also stays in the browser. Nothing gets posted to a server. Still, you should take care. It's good hygiene to never send private information, production private keys, or provate credentials to a site you do not own and manage.</li>
-          <li>This tool uses EcmaScript v9, and webcrypto; it will run only on modern, current browsers.</li>
-          <li>For generating and verifying HTTP Signature, this page supports rsa-sha256, hmac-sha256, or hs2019 with rsa or hmac variants.</li>
-          <li>To generate:
+      <section class="card notes-card">
+        <span class="kicker">Notes</span>
+        <p class="key-note">RFC 9421 does not sign the message body. That is how the specification is designed, not a limitation of this page. To protect the content, the message must carry a <tt>Content-Digest</tt> header, defined in <a href='https://www.rfc-editor.org/rfc/rfc9530'>RFC 9530, Digest Fields</a>, and the signature must cover that header; the signature then protects the body indirectly, through the digest. The <span class="bi bi-hash"></span> button sets that header from the body, keeping the header's algorithm (sha-256 or sha-512; sha-512 if there is no header yet). When you verify a signature that covers <tt>Content-Digest</tt>, the page also checks the digest against the body, and warns if it does not match. The digest is computed over the body text as entered, with trailing newlines removed, so it may differ from a digest over the exact bytes sent on the wire.</p>
+        <p class="key-note">Information that you paste here, including messages and keys, whether secret, private or public, never leaves your browser. Nothing gets posted to a server. Still, you should take care. It's good hygiene to never send private information, production private keys, or private credentials to a site you do not own and manage.</p>
+
+        <details class="more-notes">
+          <summary>How to use this page</summary>
           <ol>
-            <li>paste in the headers in the upper left textarea.</li>
-            <li>select an algorithm in the dropdown.</li>
-            <li>specify an appropriate key.</li>
-            <li>click the right arrow.</li>
-          </ol></li>
+            <li>This tool implements <a href='https://www.rfc-editor.org/rfc/rfc9421'>RFC 9421, HTTP Message Signatures</a>, which supersedes the earlier draft-cavage-http-signatures specification. It uses webcrypto; it will run only on modern, current browsers. Ed25519 needs a recent browser.</li>
+            <li>Algorithms: rsa-pss-sha512, rsa-v1_5-sha256, ecdsa-p256-sha256, ecdsa-p384-sha384, ed25519, and hmac-sha256.</li>
+            <li>Enter the HTTP message as text: a request line (<tt>POST /path HTTP/1.1</tt> with a Host header, or <tt>POST https://host/path</tt>) or a status line (<tt>HTTP/1.1 200 OK</tt>), then the headers, then optionally a blank line and the body.</li>
+            <li>To sign:
+            <ol>
+              <li>enter the message, and choose the covered components.</li>
+              <li>select an algorithm, and specify an appropriate key.</li>
+              <li>set the signature parameters: label, keyid, tag, expires, created, alg, nonce.</li>
+              <li>click Sign. The tool produces the Signature-Input and Signature headers.</li>
+            </ol></li>
 
-          <li>To verify:
-          <ol>
-            <li>paste in the headers in the upper left textarea.</li>
-            <li>select an algorithm in the dropdown.</li>
-            <li>specify an appropriate key.</li>
-            <li>paste in your full Signature header in the lower right textarea.</li>
-            <li>click the checkmark icon.</li>
-          </ol></li>
+            <li>To verify:
+            <ol>
+              <li>enter the message.</li>
+              <li>paste the Signature-Input and Signature values.</li>
+              <li>select the algorithm if the signature has no alg parameter, and specify the key.</li>
+              <li>click Verify. The signature base shows what was checked.</li>
+            </ol></li>
 
-          <li>On initial page load, the browser will generate a new RSA keypair and insert it into the appropriate boxes. It also loads some contrived fixed headers. You can replace either or both with your own values.</li>
-          <li>You can generate a new asymmetric keypair by clicking the key button.</li>
-          <li>When specifying the symmetric key, you need at least 32 bytes of key material for hmac-sha256, whether signing or verifying. The <a href='https://en.wikipedia.org/wiki/PBKDF2'>PBKDF2</a> will generate keys of the appropriate size. If you choose a different coding system, you need to ensure minimum key size yourself. </li>
-          <li>This page does not explicitly handle the special values like (target-request), (created), or (expires). I may extend the page in the future to support some or all of those.</li>
-          <li>When using hs2019 with RSA, this page uses a salt length of 64 bytes.  The specification doesn't mention the salt length, and the Signature header doesn't provide a way to specify that, so we use the convention of a salt of the same length as the output hash. This convention is explicitly specified by RFC 7518 (JWS) but is not specified by HTTP Signature.</li>
-        </ol>
-      </div>
+            <li>The signature base updates as you change the message, the covered components, or the parameters. After you sign, later changes grey out the Signature-Input and Signature outputs until you sign again.</li>
+            <li>On initial page load, the browser will generate a new keypair and load the test request from RFC 9421 Appendix B. The page keeps your message, keys, and settings in your browser's localStorage. You can generate a new key by clicking the reload button next to the key.</li>
+            <li>When specifying the shared secret for hmac-sha256, you need at least 32 bytes of key material. The <a href='https://en.wikipedia.org/wiki/PBKDF2'>PBKDF2</a> option will derive a key of the appropriate size. If you choose a different coding system, you need to ensure minimum key size yourself.</li>
+            <li>This tool supports HTTP fields and the derived components @method, @target-uri, @authority, @scheme, @request-target, @path, @query, @query-param, and @status. It does not support the sf, key, bs, req, or tr component parameters.</li>
+          </ol>
+        </details>
+      </section>
 
-      <div class='footer'>
-        <div>Credits</div>
+      <footer class="card notes-card">
+        <span class="kicker">Credits</span>
         <p>
-          This page uses the <a href='https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API'>webcrypto</a> for key derivation, generation, signing and verification. It also uses <a href='https://getbootstrap.com/docs/4.0'>Bootstrap 4.0</a> for styling, the <a href='https://useiconic.com/open/'>Open Iconic fonts</a> for button symbols, and <a href='https://jquery.com/'>jQuery</a> for interactivity. </p>
+          This page uses the <a href='https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API'>webcrypto</a> for key derivation, generation, signing and verification, and <a href='https://icons.getbootstrap.com/'>Bootstrap Icons</a> for button symbols. </p>
 
         <!--
         <p>The code for this page is <a href='https://github.com/DinoChiesa/httpsig-webtool'>here</a>. You can download it, fork it, or submit issues via that link.</p>
         -->
         <p>
-          This was written by <A href='https://github.com/DinoChiesa/'>DinoChiesa</a>. Contact me with questions, suggestions, or kudos via <a href="https://twitter.com/intent/tweet?screen_name=dpchiesa&ref_src=twsrc%5Etfw&text=regarding%20HTTPSIG%20webtool"
-                                                                                                                                      class="twitter-share-button" data-show-count="false">Twitter</a>.
-          <!-- script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script -->
+          This was written by <a href='https://github.com/DinoChiesa/'>DinoChiesa</a>. Contact me with questions, suggestions, or kudos via <a href='https://github.com/DinoChiesa/'>Github</a> or <a href="https://bsky.app/profile/ionicshade.bsky.social">BlueSky</a>.
         </p>
-
-      </div>
-
-    </div>
-    <script src="js/main.js" charset="utf-8"></script>
+      </footer>
+    </main>
   </body>
 
 </html>
