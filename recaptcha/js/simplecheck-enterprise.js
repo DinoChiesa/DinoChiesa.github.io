@@ -131,36 +131,35 @@
         .execute(reCAPTCHA_site_key, { action: 'homepage' })
         .then(recaptchaToken => {
           const postbackEndpoint = (document.getElementById('txt-endpoint').value || '').trim();
-
-          fetch(postbackEndpoint, {
+          return fetch(postbackEndpoint, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               Accept: 'application/json'
             },
             body: JSON.stringify({ recaptcha_token: recaptchaToken })
-          })
-            .then(res => res.json())
-            .then(responseData => {
-              let ta = document.createElement('textarea');
-              ta.className = 'results code';
-              ta.spellcheck = false;
-              ta.disabled = true;
-              ta.value = JSON.stringify(responseData, null, 2);
+          });
+        })
+        .then(res => res.json())
+        .then(responseData => {
+          let ta = document.createElement('textarea');
+          ta.className = 'results code';
+          ta.spellcheck = false;
+          ta.disabled = true;
+          ta.value = JSON.stringify(responseData, null, 2);
 
-              const output = document.getElementById('output');
-              output.innerHTML = '';
-              output.classList.remove('notshown');
-              output.appendChild(ta);
+          const output = document.getElementById('output');
+          output.innerHTML = '';
+          output.classList.remove('notshown');
+          output.appendChild(ta);
 
-              const clear = document.getElementById('clear');
-              if (clear && clear.parentElement) {
-                clear.parentElement.classList.remove('notshown');
-              }
-            })
-            .catch(exc => {
-              window.alert('error: ' + exc);
-            });
+          const clear = document.getElementById('clear');
+          if (clear && clear.parentElement) {
+            clear.parentElement.classList.remove('notshown');
+          }
+        })
+        .catch(exc => {
+          window.alert('error: ' + exc);
         });
     } catch (e) {
       window.alert('exception: ' + e);
