@@ -297,6 +297,11 @@ textarea.results,
   display: block;
 }
 
+textarea.results.tall {
+  height: 75vh;
+  max-height: none;
+}
+
 textarea.results:disabled {
   background-color: #ffffff;
   color: var(--color-slate-800);

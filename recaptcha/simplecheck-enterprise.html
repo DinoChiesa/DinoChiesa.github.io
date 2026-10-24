@@ -21,21 +21,21 @@
           <span class="kicker">reCAPTCHA Enterprise</span>
           <h1 class="title">Enterprise Assessment</h1>
           <p class="subtitle">
-            Execute Google reCAPTCHA Enterprise on the client side, send the verification token to your Apigee backend proxy, and inspect the risk score and assessment reasons.
+            This page executes Google reCAPTCHA Enterprise in the browser to generate a token. Click the button to send the verification token to your assessment endpoint.
           </p>
         </header>
 
         <form role="form" id="form1" accept-charset="UTF-8">
           <div class="grid-two-col">
             <div class="form-group">
-              <label for="txt-baseurl" class="form-label">Apigee Base URL</label>
+              <label for="txt-baseurl" class="form-label">Assessment Endpoint Base URL</label>
               <input
                 id="txt-baseurl"
                 name="txt-baseurl"
                 class="form-control txt"
                 spellcheck="false"
-                placeholder="e.g. https://my-apigee.example.net"
-                title="Base URL of your Apigee backend proxy"
+                placeholder="e.g. https://my-service-abc123.a.run.app"
+                title="Base URL of the service that creates the assessment"
               />
             </div>
             <div class="form-group">
@@ -68,13 +68,13 @@
         <h2>How Enterprise Assessment Works</h2>
         <ol>
           <li>
-            <strong>Dynamic Script Injection:</strong> The page dynamically injects the Google Cloud reCAPTCHA Enterprise script (<code>https://www.google.com/recaptcha/enterprise.js?render=...</code>) using the site key you provide.
+            <strong>Dynamic Script Injection:</strong> The page dynamically injects the Google Cloud reCAPTCHA Enterprise script (<code>https://www.google.com/recaptcha/enterprise.js?render=...</code>) using the site key you provide, the first time you click the button.
           </li>
           <li>
-            <strong>Local Storage:</strong> Your Base URL and Site Key are remembered in <code>window.localStorage</code> for convenient re-testing, scoped strictly to this browser session.
+            <strong>Local Storage:</strong> Your Base URL and Site Key are remembered in <code>window.localStorage</code> for convenient re-testing. They stay in this browser, for this site, until you clear them.
           </li>
           <li>
-            <strong>Assessment API:</strong> When submitted, the token is sent to <code>${baseurl}/recaptcha-enterprise/assess</code>. The Apigee backend calls Google Cloud reCAPTCHA Enterprise API to retrieve score and reason codes.
+            <strong>Assessment API:</strong> When submitted, the token is sent to <code>${baseurl}/recaptcha-enterprise/assess</code>. That endpoint, which could be a Cloud Run service, an Apigee proxy, or anything else, calls the reCAPTCHA Enterprise API to create an assessment, and returns the score and reason codes.
           </li>
           <li>
             <strong>Reason Codes:</strong> In addition to a score from <code>0.0</code> to <code>1.0</code>, Enterprise assessments can return granular reasons such as <code>AUTOMATION</code> or <code>UNEXPECTED_ENVIRONMENT</code>.
