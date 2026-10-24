@@ -28,14 +28,14 @@
         <form role="form" id="form1" accept-charset="UTF-8">
           <div class="grid-two-col">
             <div class="form-group">
-              <label for="txt-baseurl" class="form-label">Assessment Endpoint Base URL</label>
+              <label for="txt-endpoint" class="form-label">Assessment Endpoint URL</label>
               <input
-                id="txt-baseurl"
-                name="txt-baseurl"
+                id="txt-endpoint"
+                name="txt-endpoint"
                 class="form-control txt"
                 spellcheck="false"
-                placeholder="e.g. https://my-service-abc123.a.run.app"
-                title="Base URL of the service that creates the assessment"
+                placeholder="e.g. https://my-service-123456789.us-west1.run.app/recaptcha-enterprise/assess"
+                title="Full URL of the endpoint that creates the assessment"
               />
             </div>
             <div class="form-group">
@@ -71,10 +71,10 @@
             <strong>Dynamic Script Injection:</strong> The page dynamically injects the Google Cloud reCAPTCHA Enterprise script (<code>https://www.google.com/recaptcha/enterprise.js?render=...</code>) using the site key you provide, the first time you click the button.
           </li>
           <li>
-            <strong>Local Storage:</strong> Your Base URL and Site Key are remembered in <code>window.localStorage</code> for convenient re-testing. They stay in this browser, for this site, until you clear them.
+            <strong>Local Storage:</strong> Your Endpoint URL and Site Key are remembered in <code>window.localStorage</code> for convenient re-testing. They stay in this browser, for this site, until you clear them.
           </li>
           <li>
-            <strong>Assessment API:</strong> When submitted, the token is sent to <code>${baseurl}/recaptcha-enterprise/assess</code>. That endpoint, which could be a Cloud Run service, an Apigee proxy, or anything else, calls the reCAPTCHA Enterprise API to create an assessment, and returns the score and reason codes.
+            <strong>Assessment API:</strong> When submitted, the token is POSTed, as <code>{"recaptcha_token": "..."}</code>, to the endpoint URL you provide. That endpoint, which could be a Cloud Run service, an Apigee proxy, or anything else, calls the reCAPTCHA Enterprise API to create an assessment, and returns the score and reason codes.
           </li>
           <li>
             <strong>Reason Codes:</strong> In addition to a score from <code>0.0</code> to <code>1.0</code>, Enterprise assessments can return granular reasons such as <code>AUTOMATION</code> or <code>UNEXPECTED_ENVIRONMENT</code>.

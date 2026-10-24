@@ -37,7 +37,7 @@
   const storage = LocalStorage.init(appId);
   let datamodel = {
     'txt-sitekey': '',
-    'txt-baseurl': ''
+    'txt-endpoint': ''
   };
 
   function clearOutput(event) {
@@ -105,6 +105,10 @@
   function applyRecaptchaAndSubmit(event) {
     if (event) event.preventDefault();
     try {
+      if (!(document.getElementById('txt-endpoint').value || '').trim()) {
+        window.alert('specify an endpoint URL');
+        return false;
+      }
       if (reCAPTCHA_site_key) {
         return submitRequest();
       }
@@ -126,8 +130,7 @@
       grecaptcha.enterprise
         .execute(reCAPTCHA_site_key, { action: 'homepage' })
         .then(recaptchaToken => {
-          let baseurl = (document.getElementById('txt-baseurl').value || '').trim(),
-            postbackEndpoint = `${baseurl}/recaptcha-enterprise/assess`;
+          const postbackEndpoint = (document.getElementById('txt-endpoint').value || '').trim();
 
           fetch(postbackEndpoint, {
             method: 'POST',
@@ -167,7 +170,7 @@
 
   const bindEvents = () => {
     resetState();
-    ['txt-baseurl', 'txt-sitekey'].forEach(id => {
+    ['txt-endpoint', 'txt-sitekey'].forEach(id => {
       const el = document.getElementById(id);
       if (el) {
         ['change', 'keyup', 'paste', 'input'].forEach(evt => {
