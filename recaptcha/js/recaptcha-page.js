@@ -35,6 +35,14 @@
   })();
 
   const storage = LocalStorage.init(appId);
+  // A shared demo deployment of
+  // https://github.com/DinoChiesa/example-recaptcha-assessment-service,
+  // capped at a small number of assessments per day. Values the visitor
+  // enters take precedence.
+  const defaults = {
+    'txt-endpoint': 'https://recaptcha-assessment-fgy7o5h2ca-uw.a.run.app/assess',
+    'txt-sitekey': '6Lf7yP0tAAAAADv1mHYDnDLmPyQ_HgBYRFk2qzZp'
+  };
   let datamodel = {
     'txt-sitekey': '',
     'txt-endpoint': ''
@@ -59,7 +67,7 @@
       if (key.startsWith('chk-')) {
         datamodel[key] = Boolean(value);
       } else {
-        datamodel[key] = value;
+        datamodel[key] = value || defaults[key];
       }
     });
   }
