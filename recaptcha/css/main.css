@@ -253,6 +253,19 @@ input[type="submit"]#clear:hover {
   transform: translateY(-1px);
 }
 
+.form-hint {
+  margin: 7px 0 0 0;
+  font-size: 13px;
+  color: var(--color-slate-600);
+}
+
+.form-hint a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 600;
+}
+
 /* ---------------- Output Container & Textarea ---------------- */
 #output {
   margin-top: 24px;

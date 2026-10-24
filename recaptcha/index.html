@@ -37,6 +37,9 @@
                 placeholder="e.g. https://my-service-123456789.us-west1.run.app/assess"
                 title="Full URL of the endpoint that creates the assessment"
               />
+              <p class="form-hint">
+                Need an endpoint? <a href="https://github.com/DinoChiesa/example-recaptcha-assessment-service" target="_blank" rel="noopener">Deploy your own</a> to Cloud Run.
+              </p>
             </div>
             <div class="form-group">
               <label for="txt-sitekey" class="form-label">Enterprise Site Key</label>
@@ -75,6 +78,9 @@
           </li>
           <li>
             <strong>Assessment API:</strong> When submitted, the token is POSTed, as <code>{"recaptcha_token": "..."}</code>, to the endpoint URL you provide. That endpoint, which could be a Cloud Run service, an Apigee proxy, or anything else, calls the reCAPTCHA Enterprise API to create an assessment, and returns the score and reason codes.
+          </li>
+          <li>
+            <strong>Your Own Endpoint:</strong> This page does not include an assessment endpoint. The <a href="https://github.com/DinoChiesa/example-recaptcha-assessment-service" target="_blank" rel="noopener">example-recaptcha-assessment-service</a> repo has a sample service, with scripts to create a key and deploy the service to Cloud Run in your own Google Cloud project.
           </li>
           <li>
             <strong>Reason Codes:</strong> In addition to a score from <code>0.0</code> to <code>1.0</code>, Enterprise assessments can return granular reasons such as <code>AUTOMATION</code> or <code>UNEXPECTED_ENVIRONMENT</code>.
