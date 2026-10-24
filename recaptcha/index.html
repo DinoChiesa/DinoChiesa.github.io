@@ -1,118 +1,83 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Google reCAPTCHA Demonstrations</title>
+    <title>reCAPTCHA Enterprise Assessment Check</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <link rel="stylesheet" type="text/css" href="css/main.css" />
+
+    <script type="text/javascript" src="js/simplecheck-enterprise.js"></script>
   </head>
   <body>
     <main class="page-container">
+      <a href="../" class="nav-back">
+        <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back to home
+      </a>
+
       <div class="card app-card">
         <header class="card-header">
-          <span class="kicker">Security &amp; Bot Defense</span>
-          <h1 class="title">Google reCAPTCHA Demos</h1>
+          <span class="kicker">reCAPTCHA Enterprise</span>
+          <h1 class="title">Enterprise Assessment</h1>
           <p class="subtitle">
-            Interactive demonstrators illustrating client-side token generation, backend score assessment, and OAuth 2.0 token protection using Google reCAPTCHA v3 and reCAPTCHA Enterprise.
+            This page executes Google reCAPTCHA Enterprise in the browser to generate a token. Click the button to send the verification token to your assessment endpoint.
           </p>
         </header>
 
-        <div class="demos-section-header">
-          <h2 class="demos-section-title">reCAPTCHA v3 (Standard)</h2>
-        </div>
-
-        <div class="demos-grid">
-          <a href="simplecheck.html" class="demo-card">
-            <div>
-              <span class="demo-card-badge badge-v3">v3 Standard</span>
-              <h3 class="demo-card-title">Simple Check</h3>
-              <p class="demo-card-desc">
-                Executes a frictionless homepage action, generates a v3 token in the browser, and posts to an Apigee backend proxy to inspect the Google risk score.
-              </p>
+        <form role="form" id="form1" accept-charset="UTF-8">
+          <div class="grid-two-col">
+            <div class="form-group">
+              <label for="txt-endpoint" class="form-label">Assessment Endpoint URL</label>
+              <input
+                id="txt-endpoint"
+                name="txt-endpoint"
+                class="form-control txt"
+                spellcheck="false"
+                placeholder="e.g. https://my-service-123456789.us-west1.run.app/assess"
+                title="Full URL of the endpoint that creates the assessment"
+              />
             </div>
-            <span class="demo-card-link">
-              Launch Demo
-              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </span>
-          </a>
-
-          <a href="check-before-token.html" class="demo-card">
-            <div>
-              <span class="demo-card-badge badge-v3">v3 Standard</span>
-              <h3 class="demo-card-title">Token Issuance Guard</h3>
-              <p class="demo-card-desc">
-                Guards an OAuth 2.0 Client Credentials token grant by sending a reCAPTCHA v3 token in the request header to verify caller legitimacy before issuing tokens.
-              </p>
+            <div class="form-group">
+              <label for="txt-sitekey" class="form-label">Enterprise Site Key</label>
+              <input
+                id="txt-sitekey"
+                name="txt-sitekey"
+                class="form-control txt"
+                type="password"
+                placeholder="Paste your reCAPTCHA Enterprise site key"
+                title="Your Google Cloud reCAPTCHA Enterprise site key"
+              />
             </div>
-            <span class="demo-card-link">
-              Launch Demo
-              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </span>
-          </a>
-        </div>
+          </div>
 
-        <div class="demos-section-header">
-          <h2 class="demos-section-title">reCAPTCHA Enterprise</h2>
-        </div>
-
-        <div class="demos-grid">
-          <a href="simplecheck-enterprise.html" class="demo-card">
-            <div>
-              <span class="demo-card-badge badge-enterprise">Enterprise</span>
-              <h3 class="demo-card-title">Enterprise Assessment</h3>
-              <p class="demo-card-desc">
-                Configurable demonstration connecting to custom Apigee base URLs and Enterprise site keys to assess user interactions and granular risk reasons.
-              </p>
+          <div class="actions-row">
+            <input type="submit" value="Check Assessment" class="btn-namari btn-namari-primary button" id="check" />
+            <div class="notshown">
+              <input type="submit" value="Clear Output" class="btn-namari btn-namari-secondary button" id="clear" />
             </div>
-            <span class="demo-card-link">
-              Launch Demo
-              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </span>
-          </a>
+          </div>
+          <div class="last"></div>
+        </form>
 
-          <a href="check-before-token-enterprise.html" class="demo-card">
-            <div>
-              <span class="demo-card-badge badge-enterprise">Enterprise</span>
-              <h3 class="demo-card-title">Enterprise Token Guard</h3>
-              <p class="demo-card-desc">
-                Complete enterprise workflow protecting client credentials token issuance with configurable client ID, secret, base URL, and Enterprise site key.
-              </p>
-            </div>
-            <span class="demo-card-link">
-              Launch Demo
-              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </span>
-          </a>
-        </div>
+        <div id="output" class="notshown"></div>
       </div>
 
       <div id="notes" class="card notes-card">
         <span class="kicker">Documentation</span>
-        <h2>About Google reCAPTCHA Verification</h2>
+        <h2>How Enterprise Assessment Works</h2>
         <ol>
           <li>
-            <strong>Frictionless Scoring:</strong> Both reCAPTCHA v3 and reCAPTCHA Enterprise run silently in the background without interrupting users with puzzle challenges, returning a risk score between <code>0.0</code> (likely bot) and <code>1.0</code> (likely human).
+            <strong>Dynamic Script Injection:</strong> The page dynamically injects the Google Cloud reCAPTCHA Enterprise script (<code>https://www.google.com/recaptcha/enterprise.js?render=...</code>) using the site key you provide, the first time you click the button.
           </li>
           <li>
-            <strong>Action Context:</strong> Actions (e.g. <code>homepage</code>, <code>token</code>, <code>login</code>) specify the user interaction context, enabling Google's adaptive risk engine to detect anomalous behavioral patterns.
+            <strong>Local Storage:</strong> Your Endpoint URL and Site Key are remembered in <code>window.localStorage</code> for convenient re-testing. They stay in this browser, for this site, until you clear them.
           </li>
           <li>
-            <strong>Backend Assessment:</strong> Client-side tokens must always be validated by your backend server or API gateway (such as Google Cloud Apigee) using secret credentials; scores should never be evaluated solely in client-side code.
+            <strong>Assessment API:</strong> When submitted, the token is POSTed, as <code>{"recaptcha_token": "..."}</code>, to the endpoint URL you provide. That endpoint, which could be a Cloud Run service, an Apigee proxy, or anything else, calls the reCAPTCHA Enterprise API to create an assessment, and returns the score and reason codes.
           </li>
           <li>
-            <strong>Enterprise Features:</strong> reCAPTCHA Enterprise provides advanced threat analysis, granular reason codes (e.g. automated user agent, suspicious network), password leak detection, and multi-cloud deployment options.
-          </li>
-          <li>
-            Written by
-            <a href="https://github.com/DinoChiesa/" target="_blank" rel="noopener noreferrer">DinoChiesa</a>.
-            Contact via GitHub or
-            <a
-              href="https://bsky.app/profile/ionicshade.bsky.social"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="bsky-share-button"
-              >Bluesky</a
-            >.
+            <strong>Reason Codes:</strong> In addition to a score from <code>0.0</code> to <code>1.0</code>, Enterprise assessments can return granular reasons such as <code>AUTOMATION</code> or <code>UNEXPECTED_ENVIRONMENT</code>.
           </li>
         </ol>
       </div>

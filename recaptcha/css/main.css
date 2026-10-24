@@ -261,28 +261,12 @@ input[type="submit"]#clear:hover {
   width: 100%;
 }
 
-.output-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.output-heading {
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  color: var(--color-slate-600);
-  margin: 0;
-}
-
 .results,
 textarea.results,
 .code {
   width: 100%;
   min-height: 240px;
-  max-height: 480px;
+  height: 75vh;
   font-family: var(--font-mono);
   font-size: 13px;
   line-height: 1.6;
@@ -297,129 +281,11 @@ textarea.results,
   display: block;
 }
 
-textarea.results.tall {
-  height: 75vh;
-  max-height: none;
-}
-
 textarea.results:disabled {
   background-color: #ffffff;
   color: var(--color-slate-800);
   opacity: 1;
   cursor: text;
-}
-
-/* ---------------- Dashboard Cards (index.html) ---------------- */
-.demos-section-header {
-  margin-top: 10px;
-  margin-bottom: 14px;
-}
-
-.demos-section-title {
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.8px;
-  color: var(--color-primary);
-  margin: 0;
-}
-
-.demos-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
-  margin-bottom: 28px;
-  width: 100%;
-}
-
-@media (max-width: 680px) {
-  .demos-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.demo-card {
-  background: var(--color-card);
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-sm);
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  color: inherit;
-}
-
-.demo-card:hover {
-  border-color: var(--color-primary);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-card);
-}
-
-.demo-card-badge {
-  display: inline-flex;
-  align-items: center;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  padding: 3px 9px;
-  border-radius: var(--radius-pill);
-  margin-bottom: 12px;
-  align-self: flex-start;
-}
-
-.badge-v3 {
-  background: #eff6ff;
-  color: #1d4ed8;
-  border: 1px solid #bfdbfe;
-}
-
-.badge-enterprise {
-  background: #fefce8;
-  color: #a16207;
-  border: 1px solid #fef08a;
-}
-
-.demo-card-title {
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--color-slate-900);
-  margin: 0 0 8px 0;
-}
-
-.demo-card-desc {
-  font-size: 13.5px;
-  line-height: 1.55;
-  color: var(--color-slate-500);
-  margin: 0 0 16px 0;
-}
-
-.demo-card-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--color-primary);
-  margin-top: auto;
-}
-
-.demo-card-link svg {
-  width: 14px;
-  height: 14px;
-  stroke: currentColor;
-  stroke-width: 2.5;
-  fill: none;
-  transition: transform 0.15s ease;
-}
-
-.demo-card:hover .demo-card-link svg {
-  transform: translateX(3px);
 }
 
 /* ---------------- Documentation / Notes Card ---------------- */
@@ -480,10 +346,6 @@ textarea.results:disabled {
 /* ---------------- Utilities ---------------- */
 .notshown {
   display: none !important;
-}
-
-.shown {
-  display: block !important;
 }
 
 @media (max-width: 640px) {

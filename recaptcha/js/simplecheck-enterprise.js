@@ -143,7 +143,7 @@
             .then(res => res.json())
             .then(responseData => {
               let ta = document.createElement('textarea');
-              ta.className = 'results code tall';
+              ta.className = 'results code';
               ta.spellcheck = false;
               ta.disabled = true;
               ta.value = JSON.stringify(responseData, null, 2);
