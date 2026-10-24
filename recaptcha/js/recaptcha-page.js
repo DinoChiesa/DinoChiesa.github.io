@@ -1,4 +1,4 @@
-// simplecheck-enterprise.js
+// recaptcha-page.js
 // ------------------------------------------------------------------
 //
 // created: Mon Jun  1 13:00:26 2020
